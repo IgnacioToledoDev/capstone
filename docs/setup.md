@@ -18,7 +18,7 @@ $ cd frontend/
 
 $ npm install
 
-# Iniciar el servidor de pruebas
+# Iniciar el servidor del frontend
 $ ionic serve
 
 # Salir de la carpeta frontend
@@ -33,7 +33,7 @@ $ composer install
 
 $ php artisan migrate --seed
 
-# Iniciar servidor
+# Iniciar servidor del backend
 $ php artisan serve
 
 ```
