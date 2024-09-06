@@ -35,5 +35,4 @@ $ php artisan migrate --seed
 
 # Iniciar servidor del backend
 $ php artisan serve
-
 ```
