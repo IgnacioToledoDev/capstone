@@ -5,12 +5,11 @@ Prerequisitos
 
     NPM
     Ionic CLI
-    Composer
-    PHP
-    MySQL
+    Docker
 
 Iniciar el proyecto
 
+``` bash
 # Instalar dependencias de frontend
 
 $ cd frontend/
@@ -66,3 +65,4 @@ $ php artisan migrate --seed
 # Salir del contenedor
 
 $ exit
+```
