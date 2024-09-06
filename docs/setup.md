@@ -1,11 +1,13 @@
-Instalacion del proyecto
+# Instalacion del proyecto
 
 El proyecto esta pensado para levantarse con unos comandos
-Prerequisitos
 
-    NPM
-    Ionic CLI
-    Docker
+## Prerequisitos
+
+- Docker
+- NPM
+- [Ionic CLI](https://ionicframework.com/docs/intro/cli)
+
 
 Iniciar el proyecto
 
