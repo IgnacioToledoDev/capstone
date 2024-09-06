@@ -28,6 +28,7 @@ RUN composer install
 RUN composer require laravel/octane spiral/roadrunner
 COPY .env .env
 RUN mkdir -p /app/storage/logs
+RUN chmod -R 777 /app/storage/logs
 
 CMD php artisan serve --host=0.0.0.0 --port=8000
 EXPOSE 8000
