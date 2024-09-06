@@ -1,0 +1,27 @@
+services:
+  backend:
+    container_name: autominder_backend
+    build: ./backend/docker
+    ports:
+      - "4200:8000"
+    volumes:
+      - ./backend:/var/www/html
+    networks:
+      - autominder_network
+  
+  mysql:
+    container_name: autominder_mysql
+    image: mysql:8
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: autominder
+      MYSQL_USER: db_user
+      MYSQL_PASSWORD: capstone2024.
+    ports:
+      - "3307:3306"
+    networks:
+      - autominder_network
+
+networks:
+  autominder_network:
+    driver: bridge
