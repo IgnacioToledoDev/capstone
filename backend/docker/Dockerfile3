@@ -1,5 +1,5 @@
 # Use an official PHP image with Apache as the base image.
-FROM php:8.2-apache
+FROM php:8.2-fpm
 
 # Set environment variables.
 ARG WWWGROUP=1000
@@ -53,4 +53,4 @@ RUN chmod +x /usr/local/bin/start-container
 
 EXPOSE 8000
 
-ENTRYPOINT ["start-container"]
+CMD php artisan serve --port=8000

@@ -1,11 +1,13 @@
 services:
   backend:
     container_name: autominder_backend
-    build: ./backend/docker
+    build: ./backend/
     ports:
-      - "4200:8000"
+      - "8000:8000"
     volumes:
       - ./backend:/var/www/html
+    depends_on:
+      - mysql
     networks:
       - autominder_network
   
