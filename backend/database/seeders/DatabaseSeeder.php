@@ -13,6 +13,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // function not implemet yet
+       $this->call(UserSeeder::class);
     }
 }
