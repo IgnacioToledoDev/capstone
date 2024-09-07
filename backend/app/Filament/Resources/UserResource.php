@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\UserResource\Pages;
 use App\Filament\Resources\UserResource\RelationManagers;
 use App\Models\User;
+use App\Rules\ValidateRut;
 use Filament\Forms;
 use Filament\Forms\Components\TextInput as ComponentsTextInput;
 use Filament\Forms\Form;
@@ -49,6 +50,14 @@ class UserResource extends Resource
                     ->required()
                     ->email()
                     ->placeholder('Correo electrónico del usuario'),
+                Forms\Components\TextInput::make('rut')
+                    ->label('Rut')
+                    ->placeholder('Rut')
+                    ->required()
+                    ->rules([
+                        new ValidateRut(),
+                    ])
+                    ->helperText('Ingrese rut sin puntos y con guion'),
                 Forms\Components\TextInput::make('password')
                     ->label('Contraseña')
                     ->required()
@@ -78,6 +87,10 @@ class UserResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('lastname')
                     ->label('Apellido')
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('rut')
+                    ->label('Rut')
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('email')
