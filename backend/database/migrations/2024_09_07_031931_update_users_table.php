@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
                 $table->string('username');
-                $table->renameColumn('name', 'firstname');
                 $table->string('lastname')->nullable();
         });
     }
@@ -25,7 +24,6 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->dropColumn('username');
-            $table->renameColumn('firstname', 'name');
             $table->dropColumn('lastname');
         });
     }
