@@ -34,10 +34,16 @@ class UserResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->label('Nombre')
+                Forms\Components\TextInput::make('username')
+                    ->label('Nombre del usuario')
                     ->required()
                     ->placeholder('Nombre del usuario'),
+                    Forms\Components\TextInput::make('name')
+                    ->label('Nombre')
+                    ->placeholder('Nombre'),
+                Forms\Components\TextInput::make('lastname')
+                    ->label('Apellido')
+                    ->placeholder('Apellido'),
                 Forms\Components\TextInput::make('email')
                     ->label('Correo electrónico')
                     ->required()
@@ -57,7 +63,7 @@ class UserResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')
+                Tables\Columns\TextColumn::make('username')
                     ->label('Nombre')
                     ->searchable()
                     ->sortable(),
