@@ -56,6 +56,11 @@ class UserResource extends Resource
                     ->hiddenOn(['edit'])
                     ->visibleOn(['create'])
                     ->placeholder('Contraseña del usuario'),
+                Forms\Components\Select::make('roles')
+                    ->relationship('roles', 'name')
+                    ->label('Roles')
+                    ->required()
+                    ->placeholder('Seleccione un rol...')
             ]);
     }
 
