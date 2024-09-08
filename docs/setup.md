@@ -64,8 +64,6 @@ FLUSH PRIVILEGES;
 $ exit
 $ exit
 
-# Crear archivo 
-
 # Ingresar al contenedor de laravel
 $ docker exec -it autominder_backend /bin/bash
 
