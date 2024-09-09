@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-terminos-condiciones',
@@ -7,8 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TerminosCondicionesComponent  implements OnInit {
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit() {}
-
+  aceptarTerminos() {
+    alert('Has aceptado los términos y condiciones.');
+    this.router.navigate(['/bienvenidos']);
+  }
 }
