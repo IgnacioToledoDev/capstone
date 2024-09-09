@@ -1,16 +1,31 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { TerminosCondicionesComponent } from './terminos-condiciones/terminos-condiciones.component';
 
 const routes: Routes = [
+  {
+    path: 'terminos-y-condiciones',
+    component: TerminosCondicionesComponent
+  },
+  {
+    path: '',
+    redirectTo: 'bienvenidos',
+    pathMatch: 'full'
+  },
   {
     path: 'home',
     loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
   },
+
   {
-    path: '',
-    redirectTo: 'home',
-    pathMatch: 'full'
+    path: 'bienvenidos',
+    loadChildren: () => import('./bienvenidos/bienvenidos.module').then( m => m.BienvenidosPageModule)
   },
+  {
+    path: 'inicio-sesion',
+    loadChildren: () => import('./inicio-sesion/inicio-sesion.module').then( m => m.InicioSesionPageModule)
+  },
+
 ];
 
 @NgModule({
