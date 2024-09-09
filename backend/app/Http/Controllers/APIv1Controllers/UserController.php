@@ -8,9 +8,22 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use PHPOpenSourceSaver\JWTAuth\Exceptions\JWTException;
 use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
+use OpenApi\Annotations as OA;
 
 class UserController extends Controller
 {
+    /**
+     * @OA\Get(
+     *     path="/users",
+     *     summary="Get a list of users",
+     *     tags={"Users"},
+     *     @OA\Response(response=200, description="Successful operation"),
+     *     @OA\Response(response=400, description="Invalid request")
+     * )
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function login(Request $request): JsonResponse
     {
         try {
