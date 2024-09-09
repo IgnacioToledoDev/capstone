@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\APIv1Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Mail\RecoveryPasswordMailable;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Mail;
 use PHPOpenSourceSaver\JWTAuth\Exceptions\JWTException;
 use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
 use OpenApi\Annotations as OA;
@@ -59,5 +61,18 @@ class UserController extends Controller
         } catch (JWTException $e) {
             return $this->sendError('Unauthorized', [], 400);
         }
+    }
+
+    public function recoveryPassword(Request $request): JsonResponse
+    {
+        $email = $request->only('email');
+
+        if(!$email) {
+            return $this->sendError('Email is required.');
+        }
+
+        Mail::to($email)->send(new RecoveryPasswordMailable());
+
+        return $this->sendResponse([], 'We have sent you a link to reset your password.');
     }
 }
