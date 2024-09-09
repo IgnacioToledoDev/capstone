@@ -14,16 +14,32 @@ class UserController extends Controller
 {
     /**
      * @OA\Get(
-     *     path="/users",
-     *     summary="Get a list of users",
+     *     path="/api/login",
+     *     summary="Log in a user in the app",
      *     tags={"Users"},
-     *     @OA\Response(response=200, description="Successful operation"),
-     *     @OA\Response(response=400, description="Invalid request")
+     *     @OA\Parameter(
+     *         name="email",
+     *         in="query",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         name="password",
+     *         in="query",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation"
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Invalid request"
+     *     )
      * )
-     *
-     * @param Request $request
-     * @return JsonResponse
      */
+
     public function login(Request $request): JsonResponse
     {
         try {

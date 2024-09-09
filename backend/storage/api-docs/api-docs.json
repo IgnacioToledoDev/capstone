@@ -5,13 +5,31 @@
         "version": "1.0.0"
     },
     "paths": {
-        "/users": {
+        "/api/login": {
             "get": {
                 "tags": [
                     "Users"
                 ],
-                "summary": "Get a list of users",
-                "operationId": "92d50c0ff347db36a1878509c0f3ddd2",
+                "summary": "Log in a user in the app",
+                "operationId": "6e64b9bc0b5727cf6e9fe76db4667ec7",
+                "parameters": [
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "password",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Successful operation"
