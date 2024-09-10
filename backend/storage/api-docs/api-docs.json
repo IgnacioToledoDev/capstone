@@ -39,6 +39,33 @@
                     }
                 }
             }
+        },
+        "/api/users/recovery": {
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Send a email to recovery password",
+                "operationId": "7770d90a94de1078d94fc53c61e59699",
+                "parameters": [
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "Invalid request"
+                    }
+                }
+            }
         }
     },
     "components": {

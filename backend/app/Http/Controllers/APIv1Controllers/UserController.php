@@ -65,7 +65,7 @@ class UserController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/users/login",
+     *     path="/api/users/recovery",
      *     summary="Send a email to recovery password",
      *     tags={"Users"},
      *     @OA\Parameter(
