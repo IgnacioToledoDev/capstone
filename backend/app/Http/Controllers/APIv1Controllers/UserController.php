@@ -15,8 +15,8 @@ use OpenApi\Annotations as OA;
 class UserController extends Controller
 {
     /**
-     * @OA\Get(
-     *     path="/api/login",
+     * @OA\Post(
+     *     path="/api/users/login",
      *     summary="Log in a user in the app",
      *     tags={"Users"},
      *     @OA\Parameter(

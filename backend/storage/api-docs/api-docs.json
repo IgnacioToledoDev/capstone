@@ -5,13 +5,13 @@
         "version": "1.0.0"
     },
     "paths": {
-        "/api/login": {
-            "get": {
+        "/api/users/login": {
+            "post": {
                 "tags": [
                     "Users"
                 ],
                 "summary": "Log in a user in the app",
-                "operationId": "6e64b9bc0b5727cf6e9fe76db4667ec7",
+                "operationId": "cbcdf752632d9bad1c2a32a5c98dbd7d",
                 "parameters": [
                     {
                         "name": "email",
