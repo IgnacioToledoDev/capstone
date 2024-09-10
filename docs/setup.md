@@ -76,6 +76,10 @@ php artisan jwt:secret
 # Crear los certificados de los JWT
 php artisan jwt:generate-certs
 
+# Generar documentacion de Swagger
+php artisan l5-swagger:generate
+
+
 # Salir del contenedor
 $ exit
 ```
