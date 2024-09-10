@@ -54,6 +54,7 @@ class UserController extends Controller
 
             $success['access_token'] = $token;
             $success['token_type'] = 'bearer';
+            $success['user'] = $user;
             $success['expires_in'] = JWTAuth::factory()->getTTL() * 525600;
             $success['status'] = 200;
 
