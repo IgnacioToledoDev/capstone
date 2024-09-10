@@ -63,6 +63,27 @@ class UserController extends Controller
         }
     }
 
+    /**
+     * @OA\Post(
+     *     path="/api/users/login",
+     *     summary="Send a email to recovery password",
+     *     tags={"Users"},
+     *     @OA\Parameter(
+     *         name="email",
+     *         in="query",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation"
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Invalid request"
+     *     )
+     * )
+     */
     public function recoveryPassword(Request $request): JsonResponse
     {
         $email = $request->only('email');
