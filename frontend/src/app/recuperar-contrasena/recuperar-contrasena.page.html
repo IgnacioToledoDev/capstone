@@ -6,9 +6,9 @@
     </ion-item>
     <ion-item>
       <ion-label position="floating">Correeo electrónico:</ion-label>
-      <ion-input type="email"></ion-input>
+      <ion-input type="email" [(ngModel)]="email" name="nueva-contasena"></ion-input>
     </ion-item>
-    <ion-button expand="block" (click)="recuperarcontrasena()">Enviar Correo</ion-button>
+    <ion-button expand="block" (click)="recuperarContrasena()">Enviar Correo</ion-button>
   </form>
 </ion-content>
 
