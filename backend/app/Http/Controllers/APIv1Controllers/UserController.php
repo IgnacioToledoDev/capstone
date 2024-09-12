@@ -99,7 +99,6 @@ class UserController extends Controller
 
         try {
             $user = $user = User::where('email', $email)->first();
-            var_dump($user);
             if(!$user) {
                 return $this->sendError('Email does not exist.');
             }
