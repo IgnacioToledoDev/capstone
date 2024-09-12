@@ -2,26 +2,36 @@
 
 namespace App\Mail;
 
+use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Mail\Mailables\Address;
 use Illuminate\Mail\Mailables\Content;
+use Illuminate\Queue\SerializesModels;
 
 class RecoveryPasswordMailable extends Mailable
 {
-    public function construct() {
-        /** function not implemented yet */
+    use Queueable;
+    use SerializesModels;
+
+    public function __construct()
+    {
+        // You can pass any data needed for the email here
     }
 
-    public function envelope(): Envelope {
+    /**
+     * Get the message envelope definition.
+     */
+    public function envelope(): Envelope
+    {
         return new Envelope(
-            from: new Address('noreply@autominder.cl', 'Autominder'),
-            subject: 'Recuperar contraseña'
+            subject: 'Password Recovery',
         );
     }
 
     /**
      * Get the message content definition.
+     * @return Content;
      */
     public function content(): Content
     {
@@ -30,6 +40,10 @@ class RecoveryPasswordMailable extends Mailable
         );
     }
 
+    /**
+     * Get the attachments for the message.
+     * @return array[]
+     */
     public function attachments(): array
     {
         return [];

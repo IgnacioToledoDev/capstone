@@ -28,6 +28,7 @@ class User extends Authenticatable implements FilamentUser, JWTSubject
         'email',
         'password',
         'rut',
+        'role',
     ];
 
     /**
