@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Auth\CanResetPassword;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -10,9 +11,8 @@ use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
 use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
 use Spatie\Permission\Traits\HasRoles;
-use Spatie\Permission\Models\Role;
 
-class User extends Authenticatable implements FilamentUser, JWTSubject
+class User extends Authenticatable implements FilamentUser, JWTSubject, CanResetPassword
 {
     use HasFactory, Notifiable, HasRoles;
 
@@ -36,9 +36,9 @@ class User extends Authenticatable implements FilamentUser, JWTSubject
      *
      * @var array<int, string>
      */
-    protected $hidden = [
-        'password',
-        'remember_token',
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'password' => 'hashed',
     ];
 
     /**
@@ -56,11 +56,7 @@ class User extends Authenticatable implements FilamentUser, JWTSubject
 
     public function canAccessPanel(Panel $panel): bool
     {
-        if($this->hasRole('SUPER_ADMIN') || $this->hasRole('COMPANY_ADMIN')) {
-            return true;
-        }
-
-        return false;
+        return $this->hasAnyRole(['SUPER_ADMIN', 'COMPANY_ADMIN']);
     }
 
     /**

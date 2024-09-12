@@ -14,9 +14,10 @@ class RecoveryPasswordMailable extends Mailable
     use Queueable;
     use SerializesModels;
 
-    public function __construct()
+    public string $token;
+    public function __construct($token)
     {
-        // You can pass any data needed for the email here
+        $this->token = $token;
     }
 
     /**
@@ -37,6 +38,7 @@ class RecoveryPasswordMailable extends Mailable
     {
         return new Content(
             view: 'emails.recoveryPasswordEmail',
+            with: ['token' => $this->token],
         );
     }
 
