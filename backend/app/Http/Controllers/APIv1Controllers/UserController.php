@@ -87,14 +87,21 @@ class UserController extends Controller
      */
     public function recoveryPassword(Request $request): JsonResponse
     {
-        $email = $request->only('email');
+        $data = $request->only('email');
+        $email = $data['email'];
 
-        if(!$email) {
+        if(!$email && !is_string($email)) {
             return $this->sendError('Email is required.');
         }
 
-        Mail::to($email)->send(new RecoveryPasswordMailable());
 
-        return $this->sendResponse([], 'We have sent you a link to reset your password.');
+        try {
+            Mail::to($email)->send(new RecoveryPasswordMailable());
+        } catch (\Exception $e) {
+            return $this->sendError('Failed to send recovery email.', 400);
+        }
+
+        $success['email'] = $email;
+        return $this->sendResponse($success, 'We have sent you a link to reset your password.');
     }
 }
