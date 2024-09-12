@@ -15,7 +15,6 @@ use Illuminate\Support\Facades\Validator;
 use PHPOpenSourceSaver\JWTAuth\Exceptions\JWTException;
 use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
 use OpenApi\Annotations as OA;
-use Psy\Util\Str;
 
 class UserController extends Controller
 {
@@ -99,14 +98,16 @@ class UserController extends Controller
         $email = $request->email;
 
         try {
-            $status = Password::sendResetLink(['email' => $email]);
-            var_dump($status);
-
-            if ($status === Password::RESET_LINK_SENT) {
-                return $this->sendResponse(['email' => $email], 'We have sent you a link to reset your password.');
-            } else {
-                return $this->sendError('Unable to send recovery email. Please try again later.', '', 400);
+            $user = $user = User::where('email', $email)->first();
+            var_dump($user);
+            if(!$user) {
+                return $this->sendError('Email does not exist.');
             }
+
+            $token = Password::createToken($user);
+            Mail::to($email)->send(new RecoveryPasswordMailable($token));
+
+            return $this->sendResponse([], 'send link successfully.');
         } catch (\Exception $e) {
             return $this->sendError('Failed to send recovery email.', 400);
         }
@@ -114,7 +115,7 @@ class UserController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/users/reset-password",
+     *     path="/api/users/reset",
      *     summary="Reset user's password",
      *     tags={"Users"},
      *     @OA\RequestBody(

@@ -16,6 +16,8 @@
     </style>
 </head>
 <body class="font-sans antialiased dark:bg-black dark:text-white/50">
-<h1>Hola desde el correo</h1>
+    <h1>Hola desde el correo</h1>
+
+    <a href="{{ url('password/reset', $token) }}">Reset Password</a>
 </body>
 </html>
