@@ -24,13 +24,18 @@ const routes: Routes = [
   {
     path: 'inicio-sesion',
     loadChildren: () => import('./inicio-sesion/inicio-sesion.module').then( m => m.InicioSesionPageModule)
-  },  {
+  },
+  {
     path: 'recuperar-contrasena',
     loadChildren: () => import('./recuperar-contrasena/recuperar-contrasena.module').then( m => m.RecuperarContrasenaPageModule)
   },
   {
     path: 'nueva-contrasena',
     loadChildren: () => import('./nueva-contrasena/nueva-contrasena.module').then( m => m.NuevaContrasenaPageModule)
+  },
+  {
+    path: 'Mecanico/home-mecanico',
+    loadChildren: () => import('./Mecanico/home-mecanico/home-mecanico.module').then( m => m.HomeMecanicoPageModule)
   },
 
 
