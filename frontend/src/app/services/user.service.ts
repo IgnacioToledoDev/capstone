@@ -20,7 +20,7 @@ export class UserService {
 
   register(user: UserRegisterInterface) {
     return new Promise((resolve, reject) => {
-      this.http.post(`${this.API_URL}/register`, user).subscribe(
+      this.http.post(`${this.API_URL}/users/register`, user).subscribe(
         (res) => {
           resolve(res);
         },
