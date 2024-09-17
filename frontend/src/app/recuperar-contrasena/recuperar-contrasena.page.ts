@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { AlertController } from '@ionic/angular';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UserService } from 'src/app/services/user.service';
+import { NavController, AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-recuperar-contrasena',
@@ -8,43 +9,42 @@ import { AlertController } from '@ionic/angular';
   styleUrls: ['./recuperar-contrasena.page.scss'],
 })
 export class RecuperarContrasenaPage implements OnInit {
-  email: string;
+  recoverForm!: FormGroup;
 
-  constructor(private router: Router, private alertController: AlertController) {
-    this.email = ''; 
-  }
+  constructor(
+    private fb: FormBuilder,
+    private userService: UserService,
+    private navCtrl: NavController,
+    private alertController: AlertController
+  ) {}
 
   ngOnInit() {
+    this.recoverForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+    });
   }
 
-  async recuperarContrasena() {
-    const alert = await this.alertController.create({
-      header: 'Recuperar Contraseña',
-      buttons: [
-        {
-          text: 'Cancelar',
-          role: 'cancel',
-          cssClass: 'secondary',
-          handler: () => {
-            console.log('Recuperación cancelada');
-          }
-        }, {
-          text: 'Enviar',
-          handler: async () => {
-            console.log('Correo enviado a:', this.email);
-            // Aquí puedes agregar la lógica para enviar el correo de recuperación
-            const successAlert = await this.alertController.create({
-              header: 'Éxito',
-              message: 'El mensaje se ha enviado correctamente.',
-              buttons: ['OK']
-            });
-            await successAlert.present();
-            this.router.navigate(['/inicio-sesion']);
-          }
-        }
-      ]
-    });
+  async onSubmit() {
+    if (this.recoverForm.valid) {
+      const { email } = this.recoverForm.value;
+      try {
+        const response = await this.userService.recovery({ email });
+        console.log('Correo de recuperación enviado:', response);
+        await this.presentAlert('Éxito', 'Se ha enviado un correo para recuperar la contraseña.');
+        this.navCtrl.navigateForward('/inicio-sesion');  
+      } catch (error) {
+        console.error('Error al recuperar contraseña:', error);
+        await this.presentAlert('Error', 'No se pudo enviar el correo de recuperación. Intenta nuevamente.');
+      }
+    }
+  }
 
+  async presentAlert(header: string, message: string) {
+    const alert = await this.alertController.create({
+      header,
+      message,
+      buttons: ['OK'],
+    });
     await alert.present();
   }
 }

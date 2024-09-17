@@ -1,14 +1,14 @@
 <ion-content class="ion-padding">
-  <h1>Inisiar Sesion</h1>
-  <form>
+  <h1>Recuperar Contraseña</h1>
+  <form [formGroup]="recoverForm" (ngSubmit)="onSubmit()">
     <ion-item>
-      <p>Para poder cambiar contraseña es necesario enviar un correo electrónico para verificar que eres tú.</p>
+      <p>Para poder cambiar la contraseña es necesario enviar un correo electrónico para verificar que eres tú.</p>
     </ion-item>
     <ion-item>
-      <ion-label position="floating">Correeo electrónico:</ion-label>
-      <ion-input type="email" [(ngModel)]="email" name="nueva-contrasena"></ion-input>
+      <ion-label position="floating">Correo electrónico:</ion-label>
+      <ion-input type="email" formControlName="email"></ion-input>
     </ion-item>
-    <ion-button expand="block" (click)="recuperarContrasena()">Enviar Correo</ion-button>
+    <ion-button expand="block" type="submit" [disabled]="recoverForm.invalid">Enviar Correo</ion-button>
   </form>
 </ion-content>
 
