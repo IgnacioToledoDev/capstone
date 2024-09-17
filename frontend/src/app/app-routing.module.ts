@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-import { TerminosCondicionesComponent } from './terminos-condiciones/terminos-condiciones.component';
+import { TerminosCondicionesComponent } from 'src/app/components/terminos-condiciones/terminos-condiciones.component'
 
 const routes: Routes = [
   {
-    path: 'terminos-y-condiciones',
+    path: 'components/terminos-y-condiciones',
     component: TerminosCondicionesComponent
   },
   {
