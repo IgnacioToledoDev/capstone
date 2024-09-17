@@ -9,4 +9,8 @@ export interface UserRegisterInterface {
     password: string;
     c_password?: string;
   }
+
+export interface UserRecoveryInterface {
+    email: string;
+  }
   

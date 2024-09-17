@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { UserLoginInterface, UserRegisterInterface } from '../intefaces/user';
+import { UserLoginInterface, UserRegisterInterface ,UserRecoveryInterface} from '../intefaces/user';
 import { environment } from 'src/environments/environment';
 import { Storage } from '@ionic/storage-angular';
 
@@ -32,6 +32,17 @@ export class UserService {
   login(user: UserLoginInterface) {
     return new Promise((resolve, reject) => {
       this.http.post(`${this.API_URL}/users/login`, user).subscribe(
+        (res) => {
+          resolve(res);
+        },
+        (err) => reject(err),
+      );
+    });
+  }
+
+  recovery(user: UserRecoveryInterface) {
+    return new Promise((resolve, reject) => {
+      this.http.post(`${this.API_URL}/users/recovery`, user).subscribe(
         (res) => {
           resolve(res);
         },
