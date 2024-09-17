@@ -11,10 +11,6 @@ class Car extends Model
     use HasFactory;
 
     const MIN_YEAR = 1970;
-    public mixed $year;
-    public mixed $brand_id;
-    public mixed $model;
-    public mixed $user_id;
     protected $fillable = [
         'brand_id',
         'model',
