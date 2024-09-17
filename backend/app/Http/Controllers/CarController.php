@@ -7,6 +7,7 @@ use App\Models\CarBrand;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use OpenApi\Annotations as OA;
 
 class CarController extends Controller
 {
@@ -19,7 +20,59 @@ class CarController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * @OA\Post(
+     *     path="/api/jwt/cars/create",
+     *     summary="Create a new car",
+     *     tags={"Cars"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"brand_id", "model", "year", "user_id"},
+     *             @OA\Property(property="brand_id", type="integer", example=1, description="ID of the car brand"),
+     *             @OA\Property(property="model", type="string", example="Toyota Corolla", description="Model of the car"),
+     *             @OA\Property(property="year", type="integer", example=2024, description="Year of the car"),
+     *             @OA\Property(property="user_id", type="integer", example=1, description="ID of the user who owns the car")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Car created successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=true),
+     *             @OA\Property(property="car", type="object",
+     *                 @OA\Property(property="id", type="integer", example=1),
+     *                 @OA\Property(property="brand_id", type="integer", example=1),
+     *                 @OA\Property(property="model", type="string", example="Toyota Corolla"),
+     *                 @OA\Property(property="year", type="integer", example=2024),
+     *                 @OA\Property(property="user_id", type="integer", example=1),
+     *                 @OA\Property(property="created_at", type="string", format="date-time", example="2024-09-17T02:42:18Z"),
+     *                 @OA\Property(property="updated_at", type="string", format="date-time", example="2024-09-17T02:42:18Z")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Validation error",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Validation Error."),
+     *             @OA\Property(property="errors", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Resource not found",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Resource not found.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Server error",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Server Error.")
+     *         )
+     *     )
+     * )
      */
     public function store(Request $request): JsonResponse
     {
@@ -34,7 +87,7 @@ class CarController extends Controller
                 'model' => 'required|string',
                 'year' => 'required|integer|min:' . Car::MIN_YEAR . '|max:' . $this->getMaxYear(),
             ]);
-            
+
             $brand = CarBrand::find($validated['brand_id'])->get();
 
             if (!$brand) {
