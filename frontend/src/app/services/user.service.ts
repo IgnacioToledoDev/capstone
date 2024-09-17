@@ -31,7 +31,7 @@ export class UserService {
 
   login(user: UserLoginInterface) {
     return new Promise((resolve, reject) => {
-      this.http.post(`${this.API_URL}/login`, user).subscribe(
+      this.http.post(`${this.API_URL}/users/login`, user).subscribe(
         (res) => {
           resolve(res);
         },
