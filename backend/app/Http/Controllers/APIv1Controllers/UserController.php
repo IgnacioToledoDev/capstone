@@ -65,6 +65,7 @@ class UserController extends Controller
             $user = User::where('email', $request->email)->first();
             $roles = User::with('roles')->find($user->id);
             $user->roles = $roles->roles[0]->name;
+            unset($user->password);
 
             $success['access_token'] = $token;
             $success['token_type'] = 'bearer';
