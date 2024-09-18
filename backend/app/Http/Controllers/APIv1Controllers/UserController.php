@@ -276,26 +276,33 @@ class UserController extends Controller
         ]);
 
         $user = auth()->user();
-        if(!$user->hasRole(User::SUPER_ADMIN) || $user->hasRole(User::MECHANIC) || !$user->hasRole(User::COMPANY_ADMIN)) {
+        $RolesAllowed = [
+            User::SUPER_ADMIN,
+            User::MECHANIC,
+            User::COMPANY_ADMIN
+        ];
+
+        if(!in_array($user->roles[0]->name, $RolesAllowed)) {
             return $this->sendError('Permission denied.');
         }
 
-        $isRutValid = $this->userHelper->validateRut($validator['rut']);
+        $isRutValid = $this->userHelper->validateRut($validator->getValue('rut'));
         if(!$isRutValid) {
             return $this->sendError('Rut invalid.');
         }
 
-        $isUniqueEmail = User::where(['email' => $validator['email']])->first();
-        if(!$isUniqueEmail) {
+        $emailIsInUsed = User::where(['email' => $validator->getValue('email')])->first();
+        if($emailIsInUsed) {
             return $this->sendError('Email already registered.');
         }
 
         $client = new User();
-        $client->email = $validator['email'];
-        $client->name  = $validator['name'];
-        $client->lastname = $validator['lastname'];
-        $client->password = Hash::make($validator['rut']);
-        $client->rut = $validator['rut'];
+        $client->username = $validator->getValue('name') . ' ' . $validator->getValue('lastname'); ;
+        $client->email = $validator->getValue('email');
+        $client->name  = $validator->getValue('name');
+        $client->lastname = $validator->getValue('lastname');
+        $client->password = Hash::make($validator->getValue('rut'));
+        $client->rut = $validator->getValue('rut');
         $client->save();
 
         $success['client'] = $client;
