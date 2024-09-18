@@ -2,7 +2,7 @@
 
 namespace App\Rules;
 
-use App\UserHelper;
+use App\Helper\UserHelper;
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
 

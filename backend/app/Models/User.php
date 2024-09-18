@@ -33,7 +33,7 @@ class User extends Authenticatable implements FilamentUser, JWTSubject, CanReset
         'email',
         'password',
         'rut',
-        'role',
+        'roles',
     ];
 
     /**

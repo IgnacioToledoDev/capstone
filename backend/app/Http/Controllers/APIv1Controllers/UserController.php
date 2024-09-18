@@ -5,7 +5,7 @@ namespace App\Http\Controllers\APIv1Controllers;
 use App\Http\Controllers\Controller;
 use App\Mail\RecoveryPasswordMailable;
 use App\Models\User;
-use App\UserHelper;
+use App\Helper\UserHelper;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Validator;
 use PHPOpenSourceSaver\JWTAuth\Exceptions\JWTException;
 use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
 use OpenApi\Annotations as OA;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
@@ -62,6 +63,8 @@ class UserController extends Controller
                 return response()->json(['error' => 'invalid_credentials'], 401);
             }
             $user = User::where('email', $request->email)->first();
+            $roles = User::with('roles')->find($user->id);
+            $user->roles = $roles->roles[0]->name;
 
             $success['access_token'] = $token;
             $success['token_type'] = 'bearer';
