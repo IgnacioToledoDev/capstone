@@ -36,3 +36,16 @@
   ion-item {
     --background: #1E293B; /* Color de fondo de los elementos de la lista */
   }
+
+
+  .button-container {
+    display: flex;
+  }
+  
+  .custom-button {
+    --border-radius: 0px; /* Esquinas cuadradas */
+    --color: #001f3f; /* Color del texto e ícono azul oscuro */
+    width: 49%; /* Ancho del 48% para dejar espacio entre los botones */
+
+  }
+  
