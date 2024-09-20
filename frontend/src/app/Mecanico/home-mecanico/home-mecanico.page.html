@@ -5,9 +5,55 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Home-Mecanico</ion-title>
-    </ion-toolbar>
-  </ion-header>
+
+  <ion-card class="client-card">
+    <ion-card-content>
+      <div class="card-content">
+        <ion-avatar>
+          <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+        </ion-avatar>
+        <div class="text-content">
+          <h2>Bienvenido,{{ mecanico }} </h2>
+          <p>{{ rol }}</p>
+        </div>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card class="client-card">
+    <ion-card-header>
+      <ion-card-title>Cliente actual</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <div class="card-content">
+        <ion-avatar>
+          <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+        </ion-avatar>
+        <div class="text-content">
+          <h2>Pamela Chupa</h2>
+          <p>pa.chupaloduoc.cl</p>
+          <p>+56 9 852 132 13</p>
+        </div>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card class="client-card">
+    <ion-card-header>
+      <ion-card-title>Agenda de Hoy</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list>
+        <ion-item *ngFor="let evento of eventos">
+          <ion-label>
+            <ion-card-subtitle>{{ evento.patente }}</ion-card-subtitle>
+            <h2>{{ evento.nombre }}</h2>
+            <p>{{ evento.hora }}</p>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+  
+  
 </ion-content>
