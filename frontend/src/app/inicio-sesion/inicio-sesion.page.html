@@ -1,24 +1,33 @@
 <ion-content class="ion-padding">
-  <h1>inisiar sesion</h1>
-  <form (ngSubmit)="onSubmit()" [formGroup]="loginForm">
-    <ion-item>
-      <ion-label position="floating">Correo electrónico:</ion-label>
+  <!-- Botón con la flecha en la esquina superior izquierda -->
+  <ion-button class="back-button" fill="clear">
+    <ion-icon name="arrow-back-outline"></ion-icon>
+  </ion-button>
+  <h1 class="title">Iniciar sesión</h1>
+  <form (ngSubmit)="onSubmit()" [formGroup]="loginForm" class="login-form">
+    <ion-label position="stacked">Correo electrónico:</ion-label>
+    <ion-item class="input-item">
       <ion-input type="email" formControlName="email"></ion-input>
     </ion-item>
-
-    <ion-item>
-      <ion-label position="floating">Contraseña:</ion-label>
+    <p></p>
+    <ion-label position="stacked">Contraseña:</ion-label>
+    <ion-item class="input-item">
       <ion-input type="password" formControlName="password"></ion-input>
     </ion-item>
-
-    <ion-button expand="block" type="submit" [disabled]="loginForm.invalid">Ingresar</ion-button>
-    <ion-text color="medium">
+    
+    <ion-button type="submit" [disabled]="loginForm.invalid">Iniciar sesión</ion-button>
+    <h2 class="line2">------------- O --------------</h2>
+    <!-- Se inserta el boton de google -->
+    <ion-button expand="white" class="google-btn">
+      <img src="assets/icono-google.svg" alt="Google Icon" class="google-icon">
+      Iniciar sesión con Google
+    </ion-button>
+    <ion-text color="blue">
       <a routerLink="/recuperar-contrasena">¿Has olvidado tu contraseña?</a>
     </ion-text>
   </form>
 </ion-content>
-<ion-footer>
-  <ion-toolbar>
-    <ion-title>AutoMinder</ion-title>
-  </ion-toolbar>
-</ion-footer>
+
+<ion-text class="line1">--------------------</ion-text>
+<h2 class="final">AutoMinder</h2>
+
