@@ -7,6 +7,8 @@ import { IonicModule } from '@ionic/angular';
 import { BienvenidosPageRoutingModule } from './bienvenidos-routing.module';
 
 import { BienvenidosPage } from './bienvenidos.page';
+import { MenuComponent } from '../components/menu/menu.component';
+
 
 @NgModule({
   imports: [

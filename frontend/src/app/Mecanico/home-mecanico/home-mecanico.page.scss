@@ -1,0 +1,51 @@
+.client-card {
+    background-color: #1E293B; // Color de fondo claro
+    ion-card-header {
+      ion-card-title {
+        color: #ffffff; // Color del título
+        font-size: 1.2rem; // Tamaño de fuente del título
+      }
+    }
+    ion-card-content {
+      .card-content {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .text-content {
+        margin-left: 2rem;
+        flex: 1;
+        h2 {
+          color: #ffffff; // Color del nombre
+          font-size: 1.5rem; // Tamaño de fuente del nombre
+        }
+        p {
+          color: #ffffff; // Color del texto secundario
+          font-size: 1rem; // Tamaño de fuente del texto secundario
+          margin: 0.5rem 0;
+        }
+      }
+      
+      ion-avatar {
+        margin-left: 1rem;
+
+      }
+    }
+    
+  }
+  ion-item {
+    --background: #1E293B; /* Color de fondo de los elementos de la lista */
+  }
+
+
+  .button-container {
+    display: flex;
+  }
+  
+  .custom-button {
+    --border-radius: 0px; /* Esquinas cuadradas */
+    --color: #001f3f; /* Color del texto e ícono azul oscuro */
+    width: 49%; /* Ancho del 48% para dejar espacio entre los botones */
+
+  }
+  

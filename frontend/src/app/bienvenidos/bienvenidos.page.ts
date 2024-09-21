@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
+import { MenuController } from '@ionic/angular';
 
 @Component({
   selector: 'app-bienvenidos',
@@ -8,9 +9,12 @@ import { NavController } from '@ionic/angular';
 })
 export class BienvenidosPage implements OnInit {
 
-  constructor() { }
+  constructor(private menu: MenuController) { }
 
   ngOnInit() {
+  }
+  openMenu() {
+    this.menu.open();  // Abre el menú manualmente si lo necesitas
   }
 
 }
