@@ -41,6 +41,16 @@ const routes: Routes = [
     path: 'Mecanico/home-mecanico',
     loadChildren: () => import('./Mecanico/home-mecanico/home-mecanico.module').then( m => m.HomeMecanicoPageModule)
   },
+  {
+    path: 'Mecanico/register-user',
+    loadChildren: () => import('./Mecanico/register-user/register-user.module').then( m => m.RegisterUserPageModule)
+  },
+  {
+    path: 'Mecanico/agregar-vehiculo',
+    loadChildren: () => import('./Mecanico/agregar-vehiculo/agregar-vehiculo.module').then( m => m.AgregarVehiculoPageModule)
+  },
+
+
 
 
 ];
