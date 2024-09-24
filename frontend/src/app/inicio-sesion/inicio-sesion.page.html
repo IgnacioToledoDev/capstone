@@ -1,6 +1,6 @@
 <ion-content class="ion-padding">
   <!-- Botón con la flecha en la esquina superior izquierda -->
-  <ion-button class="back-button" fill="clear">
+  <ion-button class="back-button" fill="clear" a routerLink="/bienvenidos">
     <ion-icon name="arrow-back-outline"></ion-icon>
   </ion-button>
   <h1 class="title">Iniciar sesión</h1>
@@ -15,7 +15,7 @@
       <ion-input type="password" formControlName="password"></ion-input>
     </ion-item>
     
-    <ion-button type="submit" [disabled]="loginForm.invalid">Iniciar sesión</ion-button>
+    <ion-button type="submit">Iniciar sesión</ion-button>
     <h2 class="line2">------------- O --------------</h2>
     <!-- Se inserta el boton de google -->
     <ion-button expand="white" class="google-btn">
