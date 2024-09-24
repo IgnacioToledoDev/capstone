@@ -1,13 +1,24 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>inicio-sesion</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content class="ion-padding">
+  <h1>inisiar sesion</h1>
+  <form (ngSubmit)="onSubmit()" [formGroup]="loginForm">
+    <ion-item>
+      <ion-label position="floating">Correo electrónico:</ion-label>
+      <ion-input type="email" formControlName="email"></ion-input>
+    </ion-item>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">inicio-sesion</ion-title>
-    </ion-toolbar>
-  </ion-header>
+    <ion-item>
+      <ion-label position="floating">Contraseña:</ion-label>
+      <ion-input type="password" formControlName="password"></ion-input>
+    </ion-item>
+
+    <ion-button expand="block" type="submit" [disabled]="loginForm.invalid">Ingresar</ion-button>
+    <ion-text color="medium">
+      <a routerLink="/recuperar-contrasena">¿Has olvidado tu contraseña?</a>
+    </ion-text>
+  </form>
 </ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-title>AutoMinder</ion-title>
+  </ion-toolbar>
+</ion-footer>

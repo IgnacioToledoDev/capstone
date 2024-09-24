@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\UserResource\Pages;
 use App\Filament\Resources\UserResource\RelationManagers;
 use App\Models\User;
+use App\Rules\ValidateRut;
 use Filament\Forms;
 use Filament\Forms\Components\TextInput as ComponentsTextInput;
 use Filament\Forms\Form;
@@ -34,15 +35,29 @@ class UserResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->label('Nombre')
+                Forms\Components\TextInput::make('username')
+                    ->label('Nombre del usuario')
                     ->required()
                     ->placeholder('Nombre del usuario'),
+                    Forms\Components\TextInput::make('name')
+                    ->label('Nombre')
+                    ->placeholder('Nombre'),
+                Forms\Components\TextInput::make('lastname')
+                    ->label('Apellido')
+                    ->placeholder('Apellido'),
                 Forms\Components\TextInput::make('email')
                     ->label('Correo electrónico')
                     ->required()
                     ->email()
                     ->placeholder('Correo electrónico del usuario'),
+                Forms\Components\TextInput::make('rut')
+                    ->label('Rut')
+                    ->placeholder('Rut')
+                    ->required()
+                    ->rules([
+                        new ValidateRut(),
+                    ])
+                    ->helperText('Ingrese rut sin puntos y con guion'),
                 Forms\Components\TextInput::make('password')
                     ->label('Contraseña')
                     ->required()
@@ -50,6 +65,11 @@ class UserResource extends Resource
                     ->hiddenOn(['edit'])
                     ->visibleOn(['create'])
                     ->placeholder('Contraseña del usuario'),
+                Forms\Components\Select::make('roles')
+                    ->relationship('roles', 'name')
+                    ->label('Roles')
+                    ->required()
+                    ->placeholder('Seleccione un rol...')
             ]);
     }
 
@@ -57,14 +77,29 @@ class UserResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('username')
+                    ->label('Usuario')
+                    ->searchable()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('name')
                     ->label('Nombre')
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('lastname')
+                    ->label('Apellido')
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('rut')
+                    ->label('Rut')
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('email')
                     ->label('Correo electrónico')
                     ->searchable()
                     ->sortable(),
+                Tables\Columns\TextColumn::make('roles.name')
+                    ->label('Rol')
+                    ->searchable()
             ])
             ->filters([
                 //

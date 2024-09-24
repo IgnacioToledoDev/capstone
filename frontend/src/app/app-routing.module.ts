@@ -1,11 +1,15 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-import { TerminosCondicionesComponent } from './terminos-condiciones/terminos-condiciones.component';
-
+import { TerminosCondicionesComponent } from 'src/app/components/terminos-condiciones/terminos-condiciones.component'
+import { MenuComponent } from './components/menu/menu.component';
 const routes: Routes = [
   {
-    path: 'terminos-y-condiciones',
+    path: 'components/terminos-y-condiciones',
     component: TerminosCondicionesComponent
+  },
+  {
+    path: 'components/menu',
+    component: MenuComponent
   },
   {
     path: '',
@@ -25,6 +29,19 @@ const routes: Routes = [
     path: 'inicio-sesion',
     loadChildren: () => import('./inicio-sesion/inicio-sesion.module').then( m => m.InicioSesionPageModule)
   },
+  {
+    path: 'recuperar-contrasena',
+    loadChildren: () => import('./recuperar-contrasena/recuperar-contrasena.module').then( m => m.RecuperarContrasenaPageModule)
+  },
+  {
+    path: 'nueva-contrasena',
+    loadChildren: () => import('./nueva-contrasena/nueva-contrasena.module').then( m => m.NuevaContrasenaPageModule)
+  },
+  {
+    path: 'Mecanico/home-mecanico',
+    loadChildren: () => import('./Mecanico/home-mecanico/home-mecanico.module').then( m => m.HomeMecanicoPageModule)
+  },
+
 
 ];
 

@@ -25,7 +25,9 @@ WORKDIR /var/www/html
 COPY . .
 
 RUN composer install
+RUN composer dump-autoload
 RUN composer require laravel/octane spiral/roadrunner
+RUN composer update
 COPY .env .env
 RUN mkdir -p /app/storage/logs
 RUN chmod -R 777 /app/storage/logs
