@@ -25,6 +25,9 @@ class CarController extends Controller
      *     path="/api/jwt/cars/create",
      *     summary="Create a new car",
      *     tags={"Cars"},
+     *     security={{
+     *         "bearerAuth": {}
+     *     }},
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
