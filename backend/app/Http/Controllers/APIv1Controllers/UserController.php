@@ -304,6 +304,7 @@ class UserController extends Controller
         $client->password = Hash::make($validator->getValue('rut'));
         $client->rut = $validator->getValue('rut');
         $client->save();
+        $client->assignRole(User::CLIENT);
 
         $success['client'] = $client;
 
