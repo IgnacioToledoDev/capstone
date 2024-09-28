@@ -26,7 +26,7 @@ export class AgregarVehiculoPage implements OnInit {
 
   onSubmit() {
     if (this.vehicleForm.valid) {
-      console.log('Form Submitted', this.vehicleForm.value);
+      console.log('Form Submitted', this.vehicleForm.value);/* RECORADAR AGRGAR ALARMA ANTES DE PASAR la validacion  */
     } else {
       console.log('Form not valid');
     }
