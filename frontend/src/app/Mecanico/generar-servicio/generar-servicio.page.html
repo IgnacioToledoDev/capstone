@@ -10,45 +10,45 @@
       <ion-card-title>Datos vehículo</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <ion-item>
-        <ion-label position="floating">Marca</ion-label>
-        <ion-input value="Toyota"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label position="floating">Modelo</ion-label>
-        <ion-input value="Yaris"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label position="floating">Año</ion-label>
-        <ion-input value="2018"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label position="floating">Patente</ion-label>
-        <ion-input value="KDTS82"></ion-input>
-      </ion-item>
+      <ion-list>
+        <ion-item>
+          <ion-label>Patente : KDTS82</ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label>Marca : Toyota</ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label>Modelo : Yaris</ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label>Año : 2018</ion-label>
+        </ion-item>
+      </ion-list>
     </ion-card-content>
   </ion-card>
 
-  <ion-searchbar placeholder="Buscar..."></ion-searchbar>
+  <ion-searchbar placeholder="Buscar Servicios..."></ion-searchbar>
+  <ion-card-content>
+    <ion-list>
+      <ion-item>
+        <ion-label>Cambio de aceite</ion-label>
+        <ion-button slot="end">Agregar</ion-button>
+      </ion-item>
+      <ion-item>
+        <ion-label>Cambio de frenos</ion-label>
+        <ion-button slot="end">Agregar</ion-button>
+      </ion-item>
+      <ion-item>
+        <ion-label>Cambio de ruedas</ion-label>
+        <ion-button slot="end">Agregar</ion-button>
+      </ion-item>
+      <ion-item>
+        <ion-label>Revisión técnica</ion-label>
+        <ion-button slot="end">Agregar</ion-button>
+      </ion-item>
+    </ion-list>
 
-  <ion-list>
-    <ion-item>
-      <ion-label>Cambio de aceite</ion-label>
-      <ion-button slot="end">Agregar</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-label>Cambio de frenos</ion-label>
-      <ion-button slot="end">Agregar</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-label>Cambio de ruedas</ion-label>
-      <ion-button slot="end">Agregar</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-label>Revisión técnica</ion-label>
-      <ion-button slot="end">Agregar</ion-button>
-    </ion-item>
-  </ion-list>
+  </ion-card-content>
 
   <ion-card>
     <ion-card-header>
@@ -70,5 +70,5 @@
     </ion-card-content>
   </ion-card>
 
-  <ion-button expand="full">Confirmar</ion-button>
+  <ion-button expand="full" (click)="presentAlert()">Confirmar</ion-button>
 </ion-content>
