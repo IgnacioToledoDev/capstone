@@ -1,0 +1,74 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Generar servicios</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Datos vehículo</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item>
+        <ion-label position="floating">Marca</ion-label>
+        <ion-input value="Toyota"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Modelo</ion-label>
+        <ion-input value="Yaris"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Año</ion-label>
+        <ion-input value="2018"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Patente</ion-label>
+        <ion-input value="KDTS82"></ion-input>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-searchbar placeholder="Buscar..."></ion-searchbar>
+
+  <ion-list>
+    <ion-item>
+      <ion-label>Cambio de aceite</ion-label>
+      <ion-button slot="end">Agregar</ion-button>
+    </ion-item>
+    <ion-item>
+      <ion-label>Cambio de frenos</ion-label>
+      <ion-button slot="end">Agregar</ion-button>
+    </ion-item>
+    <ion-item>
+      <ion-label>Cambio de ruedas</ion-label>
+      <ion-button slot="end">Agregar</ion-button>
+    </ion-item>
+    <ion-item>
+      <ion-label>Revisión técnica</ion-label>
+      <ion-button slot="end">Agregar</ion-button>
+    </ion-item>
+  </ion-list>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Lista de Servicios</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item>
+        <ion-label>Cambio de aceite 4X4</ion-label>
+        <ion-button slot="end">Eliminar</ion-button>
+      </ion-item>
+      <ion-item>
+        <ion-label>Revisión técnica auto mini</ion-label>
+        <ion-button slot="end">Eliminar</ion-button>
+      </ion-item>
+      <ion-item>
+        <ion-label>Total servicios</ion-label>
+        <ion-note slot="end">$200.000</ion-note>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-button expand="full">Confirmar</ion-button>
+</ion-content>

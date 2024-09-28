@@ -38,17 +38,22 @@ const routes: Routes = [
     loadChildren: () => import('./nueva-contrasena/nueva-contrasena.module').then( m => m.NuevaContrasenaPageModule)
   },
   {
-    path: 'Mecanico/home-mecanico',
-    loadChildren: () => import('./Mecanico/home-mecanico/home-mecanico.module').then( m => m.HomeMecanicoPageModule)
+    path: 'mecanico/home-mecanico',
+    loadChildren: () => import('./mecanico/home-mecanico/home-mecanico.module').then( m => m.HomeMecanicoPageModule)
   },
   {
-    path: 'Mecanico/register-user',
-    loadChildren: () => import('./Mecanico/register-user/register-user.module').then( m => m.RegisterUserPageModule)
+    path: 'mecanico/register-user',
+    loadChildren: () => import('./mecanico/register-user/register-user.module').then( m => m.RegisterUserPageModule)
   },
   {
-    path: 'Mecanico/agregar-vehiculo',
-    loadChildren: () => import('./Mecanico/agregar-vehiculo/agregar-vehiculo.module').then( m => m.AgregarVehiculoPageModule)
+    path: 'mecanico/agregar-vehiculo',
+    loadChildren: () => import('./mecanico/agregar-vehiculo/agregar-vehiculo.module').then( m => m.AgregarVehiculoPageModule)
   },
+  {
+    path: 'mecanico/generar-servicio',
+    loadChildren: () => import('./mecanico/generar-servicio/generar-servicio.module').then( m => m.GenerarServicioPageModule)
+  },
+
 
 
 
