@@ -305,6 +305,12 @@ class UserController extends Controller
         $client->rut = $validator->getValue('rut');
         $client->save();
 
+        $client->assignRole(User::CLIENT);
+        $roles = User::with('roles')->find($client->id);
+        $client->roles = $roles->roles[0]->name;
+        unset($client->password);
+
+
         $success['client'] = $client;
 
         return $this->sendResponse($success, 'client registered successfully.');
