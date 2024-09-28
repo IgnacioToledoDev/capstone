@@ -1,13 +1,15 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\APIv1Controllers;
 
+use App\Http\Controllers\Controller;
 use App\Models\Car;
 use App\Models\CarBrand;
 use DateTime;
-use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use OpenApi\Annotations as OA;
+use function App\Http\Controllers\auth;
 
 class CarController extends Controller
 {
