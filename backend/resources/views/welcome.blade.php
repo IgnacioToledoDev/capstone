@@ -16,7 +16,7 @@
         <nav>
             <div>Logo</div>
             <div>
-                <button type="button">Agrega tu taller</button>
+                <a href="/tenant/create">Agrega tu taller</a>
             </div>
         </nav>
         <h1>Autominder proximamente ...</h1>
