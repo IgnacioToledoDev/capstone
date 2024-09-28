@@ -305,11 +305,11 @@ class UserController extends Controller
         $client->rut = $validator->getValue('rut');
         $client->save();
 
-        $roles = User::with('roles')->find($user->id);
-        $user->roles = $roles->roles[0]->name;
-        unset($user->password);
-
         $client->assignRole(User::CLIENT);
+        $roles = User::with('roles')->find($client->id);
+        $client->roles = $roles->roles[0]->name;
+        unset($client->password);
+
 
         $success['client'] = $client;
 
