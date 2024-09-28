@@ -1,9 +1,13 @@
 <ion-header>
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()">
+        <ion-icon name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
     <ion-title>Generar servicios</ion-title>
   </ion-toolbar>
 </ion-header>
-
 <ion-content>
   <ion-card>
     <ion-card-header>
@@ -26,8 +30,12 @@
       </ion-list>
     </ion-card-content>
   </ion-card>
-
   <ion-searchbar placeholder="Buscar Servicios..."></ion-searchbar>
+  <ion-buttons class="reverse-buttons">
+    <ion-button>Servicios</ion-button>
+    <ion-button>Reparaciones</ion-button>
+    <ion-button>Mejoras</ion-button>
+  </ion-buttons>
   <ion-card-content>
     <ion-list>
       <ion-item>
@@ -47,9 +55,7 @@
         <ion-button slot="end">Agregar</ion-button>
       </ion-item>
     </ion-list>
-
   </ion-card-content>
-
   <ion-card>
     <ion-card-header>
       <ion-card-title>Lista de Servicios</ion-card-title>
@@ -69,6 +75,5 @@
       </ion-item>
     </ion-card-content>
   </ion-card>
-
   <ion-button expand="full" (click)="presentAlert()">Confirmar</ion-button>
 </ion-content>

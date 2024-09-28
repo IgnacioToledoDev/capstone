@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NavController} from '@ionic/angular';
 
 @Component({
   selector: 'app-agregar-vehiculo',
@@ -13,13 +14,19 @@ export class AgregarVehiculoPage implements OnInit {
   models: string[] = ['Corolla', 'Civic', 'Mustang', 'Camaro'];
   years: number[] = [2020, 2021, 2022, 2023];
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private navCtrl: NavController
+  ) {
     this.vehicleForm = this.formBuilder.group({
       brand: ['', Validators.required],
       model: ['', Validators.required],
       year: ['', Validators.required],
       patente: ['', Validators.required],
     });
+  }
+  goBack() {
+    this.navCtrl.back();
   }
 
   ngOnInit() {}

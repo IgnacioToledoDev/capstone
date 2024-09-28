@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-register-user',
@@ -10,7 +11,13 @@ export class RegisterUserPage implements OnInit {
 
   registerForm!: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private navCtrl: NavController
+  ) {}
+  goBack() {
+    this.navCtrl.back();
+  }
 
   ngOnInit() {
     this.registerForm = this.formBuilder.group({
