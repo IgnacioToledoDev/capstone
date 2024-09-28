@@ -312,12 +312,47 @@ class UserController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/users/mechanic/register",
-     *     summary="Logout the account of the user",
+     *     path="/api/users/logout",
+     *     summary="Logout the authenticated user",
+     *     description="Invalidates the user's JWT token, effectively logging them out from the system.",
      *     tags={"Users"},
      *     security={{
      *         "bearerAuth": {}
-     *     }}
+     *     }},
+     *     @OA\Response(
+     *         response=200,
+     *         description="User logged out successfully.",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="success",
+     *                 type="boolean",
+     *                 example=true
+     *             ),
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="User logged out successfully."
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Failed to log out.",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="success",
+     *                 type="boolean",
+     *                 example=false
+     *             ),
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="Failed to log out."
+     *             )
+     *         )
+     *     )
      * )
      **/
     public function logout(Request $request): JsonResponse
