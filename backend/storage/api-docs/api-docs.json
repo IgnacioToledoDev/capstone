@@ -5,6 +5,177 @@
         "version": "1.0.0"
     },
     "paths": {
+        "/api/jwt/cars/brands": {
+            "get": {
+                "tags": [
+                    "Car Brands"
+                ],
+                "summary": "Obtener todas las marcas de autos",
+                "description": "Este endpoint permite obtener una lista de todas las marcas de autos. Requiere autenticación JWT.",
+                "operationId": "a8c26660c15f3783f1c1db8ac3029572",
+                "responses": {
+                    "200": {
+                        "description": "Marcas de autos obtenidas exitosamente."
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/jwt/cars/create": {
+            "post": {
+                "tags": [
+                    "Cars"
+                ],
+                "summary": "Create a new car",
+                "operationId": "ba8cc46b680a23a2980f6da2455c22cc",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "brand_id",
+                                    "model",
+                                    "year",
+                                    "user_id"
+                                ],
+                                "properties": {
+                                    "brand_id": {
+                                        "description": "ID of the car brand",
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "model": {
+                                        "description": "Model of the car",
+                                        "type": "string",
+                                        "example": "Toyota Corolla"
+                                    },
+                                    "year": {
+                                        "description": "Year of the car",
+                                        "type": "integer",
+                                        "example": 2024
+                                    },
+                                    "user_id": {
+                                        "description": "ID of the user who owns the car",
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Car created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "car": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "brand_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "model": {
+                                                    "type": "string",
+                                                    "example": "Toyota Corolla"
+                                                },
+                                                "year": {
+                                                    "type": "integer",
+                                                    "example": 2024
+                                                },
+                                                "user_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-09-17T02:42:18Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-09-17T02:42:18Z"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Validation Error."
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Resource not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Resource not found."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Server Error."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/users/login": {
             "post": {
                 "tags": [
@@ -410,160 +581,31 @@
                     }
                 ]
             }
-        },
-        "/api/jwt/cars/create": {
-            "post": {
-                "tags": [
-                    "Cars"
-                ],
-                "summary": "Create a new car",
-                "operationId": "69307cb563d999cdc0bfa96c5d968606",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "required": [
-                                    "brand_id",
-                                    "model",
-                                    "year",
-                                    "user_id"
-                                ],
-                                "properties": {
-                                    "brand_id": {
-                                        "description": "ID of the car brand",
-                                        "type": "integer",
-                                        "example": 1
-                                    },
-                                    "model": {
-                                        "description": "Model of the car",
-                                        "type": "string",
-                                        "example": "Toyota Corolla"
-                                    },
-                                    "year": {
-                                        "description": "Year of the car",
-                                        "type": "integer",
-                                        "example": 2024
-                                    },
-                                    "user_id": {
-                                        "description": "ID of the user who owns the car",
-                                        "type": "integer",
-                                        "example": 1
-                                    }
+        }
+    },
+    "components": {
+        "responses": {
+            "401": {
+                "description": "Token JWT no encontrado o no válido.",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean",
+                                    "example": false
                                 },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "201": {
-                        "description": "Car created successfully",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "success": {
-                                            "type": "boolean",
-                                            "example": true
-                                        },
-                                        "car": {
-                                            "properties": {
-                                                "id": {
-                                                    "type": "integer",
-                                                    "example": 1
-                                                },
-                                                "brand_id": {
-                                                    "type": "integer",
-                                                    "example": 1
-                                                },
-                                                "model": {
-                                                    "type": "string",
-                                                    "example": "Toyota Corolla"
-                                                },
-                                                "year": {
-                                                    "type": "integer",
-                                                    "example": 2024
-                                                },
-                                                "user_id": {
-                                                    "type": "integer",
-                                                    "example": 1
-                                                },
-                                                "created_at": {
-                                                    "type": "string",
-                                                    "format": "date-time",
-                                                    "example": "2024-09-17T02:42:18Z"
-                                                },
-                                                "updated_at": {
-                                                    "type": "string",
-                                                    "format": "date-time",
-                                                    "example": "2024-09-17T02:42:18Z"
-                                                }
-                                            },
-                                            "type": "object"
-                                        }
-                                    },
-                                    "type": "object"
+                                "message": {
+                                    "type": "string",
+                                    "example": "JWT Token no found o is not valid"
                                 }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Validation error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Validation Error."
-                                        },
-                                        "errors": {
-                                            "type": "object"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Resource not found",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Resource not found."
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Server error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Server Error."
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
+                            },
+                            "type": "object"
                         }
                     }
                 }
             }
-        }
-    },
-    "components": {
+        },
         "securitySchemes": {
             "bearerAuth": {
                 "type": "http",
@@ -576,16 +618,20 @@
     },
     "tags": [
         {
+            "name": "Car Brands",
+            "description": "Car Brands"
+        },
+        {
+            "name": "Cars",
+            "description": "Cars"
+        },
+        {
             "name": "Users",
             "description": "Users"
         },
         {
             "name": "Clients",
             "description": "Clients"
-        },
-        {
-            "name": "Cars",
-            "description": "Cars"
         }
     ]
 }
