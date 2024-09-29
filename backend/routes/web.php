@@ -14,5 +14,3 @@ Route::get('/tenant/create', function () {
 
 
 Route::resource('tenants', TenantController::class);
-
-Route::get('/admin/login', [\Filament\Http\Controllers\Auth\LoginController::class, 'show'])->name('filament.auth.login');
