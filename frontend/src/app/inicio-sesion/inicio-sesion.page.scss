@@ -52,11 +52,19 @@ ion-content {
 .login-form {
   width: 100%;
   max-width: 400px; // Limitar el ancho del formulario
-  margin-top: 20px;
+  margin-top: 1px;
   color: white;
+
+  .input-item {
+    --background: #FFFFFF; // Fondo gris claro para el input
+      border-radius: 8px; // Bordes redondeados
+      margin-bottom: 1.5rem; // Espacio entre campos de entrada
+      --color: black; // Texto negro para los inputs
+}
 
   // Centrar solo el botón
   ion-button {
+    --background: #6366F1;
     color: #ffffff; // Texto blanco
     font-size: 1rem;
     border-radius: 5px;
@@ -66,8 +74,7 @@ ion-content {
     width: 70%; // Ancho completo del contenedor (formulario)
 
   // Estilos del botón de Google
-.google-btn {
-  background-color: #ffffff; // Fondo blanco
+  .google-btn {
   color: #000000; // Texto negro
   font-size: 1rem;
   border-radius: 5px;
@@ -95,11 +102,6 @@ ion-content {
       color: lighten(#0000FF, 10%); // Color del enlace ligeramente más claro
       text-decoration: none;
       font-size: 0.9rem;
-
-      &:hover {
-        color: #6a1b9a;
-        text-decoration: underline;
-      }
     }
   }
 }

@@ -3,6 +3,8 @@
   <ion-button class="back-button" fill="clear" a routerLink="/bienvenidos">
     <ion-icon name="arrow-back-outline"></ion-icon>
   </ion-button>
+  <br>
+  <br>
   <h1 class="title">Iniciar sesión</h1>
   <form (ngSubmit)="onSubmit()" [formGroup]="loginForm" class="login-form">
     <ion-label position="stacked">Correo electrónico:</ion-label>
@@ -18,11 +20,11 @@
     <ion-button type="submit">Iniciar sesión</ion-button>
     <h2 class="line2">------------- O --------------</h2>
     <!-- Se inserta el boton de google -->
-    <ion-button expand="white" class="google-btn">
+    <ion-button class="google-btn" color="light">
       <img src="assets/icono-google.svg" alt="Google Icon" class="google-icon">
       Iniciar sesión con Google
     </ion-button>
-    <ion-text color="blue">
+    <ion-text>
       <a routerLink="/recuperar-contrasena">¿Has olvidado tu contraseña?</a>
     </ion-text>
   </form>

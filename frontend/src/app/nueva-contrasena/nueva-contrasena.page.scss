@@ -28,22 +28,19 @@ ion-content {
 }
 
 .input-item {
-    margin-bottom: 1.5rem;
-
-    ion-label {
-      color: #ffffff; // Texto blanco para el label
+    --background: #FFFFFF; // Fondo gris claro para el input
+      border-radius: 8px; // Bordes redondeados
+      margin-bottom: 1.5rem; // Espacio entre campos de entrada
+      --color: black; // Texto negro para los inputs
 }
 
-    ion-input {
-    --background: #f1f1f1; // Fondo claro para los inputs
-    --color: black; // Texto negro para los inputs
-    border-radius: 5px; // Bordes redondeados
-    padding: 10px;
-    }
+ion-label {
+    color: #ffffff;
+    text-align: start;
 }
 
 ion-button {
-    --background: #6a1b9a; // Botón púrpura
+    --background: #6366F1; // Botón púrpura
     color: #ffffff; // Texto blanco
     font-size: 1rem;
     border-radius: 8px;

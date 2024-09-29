@@ -7,17 +7,17 @@
     <p class="description">Para poder cambiar la contraseña es necesario enviar un correo electrónico para verificar que eres tú.</p>
   
     <form>
+      <ion-label position="stacked">Nueva Contraseña:</ion-label>
       <ion-item class="input-item">
-        <ion-label position="stacked">Nueva Contraseña:</ion-label>
+        <ion-input type="password"></ion-input>
+      </ion-item>
+      
+      <ion-label position="stacked">Repetir nueva contraseña:</ion-label>
+      <ion-item class="input-item">
         <ion-input type="password"></ion-input>
       </ion-item>
   
-      <ion-item class="input-item">
-        <ion-label position="stacked">Repetir nueva contraseña:</ion-label>
-        <ion-input type="password"></ion-input>
-      </ion-item>
-  
-      <ion-button expand="block" type="submit">Volver al inicio sesión</ion-button>
+      <ion-button expand="block" type="submit" a routerLink="/inicio-sesion">Volver al inicio sesión</ion-button>
     </form>
 </ion-content>
 

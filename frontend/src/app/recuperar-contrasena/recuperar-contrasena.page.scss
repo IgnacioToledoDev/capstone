@@ -50,14 +50,15 @@ ion-content {
     color: #ffffff;
 
     .input-item {
-      background-color: #d3d3d3; // Fondo gris claro para el input
+      --background: #FFFFFF; // Fondo gris claro para el input
       border-radius: 8px; // Bordes redondeados
       margin-bottom: 1.5rem; // Espacio entre campos de entrada
     }
 
     // Estilo del botón de enviar correo
     .submit-button {
-    color: #ffffff; // Texto blanco
+    --background: #6366F1; // Texto blanco
+    color: #ffffff;
     font-size: 1rem;
     border-radius: 8px;
     padding: 10px;
