@@ -12,16 +12,16 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import {IonicStorageModule} from "@ionic/storage-angular";
 import { Drivers, Storage } from '@ionic/storage';
-import { MenuComponent } from './components/menu/menu.component';
+import { ComponentsModule } from './components/components.module';
 
 // TODO Homologar llamadas api
 @NgModule({
-  declarations: [AppComponent,MenuComponent],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     IonicModule.forRoot(),
     AppRoutingModule,
-
+    ComponentsModule,
     HttpClientModule,
     ReactiveFormsModule,
     IonicStorageModule.forRoot({
