@@ -42,4 +42,9 @@ export class MenuComponent  implements OnInit {
 
     await alert.present();
   }
+  async historial() {
+    console.log('historial');
+
+    this.navCtrl.navigateRoot('/mecanico/historial');
+  }
 }
