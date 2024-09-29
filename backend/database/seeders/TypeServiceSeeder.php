@@ -13,7 +13,7 @@ class TypeServiceSeeder extends Seeder
      */
     public function run(): void
     {
-    DB::table('maintenance_types')->insert([
+    DB::table('type_services')->insert([
         [
             'name' => 'Inspection and Diagnostic',
             'description' => 'Comprehensive inspection and diagnostic to assess the vehicle\'s condition and identify potential issues.',

@@ -19,6 +19,10 @@ class DatabaseSeeder extends Seeder
             CarBrandSeeder::class,
             CarSeeder::class,
             TenantSeeder::class,
+            StatusCarSeeder::class,
+            TypeServiceSeeder::class,
+            ServiceSeeder::class,
+            MaintenanceSeeder::class,
         ]);
     }
 }

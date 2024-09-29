@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 
 class UserSeeder extends Seeder
@@ -20,7 +21,7 @@ class UserSeeder extends Seeder
             'name' => 'super',
             'lastname' => 'admin',
             'email' => 'superadmin@autominder.cl',
-            'password' => bcrypt('Testing1.')
+            'password' => Hash::make('Testing1.')
         ]);
 
         $testUser = User::create([
@@ -28,7 +29,7 @@ class UserSeeder extends Seeder
             'name' => 'test',
             'lastname' => 'user',
             'email' => 'test_user@test.cl',
-            'password' => bcrypt('Testing1.')
+            'password' => Hash::make('Testing1.')
         ]);
 
         $mechanic1 = User::create([
