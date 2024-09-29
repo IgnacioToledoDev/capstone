@@ -23,12 +23,24 @@
         <ion-icon name="camera-outline" slot="start"></ion-icon>
         <ion-label>Escanear Patente</ion-label>
       </ion-item>
-      <ion-item routerLink="/servicios">
+      <ion-item (click)="historial()">
         <ion-icon name="document-text-outline" slot="start"></ion-icon>
         <ion-label>Historial</ion-label>
       </ion-item>
     </ion-list>
   </ion-content>
+  <ion-footer>
+    <ion-list>
+      <ion-item routerLink="/configuraciones">
+        <ion-icon name="settings-outline" slot="start"></ion-icon>
+        <ion-label>Configuraciones</ion-label>
+      </ion-item>
+      <ion-item (click)="presentLogoutConfirm()">
+        <ion-icon name="log-out-outline" slot="start"></ion-icon>
+        <ion-label>Cerrar Sesión</ion-label>
+      </ion-item>
+    </ion-list>
+  </ion-footer>
 </ion-menu>
 
 <div id="main-content">

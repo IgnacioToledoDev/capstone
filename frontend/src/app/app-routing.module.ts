@@ -57,6 +57,11 @@ const routes: Routes = [
     path: 'mecanico/cotizar',
     loadChildren: () => import('./mecanico/cotizar/cotizar.module').then( m => m.CotizarPageModule)
   },
+  {
+    path: 'mecanico/historial',
+    loadChildren: () => import('./mecanico/historial/historial.module').then( m => m.HistorialPageModule)
+  },
+
 
 
 
