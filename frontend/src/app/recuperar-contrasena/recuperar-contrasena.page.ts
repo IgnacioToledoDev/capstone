@@ -27,8 +27,6 @@ export class RecuperarContrasenaPage implements OnInit {
   async onSubmit() {
     if (this.recoverForm.valid) {
       const { email } = this.recoverForm.value;
-
-      // Presentar alerta de confirmación
       const alert = await this.alertController.create({
         header: 'Confirmación',
         message: '¿Estás seguro de que deseas enviar un correo para recuperar la contraseña?',
