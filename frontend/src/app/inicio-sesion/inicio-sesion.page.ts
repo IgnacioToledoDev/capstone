@@ -33,7 +33,7 @@ export class InicioSesionPage implements OnInit {
       try {
         const response = await this.userService.login({ email, password });
         console.log('Inicio de sesión exitoso:', response);
-        this.navCtrl.navigateForward('/Mecanico/home-mecanico');  // Redirige a la página de Home al terminar 
+        this.navCtrl.navigateForward('/mecanico/home-mecanico');  // Redirige a la página de Home al terminar 
       } catch (error) {
         console.error('Error de inicio de sesión:', error);
         this.presentAlert('Error de inicio de sesión', 'Correo o contraseña incorrectos');
@@ -53,7 +53,7 @@ export class InicioSesionPage implements OnInit {
   async checkIfAuthenticated() {
     const isAuthenticated = await this.userService.checkAuthenticated();
     if (isAuthenticated) { // Recordar que es nesesario definir el tipo de USER 
-      this.navCtrl.navigateForward('/home'); // Redirige a la página de Home si esta checkAuthenticated es dependiaendo el tipo de USER 
+      this.navCtrl.navigateForward('/mecanico/home-mecanico'); // Redirige a la página de Home si esta checkAuthenticated es dependiaendo el tipo de USER 
     }
   }
 }

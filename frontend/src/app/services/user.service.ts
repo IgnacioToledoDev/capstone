@@ -22,6 +22,7 @@ export class UserService {
     return new Promise((resolve, reject) => {
       this.http.post(`${this.API_URL}/users/register`, user).subscribe(
         (res) => {
+          console.log('Registro exitoso:', res);
           resolve(res);
         },
         (err) => reject(err),
@@ -33,6 +34,7 @@ export class UserService {
     return new Promise((resolve, reject) => {
       this.http.post(`${this.API_URL}/users/login`, user).subscribe(
         (res) => {
+          console.log('Inicio de sesión exitoso:', res);
           resolve(res);
         },
         (err) => reject(err),
@@ -44,6 +46,7 @@ export class UserService {
     return new Promise((resolve, reject) => {
       this.http.post(`${this.API_URL}/users/recovery`, user).subscribe(
         (res) => {
+          console.log('recuperar exitoso:', res);
           resolve(res);
         },
         (err) => reject(err),

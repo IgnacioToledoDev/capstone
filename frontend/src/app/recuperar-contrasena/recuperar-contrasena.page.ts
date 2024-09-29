@@ -31,7 +31,7 @@ export class RecuperarContrasenaPage implements OnInit {
         const response = await this.userService.recovery({ email });
         console.log('Correo de recuperación enviado:', response);
         await this.presentAlert('Éxito', 'Se ha enviado un correo para recuperar la contraseña.');
-        this.navCtrl.navigateForward('/inicio-sesion');  
+        this.navCtrl.navigateForward('/nueva-contrasena');  
       } catch (error) {
         console.error('Error al recuperar contraseña:', error);
         await this.presentAlert('Error', 'No se pudo enviar el correo de recuperación. Intenta nuevamente.');
