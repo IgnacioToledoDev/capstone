@@ -176,6 +176,26 @@
                 }
             }
         },
+        "/api/jwt/services/": {
+            "get": {
+                "tags": [
+                    "Services"
+                ],
+                "summary": "Obtener todos los servicios",
+                "description": "Este endpoint permite obtener una lista de todos los servicios. Requiere autenticación JWT.",
+                "operationId": "94304c1a282bf1c75c7b19084f7456f7",
+                "responses": {
+                    "200": {
+                        "description": "Servicios obtenidos exitosamente."
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/users/login": {
             "post": {
                 "tags": [
@@ -624,6 +644,10 @@
         {
             "name": "Cars",
             "description": "Cars"
+        },
+        {
+            "name": "Services",
+            "description": "Services"
         },
         {
             "name": "Users",
