@@ -31,7 +31,7 @@
         </div>
     @endif
 
-    <form action="{{ route() }}" method="POST">
+    <form method="POST">
         @csrf  <!-- Token de seguridad para prevenir CSRF -->
 
         <div class="form-group">
