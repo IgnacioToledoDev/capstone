@@ -88,6 +88,7 @@ class CarController extends Controller
                 'brand_id' => 'required|integer',
                 'model' => 'required|string',
                 'year' => 'required|integer|min:' . Car::MIN_YEAR . '|max:' . $this->getMaxYear(),
+                'patent' => 'required|string'
             ]);
 
             $brand = CarBrand::find($validated['brand_id'])->get();

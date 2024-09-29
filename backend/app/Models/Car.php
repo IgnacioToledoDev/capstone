@@ -12,6 +12,7 @@ class Car extends Model
 
     const MIN_YEAR = 1970;
     protected $fillable = [
+        'patent',
         'brand_id',
         'model',
         'year',
