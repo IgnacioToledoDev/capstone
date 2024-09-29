@@ -27,15 +27,37 @@ export class RecuperarContrasenaPage implements OnInit {
   async onSubmit() {
     if (this.recoverForm.valid) {
       const { email } = this.recoverForm.value;
-      try {
-        const response = await this.userService.recovery({ email });
-        console.log('Correo de recuperación enviado:', response);
-        await this.presentAlert('Éxito', 'Se ha enviado un correo para recuperar la contraseña.');
-        this.navCtrl.navigateForward('/nueva-contrasena');  
-      } catch (error) {
-        console.error('Error al recuperar contraseña:', error);
-        await this.presentAlert('Error', 'No se pudo enviar el correo de recuperación. Intenta nuevamente.');
-      }
+
+      // Presentar alerta de confirmación
+      const alert = await this.alertController.create({
+        header: 'Confirmación',
+        message: '¿Estás seguro de que deseas enviar un correo para recuperar la contraseña?',
+        buttons: [
+          {
+            text: 'Cancelar',
+            role: 'cancel',
+            handler: () => {
+              console.log('Envío cancelado');
+            },
+          },
+          {
+            text: 'Aceptar',
+            handler: async () => {
+              try {
+                const response = await this.userService.recovery({ email });
+                console.log('Correo de recuperación enviado:', response);
+                await this.presentAlert('Éxito', 'Se ha enviado un correo para recuperar la contraseña.');
+                this.navCtrl.navigateForward('/nueva-contrasena');  
+              } catch (error) {
+                console.error('Error al recuperar contraseña:', error);
+                await this.presentAlert('Error', 'No se pudo enviar el correo de recuperación. Intenta nuevamente.');
+              }
+            },
+          },
+        ],
+      });
+
+      await alert.present();
     }
   }
 
