@@ -38,39 +38,9 @@ const routes: Routes = [
     loadChildren: () => import('./nueva-contrasena/nueva-contrasena.module').then( m => m.NuevaContrasenaPageModule)
   },
   {
-    path: 'mecanico/home-mecanico',
-    loadChildren: () => import('./mecanico/home-mecanico/home-mecanico.module').then( m => m.HomeMecanicoPageModule)
+    path: 'Mecanico/home-mecanico',
+    loadChildren: () => import('./Mecanico/home-mecanico/home-mecanico.module').then( m => m.HomeMecanicoPageModule)
   },
-  {
-    path: 'mecanico/register-user',
-    loadChildren: () => import('./mecanico/register-user/register-user.module').then( m => m.RegisterUserPageModule)
-  },
-  {
-    path: 'mecanico/agregar-vehiculo',
-    loadChildren: () => import('./mecanico/agregar-vehiculo/agregar-vehiculo.module').then( m => m.AgregarVehiculoPageModule)
-  },
-  {
-    path: 'mecanico/generar-servicio',
-    loadChildren: () => import('./mecanico/generar-servicio/generar-servicio.module').then( m => m.GenerarServicioPageModule)
-  },
-  {
-    path: 'mecanico/cotizar',
-    loadChildren: () => import('./mecanico/cotizar/cotizar.module').then( m => m.CotizarPageModule)
-  },
-  {
-    path: 'mecanico/historial',
-    loadChildren: () => import('./mecanico/historial/historial.module').then( m => m.HistorialPageModule)
-  },
-  {
-    path: 'mecanico/info-ser-cli',
-    loadChildren: () => import('./mecanico/info-ser-cli/info-ser-cli.module').then( m => m.InfoSerCliPageModule)
-  },
-
-
-
-
-
-
 
 
 ];
