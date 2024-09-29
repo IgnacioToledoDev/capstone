@@ -53,6 +53,11 @@ const routes: Routes = [
     path: 'mecanico/generar-servicio',
     loadChildren: () => import('./mecanico/generar-servicio/generar-servicio.module').then( m => m.GenerarServicioPageModule)
   },
+  {
+    path: 'mecanico/cotizar',
+    loadChildren: () => import('./mecanico/cotizar/cotizar.module').then( m => m.CotizarPageModule)
+  },
+
 
 
 
