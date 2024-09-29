@@ -31,7 +31,7 @@
         </div>
     @endif
 
-    <form action="{{ route('tenants.store') }}" method="POST">
+    <form action="{{ route() }}" method="POST">
         @csrf  <!-- Token de seguridad para prevenir CSRF -->
 
         <div class="form-group">
