@@ -1,6 +1,12 @@
-<ion-header [translucent]="true">
+
+<app-menu></app-menu>
+
+<ion-header>
   <ion-toolbar>
-    <ion-title>Home-Mecanico</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Home</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -54,22 +60,18 @@
       </ion-list>
     </ion-card-content>
   </ion-card>
-
-  <div class="button-container">
-    <ion-button class="custom-button" expand="block">
-      <ion-icon slot="start" name="home"></ion-icon>
-      Inicio
-    </ion-button>
-    <ion-button class="custom-button" expand="block">
-      <ion-icon slot="start" name="person"></ion-icon>
-      Perfil
-    </ion-button>
-  </div>
-  
 </ion-content>
-
 <ion-footer>
   <ion-toolbar>
-    <ion-title>AutoMinder</ion-title>
+    <div class="button-container">
+      <ion-button class="custom-button" expand="block">
+        <ion-icon slot="start" name="home"></ion-icon>
+        Inicio
+      </ion-button>
+      <ion-button class="custom-button" expand="block" routerLink="/mecanico/register-user">
+        <ion-icon slot="start" name="person"></ion-icon>
+        Agregar Perfil
+      </ion-button>
+    </div>
   </ion-toolbar>
 </ion-footer>

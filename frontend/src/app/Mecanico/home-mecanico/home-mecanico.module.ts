@@ -7,14 +7,16 @@ import { IonicModule } from '@ionic/angular';
 import { HomeMecanicoPageRoutingModule } from './home-mecanico-routing.module';
 
 import { HomeMecanicoPage } from './home-mecanico.page';
+import { ComponentsModule } from 'src/app/components/components.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    HomeMecanicoPageRoutingModule
+    HomeMecanicoPageRoutingModule,
+    ComponentsModule
   ],
-  declarations: [HomeMecanicoPage]
+  declarations: [HomeMecanicoPage,]
 })
 export class HomeMecanicoPageModule {}

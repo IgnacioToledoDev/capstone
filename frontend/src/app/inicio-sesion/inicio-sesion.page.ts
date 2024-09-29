@@ -53,7 +53,7 @@ export class InicioSesionPage implements OnInit {
   async checkIfAuthenticated() {
     const isAuthenticated = await this.userService.checkAuthenticated();
     if (isAuthenticated) { // Recordar que es nesesario definir el tipo de USER 
-      this.navCtrl.navigateForward('/home'); // Redirige a la página de Home si esta checkAuthenticated 
+      this.navCtrl.navigateForward('/home'); // Redirige a la página de Home si esta checkAuthenticated es dependiaendo el tipo de USER 
     }
   }
 }
