@@ -65,14 +65,6 @@ const routes: Routes = [
     path: 'mecanico/info-ser-cli',
     loadChildren: () => import('./mecanico/info-ser-cli/info-ser-cli.module').then( m => m.InfoSerCliPageModule)
   },
-
-
-
-
-
-
-
-
 ];
 
 @NgModule({
