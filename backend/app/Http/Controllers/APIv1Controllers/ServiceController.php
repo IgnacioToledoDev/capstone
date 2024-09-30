@@ -7,6 +7,7 @@ use App\Models\Maintenance;
 use App\Models\Service;
 use App\Models\StatusCar;
 use App\Models\TypeService;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Mockery\Exception;
 use OpenApi\Annotations as OA;
@@ -58,6 +59,7 @@ class ServiceController extends Controller
         $notes = $request->get('notes');
         $services = $request->get('services');
         $typeService = $request->get('typeService');
+        $mechanicId = $request->get('mechanicId');
         $mileage = $request->get('mileage');
         $listServices = json_decode($services, true);
         $error = [];
@@ -76,6 +78,11 @@ class ServiceController extends Controller
             $this->sendError('service not found');
         }
 
+        $mechanic = User::where(['id' => $mechanicId])->first();
+        if(!$mechanic) {
+            return $this->sendError('mechanic not found');
+        }
+
         $maintenance = new Maintenance();
         $maintenance->name = $this->generateName($typeService);
         $maintenance->description = $notes ?? null;
@@ -84,7 +91,7 @@ class ServiceController extends Controller
         $maintenance->actual_mileage = 4000;
         $maintenance->pricing = $totalPricing;
         $maintenance->car_id = $carId;
-        $maintenance->mechanic_id = $request->get('mechanicId');
+        $maintenance->mechanic_id = $mechanic->id;
         $maintenance->save();
 
         if($maintenance->getAttribute('id') == null) {
