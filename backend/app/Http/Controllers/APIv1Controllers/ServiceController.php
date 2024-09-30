@@ -78,7 +78,7 @@ class ServiceController extends Controller
             $this->sendError('service not found');
         }
 
-        $mechanic = User::where(['id' => $mechanicId])->first();
+        $mechanic = User::whereId($mechanicId)->first();
         if(!$mechanic) {
             return $this->sendError('mechanic not found');
         }
