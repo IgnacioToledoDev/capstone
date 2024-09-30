@@ -9,6 +9,26 @@ class Maintenance extends Model
 {
     use HasFactory;
 
+    /**
+     * @var mixed|string
+     */
+    public mixed $name;
+    /**
+     * @var mixed|null
+     */
+    public mixed $description;
+    /**
+     * @var int|mixed
+     */
+    public mixed $status_id;
+    public mixed $service_id;
+    public mixed $actual_mileage;
+    /**
+     * @var int|mixed
+     */
+    public mixed $pricing;
+    public mixed $car_id;
+    public mixed $mechanic_id;
     protected $fillable = [
         'name',
         'description',
