@@ -141,15 +141,6 @@ class CarController extends Controller
      *                 example=true
      *             ),
      *             @OA\Property(
-     *                 property="data",
-     *                 type="object",
-     *                 @OA\Property(
-     *                     property="car",
-     *                     type="object",
-     *                     ref="#/components/schemas/Car"
-     *                 )
-     *             ),
-     *             @OA\Property(
      *                 property="message",
      *                 type="string",
      *                 example="Car retrieved successfully."

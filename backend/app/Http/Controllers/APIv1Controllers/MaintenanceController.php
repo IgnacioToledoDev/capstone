@@ -30,16 +30,6 @@ class MaintenanceController extends Controller
      *     security={{
      *         "bearerAuth": {}
      *     }},
-     *     @OA\RequestBody(
-     *         required=true,
-     *         @OA\JsonContent(
-     *             required={"carId", "services", "typeService"},
-     *             @OA\Property(property="carId", type="integer", example=1, description="ID of the car"),
-     *             @OA\Property(property="notes", type="string", example="Cambio de aceite y revisión general", description="Additional notes for the maintenance"),
-     *             @OA\Property(property="services", type="string", example='[{"id": 1}, {"id": 2}]', description="List of services in JSON format"),
-     *             @OA\Property(property="typeService", type="string", example="Mantenimiento preventivo", description="Type of service performed")
-     *         )
-     *     ),
      *     @OA\Response(
      *         response=200,
      *         description="Maintenance saved successfully",

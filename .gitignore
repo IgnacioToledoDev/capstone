@@ -18,6 +18,7 @@
 ./backend/.fleet
 ./backend/.idea
 ./backend/.vscode
+./backend/storage/api-docs/*
 
 ./frontend/node_modules
 ./frontend/public/build
