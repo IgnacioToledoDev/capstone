@@ -42,9 +42,12 @@ const routes: Routes = [
     loadChildren: () => import('./Mecanico/home-mecanico/home-mecanico.module').then( m => m.HomeMecanicoPageModule)
   },
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 
 =======
+=======
+>>>>>>> develop
   {
     path: 'mecanico/register-user',
     loadChildren: () => import('./mecanico/register-user/register-user.module').then( m => m.RegisterUserPageModule)
@@ -69,6 +72,13 @@ const routes: Routes = [
     path: 'mecanico/info-ser-cli',
     loadChildren: () => import('./mecanico/info-ser-cli/info-ser-cli.module').then( m => m.InfoSerCliPageModule)
   },
+<<<<<<< HEAD
+>>>>>>> develop
+=======
+=======
+
+
+>>>>>>> 92567a3b (Revert "Cap 87")
 >>>>>>> develop
 ];
 
