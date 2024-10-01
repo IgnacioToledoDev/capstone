@@ -34,7 +34,6 @@ class MaintenanceController extends Controller
         $notes = $request->get('notes');
         $services = $request->get('services');
         $typeService = $request->get('typeService');
-        $mechanicId = $request->get('mechanicId');
         $listServices = json_decode($services, true);
         $error = [];
         $totalPricing = 0;
@@ -52,7 +51,7 @@ class MaintenanceController extends Controller
             $this->sendError('service not found');
         }
 
-        $mechanic = User::whereId($mechanicId)->first();
+        $mechanic = auth()->user();
         if(!$mechanic) {
             return $this->sendError('mechanic not found');
         }
