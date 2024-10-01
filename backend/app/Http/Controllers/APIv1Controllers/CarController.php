@@ -9,7 +9,6 @@ use DateTime;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use OpenApi\Annotations as OA;
-use function App\Http\Controllers\auth;
 
 class CarController extends Controller
 {
@@ -112,11 +111,103 @@ class CarController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * @OA\Get(
+     *     path="/api/cars/{patent}",
+     *     tags={"Cars"},
+     *     summary="Retrieve car by patent",
+     *     description="Returns car details based on the patent provided.",
+     *     operationId="getCarByPatent",
+     *     security={{"bearerAuth":{}}},
+     *
+     *     @OA\Parameter(
+     *         name="patent",
+     *         in="path",
+     *         description="Patent of the car to be retrieved",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string",
+     *             example="ABC123"
+     *         )
+     *     ),
+     *
+     *     @OA\Response(
+     *         response=200,
+     *         description="Car retrieved successfully",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="success",
+     *                 type="boolean",
+     *                 example=true
+     *             ),
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="object",
+     *                 @OA\Property(
+     *                     property="car",
+     *                     type="object",
+     *                     ref="#/components/schemas/Car"
+     *                 )
+     *             ),
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="Car retrieved successfully."
+     *             )
+     *         )
+     *     ),
+     *
+     *     @OA\Response(
+     *         response=404,
+     *         description="Car not found",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="success",
+     *                 type="boolean",
+     *                 example=false
+     *             ),
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="Car not found"
+     *             )
+     *         )
+     *     ),
+     *
+     *     @OA\Response(
+     *         response=401,
+     *         description="JWT Token not found or is not valid",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="success",
+     *                 type="boolean",
+     *                 example=false
+     *             ),
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="JWT Token not found or is not valid"
+     *             )
+     *         )
+     *     )
+     * )
      */
-    public function show(string $id)
+    public function show(string $patent): JsonResponse
     {
-        //
+        if (!auth()->check()) {
+            return $this->sendError('JWT Token no found o is not valid');
+        }
+
+        $car = Car::wherePatent($patent)->first();
+        if (!$car) {
+            return $this->sendError('Car not found');
+        }
+
+        $success['car'] = $car;
+
+        return $this->sendResponse($success, 'Car retrieved successfully.');
     }
 
     /**
