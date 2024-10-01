@@ -1,0 +1,76 @@
+// Estilos generales para el contenido
+ion-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; // Centra el contenido verticalmente
+}
+
+.title {
+    color: #ffffff;
+    font-size: 2rem;
+    text-align: center;
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+}
+
+.description {
+    color: #b1b1b1; // Texto gris claro para la descripción
+    font-size: 1rem;
+    text-align: start;
+    margin-bottom: 2rem;
+    padding: 0 20px;
+}
+
+.form {
+    width: 100%;
+    max-width: 450px; // Limita el ancho del formulario
+}
+
+.input-item {
+    --background: #FFFFFF; // Fondo gris claro para el input
+      border-radius: 8px; // Bordes redondeados
+      margin-bottom: 1.5rem; // Espacio entre campos de entrada
+      --color: black; // Texto negro para los inputs
+}
+
+ion-label {
+    color: #ffffff;
+    text-align: start;
+}
+
+ion-button {
+    --background: #6366F1; // Botón púrpura
+    color: #ffffff; // Texto blanco
+    font-size: 1rem;
+    border-radius: 8px;
+    padding: 10px;
+    margin: 1rem auto; // Centrar el botón horizontalmente
+    display: block;
+    width: 70%; // Ancho completo del contenedor (formulario)
+}
+
+// Estilo del botón con la flecha de regreso
+ion-icon {
+    position: absolute;
+    top: 30px;  // Ajustar la posición
+    left: 10px; // Ajustar la posición
+    color: #ffffff; // Flecha blanca
+    padding: 0; // Sin relleno adicional
+    border: none; // Sin borde
+    font-size: 2rem; // Tamaño de la flecha
+}
+
+.line1 {
+    text-align: center;
+    color: #3032A3;
+}
+
+// Estilo del título
+.final {
+    color: #ffffff;
+    font-size: 1.5rem;
+    text-align: center;
+    margin-bottom: 1.5rem;
+}

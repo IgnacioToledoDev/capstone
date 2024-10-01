@@ -1,5 +1,109 @@
-h1 {
-    text-align: center;
-    font-size: 2.5rem;
-    margin-top: 2rem;
+// Estilos generales para el contenido
+ion-content {
+  background-color: #0d1117; // Fondo oscuro
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative; // Para posicionar la flecha de regreso
+}
+
+// Estilo del botón con la flecha
+.back-button {
+  position: absolute;
+  top: 20px;  // Ajustar la posición verticalmente
+  left: 1px; // Ajustar la posición horizontalmente
+  color: #ffffff; // Flecha blanca
+  padding: 0; // Sin relleno adicional
+  border: none; // Sin borde
   }
+  
+  ion-icon {
+    font-size: 2rem; // Tamaño ajustable del icono de la flecha
+  }
+
+// Estilo del título
+.title {
+  color: #ffffff;
+  font-size: 2.5rem;
+  text-decoration-line: underline;
+  text-align: center;
+  margin-top: 2rem;
+  margin-bottom: 4rem;
+}
+
+.line1 {
+  text-align: center;
+  color: #3032A3;
+}
+
+.line2 {
+  text-align: center;
+  top: 2px;
+}
+
+// Estilo del título
+.final {
+  color: #ffffff;
+  font-size: 1.5rem;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+// Estilos para el formulario
+.login-form {
+  width: 100%;
+  max-width: 400px; // Limitar el ancho del formulario
+  margin-top: 1px;
+  color: white;
+
+  .input-item {
+    --background: #FFFFFF; // Fondo gris claro para el input
+      border-radius: 8px; // Bordes redondeados
+      margin-bottom: 1.5rem; // Espacio entre campos de entrada
+      --color: black; // Texto negro para los inputs
+}
+
+  // Centrar solo el botón
+  ion-button {
+    --background: #6366F1;
+    color: #ffffff; // Texto blanco
+    font-size: 1rem;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 1rem auto; // Centrar el botón horizontalmente
+    display: block;
+    width: 70%; // Ancho completo del contenedor (formulario)
+
+  // Estilos del botón de Google
+  .google-btn {
+  color: #000000; // Texto negro
+  font-size: 1rem;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 1rem auto; // Centrar el botón
+  display: block;
+  justify-content: center;
+  align-items: center;
+  width: 350px; // Ancho del botón
+  }
+
+  img.google-icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 8px;
+  }
+  }
+
+  ion-text {
+    display: block;
+    text-align: center;
+    margin-top: 10px;
+
+    a {
+      color: lighten(#0000FF, 10%); // Color del enlace ligeramente más claro
+      text-decoration: none;
+      font-size: 0.9rem;
+    }
+  }
+}
