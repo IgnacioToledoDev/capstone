@@ -10,6 +10,7 @@ use App\Models\TypeService;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use OpenApi\Annotations as OA;
 
 class MaintenanceController extends Controller
 {
@@ -22,8 +23,66 @@ class MaintenanceController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * @OA\Post(
+     *     path="/api/maintenance/store",
+     *     summary="Register a new maintenance record",
+     *     tags={"Maintenance"},
+     *     security={{
+     *         "bearerAuth": {}
+     *     }},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"carId", "services", "typeService"},
+     *             @OA\Property(property="carId", type="integer", example=1, description="ID of the car"),
+     *             @OA\Property(property="notes", type="string", example="Cambio de aceite y revisión general", description="Additional notes for the maintenance"),
+     *             @OA\Property(property="services", type="string", example='[{"id": 1}, {"id": 2}]', description="List of services in JSON format"),
+     *             @OA\Property(property="typeService", type="string", example="Mantenimiento preventivo", description="Type of service performed")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Maintenance saved successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=true),
+     *             @OA\Property(property="maintenance", type="object",
+     *                 @OA\Property(property="id", type="integer", example=10),
+     *                 @OA\Property(property="name", type="string", example="Mantenimiento preventivo"),
+     *                 @OA\Property(property="description", type="string", example="Cambio de aceite y revisión general"),
+     *                 @OA\Property(property="status_id", type="integer", example=1),
+     *                 @OA\Property(property="services", type="integer", example=1),
+     *                 @OA\Property(property="pricing", type="number", example=12050),
+     *                 @OA\Property(property="car_id", type="integer", example=1),
+     *                 @OA\Property(property="mechanic_id", type="integer", example=5),
+     *                 @OA\Property(property="created_at", type="string", format="date-time", example="2024-09-30T10:45:00Z"),
+     *                 @OA\Property(property="updated_at", type="string", format="date-time", example="2024-09-30T10:45:00Z")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="JWT not authenticated",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="JWT not authenticated.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Service or mechanic not found",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Service not found.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Maintenance not saved",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Maintenance not saved.")
+     *         )
+     *     )
+     * )
      */
+
     public function store(Request $request): JsonResponse
     {
         if (!auth()->check()) {
@@ -31,7 +90,7 @@ class MaintenanceController extends Controller
         }
 
         $carId = $request->get('carId');
-        $notes = $request->get('notes');
+        $notes = $request->get('recommendation_action');
         $services = $request->get('services');
         $typeService = $request->get('typeService');
         $listServices = json_decode($services, true);
