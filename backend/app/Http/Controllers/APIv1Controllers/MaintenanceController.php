@@ -24,7 +24,7 @@ class MaintenanceController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/maintenance/store",
+     *     path="/api/jwt/maintenance/create",
      *     summary="Register a new maintenance record",
      *     tags={"Maintenance"},
      *     security={{
