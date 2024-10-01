@@ -176,6 +176,262 @@
                 }
             }
         },
+        "/api/cars/{patent}": {
+            "get": {
+                "tags": [
+                    "Cars"
+                ],
+                "summary": "Retrieve car by patent",
+                "description": "Returns car details based on the patent provided.",
+                "operationId": "getCarByPatent",
+                "parameters": [
+                    {
+                        "name": "patent",
+                        "in": "path",
+                        "description": "Patent of the car to be retrieved",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "ABC123"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Car retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Car retrieved successfully."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Car not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Car not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "JWT Token not found or is not valid",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "JWT Token not found or is not valid"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/jwt/maintenance/create": {
+            "post": {
+                "tags": [
+                    "Maintenance"
+                ],
+                "summary": "Register a new maintenance record",
+                "operationId": "79164cffac87e0c94805703d7c3a4bda",
+                "responses": {
+                    "200": {
+                        "description": "Maintenance saved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "maintenance": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 10
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Mantenimiento preventivo"
+                                                },
+                                                "description": {
+                                                    "type": "string",
+                                                    "example": "Cambio de aceite y revisión general"
+                                                },
+                                                "status_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "services": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "pricing": {
+                                                    "type": "number",
+                                                    "example": 12050
+                                                },
+                                                "car_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "mechanic_id": {
+                                                    "type": "integer",
+                                                    "example": 5
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-09-30T10:45:00Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-09-30T10:45:00Z"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "JWT not authenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "JWT not authenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Service or mechanic not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Service not found."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Maintenance not saved",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Maintenance not saved."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/jwt/services/": {
+            "get": {
+                "tags": [
+                    "Services"
+                ],
+                "summary": "Obtener todos los servicios",
+                "description": "Este endpoint permite obtener una lista de todos los servicios. Requiere autenticación JWT.",
+                "operationId": "94304c1a282bf1c75c7b19084f7456f7",
+                "responses": {
+                    "200": {
+                        "description": "Servicios obtenidos exitosamente."
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/jwt/services/types": {
+            "get": {
+                "tags": [
+                    "Services"
+                ],
+                "summary": "Obtener todos los nombres de los tipos de servicios",
+                "description": "Este endpoint permite obtener una lista de todos los nombres de los tipos servicios. Requiere autenticación JWT.",
+                "operationId": "af6af5871927c4d90ea5450de026c104",
+                "responses": {
+                    "200": {
+                        "description": "Nombre de los tipos servicios obtenidos exitosamente."
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/users/login": {
             "post": {
                 "tags": [
@@ -624,6 +880,14 @@
         {
             "name": "Cars",
             "description": "Cars"
+        },
+        {
+            "name": "Maintenance",
+            "description": "Maintenance"
+        },
+        {
+            "name": "Services",
+            "description": "Services"
         },
         {
             "name": "Users",
