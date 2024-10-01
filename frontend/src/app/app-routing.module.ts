@@ -41,10 +41,6 @@ const routes: Routes = [
     path: 'Mecanico/home-mecanico',
     loadChildren: () => import('./mecanico/home-mecanico/home-mecanico.module').then( m => m.HomeMecanicoPageModule)
   },
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> parent of 7b1451ae (Merge pull request #41 from IgnacioToledoDev/main)
   {
     path: 'mecanico/register-user',
     loadChildren: () => import('./mecanico/register-user/register-user.module').then( m => m.RegisterUserPageModule)
