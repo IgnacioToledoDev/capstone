@@ -7,7 +7,6 @@ use App\Models\Maintenance;
 use App\Models\Service;
 use App\Models\StatusCar;
 use App\Models\TypeService;
-use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use OpenApi\Annotations as OA;
