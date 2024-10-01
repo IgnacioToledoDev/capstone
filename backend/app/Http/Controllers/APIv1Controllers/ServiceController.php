@@ -60,7 +60,6 @@ class ServiceController extends Controller
         $services = $request->get('services');
         $typeService = $request->get('typeService');
         $mechanicId = $request->get('mechanicId');
-        $mileage = $request->get('mileage');
         $listServices = json_decode($services, true);
         $error = [];
         $totalPricing = 0;
