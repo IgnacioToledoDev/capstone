@@ -53,13 +53,12 @@ class UserController extends Controller
      *     )
      * )
      */
-
     public function login(Request $request): JsonResponse
     {
         try {
             $credentials = $request->only('email', 'password');
 
-            if(!$token = JWTAuth::attempt($credentials)) {
+            if (!$token = JWTAuth::attempt($credentials)) {
                 return response()->json(['error' => 'invalid_credentials'], 401);
             }
             $user = User::where('email', $request->email)->first();
@@ -110,7 +109,7 @@ class UserController extends Controller
 
         try {
             $user = $user = User::where('email', $email)->first();
-            if(!$user) {
+            if (!$user) {
                 return $this->sendError('Email does not exist.');
             }
 
@@ -264,7 +263,7 @@ class UserController extends Controller
      */
     public function registerClient(Request $request): JsonResponse
     {
-        if(auth()->check() === false) {
+        if (auth()->check() === false) {
             return $this->sendError('You need to sign in first.');
         }
 
@@ -282,22 +281,22 @@ class UserController extends Controller
             User::COMPANY_ADMIN
         ];
 
-        if(!in_array($user->roles[0]->name, $RolesAllowed)) {
+        if (!in_array($user->roles[0]->name, $RolesAllowed)) {
             return $this->sendError('Permission denied.');
         }
 
         $isRutValid = $this->userHelper->validateRut($validator->getValue('rut'));
-        if(!$isRutValid) {
+        if (!$isRutValid) {
             return $this->sendError('Rut invalid.');
         }
 
         $emailIsInUsed = User::where(['email' => $validator->getValue('email')])->first();
-        if($emailIsInUsed) {
+        if ($emailIsInUsed) {
             return $this->sendError('Email already registered.');
         }
 
         $client = new User();
-        $client->username = $validator->getValue('name') . ' ' . $validator->getValue('lastname'); ;
+        $client->username = $validator->getValue('name') . ' ' . $validator->getValue('lastname');;
         $client->email = $validator->getValue('email');
         $client->name  = $validator->getValue('name');
         $client->lastname = $validator->getValue('lastname');
@@ -305,8 +304,69 @@ class UserController extends Controller
         $client->rut = $validator->getValue('rut');
         $client->save();
 
+        $client->assignRole(User::CLIENT);
+        $roles = User::with('roles')->find($client->id);
+        $client->roles = $roles->roles[0]->name;
+        unset($client->password);
+
+
         $success['client'] = $client;
 
         return $this->sendResponse($success, 'client registered successfully.');
+    }
+
+    /**
+     * @OA\Post(
+     *     path="/api/users/logout",
+     *     summary="Logout the authenticated user",
+     *     description="Invalidates the user's JWT token, effectively logging them out from the system.",
+     *     tags={"Users"},
+     *     security={{
+     *         "bearerAuth": {}
+     *     }},
+     *     @OA\Response(
+     *         response=200,
+     *         description="User logged out successfully.",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="success",
+     *                 type="boolean",
+     *                 example=true
+     *             ),
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="User logged out successfully."
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Failed to log out.",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="success",
+     *                 type="boolean",
+     *                 example=false
+     *             ),
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="Failed to log out."
+     *             )
+     *         )
+     *     )
+     * )
+     **/
+    public function logout(Request $request): JsonResponse
+    {
+        try {
+            JWTAuth::invalidate(JWTAuth::getToken());
+            return $this->sendResponse([], 'User logged out successfully.');
+        } catch (\Exception $e) {
+            return $this->sendError('Failed to log out.', 400);
+        }
     }
 }

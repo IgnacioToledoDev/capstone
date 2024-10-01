@@ -1,0 +1,44 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()">
+        <ion-icon name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Historial</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-searchbar placeholder="Buscar Servicios..."></ion-searchbar>
+  <ion-card class="client-card">
+    <ion-card-header>
+      <ion-card-title>Historial</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list>
+        <ion-item *ngFor="let evento of eventos" routerLink="/mecanico/home-mecanico">
+          <ion-label>
+            <ion-card-subtitle>{{ evento.patente }}</ion-card-subtitle>
+            <h2>{{ evento.nombre }}</h2>
+            <p>{{ evento.hora }}</p>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <div class="button-container">
+      <ion-button class="custom-button" expand="block" routerLink="/mecanico/home-mecanico">
+        <ion-icon slot="start" name="home"></ion-icon>
+        Inicio
+      </ion-button>
+      <ion-button class="custom-button" expand="block" routerLink="/mecanico/register-user">
+        <ion-icon slot="start" name="person"></ion-icon>
+        Agregar Perfil
+      </ion-button>
+    </div>
+  </ion-toolbar>
+</ion-footer>
