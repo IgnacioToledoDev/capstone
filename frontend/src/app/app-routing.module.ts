@@ -38,7 +38,7 @@ const routes: Routes = [
     loadChildren: () => import('./nueva-contrasena/nueva-contrasena.module').then( m => m.NuevaContrasenaPageModule)
   },
   {
-    path: 'Mecanico/home-mecanico',
+    path: 'mecanico/home-mecanico',
     loadChildren: () => import('./mecanico/home-mecanico/home-mecanico.module').then( m => m.HomeMecanicoPageModule)
   },
   {
@@ -65,13 +65,6 @@ const routes: Routes = [
     path: 'mecanico/info-ser-cli',
     loadChildren: () => import('./mecanico/info-ser-cli/info-ser-cli.module').then( m => m.InfoSerCliPageModule)
   },
-<<<<<<< HEAD
-=======
-=======
-
-
->>>>>>> 92567a3b (Revert "Cap 87")
->>>>>>> parent of 7b1451ae (Merge pull request #41 from IgnacioToledoDev/main)
 ];
 
 @NgModule({
