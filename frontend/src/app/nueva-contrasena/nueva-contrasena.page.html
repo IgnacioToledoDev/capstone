@@ -1,8 +1,21 @@
 <ion-content class="ion-padding">
+  <!-- Botón de regreso con flecha -->
+  <ion-icon
+    name="arrow-back-outline"
+    class="back-button"
+    fill="clear"
+    a
+    routerLink="/inicio-sesion"
+  ></ion-icon>
+  <br />
+  <br />
   <h1>Nueva Contraseña</h1>
   <form>
     <ion-item>
-      <p>Para poder cambiar contraseña es necesario enviar un correo electrónico para verificar que eres tú.</p>
+      <p>
+        Para poder cambiar contraseña es necesario enviar un correo electrónico
+        para verificar que eres tú.
+      </p>
     </ion-item>
     <ion-item>
       <ion-label position="floating">Nueva Contraseña:</ion-label>
@@ -12,12 +25,12 @@
       <ion-label position="floating">Repetir nueva contraseña:</ion-label>
       <ion-input type="password"></ion-input>
     </ion-item>
-    <ion-button expand="block" routerLink="/inicio-sesion">Volver al inicio sesión</ion-button>
+    <ion-button expand="block" routerLink="/inicio-sesion"
+      >Volver al inicio sesión</ion-button
+    >
   </form>
 </ion-content>
 
-<ion-footer>
-  <ion-toolbar>
-    <ion-title>AutoMinder</ion-title>
-  </ion-toolbar>
-</ion-footer>
+<ion-text class="line1">__________________</ion-text>
+<h2 class="final">AutoMinder</h2>
+
