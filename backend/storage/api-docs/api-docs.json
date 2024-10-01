@@ -265,13 +265,13 @@
                 ]
             }
         },
-        "/api/maintenance/store": {
+        "/api/jwt/maintenance/create": {
             "post": {
                 "tags": [
                     "Maintenance"
                 ],
                 "summary": "Register a new maintenance record",
-                "operationId": "45f077f844a64bcdd1b42cee07cf02f4",
+                "operationId": "79164cffac87e0c94805703d7c3a4bda",
                 "responses": {
                     "200": {
                         "description": "Maintenance saved successfully",
