@@ -19,7 +19,7 @@ class User extends Authenticatable implements FilamentUser, JWTSubject, CanReset
     const SUPER_ADMIN = 'SUPER_ADMIN';
     const COMPANY_ADMIN = 'COMPANY_ADMIN';
     const MECHANIC = 'MECHANIC_USER';
-    const CLIENT = 'CLIENT_USER';
+    const CLIENT = 'CUSTOMER_USER';
 
     /**
      * The attributes that are mass assignable.
