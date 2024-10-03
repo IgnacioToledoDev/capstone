@@ -46,7 +46,8 @@ class ServiceResource extends Resource
                     ->numeric()
                     ->label('Precio')
                     ->required()
-                    ->placeholder('Precio en CLP'),
+                    ->placeholder('Precio en CLP')
+                    ->prefix('$')
             ]);
     }
 
@@ -70,7 +71,8 @@ class ServiceResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()->label('Editar'),
+                Tables\Actions\DeleteAction::make()->label('Borrar'),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
