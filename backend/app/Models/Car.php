@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property int $brand_id
@@ -42,7 +42,8 @@ class Car extends Model
         'brand_id',
         'model',
         'year',
-        'user_id',
+        'owner_id',
+        'mechanic_id',
     ];
 
     protected $casts = [

@@ -45,11 +45,16 @@ class CarResource extends Resource
                     ->label('Año')
                     ->options(array_combine($years, $years))
                     ->required(),
-                Forms\Components\Select::make('userId')
+                Forms\Components\Select::make('owner_id')
                     ->label('Propietario')
                     ->relationship('user', 'name')
                     ->placeholder('Propietario')
-                    ->options(self::getCustomerUser())
+                    ->options(self::getCustomerUser()),
+                Forms\Components\Select::make('mechanic_id')
+                ->label('Mecanico')
+                ->relationship('user', 'name')
+                ->placeholder('Mecanico')
+                ->options(self::getMechanicUsers()),
             ]);
     }
 
@@ -112,5 +117,19 @@ class CarResource extends Resource
         }
 
         return $clients ?? [];
+    }
+
+    protected static function getMechanicUsers(): array
+    {
+        $users = User::all();
+
+        foreach ($users as $user) {
+            $userRole = $user->getRoleNames();
+            if ($userRole[0] === User::MECHANIC) {
+                $mechanics[] = $user->name;
+            }
+        }
+
+        return $mechanics ?? [];
     }
 }
