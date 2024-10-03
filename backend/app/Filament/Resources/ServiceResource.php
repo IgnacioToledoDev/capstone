@@ -30,18 +30,23 @@ class ServiceResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
-                ->required()
-                ->maxLength(255)
-                ->placeholder('Nombre'),
+                    ->required()
+                    ->maxLength(255)
+                    ->placeholder('Nombre'),
                 Forms\Components\TextInput::make('description')
-                ->required()
-                ->maxLength(255)
-                ->placeholder('Descripcion'),
+                    ->required()
+                    ->maxLength(255)
+                    ->placeholder('Descripcion'),
                 Forms\Components\Select::make('type_id')
                     ->required()
                     ->label('Tipo')
                     ->relationship('type', 'name')
-                    ->placeholder('Selecciona una opcion...')
+                    ->placeholder('Selecciona una opcion...'),
+                Forms\Components\TextInput::make('price')
+                    ->numeric()
+                    ->label('Precio')
+                    ->required()
+                    ->placeholder('Precio en CLP'),
             ]);
     }
 
@@ -55,6 +60,10 @@ class ServiceResource extends Resource
                 Tables\Columns\TextColumn::make('typeService.name')
                 ->label('Tipo')
                 ->default('N/A')
+                ->searchable(),
+                Tables\Columns\TextColumn::make('price')
+                ->label('Precio')
+                ->money('clp', 0)
                 ->searchable(),
             ])
             ->filters([
