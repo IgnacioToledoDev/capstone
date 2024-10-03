@@ -10,8 +10,6 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class CarResource extends Resource
 {
@@ -47,14 +45,12 @@ class CarResource extends Resource
                     ->required(),
                 Forms\Components\Select::make('owner_id')
                     ->label('Propietario')
-                    ->relationship('user', 'name')
                     ->placeholder('Propietario')
                     ->options(self::getCustomerUser()),
                 Forms\Components\Select::make('mechanic_id')
-                ->label('Mecanico')
-                ->relationship('user', 'name')
-                ->placeholder('Mecanico')
-                ->options(self::getMechanicUsers()),
+                    ->label('Mecanico')
+                    ->placeholder('Mecanico')
+                    ->options(self::getMechanicUsers()),
             ]);
     }
 
@@ -112,7 +108,7 @@ class CarResource extends Resource
         foreach ($users as $user) {
             $userRole = $user->getRoleNames();
             if ($userRole[0] === User::CLIENT) {
-                $clients[] = $user->name;
+                $clients[$user->id] = $user->name;
             }
         }
 
@@ -126,7 +122,7 @@ class CarResource extends Resource
         foreach ($users as $user) {
             $userRole = $user->getRoleNames();
             if ($userRole[0] === User::MECHANIC) {
-                $mechanics[] = $user->name;
+                $mechanics[$user->id] = $user->name;
             }
         }
 
