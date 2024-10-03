@@ -38,6 +38,7 @@ class Service extends Model
         'name',
         'description',
         'type_id',
+        'price',
     ];
 
     public function type(): BelongsTo

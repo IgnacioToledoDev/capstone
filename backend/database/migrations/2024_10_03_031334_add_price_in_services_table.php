@@ -14,8 +14,7 @@ return new class extends Migration
         Schema::table('services', function (Blueprint $table) {
             $table
                 ->integer('price')
-                ->nullable()
-                ->default(0);
+                ->nullable();
         });
     }
 
