@@ -12,6 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('cars', function (Blueprint $table) {
+            $table->dropForeign('cars_user_id_foreign');
             $table->dropColumn('user_id');
             $table->unsignedBigInteger('mechanic_id')->nullable();
             $table->foreign('mechanic_id')->references('id')->on('users')->onDelete('set null');
