@@ -270,13 +270,13 @@
                 ]
             }
         },
-        "/api/maintenance": {
+        "/api/jwt/maintenance/calendar": {
             "get": {
                 "tags": [
                     "Maintenances"
                 ],
                 "summary": "Obtiene el calendario de mantenimientos y clientes actuales para el mecánico autenticado",
-                "operationId": "6e3c6d29c95d4fef1a3fc266820bb5bd",
+                "operationId": "697da6dd5f12e4f8c6432f9a875ccfbc",
                 "responses": {
                     "200": {
                         "description": "Calendario y clientes actuales obtenidos exitosamente",
@@ -418,10 +418,10 @@
                 ]
             }
         },
-        "/api/current-client/update": {
+        "/api/jwt/maintenance/update/current-client": {
             "put": {
                 "tags": [
-                    "Clientes"
+                    "Maintenances"
                 ],
                 "summary": "Actualizar el cliente actual del usuario autenticado",
                 "description": "Este endpoint actualiza el cliente actual para el usuario autenticado y devuelve la información del cliente actualizado.",
@@ -530,7 +530,7 @@
         "/api/jwt/maintenance/create": {
             "post": {
                 "tags": [
-                    "Maintenance"
+                    "Maintenances"
                 ],
                 "summary": "Register a new maintenance record",
                 "operationId": "79164cffac87e0c94805703d7c3a4bda",
@@ -1151,14 +1151,6 @@
         {
             "name": "Maintenances",
             "description": "Maintenances"
-        },
-        {
-            "name": "Clientes",
-            "description": "Clientes"
-        },
-        {
-            "name": "Maintenance",
-            "description": "Maintenance"
         },
         {
             "name": "Services",

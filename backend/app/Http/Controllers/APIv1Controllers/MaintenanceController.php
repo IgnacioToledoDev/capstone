@@ -114,7 +114,7 @@ class MaintenanceController extends Controller
      *     summary="Actualizar el cliente actual del usuario autenticado",
      *     description="Este endpoint actualiza el cliente actual para el usuario autenticado y devuelve la información del cliente actualizado.",
      *     operationId="updateCurrentClient",
-     *     tags={"Clientes"},
+     *     tags={"Maintenances"},
      *     security={{"bearerAuth": {}}},
      *
      *     @OA\RequestBody(
@@ -174,7 +174,7 @@ class MaintenanceController extends Controller
      * @OA\Post(
      *     path="/api/jwt/maintenance/create",
      *     summary="Register a new maintenance record",
-     *     tags={"Maintenance"},
+     *     tags={"Maintenances"},
      *     security={{
      *         "bearerAuth": {}
      *     }},
