@@ -109,7 +109,7 @@ class MaintenanceController extends Controller
     }
 
     /**
-     * @OA\Put(
+     * @OA\Get(
      *     path="/api/jwt/maintenance/update/current-client",
      *     summary="Actualizar el cliente actual del usuario autenticado",
      *     description="Este endpoint actualiza el cliente actual para el usuario autenticado y devuelve la información del cliente actualizado.",
