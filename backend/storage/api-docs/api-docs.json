@@ -270,13 +270,13 @@
                 ]
             }
         },
-        "/api/maintenances": {
+        "/api/maintenance": {
             "get": {
                 "tags": [
                     "Maintenances"
                 ],
                 "summary": "Obtiene el calendario de mantenimientos y clientes actuales para el mecánico autenticado",
-                "operationId": "5724b07c4bb273a5b40fbd8280b673eb",
+                "operationId": "6e3c6d29c95d4fef1a3fc266820bb5bd",
                 "responses": {
                     "200": {
                         "description": "Calendario y clientes actuales obtenidos exitosamente",
@@ -403,6 +403,115 @@
                                         "message": {
                                             "type": "string",
                                             "example": "maintenance start_maintenance no available"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/current-client/update": {
+            "put": {
+                "tags": [
+                    "Clientes"
+                ],
+                "summary": "Actualizar el cliente actual del usuario autenticado",
+                "description": "Este endpoint actualiza el cliente actual para el usuario autenticado y devuelve la información del cliente actualizado.",
+                "operationId": "updateCurrentClient",
+                "requestBody": {
+                    "description": "Datos de la solicitud",
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Cliente actualizado exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "current": {
+                                                    "description": "Información del cliente actual",
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "name": {
+                                                            "type": "string",
+                                                            "example": "John Doe"
+                                                        },
+                                                        "email": {
+                                                            "type": "string",
+                                                            "example": "john.doe@example.com"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Calendar retrieved successfully."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "No autenticado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "user not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error del servidor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Internal server error"
                                         }
                                     },
                                     "type": "object"
@@ -1042,6 +1151,10 @@
         {
             "name": "Maintenances",
             "description": "Maintenances"
+        },
+        {
+            "name": "Clientes",
+            "description": "Clientes"
         },
         {
             "name": "Maintenance",

@@ -18,7 +18,7 @@ class MaintenanceController extends Controller
 {
     /**
      * @OA\Get(
-     *     path="/api/maintenance",
+     *     path="/api/jwt/maintenance/calendar",
      *     summary="Obtiene el calendario de mantenimientos y clientes actuales para el mecánico autenticado",
      *     tags={"Maintenances"},
      *     security={{"bearerAuth":{}}},
@@ -110,7 +110,7 @@ class MaintenanceController extends Controller
 
     /**
      * @OA\Put(
-     *     path="/api/current-client/update",
+     *     path="/api/jwt/maintenance/update/current-client",
      *     summary="Actualizar el cliente actual del usuario autenticado",
      *     description="Este endpoint actualiza el cliente actual para el usuario autenticado y devuelve la información del cliente actualizado.",
      *     operationId="updateCurrentClient",
