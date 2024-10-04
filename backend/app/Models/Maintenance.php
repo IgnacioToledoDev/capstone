@@ -22,6 +22,8 @@ use Illuminate\Support\Carbon;
  * @property int $pricing
  * @property int $car_id
  * @property int $mechanic_id
+ * @property $start_maintenance
+ * @property $end_maintenance
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @method static Builder|Maintenance newModelQuery()
@@ -39,6 +41,8 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Maintenance whereServiceId($value)
  * @method static Builder|Maintenance whereStatusId($value)
  * @method static Builder|Maintenance whereUpdatedAt($value)
+ * @method static Builder|Maintenance whereStartMaintenance($value)
+ * @method static Builder|Maintenance whereEndMaintenance($value)
  */
 class Maintenance extends Model
 {
@@ -74,5 +78,7 @@ class Maintenance extends Model
         'pricing',
         'car_id',
         'mechanic_id',
+        'start_maintenance',
+        'end_maintenance',
     ];
 }

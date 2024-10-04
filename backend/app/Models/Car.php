@@ -15,6 +15,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string $model
  * @property int $year
  * @property int $user_id
+ * @property int $owner_id
+ * @property int $mechanic_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\CarBrand $carBrands

@@ -270,6 +270,154 @@
                 ]
             }
         },
+        "/api/maintenances": {
+            "get": {
+                "tags": [
+                    "Maintenances"
+                ],
+                "summary": "Obtiene el calendario de mantenimientos y clientes actuales para el mecánico autenticado",
+                "operationId": "5724b07c4bb273a5b40fbd8280b673eb",
+                "responses": {
+                    "200": {
+                        "description": "Calendario y clientes actuales obtenidos exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "calendar": {
+                                                    "description": "Lista de mantenimientos del día actual",
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "car_id": {
+                                                                "type": "integer",
+                                                                "example": 10
+                                                            },
+                                                            "start_maintenance": {
+                                                                "type": "string",
+                                                                "format": "date-time",
+                                                                "example": "2024-10-03 10:00:00"
+                                                            },
+                                                            "mechanic_id": {
+                                                                "type": "integer",
+                                                                "example": 2
+                                                            },
+                                                            "description": {
+                                                                "type": "string",
+                                                                "example": "Cambio de aceite"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                },
+                                                "current": {
+                                                    "description": "Lista de clientes actuales basados en el mantenimiento en curso",
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "name": {
+                                                                "type": "string",
+                                                                "example": "Juan Pérez"
+                                                            },
+                                                            "email": {
+                                                                "type": "string",
+                                                                "example": "juan.perez@example.com"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "No autenticado o token no válido",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Usuario no encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "user not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error en la petición o falta de datos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "maintenance start_maintenance no available"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/jwt/maintenance/create": {
             "post": {
                 "tags": [
@@ -890,6 +1038,10 @@
         {
             "name": "Cars",
             "description": "Cars"
+        },
+        {
+            "name": "Maintenances",
+            "description": "Maintenances"
         },
         {
             "name": "Maintenance",
