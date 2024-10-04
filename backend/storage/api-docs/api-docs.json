@@ -652,6 +652,11 @@
                                         "description": "Client's RUT",
                                         "type": "string",
                                         "example": "12345678-9"
+                                    },
+                                    "phone": {
+                                        "description": "Client's phone",
+                                        "type": "string",
+                                        "example": "986415709"
                                     }
                                 },
                                 "type": "object"
