@@ -169,12 +169,19 @@ class UserController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'email' => 'required|email',
-            'password' => 'required|min:8|confirmed',
+            'password' => 'required|min:8',
+            'c_password' => 'required',
             'token' => 'required|string',
         ]);
+        $password = $validator->getValue('password');
+        $c_password = $validator->getValue('c_password');
 
         if ($validator->fails()) {
             return $this->sendError('Validation Error.', $validator->errors(), 400);
+        }
+
+        if($password != $c_password) {
+            return $this->sendError('Password does not match.');
         }
 
         $status = Password::reset(
