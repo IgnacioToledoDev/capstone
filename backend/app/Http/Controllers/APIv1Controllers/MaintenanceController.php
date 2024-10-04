@@ -108,7 +108,56 @@ class MaintenanceController extends Controller
         }
     }
 
-    
+    /**
+     * @OA\Put(
+     *     path="/api/current-client/update",
+     *     summary="Actualizar el cliente actual del usuario autenticado",
+     *     description="Este endpoint actualiza el cliente actual para el usuario autenticado y devuelve la información del cliente actualizado.",
+     *     operationId="updateCurrentClient",
+     *     tags={"Clientes"},
+     *     security={{"bearerAuth": {}}},
+     *
+     *     @OA\RequestBody(
+     *         description="Datos de la solicitud",
+     *         required=false,
+     *         @OA\JsonContent()
+     *     ),
+     *
+     *     @OA\Response(
+     *         response=200,
+     *         description="Cliente actualizado exitosamente",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=true),
+     *             @OA\Property(property="data", type="object",
+     *                 @OA\Property(property="current", type="object", description="Información del cliente actual",
+     *                     @OA\Property(property="id", type="integer", example=1),
+     *                     @OA\Property(property="name", type="string", example="John Doe"),
+     *                     @OA\Property(property="email", type="string", example="john.doe@example.com"),
+     *                 )
+     *             ),
+     *             @OA\Property(property="message", type="string", example="Calendar retrieved successfully.")
+     *         )
+     *     ),
+     *
+     *     @OA\Response(
+     *         response=401,
+     *         description="No autenticado",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=false),
+     *             @OA\Property(property="message", type="string", example="user not found")
+     *         )
+     *     ),
+     *
+     *     @OA\Response(
+     *         response=500,
+     *         description="Error del servidor",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=false),
+     *             @OA\Property(property="message", type="string", example="Internal server error")
+     *         )
+     *     )
+     * )
+     */
     public function updateCurrentClient(Request $request): JsonResponse
     {
         if(!auth()->check()) {
