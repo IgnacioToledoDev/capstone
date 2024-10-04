@@ -108,6 +108,7 @@ class MaintenanceController extends Controller
         }
     }
 
+    
     public function updateCurrentClient(Request $request): JsonResponse
     {
         if(!auth()->check()) {
