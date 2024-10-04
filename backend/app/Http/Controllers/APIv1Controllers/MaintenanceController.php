@@ -9,6 +9,7 @@ use App\Models\Service;
 use App\Models\StatusCar;
 use App\Models\TypeService;
 use App\Models\User;
+use http\Exception\InvalidArgumentException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use OpenApi\Annotations as OA;
@@ -96,21 +97,7 @@ class MaintenanceController extends Controller
                 ->whereDate('start_maintenance', now()->toDateString())
                 ->get();
 
-            $currentMaintenances = Maintenance::whereMechanicId($user->id)
-                ->whereDate('start_maintenance', now()->toDateString())
-                ->whereTime('start_maintenance', now()->format('H:i'))
-                ->get();
-
-            $current = [];
-            foreach ($currentMaintenances as $maintenance) {
-                if ($maintenance->start_maintenance) {
-                    $car = Car::whereId($maintenance->car_id);
-                    $currentClient = User::whereId($car->owner_id);
-                    if ($currentClient) {
-                        $current[] = $currentClient;
-                    }
-                }
-            }
+            $current = $this->getCurrentClient($user);
 
             $success['calendar'] = $calendar;
             $success['current'] = $current;
@@ -119,6 +106,18 @@ class MaintenanceController extends Controller
         } catch (\Exception $exception) {
             return $this->sendError($exception->getMessage());
         }
+    }
+
+    public function updateCurrentClient(Request $request): JsonResponse
+    {
+        if(!auth()->check()) {
+            return $this->sendError('user not found');
+        }
+        $user = auth()->user();
+        $current = $this->getCurrentClient($user);
+
+        $success['current'] = $current;
+        return $this->sendResponse($success, 'Calendar retrieved successfully.');
     }
 
     /**
@@ -251,5 +250,32 @@ class MaintenanceController extends Controller
         $now = new \DateTime('now');
 
         return 'new ' . $typeService->name . $now->format('d-m-Y');
+    }
+
+    /**
+     * @param $user
+     * @return array
+     */
+    public function getCurrentClient($user): array
+    {
+        if (!$user instanceof User) {
+            throw new InvalidArgumentException('user not valid');
+        }
+        $currentMaintenances = Maintenance::whereMechanicId($user->id)
+            ->whereDate('start_maintenance', now()->toDateString())
+            ->whereTime('start_maintenance', now()->format('H:i'))
+            ->get();
+
+        $current = [];
+        foreach ($currentMaintenances as $maintenance) {
+            if ($maintenance->start_maintenance) {
+                $car = Car::whereId($maintenance->car_id);
+                $currentClient = User::whereId($car->owner_id);
+                if ($currentClient) {
+                    $current[] = $currentClient;
+                }
+            }
+        }
+        return $current;
     }
 }
