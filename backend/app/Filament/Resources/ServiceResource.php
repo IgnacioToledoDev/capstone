@@ -56,16 +56,16 @@ class ServiceResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
-                ->label('Nombre')
-                ->searchable(),
-                Tables\Columns\TextColumn::make('typeService.name')
-                ->label('Tipo')
-                ->default('N/A')
-                ->searchable(),
+                    ->label('Nombre')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('type.name')
+                    ->label('Tipo')
+                    ->default('N/A')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('price')
-                ->label('Precio')
-                ->money('clp', 0)
-                ->searchable(),
+                    ->label('Precio')
+                    ->money('clp', 0)
+                    ->searchable(),
             ])
             ->filters([
                 //

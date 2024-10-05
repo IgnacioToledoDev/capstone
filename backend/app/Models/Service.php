@@ -43,6 +43,6 @@ class Service extends Model
 
     public function type(): BelongsTo
     {
-        return $this->belongsTo(TypeService::class, 'id', 'id');
+        return $this->belongsTo(TypeService::class, 'type_id');
     }
 }
