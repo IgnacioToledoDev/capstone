@@ -1,0 +1,38 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()">
+        <ion-icon name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Seguimiento </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card class="client-card" *ngFor="let status of statuses">
+    <ion-card-header>
+      <ion-card-title>Cliente actual</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <div class="card-content">
+        <ion-label>
+          <img [src]="status.image">
+        </ion-label>
+        <div class="text-content">
+          <h2>{{ status.title }}</h2>
+          <p>{{ status.description }}</p>
+          <ion-button *ngIf="status.buttonTitle" color="primary" (click)="onButtonClick(status)">
+            {{ status.buttonTitle }}
+          </ion-button>
+        </div>
+      </div>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-button expand="full" (click)="presentAlert()">Finalizar estado</ion-button>
+    <h6 class="pad">Al finalizar el estado va a cambiar a “Listo para entrega”</h6>
+  </ion-toolbar>
+</ion-footer>

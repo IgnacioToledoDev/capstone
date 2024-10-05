@@ -65,6 +65,11 @@ const routes: Routes = [
     path: 'mecanico/info-ser-cli',
     loadChildren: () => import('./mecanico/info-ser-cli/info-ser-cli.module').then( m => m.InfoSerCliPageModule)
   },
+  {
+    path: 'mecanico/seguimiento',
+    loadChildren: () => import('./mecanico/seguimiento/seguimiento.module').then( m => m.SeguimientoPageModule)
+  },
+
 
 
 
