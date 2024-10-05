@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\APIv1Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Car;
 use App\Models\Maintenance;
 use App\Models\Service;
 use App\Models\StatusCar;
 use App\Models\TypeService;
+use App\Models\User;
+use http\Exception\InvalidArgumentException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use OpenApi\Annotations as OA;
@@ -14,18 +17,164 @@ use OpenApi\Annotations as OA;
 class MaintenanceController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * @OA\Get(
+     *     path="/api/jwt/maintenance/calendar",
+     *     summary="Obtiene el calendario de mantenimientos y clientes actuales para el mecánico autenticado",
+     *     tags={"Maintenances"},
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Calendario y clientes actuales obtenidos exitosamente",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="success",
+     *                 type="boolean",
+     *                 example=true
+     *             ),
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="object",
+     *                 @OA\Property(
+     *                     property="calendar",
+     *                     type="array",
+     *                     description="Lista de mantenimientos del día actual",
+     *                     @OA\Items(
+     *                         @OA\Property(property="id", type="integer", example=1),
+     *                         @OA\Property(property="car_id", type="integer", example=10),
+     *                         @OA\Property(property="start_maintenance", type="string", format="date-time", example="2024-10-03 10:00:00"),
+     *                         @OA\Property(property="mechanic_id", type="integer", example=2),
+     *                         @OA\Property(property="description", type="string", example="Cambio de aceite")
+     *                     )
+     *                 ),
+     *                 @OA\Property(
+     *                     property="current",
+     *                     type="array",
+     *                     description="Lista de clientes actuales basados en el mantenimiento en curso",
+     *                     @OA\Items(
+     *                         @OA\Property(property="id", type="integer", example=1),
+     *                         @OA\Property(property="name", type="string", example="Juan Pérez"),
+     *                         @OA\Property(property="email", type="string", example="juan.perez@example.com")
+     *                     )
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="No autenticado o token no válido",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=false),
+     *             @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Usuario no encontrado",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=false),
+     *             @OA\Property(property="message", type="string", example="user not found")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Error en la petición o falta de datos",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=false),
+     *             @OA\Property(property="message", type="string", example="maintenance start_maintenance no available")
+     *         )
+     *     )
+     * )
      */
-    public function index()
+    public function index(Request $request): JsonResponse
     {
-        //
+        try {
+            $user = auth()->user();
+            if (empty($user->id)) {
+                return $this->sendError('user not found');
+            }
+
+            $calendar = Maintenance::whereMechanicId($user->id)
+                ->whereDate('start_maintenance', now()->toDateString())
+                ->get();
+
+            $current = $this->getCurrentClient($user);
+
+            $success['calendar'] = $calendar;
+            $success['current'] = $current;
+
+            return $this->sendResponse($success, 'Calendar retrieved successfully.');
+        } catch (\Exception $exception) {
+            return $this->sendError($exception->getMessage());
+        }
+    }
+
+    /**
+     * @OA\Get(
+     *     path="/api/jwt/maintenance/update/current-client",
+     *     summary="Actualizar el cliente actual del usuario autenticado",
+     *     description="Este endpoint actualiza el cliente actual para el usuario autenticado y devuelve la información del cliente actualizado.",
+     *     operationId="updateCurrentClient",
+     *     tags={"Maintenances"},
+     *     security={{"bearerAuth": {}}},
+     *
+     *     @OA\RequestBody(
+     *         description="Datos de la solicitud",
+     *         required=false,
+     *         @OA\JsonContent()
+     *     ),
+     *
+     *     @OA\Response(
+     *         response=200,
+     *         description="Cliente actualizado exitosamente",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=true),
+     *             @OA\Property(property="data", type="object",
+     *                 @OA\Property(property="current", type="object", description="Información del cliente actual",
+     *                     @OA\Property(property="id", type="integer", example=1),
+     *                     @OA\Property(property="name", type="string", example="John Doe"),
+     *                     @OA\Property(property="email", type="string", example="john.doe@example.com"),
+     *                 )
+     *             ),
+     *             @OA\Property(property="message", type="string", example="Calendar retrieved successfully.")
+     *         )
+     *     ),
+     *
+     *     @OA\Response(
+     *         response=401,
+     *         description="No autenticado",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=false),
+     *             @OA\Property(property="message", type="string", example="user not found")
+     *         )
+     *     ),
+     *
+     *     @OA\Response(
+     *         response=500,
+     *         description="Error del servidor",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=false),
+     *             @OA\Property(property="message", type="string", example="Internal server error")
+     *         )
+     *     )
+     * )
+     */
+    public function updateCurrentClient(Request $request): JsonResponse
+    {
+        if(!auth()->check()) {
+            return $this->sendError('user not found');
+        }
+        $user = auth()->user();
+        $current = $this->getCurrentClient($user);
+
+        $success['current'] = $current;
+        return $this->sendResponse($success, 'Calendar retrieved successfully.');
     }
 
     /**
      * @OA\Post(
      *     path="/api/jwt/maintenance/create",
      *     summary="Register a new maintenance record",
-     *     tags={"Maintenance"},
+     *     tags={"Maintenances"},
      *     security={{
      *         "bearerAuth": {}
      *     }},
@@ -71,7 +220,6 @@ class MaintenanceController extends Controller
      *     )
      * )
      */
-
     public function store(Request $request): JsonResponse
     {
         if (!auth()->check()) {
@@ -152,5 +300,32 @@ class MaintenanceController extends Controller
         $now = new \DateTime('now');
 
         return 'new ' . $typeService->name . $now->format('d-m-Y');
+    }
+
+    /**
+     * @param $user
+     * @return array
+     */
+    public function getCurrentClient($user): array
+    {
+        if (!$user instanceof User) {
+            throw new InvalidArgumentException('user not valid');
+        }
+        $currentMaintenances = Maintenance::whereMechanicId($user->id)
+            ->whereDate('start_maintenance', now()->toDateString())
+            ->whereTime('start_maintenance', now()->format('H:i'))
+            ->get();
+
+        $current = [];
+        foreach ($currentMaintenances as $maintenance) {
+            if ($maintenance->start_maintenance) {
+                $car = Car::whereId($maintenance->car_id);
+                $currentClient = User::whereId($car->owner_id);
+                if ($currentClient) {
+                    $current[] = $currentClient;
+                }
+            }
+        }
+        return $current;
     }
 }
