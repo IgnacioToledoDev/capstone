@@ -30,6 +30,9 @@ class CarResource extends Resource
 
         return $form
             ->schema([
+                Forms\Components\TextInput::make('patent')
+                    ->label('Patente')
+                    ->required(),
                 Forms\Components\Select::make('brand_id')
                     ->label('Marca')
                     ->relationship('carBrands', 'name')
@@ -58,6 +61,10 @@ class CarResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('patent')
+                    ->searchable()
+                    ->default('N/A')
+                    ->label('Marca'),
                 Tables\Columns\TextColumn::make('carBrands.name')
                     ->searchable()
                     ->label('Marca'),
