@@ -38,16 +38,16 @@ return new class extends Migration
             $table->string('name');
             $table->string('description')->nullable();
             $table->unsignedBigInteger('status_id')->default(1);
-            $table->foreign('status_id')->references('id')->on('status_cars');
+            $table->foreign('status_id')->references('id')->on('status_cars')->onDelete('cascade')  ;
             $table->unsignedBigInteger('service_id');
-            $table->foreign('service_id')->references('id')->on('services');
+            $table->foreign('service_id')->references('id')->on('services')->onDelete('no action');
             $table->integer('actual_mileage')->nullable();
             $table->text('recommendation_action')->nullable();
             $table->integer('pricing');
             $table->unsignedBigInteger('car_id');
-            $table->foreign('car_id')->references('id')->on('cars');
+            $table->foreign('car_id')->references('id')->on('cars')->onDelete('no action');
             $table->unsignedBigInteger('mechanic_id');
-            $table->foreign('mechanic_id')->references('id')->on('users');
+            $table->foreign('mechanic_id')->references('id')->on('users')->onDelete('no action');
             $table->timestamps();
         });
     }

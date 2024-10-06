@@ -132,7 +132,6 @@ class CarController extends Controller
      *             example="ABC123"
      *         )
      *     ),
-     *
      *     @OA\Response(
      *         response=200,
      *         description="Car retrieved successfully",
