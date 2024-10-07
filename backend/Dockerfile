@@ -24,6 +24,7 @@ COPY --from=spiralscout/roadrunner:2.4.2 /usr/bin/rr /usr/bin/rr
 WORKDIR /var/www/html
 COPY . .
 
+RUN php --ini
 RUN composer install --ignore-platform-req=ext-http
 RUN composer dump-autoload
 RUN composer update --ignore-platform-req=ext-http
