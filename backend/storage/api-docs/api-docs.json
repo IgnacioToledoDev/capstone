@@ -419,22 +419,13 @@
             }
         },
         "/api/jwt/maintenance/update/current-client": {
-            "put": {
+            "get": {
                 "tags": [
                     "Maintenances"
                 ],
                 "summary": "Actualizar el cliente actual del usuario autenticado",
                 "description": "Este endpoint actualiza el cliente actual para el usuario autenticado y devuelve la información del cliente actualizado.",
                 "operationId": "updateCurrentClient",
-                "requestBody": {
-                    "description": "Datos de la solicitud",
-                    "required": false,
-                    "content": {
-                        "application/json": {
-                            "schema": {}
-                        }
-                    }
-                },
                 "responses": {
                     "200": {
                         "description": "Cliente actualizado exitosamente",

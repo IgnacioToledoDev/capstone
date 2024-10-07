@@ -117,12 +117,6 @@ class MaintenanceController extends Controller
      *     tags={"Maintenances"},
      *     security={{"bearerAuth": {}}},
      *
-     *     @OA\RequestBody(
-     *         description="Datos de la solicitud",
-     *         required=false,
-     *         @OA\JsonContent()
-     *     ),
-     *
      *     @OA\Response(
      *         response=200,
      *         description="Cliente actualizado exitosamente",
