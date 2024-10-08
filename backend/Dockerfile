@@ -12,6 +12,7 @@ WORKDIR /var/www/html
 
 COPY . .
 
+RUN php --ini
 RUN composer install --ignore-platform-req=ext-http --no-scripts --no-interaction --prefer-dist
 COPY .env .env
 RUN chmod -R 775 /var/www/html
