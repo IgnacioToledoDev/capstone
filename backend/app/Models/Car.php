@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property int $brand_id
@@ -15,6 +15,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string $model
  * @property int $year
  * @property int $user_id
+ * @property int $owner_id
+ * @property int $mechanic_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\CarBrand $carBrands
@@ -42,7 +44,8 @@ class Car extends Model
         'brand_id',
         'model',
         'year',
-        'user_id',
+        'owner_id',
+        'mechanic_id',
     ];
 
     protected $casts = [
@@ -51,7 +54,7 @@ class Car extends Model
 
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'owner_id');
     }
 
     public function carBrands(): BelongsTo
