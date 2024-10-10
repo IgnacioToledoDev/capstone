@@ -3,7 +3,11 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\MaintenanceResource\Pages;
+use App\Helper\CarHelper;
+use App\Helper\UserHelper;
+use App\Models\Car;
 use App\Models\Maintenance;
+use App\Utils\Constants;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -39,12 +43,14 @@ class MaintenanceResource extends Resource
                     ->required(),
                 Select::make('status_id')
                     ->label('Estado')
+                    ->placeholder(Constants::SELECT_OPTION)
                     ->relationship('status', 'status')
                     ->required(),
                 Select::make('service_id')
                     ->label('Servicio')
                     ->relationship('service', 'name')
-                    ->required(),
+                    ->required()
+                    ->placeholder(Constants::SELECT_OPTION),
                 TextInput::make('recommendation_action')
                     ->label('Recomendacion'),
                 TextInput::make('pricing')
@@ -53,10 +59,13 @@ class MaintenanceResource extends Resource
                     ->numeric(),
                 Select::make('car_id')
                     ->label('Auto')
-                    ->relationship('car', 'model')
+                    ->options(self::getFullNameCars())
+                    ->placeholder(Constants::SELECT_OPTION)
                     ->required(),
-                TextInput::make('mechanic_id')
+                Select::make('mechanic_id')
                     ->label('Mecanico')
+                    ->options(self::getMechanics())
+                    ->placeholder(Constants::SELECT_OPTION)
                     ->required(),
                 DatePicker::make('start_maintenance')
                     ->label('Fecha Inicio Mantenimiento'),
@@ -98,5 +107,29 @@ class MaintenanceResource extends Resource
             'create' => Pages\CreateMaintenance::route('/create'),
             'edit' => Pages\EditMaintenance::route('/{record}/edit'),
         ];
+    }
+
+    protected static function getFullNameCars(): array {
+        $carHelper = new CarHelper();
+        $userHelper = new UserHelper();
+        $cars = Car::all();
+        $options = [];
+        foreach ($cars as $car) {
+            $brandName = $carHelper->getCarBrandName($car->id);
+            $userFullName = $userHelper->getFullName($car->owner_id);
+            $options[$car->id] = $brandName . ' ' .
+                $car->brand . ' ' .
+                $car->model . ' ' .
+                $car->year . ' de ' .
+                $userFullName
+            ;
+        }
+
+        return $options;
+    }
+
+    protected static function getMechanics(): array {
+        $userHelper = new UserHelper();
+        return $userHelper->getMechanicUsers();
     }
 }

@@ -3,8 +3,10 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\CarResource\Pages;
+use App\Helper\UserHelper;
 use App\Models\Car;
 use App\Models\User;
+use App\Utils\Constants;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -36,7 +38,7 @@ class CarResource extends Resource
                 Forms\Components\Select::make('brand_id')
                     ->label('Marca')
                     ->relationship('carBrands', 'name')
-                    ->placeholder('Seleccione una opcion')
+                    ->placeholder(Constants::SELECT_OPTION)
                     ->required(),
                 Forms\Components\TextInput::make('model')
                     ->label('Modelo')
@@ -44,15 +46,16 @@ class CarResource extends Resource
                     ->required(),
                 Forms\Components\Select::make('year')
                     ->label('Año')
+                    ->placeholder(Constants::SELECT_OPTION)
                     ->options(array_combine($years, $years))
                     ->required(),
                 Forms\Components\Select::make('owner_id')
                     ->label('Propietario')
-                    ->placeholder('Propietario')
+                    ->placeholder(Constants::SELECT_OPTION)
                     ->options(self::getCustomerUser()),
                 Forms\Components\Select::make('mechanic_id')
                     ->label('Mecanico')
-                    ->placeholder('Mecanico')
+                    ->placeholder(Constants::SELECT_OPTION)
                     ->options(self::getMechanicUsers()),
             ]);
     }
@@ -110,29 +113,13 @@ class CarResource extends Resource
 
     protected static function getCustomerUser(): array
     {
-        $clients = [];
-        $users = User::all();
-        foreach ($users as $user) {
-            $userRole = $user->getRoleNames();
-            if ($userRole[0] === User::CLIENT) {
-                $clients[$user->id] = $user->name;
-            }
-        }
-
-        return $clients ?? [];
+        $userHelper = new UserHelper();
+        return $userHelper->getCustomerUsers();
     }
 
     protected static function getMechanicUsers(): array
     {
-        $users = User::all();
-
-        foreach ($users as $user) {
-            $userRole = $user->getRoleNames();
-            if ($userRole[0] === User::MECHANIC) {
-                $mechanics[$user->id] = $user->name;
-            }
-        }
-
-        return $mechanics ?? [];
+        $userHelper = new UserHelper();
+        return $userHelper->getMechanicUsers();
     }
 }
