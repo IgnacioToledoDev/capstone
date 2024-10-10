@@ -645,6 +645,79 @@
                 ]
             }
         },
+        "/api/jwt/maintenance/historical": {
+            "get": {
+                "tags": [
+                    "Mechanic"
+                ],
+                "summary": "Get maintenance history for authenticated mechanic",
+                "description": "Retrieve the maintenance history of the authenticated mechanic, ordered by the start of the maintenance in descending order.",
+                "operationId": "3485d20c58d05568291951b1cee308fe",
+                "responses": {
+                    "200": {
+                        "description": "Historial retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "User not found or unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "user not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Mechanic not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "mechanic not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/jwt/services/": {
             "get": {
                 "tags": [
@@ -1142,6 +1215,10 @@
         {
             "name": "Maintenances",
             "description": "Maintenances"
+        },
+        {
+            "name": "Mechanic",
+            "description": "Mechanic"
         },
         {
             "name": "Services",

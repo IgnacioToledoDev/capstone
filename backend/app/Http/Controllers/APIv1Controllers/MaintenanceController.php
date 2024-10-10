@@ -300,7 +300,7 @@ class MaintenanceController extends Controller
      * @param $user
      * @return array
      */
-    public function getCurrentClient($user): array
+    private function getCurrentClient($user): array
     {
         if (!$user instanceof User) {
             throw new InvalidArgumentException('user not valid');
@@ -321,5 +321,83 @@ class MaintenanceController extends Controller
             }
         }
         return $current;
+    }
+
+    /**
+     * @OA\Get(
+     *     path="/api/jwt/maintenance/historical",
+     *     summary="Get maintenance history for authenticated mechanic",
+     *     description="Retrieve the maintenance history of the authenticated mechanic, ordered by the start of the maintenance in descending order.",
+     *     tags={"Mechanic"},
+     *     security={{ "bearerAuth":{} }},
+     *
+     *     @OA\Response(
+     *         response=200,
+     *         description="Historial retrieved successfully",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="success",
+     *                 type="boolean",
+     *                 example=true
+     *             ),
+     *         )
+     *     ),
+     *
+     *     @OA\Response(
+     *         response=401,
+     *         description="User not found or unauthorized",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="success",
+     *                 type="boolean",
+     *                 example=false
+     *             ),
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="user not found"
+     *             )
+     *         )
+     *     ),
+     *
+     *     @OA\Response(
+     *         response=404,
+     *         description="Mechanic not found",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="success",
+     *                 type="boolean",
+     *                 example=false
+     *             ),
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="mechanic not found"
+     *             )
+     *         )
+     *     )
+     * )
+     */
+    public function getHistorical(Request $request): JsonResponse
+    {
+        if(!auth()->check()) {
+            return $this->sendError('user not found');
+        }
+
+        $mechanic = auth()->user();
+        if (!$mechanic) {
+            return $this->sendError('mechanic not found');
+        }
+
+        $maintenances = Maintenance::whereMechanicId($mechanic->id)
+            ->orderBy('start_maintenance', 'desc')
+            ->get();
+
+        $success['historical'] = $maintenances;
+
+        return $this->sendResponse($success, 'Historial retrieved successfully.');
     }
 }
