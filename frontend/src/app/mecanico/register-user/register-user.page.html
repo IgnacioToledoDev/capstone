@@ -12,20 +12,24 @@
 <ion-content>
   <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
     <ion-item>
-      <ion-label position="floating">Nombre de usuario</ion-label>
-      <ion-input formControlName="username"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label position="floating">Número de teléfono</ion-label>
-      <ion-input formControlName="phoneNumber" type="tel"></ion-input>
-    </ion-item>
-    <ion-item>
       <ion-label position="floating">Correo electrónico</ion-label>
       <ion-input formControlName="email" type="email"></ion-input>
     </ion-item>
     <ion-item>
+      <ion-label position="floating">Nombre de usuario</ion-label>
+      <ion-input formControlName="username"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Apellido de usuario</ion-label>
+      <ion-input formControlName="lastname"></ion-input>
+    </ion-item>
+    <ion-item>
       <ion-label position="floating">Rut</ion-label>
       <ion-input formControlName="rut"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Número de teléfono</ion-label>
+      <ion-input formControlName="phoneNumber" type="tel"></ion-input>
     </ion-item>
     <ion-button expand="full" type="submit" routerLink="/mecanico/agregar-vehiculo">Crear cuenta</ion-button>
   </form>

@@ -18,9 +18,11 @@ export class UserService {
     storageService.create();
   }
 
-  register(user: UserRegisterInterface) {
+
+  async register(user: UserRegisterInterface) {
+    const headers = await this.getAuthHeaders();
     return new Promise((resolve, reject) => {
-      this.http.post(`${this.API_URL}/users/register`, user).subscribe(
+      this.http.post(`${this.API_URL}/users/client/register`, user, { headers }).subscribe(
         (res) => {
           console.log('Registro exitoso:', res);
           resolve(res);
@@ -33,13 +35,30 @@ export class UserService {
   login(user: UserLoginInterface) {
     return new Promise((resolve, reject) => {
       this.http.post(`${this.API_URL}/users/login`, user).subscribe(
-        (res) => {
-          console.log('Inicio de sesión exitoso:', res);
+        async (res: any) => {
+          const sessionData = {
+            token: res.data.access_token,
+            user: res.data.user,
+            tokenType: res.data.token_type,
+            expiresIn: res.data.expires_in
+          };
+          await this.storageService.set('datos', sessionData);
+          await this.storageService.set('token', sessionData.token);  
+  
+          console.log('Inicio de sesión exitoso. Datos guardados en el Storage:', sessionData);
+  
           resolve(res);
         },
         (err) => reject(err),
       );
     });
+  }
+  
+  
+  async getUserSession() {
+    const sessionData = await this.storageService.get('datos');
+    console.log('Datos recuperados del Storage:', sessionData);
+    return sessionData;
   }
 
   recovery(user: UserRecoveryInterface) {
@@ -55,7 +74,7 @@ export class UserService {
   }
 
   async checkAuthenticated() {
-    const token = await this.storageService.get('token');
+    const token = await this.storageService.get('datos');
 
     this.isAuthenticated = token !== null;
     await this.storageService.set('isAuthenticated', this.isAuthenticated);
@@ -64,10 +83,12 @@ export class UserService {
   }
 
   public async getAuthHeaders() {
-    let token = await this.storageService.get('token');
-
+    const sessionData = await this.storageService.get('datos');
+    const token = sessionData ? sessionData.token : null;  
+  
+    console.log('Token recuperado:', token);  
+  
     return new HttpHeaders({
       Authorization: `Bearer ${token}`,
     });
-  }
-}
+  }}

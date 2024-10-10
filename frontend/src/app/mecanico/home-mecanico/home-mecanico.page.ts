@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-home-mecanico',
@@ -7,17 +8,31 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeMecanicoPage implements OnInit {
 
-  mecanico: string = 'Joel';
-  rol:string ='Mecanico';
   eventos: { nombre: string, hora: string , patente: string}[] = [
     { nombre: 'jose herera', hora: '10:00 AM' , patente:'ABC-0834'},
     { nombre: 'isaac bravo', hora: '12:00 PM' , patente:'AAC-8634'},
     { nombre: 'Nacho jara', hora: '1:00 PM', patente:'AHG-6434' }
   ];
+  
+  token: string | null = null;  
+  user: any = {};              
 
-  constructor() { }
+  constructor(private userService: UserService) {}
 
-  ngOnInit() {
+  async ngOnInit() {
+    // Recupera los datos de sesión
+    const sessionData = await this.userService.getUserSession();
+
+    // Verifica si se han encontrado datos de sesión
+    if (sessionData) {
+      this.token = sessionData.token;  // Recupera el token directamente del objeto de sesión
+      this.user = sessionData.user;    // Recupera la información del usuario
+
+      console.log('Token:', this.token);
+      console.log('User Info:', this.user);
+    } else {
+      console.log('No se encontraron datos de sesión.');
+    }
   }
 
 }

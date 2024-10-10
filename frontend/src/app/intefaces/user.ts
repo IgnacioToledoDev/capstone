@@ -3,11 +3,12 @@ export interface UserLoginInterface {
     password: string;
   }
 
-export interface UserRegisterInterface {
-    username: string;
+  export interface UserRegisterInterface {
     email: string;
-    password: string;
-    c_password?: string;
+    username: string;
+    lastname: string; 
+    rut: string;
+    phoneNumber: string;
   }
 
 export interface UserRecoveryInterface {
