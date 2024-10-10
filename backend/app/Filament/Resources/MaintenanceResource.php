@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Select;
 
 class MaintenanceResource extends Resource
 {
@@ -36,10 +37,13 @@ class MaintenanceResource extends Resource
                 TextInput::make('description')
                     ->label('Descripcion')
                     ->required(),
-                TextInput::make('status_id')->label('Estado')
+                Select::make('status_id')
+                    ->label('Estado')
+                    ->relationship('status', 'status')
                     ->required(),
-                TextInput::make('service_id')
+                Select::make('service_id')
                     ->label('Servicio')
+                    ->relationship('service', 'name')
                     ->required(),
                 TextInput::make('recommendation_action')
                     ->label('Recomendacion'),
@@ -47,8 +51,9 @@ class MaintenanceResource extends Resource
                     ->label('Precio')
                     ->required()
                     ->numeric(),
-                TextInput::make('car_id')
+                Select::make('car_id')
                     ->label('Auto')
+                    ->relationship('car', 'model')
                     ->required(),
                 TextInput::make('mechanic_id')
                     ->label('Mecanico')
