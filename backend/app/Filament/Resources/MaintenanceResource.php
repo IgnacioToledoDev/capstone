@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
 
 class MaintenanceResource extends Resource
 {
@@ -51,8 +52,6 @@ class MaintenanceResource extends Resource
                     ->relationship('service', 'name')
                     ->required()
                     ->placeholder(Constants::SELECT_OPTION),
-                TextInput::make('recommendation_action')
-                    ->label('Recomendacion'),
                 TextInput::make('pricing')
                     ->label('Precio')
                     ->required()
@@ -71,6 +70,8 @@ class MaintenanceResource extends Resource
                     ->label('Fecha Inicio Mantenimiento'),
                 DatePicker::make('end_maintenance')
                     ->label('Fecha Fin Mantenimiento'),
+                Textarea::make('recommendation_action')
+                    ->label('Recomendacion')
             ]);
     }
 
