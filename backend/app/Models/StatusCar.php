@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Barryvdh\LaravelIdeHelper\Eloquent;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -22,7 +23,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Eloquent\Builder|StatusCar whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|StatusCar whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|StatusCar whereUpdatedAt($value)
- * @mixin \Eloquent
+ * @mixin Eloquent
  */
 class StatusCar extends Model
 {
