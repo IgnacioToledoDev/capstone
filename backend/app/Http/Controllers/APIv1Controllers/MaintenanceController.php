@@ -498,4 +498,126 @@ class MaintenanceController extends Controller
 
         return $this->sendResponse($success, 'Historial retrieved successfully.');
     }
+
+    /**
+     * @OA\Get(
+     *     path="/api/jwt/maintenance/{maintenanceId}/status",
+     *     tags={"Maintenances"},
+     *     summary="Obtener el estado de un mantenimiento",
+     *     description="Devuelve el estado de un mantenimiento específico por su ID.",
+     *     security={{ "bearerAuth":{} }},
+     *
+     *     @OA\Parameter(
+     *         name="maintenanceId",
+     *         in="path",
+     *         required=true,
+     *         description="ID del mantenimiento que se desea consultar.",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Estado del mantenimiento recuperado exitosamente.",
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Mantenimiento no encontrado.",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="error", type="string", example="maintenance not found")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Usuario no autenticado.",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="error", type="string", example="user not found")
+     *         )
+     *     )
+     * )
+     */
+    public function getStatus($maintenanceId): JsonResponse
+    {
+        if (!auth()->check()) {
+            return $this->sendError('user not found');
+        }
+
+        $maintenance = Maintenance::whereId($maintenanceId)->first();
+        if (!$maintenance) {
+            return $this->sendError('maintenance not found');
+        }
+
+        $status = StatusCar::whereId($maintenance->status_id)->first();
+        $success['actualStatus'] = $status;
+
+        return $this->sendResponse($success, 'maintenance retrieved successfully.');
+    }
+
+    /**
+     * @OA\Post(
+     *     path="/api/jwt/maintenance/{maintenanceId}/status/next",
+     *     tags={"Maintenances"},
+     *     summary="Cambiar el estado de un mantenimiento",
+     *     description="Cambia el estado de un mantenimiento específico por su ID.",
+     *     security={{ "bearerAuth":{} }},
+     *
+     *     @OA\Parameter(
+     *         name="maintenanceId",
+     *         in="path",
+     *         required=true,
+     *         description="ID del mantenimiento cuyo estado se desea cambiar.",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Estado del mantenimiento cambiado exitosamente.",
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Mantenimiento no encontrado.",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="error", type="string", example="maintenance not found")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Usuario no autenticado.",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="error", type="string", example="user not found")
+     *         )
+     *     )
+     * )
+     */
+    public function changeStatus(Request $request, int $maintenanceId): JsonResponse
+    {
+        if (!auth()->check()) {
+            return $this->sendError('user not found');
+        }
+
+        $maintenance = Maintenance::find($maintenanceId);
+        if (!$maintenance) {
+            return $this->sendError('maintenance not found');
+        }
+
+        $actualStatus = $maintenance->status_id;
+
+        if ($actualStatus < StatusCar::STATUS_FINISHED) {
+            $newStatus = $actualStatus + 1;
+            $maintenance->status_id = $newStatus;
+
+            $nextStatus = StatusCar::find($newStatus);
+        } else {
+            $nextStatus = null;
+        }
+
+        $maintenance->save();
+
+        $status = StatusCar::find($maintenance->status_id);
+        $nextStatusObj = StatusCar::find($maintenance->status_id + 1);
+
+        $success['wasChanged'] = true;
+        $success['actualStatus'] = $status->status;
+        $success['nextStatus'] = $nextStatusObj ? $nextStatusObj->status : false;
+
+        return $this->sendResponse($success, 'maintenance status changed successfully.');
+    }
+
 }

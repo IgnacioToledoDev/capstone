@@ -11,4 +11,6 @@ Route::prefix('/jwt/maintenance')->middleware('auth:api')->group(function () {
     Route::get('/calendar', [MaintenanceController::class, 'index']);
     Route::get('/historical', [MaintenanceController::class, 'getHistorical']);
     Route::get('/historical/{id}', [MaintenanceController::class, 'getMaintenanceHistoricalInformation']);
+    Route::get('/{maintenanceId}/status', [MaintenanceController::class, 'getStatus']);
+    Route::post('/{maintenanceId}/status/next', [MaintenanceController::class, 'changeStatus']);
 });

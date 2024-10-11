@@ -790,6 +790,132 @@
                 ]
             }
         },
+        "/api/jwt/maintenance/{maintenanceId}/status": {
+            "get": {
+                "tags": [
+                    "Maintenances"
+                ],
+                "summary": "Obtener el estado de un mantenimiento",
+                "description": "Devuelve el estado de un mantenimiento específico por su ID.",
+                "operationId": "6116a882284a70e70b6d1cbd560aa7fa",
+                "parameters": [
+                    {
+                        "name": "maintenanceId",
+                        "in": "path",
+                        "description": "ID del mantenimiento que se desea consultar.",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Estado del mantenimiento recuperado exitosamente."
+                    },
+                    "404": {
+                        "description": "Mantenimiento no encontrado.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "maintenance not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Usuario no autenticado.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "user not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/jwt/maintenance/{maintenanceId}/status/next": {
+            "post": {
+                "tags": [
+                    "Maintenances"
+                ],
+                "summary": "Cambiar el estado de un mantenimiento",
+                "description": "Cambia el estado de un mantenimiento específico por su ID.",
+                "operationId": "78d35d5985611a3d9710bc506514da6e",
+                "parameters": [
+                    {
+                        "name": "maintenanceId",
+                        "in": "path",
+                        "description": "ID del mantenimiento cuyo estado se desea cambiar.",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Estado del mantenimiento cambiado exitosamente."
+                    },
+                    "404": {
+                        "description": "Mantenimiento no encontrado.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "maintenance not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Usuario no autenticado.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "user not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/jwt/services/": {
             "get": {
                 "tags": [
