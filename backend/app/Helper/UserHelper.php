@@ -2,6 +2,8 @@
 
 namespace App\Helper;
 
+use App\Models\User;
+
 class UserHelper
 {
 
@@ -28,5 +30,41 @@ class UserHelper
         }
 
         return true;
+    }
+
+    public function getFullName($userId): string {
+        $user = User::whereId($userId)->first();
+
+        return $user->name . ' ' . $user->lastname;
+    }
+
+    public function getMechanicUsers(): array
+    {
+        $users = User::all();
+
+        foreach ($users as $user) {
+            $userRole = $user->getRoleNames();
+            if ($userRole[0] === User::MECHANIC) {
+                $fullName = $this->getFullName($user->id);
+                $mechanics[$user->id] = $fullName;
+            }
+        }
+
+        return $mechanics ?? [];
+    }
+
+    public function getCustomerUsers(): array
+    {
+        $clients = [];
+        $users = User::all();
+        foreach ($users as $user) {
+            $userRole = $user->getRoleNames();
+            if ($userRole[0] === User::CLIENT) {
+                $fullName = $this->getFullName($user->id);
+                $clients[$user->id] = $fullName;
+            }
+        }
+
+        return $clients ?? [];
     }
 }
