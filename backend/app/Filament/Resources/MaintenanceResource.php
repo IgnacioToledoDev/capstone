@@ -94,7 +94,7 @@ class MaintenanceResource extends Resource
                     ->default('N/A'),
                 TextColumn::make('start_maintenance')
                     ->searchable()
-                    ->label('Fecha Inicio Mantenimiento')
+                    ->label('Fecha Inicio')
                     ->default('N/A'),
             ])
             ->filters([
