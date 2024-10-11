@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NavController, AlertController } from '@ionic/angular';
 import { UserService } from 'src/app/services/user.service';
-import { Storage } from '@ionic/storage-angular';  // Importamos el Storage
+import { Storage } from '@ionic/storage-angular';  
 
 @Component({
   selector: 'app-register-user',
@@ -18,7 +18,7 @@ export class RegisterUserPage implements OnInit {
     private userService: UserService,
     private navCtrl: NavController,
     private alertController: AlertController,
-    private storageService: Storage // Inyectamos el Storage
+    private storageService: Storage 
   ) {}
 
   goBack() {
@@ -45,13 +45,11 @@ export class RegisterUserPage implements OnInit {
         if (response.success === true) {
           let userData = response.data;
 
-          // Almacenamos el token en el Storage
           await this.storageService.set('token', userData.access_token);
 
-          // Redirigimos a la página del mecánico
+
           this.navCtrl.navigateForward('/mecanico/home-mecanico');
         } else {
-          // Si el registro falla, mostramos una alerta
           await this.presentAlert('Error de registro', 'No se pudo completar el registro.');
         }
       } catch (error) {

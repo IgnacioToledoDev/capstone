@@ -17,9 +17,10 @@ export class CarService {
     storageService.create(); 
   }
 
-  newcar(car: NewCarInterface) {
+  async newcar(car: NewCarInterface) {
+    const headers = await this.getAuthHeaders();
     return new Promise((resolve, reject) => {
-      this.http.post(`${this.API_URL}/jwt/cars/create`, car).subscribe(
+      this.http.post(`${this.API_URL}/jwt/cars/create`, car, { headers }).subscribe(
         (res) => {
           console.log('Registro exitoso:', res);
           resolve(res);
@@ -28,4 +29,13 @@ export class CarService {
       );
     });
   }
-}
+  public async getAuthHeaders() {
+    const sessionData = await this.storageService.get('datos');
+    const token = sessionData ? sessionData.token : null;  
+  
+    console.log('Token recuperado:', token);  
+  
+    return new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+  }}
