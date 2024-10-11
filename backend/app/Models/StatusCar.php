@@ -35,6 +35,7 @@ class StatusCar extends Model
     const STATUS_FINISHED = 4;
 
     protected $fillable = [
+        'id',
         'status',
         'description'
     ];
