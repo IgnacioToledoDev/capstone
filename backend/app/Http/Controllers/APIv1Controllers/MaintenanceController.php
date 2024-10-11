@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\APIv1Controllers;
 
+use App\Helper\CarHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Car;
 use App\Models\Maintenance;
@@ -16,6 +17,12 @@ use OpenApi\Annotations as OA;
 
 class MaintenanceController extends Controller
 {
+    private CarHelper $carHelper;
+    public function __construct(CarHelper $carHelper)
+    {
+        $this->carHelper = $carHelper;
+    }
+
     /**
      * @OA\Get(
      *     path="/api/jwt/maintenance/calendar",
@@ -300,7 +307,7 @@ class MaintenanceController extends Controller
      * @param $user
      * @return array
      */
-    public function getCurrentClient($user): array
+    private function getCurrentClient($user): array
     {
         if (!$user instanceof User) {
             throw new InvalidArgumentException('user not valid');
@@ -321,5 +328,174 @@ class MaintenanceController extends Controller
             }
         }
         return $current;
+    }
+
+    /**
+     * @OA\Get(
+     *     path="/api/jwt/maintenance/historical",
+     *     summary="Get maintenance history for authenticated mechanic",
+     *     description="Retrieve the maintenance history of the authenticated mechanic, ordered by the start of the maintenance in descending order.",
+     *     tags={"Mechanic"},
+     *     security={{ "bearerAuth":{} }},
+     *
+     *     @OA\Response(
+     *         response=200,
+     *         description="Historial retrieved successfully",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="success",
+     *                 type="boolean",
+     *                 example=true
+     *             ),
+     *         )
+     *     ),
+     *
+     *     @OA\Response(
+     *         response=401,
+     *         description="User not found or unauthorized",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="success",
+     *                 type="boolean",
+     *                 example=false
+     *             ),
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="user not found"
+     *             )
+     *         )
+     *     ),
+     *
+     *     @OA\Response(
+     *         response=404,
+     *         description="Mechanic not found",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="success",
+     *                 type="boolean",
+     *                 example=false
+     *             ),
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="mechanic not found"
+     *             )
+     *         )
+     *     )
+     * )
+     */
+    public function getHistorical(Request $request): JsonResponse
+    {
+        if(!auth()->check()) {
+            return $this->sendError('user not found');
+        }
+
+        $mechanic = auth()->user();
+        if (!$mechanic) {
+            return $this->sendError('mechanic not found');
+        }
+
+        $maintenances = Maintenance::whereMechanicId($mechanic->id)
+            ->orderBy('start_maintenance', 'desc')
+            ->get();
+
+        $success['historical'] = $maintenances;
+
+        return $this->sendResponse($success, 'Historial retrieved successfully.');
+    }
+
+    /**
+     * @OA\Get(
+     *      path="/api/jwt/maintenance/historical/{id}",
+     *      summary="Get detailed maintenance history for a specific maintenance ID",
+     *      description="Retrieve detailed historical information for a specific maintenance record, including details of the car and client.",
+     *      tags={"Mechanic"},
+     *      security={{ "bearerAuth":{} }},
+     *
+     *     @OA\Parameter(
+     *          name="id",
+     *          in="path",
+     *          required=true,
+     *          description="The ID of the maintenance record to retrieve",
+     *          @OA\Schema(
+     *              type="integer",
+     *              example=123
+     *          )
+     *     ),
+     *
+     *     @OA\Response(
+     *         response=200,
+     *         description="Historial retrieved successfully",
+     *     ),
+     *
+     *     @OA\Response(
+     *         response=401,
+     *         description="User not found or unauthorized",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="success",
+     *                 type="boolean",
+     *                 example=false
+     *             ),
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="user not found"
+     *             )
+     *         )
+     *     ),
+     *
+     *     @OA\Response(
+     *         response=404,
+     *         description="Maintenance not found",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="success",
+     *                 type="boolean",
+     *                 example=false
+     *             ),
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="maintenance not found"
+     *             )
+     *         )
+     *     ),
+     * )
+     */
+    public function getMaintenanceHistoricalInformation(int $maintenanceId): JsonResponse
+    {
+        if(!auth()->check()) {
+            return $this->sendError('user not found');
+        }
+
+        $maintenance = Maintenance::whereId($maintenanceId)->first();
+        if (!$maintenance) {
+            return $this->sendError('maintenance not found');
+        }
+
+        $carId = $maintenance->toArray()['car_id'];
+        $car = Car::whereId($carId)->first();
+        $clientId = $car->owner_id;
+        $client = User::whereId($clientId)->first();
+        if(!$client || !$car) {
+            return $this->sendError('client or car not found');
+        }
+
+        $brandName = $this->carHelper->getCarBrandName($car->brand_id);
+        unset($client->password);
+        $car->brand_id = $brandName;
+
+        $success['maintenance'] = $maintenance;
+        $success['client'] = $client;
+        $success['car'] = $car;
+
+        return $this->sendResponse($success, 'Historial retrieved successfully.');
     }
 }
