@@ -46,7 +46,7 @@ class CarResource extends Resource
                     ->required(),
                 Forms\Components\Select::make('year')
                     ->label('Año')
-                    ->placeholder(Constants::SELECT_OPTION)
+                    ->placeholder(Constants::SELECT_OPTION )
                     ->options(array_combine($years, $years))
                     ->required(),
                 Forms\Components\Select::make('owner_id')

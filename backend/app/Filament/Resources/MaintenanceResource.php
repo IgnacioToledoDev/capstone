@@ -19,6 +19,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
+use Filament\Tables\Columns\TextColumn;
 
 class MaintenanceResource extends Resource
 {
@@ -45,8 +46,9 @@ class MaintenanceResource extends Resource
                 Select::make('status_id')
                     ->label('Estado')
                     ->placeholder(Constants::SELECT_OPTION)
-                    ->relationship('status', 'status')
-                    ->required(),
+                    ->relationship('statusCar', 'status')
+                    ->required()
+                    ->default(1),
                 Select::make('service_id')
                     ->label('Servicio')
                     ->relationship('service', 'name')
@@ -79,7 +81,21 @@ class MaintenanceResource extends Resource
     {
         return $table
             ->columns([
-                //
+                TextColumn::make('name')
+                    ->searchable()
+                    ->default('N/a')
+                    ->label('Nombre'),
+                TextColumn::make('mechanic.full_name')
+                    ->searchable()
+                    ->label('Mecanico'),
+                TextColumn::make('statusCar.status')
+                    ->searchable()
+                    ->label('Estado')
+                    ->default('N/A'),
+                TextColumn::make('start_maintenance')
+                    ->searchable()
+                    ->label('Fecha Inicio Mantenimiento')
+                    ->default('N/A'),
             ])
             ->filters([
                 //

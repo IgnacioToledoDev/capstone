@@ -49,26 +49,6 @@ class Maintenance extends Model
 {
     use HasFactory;
 
-    /**
-     * @var mixed|string
-     */
-    public mixed $name;
-    /**
-     * @var mixed|null
-     */
-    public mixed $description;
-    /**
-     * @var int|mixed
-     */
-    public mixed $status_id;
-    public mixed $service_id;
-    public mixed $actual_mileage;
-    /**
-     * @var int|mixed
-     */
-    public mixed $pricing;
-    public mixed $car_id;
-    public mixed $mechanic_id;
     protected $fillable = [
         'name',
         'description',
@@ -83,7 +63,11 @@ class Maintenance extends Model
         'end_maintenance',
     ];
 
-    public function status(): BelongsTo
+    protected $attributes = [
+        'status_id' => 1
+    ];
+
+    public function statusCar(): BelongsTo
     {
         return $this->belongsTo(StatusCar::class, 'status_id');
     }
@@ -96,5 +80,10 @@ class Maintenance extends Model
     public function car(): BelongsTo
     {
         return $this->belongsTo(Car::class, 'car_id');
+    }
+
+    public function mechanic(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'mechanic_id');
     }
 }
