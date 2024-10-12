@@ -29,7 +29,7 @@ export class RegisterUserPage implements OnInit {
   ngOnInit() {
     this.registerForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
-      username: ['', Validators.required],                  
+      name: ['', Validators.required],                  
       lastname: ['', Validators.required],                
       rut: ['', Validators.required],                     
       phone: ['', [Validators.required]],
@@ -38,9 +38,9 @@ export class RegisterUserPage implements OnInit {
 
   async onSubmit() {
     if (this.registerForm.valid) {
-      const { email, username, lastname, rut, phone } = this.registerForm.value; 
+      const { email, name, lastname, rut, phone } = this.registerForm.value; 
       try {
-        const response: any = await this.userService.register({ email, username, lastname, rut, phone });
+        const response: any = await this.userService.register({ email, name, lastname, rut, phone });
         console.log('Registro exitoso:', response);
 
         if (response.success === true) {

@@ -3,9 +3,9 @@ export interface UserLoginInterface {
     password: string;
   }
 
-  export interface UserRegisterInterface {
+export interface UserRegisterInterface {
     email: string;
-    username: string;
+    name: string;
     lastname: string; 
     rut: string;
     phone: string;
