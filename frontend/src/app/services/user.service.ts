@@ -20,18 +20,26 @@ export class UserService {
 
 
   async register(user: UserRegisterInterface) {
-    const headers = await this.getAuthHeaders();
-    return new Promise((resolve, reject) => {
-      this.http.post(`${this.API_URL}/users/client/register`, user, { headers }).subscribe(
-        (res) => {
-          console.log('Registro exitoso:', res);
-          resolve(res);
-        },
-        (err) => reject(err),
-      );
-    });
+    try {
+      const headers = await this.getAuthHeaders();
+  
+      if (!headers.has('Authorization')) {
+        throw new Error('No se pudo recuperar el token de autenticación.');
+      }
+  
+      console.log('Datos de registro a enviar:', user , headers);
+  
+      const response = await this.http.post(`${this.API_URL}/users/client/register`, user, { headers }).toPromise();
+      console.log('Registro exitoso:', response);
+      return response;
+  
+    } catch (error) {
+      console.error('Error en el registro:', error);
+      throw error;
+    }
   }
-
+  
+  
   login(user: UserLoginInterface) {
     return new Promise((resolve, reject) => {
       this.http.post(`${this.API_URL}/users/login`, user).subscribe(

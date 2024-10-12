@@ -8,7 +8,7 @@ export interface UserLoginInterface {
     username: string;
     lastname: string; 
     rut: string;
-    phoneNumber: string;
+    phone: string;
   }
 
 export interface UserRecoveryInterface {
