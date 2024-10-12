@@ -31,7 +31,7 @@ export class RegisterUserPage implements OnInit {
       username: ['', Validators.required],                  
       lastname: ['', Validators.required],                
       rut: ['', Validators.required],                     
-      phoneNumber: ['', [Validators.required, Validators.pattern('^[0-9]+$')]], 
+      phoneNumber: ['', [Validators.required]], 
     });
   }
 
