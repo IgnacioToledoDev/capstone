@@ -2,23 +2,32 @@ import { Component, OnInit } from '@angular/core';
 import { NavController, AlertController } from '@ionic/angular';
 import { Storage } from '@ionic/storage-angular';
 
-
 @Component({
   selector: 'app-menu',
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.scss'],
 })
-export class MenuComponent  implements OnInit {
+export class MenuComponent implements OnInit {
 
-  constructor(private navCtrl: NavController, private storage: Storage , private alertController: AlertController,) { }
+  constructor(
+    private navCtrl: NavController, 
+    private storage: Storage, 
+    private alertController: AlertController
+  ) { }
 
-  ngOnInit() {}
+  async ngOnInit() {
+    await this.storage.create(); // Asegura que el Storage está inicializado
+  }
   
   async cerrarSesion() {
-    console.log('Sesión cerrada');
+    // Borra todos los datos almacenados en el Storage
+    await this.storage.clear();
+    console.log('Sesión cerrada y almacenamiento borrado');
 
+    // Redirige al usuario a la página de inicio de sesión
     this.navCtrl.navigateRoot('/inicio-sesion');
   }
+
   async presentLogoutConfirm() {
     const alert = await this.alertController.create({
       header: 'Confirmar',
@@ -42,8 +51,9 @@ export class MenuComponent  implements OnInit {
 
     await alert.present();
   }
+
   async historial() {
-    console.log('historial');
+    console.log('Historial');
 
     this.navCtrl.navigateRoot('/mecanico/historial');
   }
