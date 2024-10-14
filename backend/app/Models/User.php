@@ -132,4 +132,9 @@ class User extends Authenticatable implements FilamentUser, JWTSubject, CanReset
     {
         return [];
     }
+
+    public function getFullNameAttribute(): string
+    {
+        return "{$this->name} {$this->lastname}";
+    }
 }

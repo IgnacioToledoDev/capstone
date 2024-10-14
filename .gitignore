@@ -19,6 +19,7 @@
 ./backend/.idea
 ./backend/.vscode
 ./backend/storage/api-docs/*
+./backend/composer.lock
 
 ./frontend/node_modules
 ./frontend/public/build
