@@ -22,7 +22,7 @@ class CarController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/jwt/cars/create",
+     *     path="/jwt/cars/create",
      *     summary="Create a new car",
      *     tags={"Cars"},
      *     security={{
@@ -115,7 +115,7 @@ class CarController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/cars/{patent}",
+     *     path="/api/jwt/cars/{patent}",
      *     tags={"Cars"},
      *     summary="Retrieve car by patent",
      *     description="Returns car details based on the patent provided.",
