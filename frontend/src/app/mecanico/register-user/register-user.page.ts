@@ -48,7 +48,7 @@ export class RegisterUserPage implements OnInit {
 
           await this.storageService.set('token', userData.access_token);
 
-          this.navCtrl.navigateForward('/mecanico/home-mecanico');
+          this.navCtrl.navigateForward('mecanico/agregar-vehiculo');
         } else {
           await this.presentAlert('Error de registro', response.message || 'No se pudo completar el registro.');
         }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NavController} from '@ionic/angular';
+import { CarService } from 'src/app/services/car.service'; 
 
 @Component({
   selector: 'app-agregar-vehiculo',
@@ -8,6 +9,7 @@ import { NavController} from '@ionic/angular';
   styleUrls: ['./agregar-vehiculo.page.scss'],
 })
 export class AgregarVehiculoPage implements OnInit {
+  carBrands: string[] | undefined = [];
 
   vehicleForm: FormGroup;
   brands: string[] = ['Toyota', 'Honda', 'Ford', 'Chevrolet'];
@@ -16,7 +18,8 @@ export class AgregarVehiculoPage implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private navCtrl: NavController
+    private navCtrl: NavController,
+    private CarService: CarService
   ) {
     this.vehicleForm = this.formBuilder.group({
       brand: ['', Validators.required],
@@ -25,11 +28,22 @@ export class AgregarVehiculoPage implements OnInit {
       patente: ['', Validators.required],
     });
   }
+  async ngOnInit() {
+    try {
+      const brands = await this.CarService.getCarBrands();
+      this.carBrands = brands; 
+      console.log('Marcas de coches:', this.carBrands);
+    } catch (error) {
+      console.error('Error inesperado al cargar las marcas de coches:', error);
+      this.carBrands = []; 
+    }
+  }
+
+  
   goBack() {
     this.navCtrl.back();
   }
 
-  ngOnInit() {}
 
   onSubmit() {
     if (this.vehicleForm.valid) {

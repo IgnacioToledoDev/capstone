@@ -13,29 +13,37 @@ export class CarService {
   constructor(
     private http: HttpClient,
     private storageService: Storage,
-  ) {    
-    storageService.create(); 
+  ) {
+    storageService.create();
   }
 
-  async newcar(car: NewCarInterface) {
-    const headers = await this.getAuthHeaders();
-    return new Promise((resolve, reject) => {
-      this.http.post(`${this.API_URL}/jwt/cars/create`, car, { headers }).subscribe(
-        (res) => {
-          console.log('Registro exitoso:', res);
-          resolve(res);
-        },
-        (err) => reject(err),
-      );
-    });
+  // Método para obtener las marcas de coches
+  async getCarBrands(): Promise<string[]> {
+    try {
+      const headers = await this.getAuthHeaders(); // Obtener los headers con el token de autenticación
+  
+      if (!headers.has('Authorization')) {
+        console.error('No se pudo recuperar el token de autenticación.');
+        return []; // Retornar un array vacío si no hay autorización
+      }
+  
+      const response = await this.http.get<string[]>(`${this.API_URL}/jwt/cars/brands`, { headers }).toPromise();
+  
+      console.log('Marcas de coches obtenidas:', response);
+      return response || []; // Asegurarte de que siempre retornas un array
+    } catch (error) {
+      console.error('Error al obtener las marcas de coches:', error);
+      return []; // Retornar un array vacío en caso de error
+    }
   }
+  
+  // Método para obtener los headers de autenticación
   public async getAuthHeaders() {
     const sessionData = await this.storageService.get('datos');
     const token = sessionData ? sessionData.token : null;  
-  
-    console.log('Token recuperado:', token);  
-  
+    
     return new HttpHeaders({
       Authorization: `Bearer ${token}`,
     });
-  }}
+  }
+}
