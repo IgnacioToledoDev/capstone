@@ -63,11 +63,6 @@
                                         "description": "Year of the car",
                                         "type": "integer",
                                         "example": 2024
-                                    },
-                                    "user_id": {
-                                        "description": "ID of the user who owns the car",
-                                        "type": "integer",
-                                        "example": 1
                                     }
                                 },
                                 "type": "object"
@@ -104,7 +99,7 @@
                                                     "type": "integer",
                                                     "example": 2024
                                                 },
-                                                "user_id": {
+                                                "owner_id": {
                                                     "type": "integer",
                                                     "example": 1
                                                 },

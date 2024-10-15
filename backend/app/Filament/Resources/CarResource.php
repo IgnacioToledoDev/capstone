@@ -67,7 +67,7 @@ class CarResource extends Resource
                 Tables\Columns\TextColumn::make('patent')
                     ->searchable()
                     ->default('N/A')
-                    ->label('Marca'),
+                    ->label('Patente'),
                 Tables\Columns\TextColumn::make('carBrands.name')
                     ->searchable()
                     ->label('Marca'),
