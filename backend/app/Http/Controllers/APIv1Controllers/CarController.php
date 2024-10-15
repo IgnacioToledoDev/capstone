@@ -22,7 +22,7 @@ class CarController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/jwt/cars/create",
+     *     path="/api/jwt/cars/create",
      *     summary="Create a new car",
      *     tags={"Cars"},
      *     security={{
@@ -34,6 +34,7 @@ class CarController extends Controller
      *             required={"brand_id", "model", "year", "user_id"},
      *             @OA\Property(property="brand_id", type="integer", example=1, description="ID of the car brand"),
      *             @OA\Property(property="model", type="string", example="Toyota Corolla", description="Model of the car"),
+     *             @OA\Property(property="patent", type="string", example="kbtd92", description="Patent of the car"),
      *             @OA\Property(property="year", type="integer", example=2024, description="Year of the car"),
      *             @OA\Property(property="user_id", type="integer", example=1, description="ID of the user who owns the car")
      *         )
@@ -103,7 +104,7 @@ class CarController extends Controller
             $car->brand_id = $validated['brand_id'];
             $car->model = $validated['model'];
             $car->year = $validated['year'];
-            $car->user_id = $user->id;
+            $car->owner_id = $user->id;
             $car->save();
             $success['car'] = $car;
 
