@@ -25,13 +25,13 @@
                 ]
             }
         },
-        "/api/jwt/cars/create": {
+        "/jwt/cars/create": {
             "post": {
                 "tags": [
                     "Cars"
                 ],
                 "summary": "Create a new car",
-                "operationId": "ba8cc46b680a23a2980f6da2455c22cc",
+                "operationId": "3b8f16c6e60e0b7e213089068c875ba0",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -181,7 +181,7 @@
                 ]
             }
         },
-        "/api/cars/{patent}": {
+        "/api/jwt/cars/{patent}": {
             "get": {
                 "tags": [
                     "Cars"

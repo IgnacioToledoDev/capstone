@@ -47,7 +47,6 @@ export class RegisterUserPage implements OnInit {
           let userData = response.data;
 
           await this.storageService.set('token', userData.access_token);
-
           this.navCtrl.navigateForward('mecanico/agregar-vehiculo');
         } else {
           await this.presentAlert('Error de registro', response.message || 'No se pudo completar el registro.');
