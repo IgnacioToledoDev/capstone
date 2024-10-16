@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { NavController} from '@ionic/angular';
+import { NavController, AlertController } from '@ionic/angular'; 
 import { CarService } from 'src/app/services/car.service'; 
 
 @Component({
@@ -19,6 +19,7 @@ export class AgregarVehiculoPage implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private navCtrl: NavController,
+    private alertController: AlertController, 
     private CarService: CarService
   ) {
     this.vehicleForm = this.formBuilder.group({
@@ -28,6 +29,7 @@ export class AgregarVehiculoPage implements OnInit {
       patente: ['', Validators.required],
     });
   }
+
   async ngOnInit() {
     try {
       const brands = await this.CarService.getCarBrands();
@@ -38,16 +40,32 @@ export class AgregarVehiculoPage implements OnInit {
       this.carBrands = []; 
     }
   }
-
-  
   goBack() {
     this.navCtrl.back();
   }
 
+  // Método para mostrar la alerta
+  async showAlert() {
+    const alert = await this.alertController.create({
+      header: 'Éxito',
+      message: 'Vehículo agregado correctamente.',
+      buttons: ['OK']
+    });
+    await alert.present();
+  }
+
+  // Método para redirigir a la página de 'mecanico/cotizar'
+  goToCotizar() {
+    this.navCtrl.navigateForward('/mecanico/cotizar');
+  }
 
   onSubmit() {
     if (this.vehicleForm.valid) {
-      console.log('Form Submitted', this.vehicleForm.value);/* RECORADAR AGRGAR ALARMA ANTES DE PASAR la validacion  */
+      console.log('Form Submitted', this.vehicleForm.value);
+      this.showAlert();
+      setTimeout(() => {
+        this.goToCotizar();
+      },); 
     } else {
       console.log('Form not valid');
     }
