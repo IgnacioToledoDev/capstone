@@ -11,15 +11,18 @@
 
 <ion-content>
   <form [formGroup]="vehicleForm" (ngSubmit)="onSubmit()">
+
+    <!-- Selector de Marca -->
     <ion-item>
       <ion-label>Marca</ion-label>
       <ion-select formControlName="brand">
-        <ion-select-option *ngFor="let brand of carBrands" [value]="brand">
-          {{ brand }}
+        <ion-select-option *ngFor="let brand of carBrands" [value]="brand.id"> 
+          {{ brand.name }} 
         </ion-select-option>
       </ion-select>
     </ion-item>
 
+    <!-- Selector de Modelo -->
     <ion-item>
       <ion-label>Modelo</ion-label>
       <ion-select formControlName="model">
@@ -29,6 +32,7 @@
       </ion-select>
     </ion-item>
 
+    <!-- Selector de Año -->
     <ion-item>
       <ion-label>Año</ion-label>
       <ion-select formControlName="year">
@@ -38,11 +42,13 @@
       </ion-select>
     </ion-item>
 
+    <!-- Campo para la Patente -->
     <ion-item>
       <ion-label>Patente</ion-label>
       <ion-input formControlName="patente"></ion-input>
     </ion-item>
 
+    <!-- Botón de Enviar -->
     <ion-button expand="full" type="submit">Enviar</ion-button>
   </form>
 </ion-content>

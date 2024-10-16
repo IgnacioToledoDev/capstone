@@ -1,6 +1,6 @@
 export interface NewCarInterface {
-    brandId: number;      
+    brand_id: number;      
     model: string;        
-    year: number;         
-    userId: number;       
+    patent: string;         
+    year: number;       
   }
