@@ -5,14 +5,14 @@
         "version": "1.0.0"
     },
     "paths": {
-        "/api/jwt/cars/brands": {
+        "/api/jwt/cars/brands/all": {
             "get": {
                 "tags": [
                     "Car Brands"
                 ],
                 "summary": "Obtener todas las marcas de autos",
                 "description": "Este endpoint permite obtener una lista de todas las marcas de autos. Requiere autenticación JWT.",
-                "operationId": "a8c26660c15f3783f1c1db8ac3029572",
+                "operationId": "cd80ab1043c99e4d9154ef2771cbd370",
                 "responses": {
                     "200": {
                         "description": "Marcas de autos obtenidas exitosamente."
