@@ -22,7 +22,7 @@ class CarController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/jwt/cars/create",
+     *     path="/api/jwt/cars/create",
      *     summary="Create a new car",
      *     tags={"Cars"},
      *     security={{
@@ -34,8 +34,8 @@ class CarController extends Controller
      *             required={"brand_id", "model", "year", "user_id"},
      *             @OA\Property(property="brand_id", type="integer", example=1, description="ID of the car brand"),
      *             @OA\Property(property="model", type="string", example="Toyota Corolla", description="Model of the car"),
+     *             @OA\Property(property="patent", type="string", example="kbtd92", description="Patent of the car"),
      *             @OA\Property(property="year", type="integer", example=2024, description="Year of the car"),
-     *             @OA\Property(property="user_id", type="integer", example=1, description="ID of the user who owns the car")
      *         )
      *     ),
      *     @OA\Response(
@@ -46,9 +46,9 @@ class CarController extends Controller
      *             @OA\Property(property="car", type="object",
      *                 @OA\Property(property="id", type="integer", example=1),
      *                 @OA\Property(property="brand_id", type="integer", example=1),
-     *                 @OA\Property(property="model", type="string", example="Toyota Corolla"),
+     *                 @OA\Property(property="model", type="string", example="Corolla"),
      *                 @OA\Property(property="year", type="integer", example=2024),
-     *                 @OA\Property(property="user_id", type="integer", example=1),
+     *                 @OA\Property(property="owner_id", type="integer", example=1),
      *                 @OA\Property(property="created_at", type="string", format="date-time", example="2024-09-17T02:42:18Z"),
      *                 @OA\Property(property="updated_at", type="string", format="date-time", example="2024-09-17T02:42:18Z")
      *             )
@@ -103,7 +103,8 @@ class CarController extends Controller
             $car->brand_id = $validated['brand_id'];
             $car->model = $validated['model'];
             $car->year = $validated['year'];
-            $car->user_id = $user->id;
+            $car->patent = $validated['patent'];
+            $car->owner_id = $user->id;
             $car->save();
             $success['car'] = $car;
 
