@@ -80,7 +80,7 @@ export class AgregarVehiculoPage implements OnInit {
           await this.storageService.set('token', response.data.access_token);
           this.showAlert();
           setTimeout(() => {
-            this.navCtrl.navigateForward('/mecanico/cotizar');
+            this.navCtrl.navigateForward('/mecanico/generar-servicio');
           }, 2000);
         } else {
           await this.presentAlert('Error de registro', response.message || 'No se pudo completar el registro.');

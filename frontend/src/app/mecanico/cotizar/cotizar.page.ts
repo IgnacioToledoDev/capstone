@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController, NavController } from '@ionic/angular';
-import { Storage } from '@ionic/storage-angular'; // Importar Storage
+import { Storage } from '@ionic/storage-angular'; 
 
 @Component({
   selector: 'app-cotizar',
@@ -8,33 +8,32 @@ import { Storage } from '@ionic/storage-angular'; // Importar Storage
   styleUrls: ['./cotizar.page.scss'],
 })
 export class CotizarPage implements OnInit {
-  user: any = {};  // Para guardar los datos del usuario
-  car: any = {};   // Para guardar los datos del coche
+  user: any = {};  
+  car: any = {};   
 
   constructor(
     private alertController: AlertController,
     private navCtrl: NavController,
-    private storageService: Storage // Inyectar Storage
+    private storageService: Storage 
   ) {}
 
   async ngOnInit() {
-    // Asegúrate de inicializar el almacenamiento
+
     await this.storageService.create();
 
-    // Obtener datos del usuario del Storage
+ 
     const userData = await this.storageService.get('newuser');
     if (userData && userData.user) {
       this.user = userData.user;
-      console.log('Datos del usuario almacenados en "newuser":', this.user); // Mostrar en consola
+      console.log('Datos del usuario almacenados en "newuser":', this.user); 
     } else {
       console.log('No se encontró el usuario en el Storage');
     }
 
-    // Obtener datos del coche del Storage
     const carData = await this.storageService.get('newcar');
     if (carData) {
       this.car = carData;
-      console.log('Datos del coche almacenados en "newcar":', this.car); // Mostrar en consola
+      console.log('Datos del coche almacenados en "newcar":', this.car); 
     } else {
       console.log('No se encontró el coche en el Storage');
     }
