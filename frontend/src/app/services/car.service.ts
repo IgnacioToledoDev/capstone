@@ -26,12 +26,9 @@ export class CarService {
         console.error('No se pudo recuperar el token de autenticación.');
         return [];
       }
-  
-      // Realizamos la solicitud para obtener la respuesta completa
       const response = await this.http.get<any>(`${this.API_URL}/jwt/cars/brands/all`, { headers }).toPromise();
   
       if (response.success && response.data?.brands) {
-        // Extraemos los IDs y los nombres de las marcas del array de objetos
         const brands = response.data.brands.map((brand: { id: number, name: string }) => ({
           id: brand.id,
           name: brand.name
@@ -57,15 +54,32 @@ export class CarService {
       }
   
       console.log('Datos de registro a enviar:', car , headers);
-      const response = await this.http.post(`${this.API_URL}/jwt/cars/create`, car, { headers }).toPromise();
+      const response: any = await this.http.post(`${this.API_URL}/jwt/cars/create`, car, { headers }).toPromise();
       console.log('Registro car exitoso:', response);
+  
+      if (response.success) {
+        const carData = response.data.car;
+        const storedCar = {
+          brand_id: carData.brand_id,
+          model: carData.model,
+          year: carData.year,
+          patent: carData.patent,
+          owner_id: carData.owner_id,
+          id: carData.id,
+          createdAt: carData.created_at,
+          updatedAt: carData.updated_at
+        };
+        await this.storageService.set('newcar', storedCar);
+        console.log('Datos del coche guardados en el Storage bajo "newcar":', storedCar);
+      }
       return response;
   
     } catch (error) {
-      console.error('Error en el registro:', error);
+      console.error('Error en el registro del coche:', error);
       throw error;
     }
   }
+  
   
 
   public async getAuthHeaders() {
