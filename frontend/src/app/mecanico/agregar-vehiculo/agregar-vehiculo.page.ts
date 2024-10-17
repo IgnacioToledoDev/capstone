@@ -23,7 +23,6 @@ export class AgregarVehiculoPage implements OnInit {
     private CarService: CarService,
     private storageService: Storage 
   ) {
-
     this.vehicleForm = this.formBuilder.group({
       brand: ['', Validators.required], 
       model: ['', Validators.required], 
@@ -64,7 +63,16 @@ export class AgregarVehiculoPage implements OnInit {
     if (this.vehicleForm.valid) {
       const { brand, model, patente, year } = this.vehicleForm.value; 
       try {
-        const response: any = await this.CarService.registerCar({ brand_id: brand, model, patent: patente, year });
+        // Recuperar el newuser del storage para obtener el owner_id
+        const storedUser = await this.storageService.get('newuser');
+        const owner_id = storedUser?.user?.id;  // Obtener el ID del usuario
+
+        if (!owner_id) {
+          throw new Error('No se encontró el owner_id en el Storage.');
+        }
+
+        // Enviar el registro del vehículo incluyendo el owner_id
+        const response: any = await this.CarService.registerCar({ brand_id: brand, model, patent: patente, owner_id, year });
         console.log('Registro exitoso:', response);
 
         if (response.success === true) {

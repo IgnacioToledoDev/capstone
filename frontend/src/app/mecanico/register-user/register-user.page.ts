@@ -47,13 +47,6 @@ export class RegisterUserPage implements OnInit {
           let userData = response.data;
 
           await this.storageService.set('token', userData.access_token);
-          await this.storageService.set('newuser', {
-            email: userData.email,
-            name: userData.name,
-            lastname: userData.lastname,
-            rut: userData.rut,
-            phone: userData.phone,
-          });
 
           this.navCtrl.navigateForward('mecanico/agregar-vehiculo');
         } else {

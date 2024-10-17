@@ -27,10 +27,30 @@ export class UserService {
         throw new Error('No se pudo recuperar el token de autenticación.');
       }
   
-      console.log('Datos de registro a enviar:', user , headers);
+      console.log('Datos de registro a enviar:', user, headers);
   
-      const response = await this.http.post(`${this.API_URL}/users/client/register`, user, { headers }).toPromise();
+      const response: any = await this.http.post(`${this.API_URL}/users/client/register`, user, { headers }).toPromise();
       console.log('Registro exitoso:', response);
+  
+      if (response.success) {
+        const clientData = response.data.client;
+        const sessionData = {
+          user: {
+            username: clientData.username,
+            email: clientData.email,
+            name: clientData.name,
+            lastname: clientData.lastname,
+            rut: clientData.rut,
+            phone: clientData.phone,
+            id: clientData.id,
+            roles: clientData.roles,
+          },
+        };
+        await this.storageService.set('newuser', sessionData);
+  
+        console.log('Registro exitoso. Datos guardados en el Storage bajo "newuser":', sessionData);
+      }
+  
       return response;
   
     } catch (error) {
