@@ -31,15 +31,25 @@ export class InicioSesionPage implements OnInit {
     if (this.loginForm.valid) {
       const { email, password } = this.loginForm.value;
       try {
-        const response = await this.userService.login({ email, password });
+        const response: any = await this.userService.login({ email, password });
         console.log('Inicio de sesión exitoso:', response);
-        this.navCtrl.navigateForward('/mecanico/home-mecanico');  // Redirige a la página de Home al terminar 
+        
+        const userRoles = response.data.user.roles; 
+        console.log('Roles del usuario:', userRoles);
+        if (userRoles.includes('MECHANIC_USER')) {
+          this.navCtrl.navigateForward('/mecanico/home-mecanico');
+        } else if (userRoles.includes('CUSTOMER_USER')) {
+          this.navCtrl.navigateForward('/cliente/home-cliente');
+        } else {
+          this.presentAlert('Error de rol', 'Rol desconocido.');
+        }
       } catch (error) {
         console.error('Error de inicio de sesión:', error);
         this.presentAlert('Error de inicio de sesión', 'Correo o contraseña incorrectos');
       }
     }
   }
+  
 
   async presentAlert(header: string, message: string) {
     const alert = await this.alertController.create({
