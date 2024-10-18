@@ -68,7 +68,8 @@ export class UserService {
             token: res.data.access_token,
             user: res.data.user,
             tokenType: res.data.token_type,
-            expiresIn: res.data.expires_in
+            expiresIn: res.data.expires_in,
+            roles: res.data.user.roles
           };
           await this.storageService.set('datos', sessionData);
           await this.storageService.set('token', sessionData.token);  

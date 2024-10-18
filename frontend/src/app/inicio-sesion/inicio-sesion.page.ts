@@ -61,9 +61,23 @@ export class InicioSesionPage implements OnInit {
   }
 
   async checkIfAuthenticated() {
-    const isAuthenticated = await this.userService.checkAuthenticated();
-    if (isAuthenticated) { // Recordar que es nesesario definir el tipo de USER 
-      this.navCtrl.navigateForward('/mecanico/home-mecanico'); // Redirige a la página de Home si esta checkAuthenticated es dependiaendo el tipo de USER 
+    const sessionData = await this.userService.getUserSession(); // Obtener la sesión almacenada
+  
+    if (sessionData) {
+      const userRoles = sessionData.user.roles;
+      console.log('Roles del usuario autenticado:', userRoles);
+  
+      // Verificar los roles y redirigir a la página correspondiente
+      if (userRoles.includes('MECHANIC_USER')) {
+        this.navCtrl.navigateForward('/mecanico/home-mecanico');
+      } else if (userRoles.includes('CUSTOMER_USER')) {
+        this.navCtrl.navigateForward('/cliente/home-cliente');
+      } else {
+        this.presentAlert('Error de rol', 'Rol desconocido.');
+      }
+    } else {
+      console.log('Usuario no autenticado.');
     }
   }
+  
 }
