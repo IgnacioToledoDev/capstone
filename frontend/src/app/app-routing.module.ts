@@ -69,6 +69,11 @@ const routes: Routes = [
     path: 'mecanico/seguimiento',
     loadChildren: () => import('./mecanico/seguimiento/seguimiento.module').then( m => m.SeguimientoPageModule)
   },
+  {
+    path: 'cliente/home-cliente',
+    loadChildren: () => import('./cliente/home-cliente/home-cliente.module').then( m => m.HomeClientePageModule)
+  },
+
 
 ];
 

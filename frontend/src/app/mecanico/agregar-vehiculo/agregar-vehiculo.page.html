@@ -1,4 +1,3 @@
-
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
@@ -6,39 +5,50 @@
         <ion-icon name="arrow-back-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-title>Agregar vehículo</ion-title>
+    <ion-title>Generar vehículo</ion-title>
   </ion-toolbar>
 </ion-header>
+
 <ion-content>
   <form [formGroup]="vehicleForm" (ngSubmit)="onSubmit()">
+
+    <!-- Selector de Marca -->
     <ion-item>
-      <ion-label position="floating">Marca</ion-label>
+      <ion-label>Marca</ion-label>
       <ion-select formControlName="brand">
-        <ion-select-option *ngFor="let brand of brands" [value]="brand">{{ brand }}</ion-select-option>
+        <ion-select-option *ngFor="let brand of carBrands" [value]="brand.id"> 
+          {{ brand.name }} 
+        </ion-select-option>
       </ion-select>
     </ion-item>
+
+    <!-- Selector de Modelo -->
     <ion-item>
-      <ion-label position="floating">Modelo</ion-label>
+      <ion-label>Modelo</ion-label>
       <ion-select formControlName="model">
-        <ion-select-option *ngFor="let model of models" [value]="model">{{ model }}</ion-select-option>
+        <ion-select-option *ngFor="let model of models" [value]="model">
+          {{ model }}
+        </ion-select-option>
       </ion-select>
     </ion-item>
+
+    <!-- Selector de Año -->
     <ion-item>
-      <ion-label position="floating">Año</ion-label>
+      <ion-label>Año</ion-label>
       <ion-select formControlName="year">
-        <ion-select-option *ngFor="let year of years" [value]="year">{{ year }}</ion-select-option>
+        <ion-select-option *ngFor="let year of years" [value]="year">
+          {{ year }}
+        </ion-select-option>
       </ion-select>
     </ion-item>
+
+    <!-- Campo para la Patente -->
     <ion-item>
-      <ion-label position="floating">Patente</ion-label>
+      <ion-label>Patente</ion-label>
       <ion-input formControlName="patente"></ion-input>
     </ion-item>
-    <ion-button expand="full" type="submit" routerLink="/mecanico/generar-servicio">Agregar vehículo</ion-button> 
+
+    <!-- Botón de Enviar -->
+    <ion-button expand="full" type="submit">Enviar</ion-button>
   </form>
 </ion-content>
-
-<ion-footer>
-  <ion-toolbar>
-    <ion-title>AutoMinder</ion-title>
-  </ion-toolbar>
-</ion-footer>

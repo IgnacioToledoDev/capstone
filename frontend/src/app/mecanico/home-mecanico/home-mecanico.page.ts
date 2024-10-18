@@ -20,13 +20,11 @@ export class HomeMecanicoPage implements OnInit {
   constructor(private userService: UserService) {}
 
   async ngOnInit() {
-    // Recupera los datos de sesión
     const sessionData = await this.userService.getUserSession();
 
-    // Verifica si se han encontrado datos de sesión
     if (sessionData) {
-      this.token = sessionData.token;  // Recupera el token directamente del objeto de sesión
-      this.user = sessionData.user;    // Recupera la información del usuario
+      this.token = sessionData.token;  
+      this.user = sessionData.user;    
 
       console.log('Token:', this.token);
       console.log('User Info:', this.user);
