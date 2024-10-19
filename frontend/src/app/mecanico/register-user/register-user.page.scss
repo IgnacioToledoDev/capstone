@@ -55,3 +55,14 @@ ion-icon {
     text-align: center;
     margin-bottom: 1.5rem;
 }
+
+ion-button {
+    --background: #3246F2;
+    color: #ffffff; // Texto blanco
+    font-size: 1rem;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 1rem auto; // Centrar el botón horizontalmente
+    display: block;
+    width: 70%; // Ancho completo del contenedor (formulario)
+}

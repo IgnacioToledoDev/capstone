@@ -5,33 +5,32 @@
 ></ion-icon>
 <br>
 <br>
-<h1 class="title">Agregar vehiculo</h1>
-<form (ngSubmit)="onSubmit()" [formGroup]="vehicleForm">
-  <ion-item>
+<h1 class="title">Agregar vehículo</h1>
+<form (ngSubmit)="onSubmit()" [formGroup]="vehicleForm" class="car-form">
+  <ion-item class="input-item">
     <ion-label position="floting" class="label">Marca:</ion-label>
     <ion-select formControlName="brand">
       <ion-select-option *ngFor="let brand of brands" [value]="brand">{{ brand }}</ion-select-option>
     </ion-select>
   </ion-item>
     <p></p>
-  <ion-item>
+  <ion-item class="input-item">
     <ion-label position="floting" class="label">Modelo:</ion-label>
     <ion-select formControlName="model">
       <ion-select-option *ngFor="let model of models" [value]="model">{{ model }}</ion-select-option>
     </ion-select>
   </ion-item>
     <p></p>
-  <ion-item>
+  <ion-item class="input-item">
     <ion-label position="floting" class="label">Año:</ion-label>
     <ion-select formControlName="year">
       <ion-select-option *ngFor="let year of years" [value]="year">{{ year }}</ion-select-option>
     </ion-select>
   </ion-item>
-  <ion-item>
+  <ion-item class="input-item">
     <ion-label position="floating" class="label">Patente</ion-label>
-    <ion-input formControlName="patente" class="car-form"></ion-input>
+    <ion-input formControlName="patente"></ion-input>
   </ion-item>
-  <br>
   <br>
   <ion-button type="submit" routerLink="/mecanico/generar-servicio">Agregar vehículo</ion-button> 
   </form>
