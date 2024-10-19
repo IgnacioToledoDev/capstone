@@ -2,12 +2,17 @@ import { Component, OnInit } from '@angular/core';
 import { NavController, AlertController } from '@ionic/angular';
 import { Storage } from '@ionic/storage-angular';
 
+
 @Component({
-  selector: 'app-menu',
-  templateUrl: './menu.component.html',
-  styleUrls: ['./menu.component.scss'],
+  selector: 'app-ajustes',
+  templateUrl: './ajustes.page.html',
+  styleUrls: ['./ajustes.page.scss'],
 })
-export class MenuComponent implements OnInit {
+export class AjustesPage implements OnInit {
+  
+  goBack() {
+    this.navCtrl.back();
+  }
 
   constructor(
     private navCtrl: NavController, 
@@ -47,14 +52,5 @@ export class MenuComponent implements OnInit {
     });
 
     await alert.present();
-  }
-  async ajustes() {
-    console.log('ajustes');
-    this.navCtrl.navigateRoot('/mecanico/ajustes');
-  }
-
-  async historial() {
-    console.log('Historial');
-    this.navCtrl.navigateRoot('/mecanico/historial');
   }
 }
