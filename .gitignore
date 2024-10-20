@@ -4,7 +4,7 @@
 ./backend/public/hot
 ./backend/public/storage
 ./backend/storage/*.key
-./backend/vendor
+./backend/vendor/*
 ./backend/.env
 ./backend/.env.backup
 ./backend/.env.production
@@ -19,6 +19,7 @@
 ./backend/.idea
 ./backend/.vscode
 ./backend/storage/api-docs/*
+./backend/composer.lock
 
 ./frontend/node_modules
 ./frontend/public/build

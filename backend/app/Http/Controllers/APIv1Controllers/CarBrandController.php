@@ -5,13 +5,14 @@ namespace App\Http\Controllers\APIv1Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\CarBrand;
 use Exception;
+use Illuminate\Http\JsonResponse;
 use OpenApi\Annotations as OA;
 
 class CarBrandController extends Controller
 {
     /**
      * @OA\Get(
-     *     path="/api/jwt/cars/brands",
+     *     path="/api/jwt/cars/brands/all",
      *     summary="Obtener todas las marcas de autos",
      *     description="Este endpoint permite obtener una lista de todas las marcas de autos. Requiere autenticación JWT.",
      *     tags={"Car Brands"},
@@ -40,7 +41,8 @@ class CarBrandController extends Controller
      *     )
      * )
      */
-    public function index() {
+    public function index(): JsonResponse
+    {
         try {
             if(!auth()->check()) {
                 return $this->sendError('JWT Token no found o is not valid');
