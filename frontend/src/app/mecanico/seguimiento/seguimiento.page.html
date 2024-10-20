@@ -1,0 +1,76 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()">
+        <ion-icon name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Seguimiento </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card class="client-card">
+    <ion-card-content>
+        <ion-item *ngFor="let evento of eventosinicio">
+          <ion-card-content>
+            <div class="card-content">
+              <ion-label>
+                <img [src]="evento.image">
+              </ion-label>
+              <div class="text-content">
+                <h2>{{ evento.title }}</h2>
+                <ion-button *ngIf="evento.buttonTitle" color="primary" (click)="onButtonClick(evento)">
+                  {{ evento.buttonTitle }}
+                </ion-button>
+              </div>
+            </div>
+          </ion-card-content>
+        </ion-item>
+    </ion-card-content>
+  </ion-card>
+  <ion-card class="client-card">
+    <ion-card-content>
+        <ion-item *ngFor="let evento of eventosprogreso">
+          <ion-card-content>
+            <div class="card-contenta">
+              <div class="text-contenta">
+                <h2>{{ evento.title }}</h2>
+                <ion-button *ngIf="evento.buttonTitle" color="primary" (click)="onButtonClick(evento)">
+                  {{ evento.buttonTitle }}
+                </ion-button>
+              </div>
+              <ion-label>
+                <img [src]="evento.image">
+              </ion-label>
+            </div>
+          </ion-card-content>
+        </ion-item>
+    </ion-card-content>
+  </ion-card>
+  <ion-card class="client-card">
+    <ion-card-content>
+        <ion-item *ngFor="let evento of eventosListo">
+          <ion-card-content>
+            <div class="card-content">
+              <ion-label>
+                <img [src]="evento.image">
+              </ion-label>
+              <div class="text-content">
+                <h2>{{ evento.title }}</h2>
+                <ion-button *ngIf="evento.buttonTitle" color="primary" (click)="onButtonClick(evento)">
+                  {{ evento.buttonTitle }}
+                </ion-button>
+              </div>
+            </div>
+          </ion-card-content>
+        </ion-item>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-button expand="full" (click)="presentAlert()">Finalizar estado</ion-button>
+    <h6 class="pad">Al finalizar el estado va a cambiar a “Listo para entrega”</h6>
+  </ion-toolbar>
+</ion-footer>

@@ -21,26 +21,31 @@ class ServiceSeeder extends Seeder
                 'name' => 'Cambio de Aceite',
                 'description' => 'Sustitución del aceite del motor para garantizar un rendimiento óptimo y prevenir desgaste prematuro.',
                 'type_id' => $type->id,
+                'price' => 12500
             ],
             [
                 'name' => 'Revisión de Frenos',
                 'description' => 'Inspección del sistema de frenos, incluyendo discos, pastillas y líquido de frenos, para garantizar seguridad.',
                 'type_id' => $type->id,
+                'price' => 20000
             ],
             [
                 'name' => 'Alineación y Balanceo',
                 'description' => 'Ajuste de la alineación de las ruedas y balanceo de neumáticos para mejorar la estabilidad y reducir el desgaste irregular.',
                 'type_id' => $type->id,
+                'price' => 10000
             ],
             [
                 'name' => 'Cambio de Filtros de Aire',
                 'description' => 'Reemplazo del filtro de aire para mejorar la calidad del aire en el motor y optimizar el rendimiento del vehículo.',
                 'type_id' => $type->id,
+                'price' => 10000
             ],
             [
                 'name' => 'Revisión del Sistema Eléctrico',
                 'description' => 'Diagnóstico completo del sistema eléctrico del vehículo, incluyendo batería, alternador y componentes eléctricos.',
                 'type_id' => $type->id,
+                'price' => 10000
             ],
         ]);
     }

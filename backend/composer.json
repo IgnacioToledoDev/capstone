@@ -6,14 +6,16 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "ext-http": "*",
+        "blade-ui-kit/blade-heroicons": "^2.4",
+        "codeat3/blade-google-material-design-icons": "^1.19",
         "darkaonline/l5-swagger": "^8.6",
         "filament/filament": "^3.2",
         "laravel/framework": "^11.9",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
         "php-open-source-saver/jwt-auth": "^2.7",
-        "spatie/laravel-permission": "^6.9",
-        "ext-http": "*"
+        "spatie/laravel-permission": "^6.9"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^3.1",
