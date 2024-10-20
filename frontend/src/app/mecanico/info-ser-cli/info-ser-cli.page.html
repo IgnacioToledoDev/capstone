@@ -1,21 +1,19 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-button (click)="goBack()">
-        <ion-icon name="arrow-back-outline"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-    <ion-title>Generar Cotizacion</ion-title>
-  </ion-toolbar>
+    <!-- Botón de regreso con flecha -->
+  <ion-icon name="arrow-back-outline" class="back-button" fill="clear" a routerLink="/mecanico/home-mecanico"></ion-icon>
+    <ion-title>Informacion Cliente</ion-title>
+    <br>
+    <br>
 </ion-header>
+
 <ion-content>
   <ion-card>
     <ion-card-header>
-      <ion-card-title>Datos Cliente</ion-card-title>
+      <ion-card-title class="title">Datos Cliente</ion-card-title>
     </ion-card-header>
-    <ion-card-content>
+    <ion-card-content class="info-card">
       <ion-list>
-        <ion-item>
+        <ion-item class="item">
           <ion-label>Nombre : Pamela Chupa</ion-label>
         </ion-item>
         <ion-item>
@@ -35,9 +33,9 @@
   </ion-card>
   <ion-card>
     <ion-card-header>
-      <ion-card-title>Datos vehículo</ion-card-title>
+      <ion-card-title class="title">Datos vehículo</ion-card-title>
     </ion-card-header>
-    <ion-card-content>
+    <ion-card-content class="info-card">
       <ion-list>
         <ion-item>
           <ion-label>Patente : KDTS82</ion-label>
@@ -56,9 +54,9 @@
   </ion-card>
   <ion-card>
     <ion-card-header>
-      <ion-card-title>Lista de Servicios</ion-card-title>
+      <ion-card-title class="title">Lista de Servicios</ion-card-title>
     </ion-card-header>
-    <ion-card-content>
+    <ion-card-content class="info-card">
       <ion-item>
         <ion-label>Cambio de aceite 4X4</ion-label>
       </ion-item>
@@ -71,22 +69,8 @@
       </ion-item>
     </ion-card-content>
   </ion-card>
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>Notas</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <ion-item>
-        <ion-label>
-          <p>Este es el texto de la nota </p>
-        </ion-label>
-      </ion-item>
-    </ion-card-content>
-  </ion-card>
-  
+
 </ion-content>
 <ion-footer>
-  <ion-toolbar>
     <ion-button expand="full" (click)="presentAlert()">Iniciar</ion-button>
-  </ion-toolbar>
 </ion-footer>
