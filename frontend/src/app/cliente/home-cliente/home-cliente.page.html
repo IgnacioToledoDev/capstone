@@ -1,0 +1,81 @@
+<app-menu></app-menu>
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Home Cliente</ion-title>
+    <ion-buttons slot="end">
+      <ion-icon name="notifications-outline" slot="end"></ion-icon>
+      <ion-badge color="success">1</ion-badge>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-card class="welcome-container">
+    <div >
+      <ion-avatar>
+        <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+      </ion-avatar>
+      <ion-label>
+        <h2>Bienvenido, Joel</h2>
+        <p>Cliente</p>
+      </ion-label>
+    </div>
+  </ion-card>
+
+  <div class="action-buttons">
+    <ion-button expand="block" color="primary">Generar QR</ion-button>
+    <ion-button expand="block" color="primary">Agendar hora</ion-button>
+  </div>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Manteniones en Curso</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <div class="maintenance-info">
+        <ion-img src="assets/image/mecanica.jpg" alt="Maintenance Image"></ion-img>
+        <ion-label>
+          <p>Marca: Toyota</p>
+          <p>Modelo: Swift</p>
+          <p>Año: 2018</p>
+          <p>Patente: KDTD82</p>
+        </ion-label>
+        <ion-badge color="primary">En progreso</ion-badge>
+      </div>
+    </ion-card-content>
+  </ion-card>
+  
+
+  <!-- Elige el servicio a realizar -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Elige el servicio a realizar</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <div class="service-options">
+        <ion-button expand="block" color="light">Inspección y diagnóstico</ion-button>
+        <ion-button expand="block" color="light">Mantenimiento preventivo</ion-button>
+        <ion-button expand="block" color="light">Mantenimiento correctivo</ion-button>
+      </div>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
+
+<!-- Menu y contacto -->
+<ion-footer>
+  <ion-tabs>
+    <ion-tab-bar slot="bottom">
+      <ion-tab-button tab="inicio">
+        <ion-icon name="home-outline"></ion-icon>
+        <ion-label>Inicio</ion-label>
+      </ion-tab-button>
+      <ion-tab-button tab="contactar">
+        <ion-icon name="person-outline"></ion-icon>
+        <ion-label>Contactar</ion-label>
+      </ion-tab-button>
+    </ion-tab-bar>
+  </ion-tabs>
+</ion-footer>

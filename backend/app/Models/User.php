@@ -32,6 +32,7 @@ use Spatie\Permission\Traits\HasRoles;
  * @property Carbon|null $updated_at
  * @property string $username
  * @property string|null $lastname
+ * @property string|null $phone
  * @property-read DatabaseNotificationCollection<int, DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
  * @property-read Collection<int, \Spatie\Permission\Models\Permission> $permissions
@@ -81,6 +82,7 @@ class User extends Authenticatable implements FilamentUser, JWTSubject, CanReset
         'password',
         'rut',
         'role',
+        'phone',
     ];
 
     /**
@@ -108,7 +110,7 @@ class User extends Authenticatable implements FilamentUser, JWTSubject, CanReset
 
     public function canAccessPanel(Panel $panel): bool
     {
-        return $this->hasAnyRole(['SUPER_ADMIN', 'COMPANY_ADMIN']);
+        return $this->hasAnyRole([self::SUPER_ADMIN, self::COMPANY_ADMIN]);
     }
 
     /**
@@ -129,5 +131,10 @@ class User extends Authenticatable implements FilamentUser, JWTSubject, CanReset
     public function getJWTCustomClaims()
     {
         return [];
+    }
+
+    public function getFullNameAttribute(): string
+    {
+        return "{$this->name} {$this->lastname}";
     }
 }

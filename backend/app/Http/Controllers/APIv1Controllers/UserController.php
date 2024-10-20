@@ -169,12 +169,19 @@ class UserController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'email' => 'required|email',
-            'password' => 'required|min:8|confirmed',
+            'password' => 'required|min:8',
+            'c_password' => 'required',
             'token' => 'required|string',
         ]);
+        $password = $validator->getValue('password');
+        $c_password = $validator->getValue('c_password');
 
         if ($validator->fails()) {
             return $this->sendError('Validation Error.', $validator->errors(), 400);
+        }
+
+        if($password != $c_password) {
+            return $this->sendError('Password does not match.');
         }
 
         $status = Password::reset(
@@ -211,7 +218,8 @@ class UserController extends Controller
      *             @OA\Property(property="email", type="string", format="email", example="client@example.com", description="Client's email address"),
      *             @OA\Property(property="name", type="string", example="John", description="Client's first name"),
      *             @OA\Property(property="lastname", type="string", example="Doe", description="Client's last name"),
-     *             @OA\Property(property="rut", type="string", example="12345678-9", description="Client's RUT")
+     *             @OA\Property(property="rut", type="string", example="12345678-9", description="Client's RUT"),
+     *             @OA\Property(property="phone", type="string", example="986415709", description="Client's phone")
      *         )
      *     ),
      *     @OA\Response(
@@ -272,6 +280,7 @@ class UserController extends Controller
             'name' => 'required|string',
             'lastname' => 'required|string',
             'rut' => 'required|string',
+            'phone' => 'required|string',
         ]);
 
         $user = auth()->user();
@@ -302,6 +311,7 @@ class UserController extends Controller
         $client->lastname = $validator->getValue('lastname');
         $client->password = Hash::make($validator->getValue('rut'));
         $client->rut = $validator->getValue('rut');
+        $client->phone = $validator->getValue('phone');
         $client->save();
 
         $client->assignRole(User::CLIENT);

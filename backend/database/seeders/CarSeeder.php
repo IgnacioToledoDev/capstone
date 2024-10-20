@@ -17,14 +17,16 @@ class CarSeeder extends Seeder
             'brand_id' => 1,
             'model' => 'Swift',
             'year' => 2018,
-            'user_id' => 1
+            'owner_id' => 1,
+            'mechanic_id' => 5,
         ]);
 
         DB::table('cars')->insert([
             'brand_id' => 2,
             'model' => 'Yaris',
             'year' => 2013,
-            'user_id' => 2
+            'owner_id' => 2,
+            'mechanic_id' => 4
         ]);
     }
 }
