@@ -18,6 +18,10 @@ export class MenuComponent implements OnInit {
     console.log('escanerar_qr');
     this.navCtrl.navigateRoot('/mecanico/escanear-qr');
   }
+  async escanerar_patente() {
+    console.log('escanerar_patente');
+    this.navCtrl.navigateRoot('/mecanico/escanear-patente');
+  }
 
   async ngOnInit() {
     await this.storage.create(); 

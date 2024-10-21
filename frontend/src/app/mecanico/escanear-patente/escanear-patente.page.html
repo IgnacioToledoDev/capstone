@@ -5,17 +5,30 @@
         <ion-icon name="arrow-back-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-title>Escanear QR</ion-title>
+    <ion-title>Escanear Patente</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <div class="photo-container">
-    <ion-img src="assets/image/qr.png" alt="Maintenance Image"></ion-img>
+  <!-- Open Camera Button -->
+  <div class="button-container">
+    <ion-button expand="block" color="primary">
+      Abrir cámara
+    </ion-button>
   </div>
-  <ion-button expand="block" color="primary">
-    Escaner QR
-  </ion-button>
+
+  <!-- License Plate Input -->
+  <div class="input-container">
+    <ion-label position="floating">Ingresar patente</ion-label>
+    <ion-input type="text" placeholder="Ingresar patente"></ion-input>
+  </div>
+  
+  <!-- Send Email Button -->
+  <div class="button-container">
+    <ion-button expand="block" color="primary">
+      Enviar correo
+    </ion-button>
+  </div>
 </ion-content>
 
 <ion-footer>

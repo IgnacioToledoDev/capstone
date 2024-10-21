@@ -74,9 +74,15 @@ const routes: Routes = [
     loadChildren: () => import('./mecanico/escanear-qr/escanear-qr.module').then( m => m.EscanearQrPageModule)
   },
   {
+    path: 'mecanico/escanear-patente',
+    loadChildren: () => import('./mecanico/escanear-patente/escanear-patente.module').then( m => m.EscanearPatentePageModule)
+  },
+  {
     path: 'cliente/home-cliente',
     loadChildren: () => import('./cliente/home-cliente/home-cliente.module').then( m => m.HomeClientePageModule)
   },
+
+
 
 
 ];
