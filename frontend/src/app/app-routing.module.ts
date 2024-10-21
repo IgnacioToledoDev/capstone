@@ -70,6 +70,10 @@ const routes: Routes = [
     loadChildren: () => import('./mecanico/seguimiento/seguimiento.module').then( m => m.SeguimientoPageModule)
   },
   {
+    path: 'mecanico/escanear-qr',
+    loadChildren: () => import('./mecanico/escanear-qr/escanear-qr.module').then( m => m.EscanearQrPageModule)
+  },
+  {
     path: 'cliente/home-cliente',
     loadChildren: () => import('./cliente/home-cliente/home-cliente.module').then( m => m.HomeClientePageModule)
   },

@@ -14,17 +14,19 @@ export class MenuComponent implements OnInit {
     private storage: Storage, 
     private alertController: AlertController
   ) { }
+  async escanerar_qr() {
+    console.log('escanerar_qr');
+    this.navCtrl.navigateRoot('/mecanico/escanear-qr');
+  }
 
   async ngOnInit() {
-    await this.storage.create(); // Asegura que el Storage está inicializado
+    await this.storage.create(); 
   }
   
   async cerrarSesion() {
-    // Borra todos los datos almacenados en el Storage
     await this.storage.clear();
     console.log('Sesión cerrada y almacenamiento borrado');
 
-    // Redirige al usuario a la página de inicio de sesión
     this.navCtrl.navigateRoot('/inicio-sesion');
   }
 
@@ -54,7 +56,6 @@ export class MenuComponent implements OnInit {
 
   async historial() {
     console.log('Historial');
-
     this.navCtrl.navigateRoot('/mecanico/historial');
   }
 }

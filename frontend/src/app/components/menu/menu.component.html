@@ -16,11 +16,11 @@
         <ion-icon name="person" slot="start"></ion-icon>
         <ion-label>Perfil</ion-label>
       </ion-item>
-      <ion-item routerLink="/servicios">
+      <ion-item routerLink="/servicios" >
         <ion-icon name="qr-code-outline" slot="start"></ion-icon>
         <ion-label>Escanear QR</ion-label>
       </ion-item>
-      <ion-item routerLink="/servicios">
+      <ion-item (click)="escanerar_qr()">
         <ion-icon name="camera-outline" slot="start"></ion-icon>
         <ion-label>Escanear Patente</ion-label>
       </ion-item>
