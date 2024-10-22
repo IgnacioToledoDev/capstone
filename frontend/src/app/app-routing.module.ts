@@ -81,6 +81,11 @@ const routes: Routes = [
     path: 'cliente/home-cliente',
     loadChildren: () => import('./cliente/home-cliente/home-cliente.module').then( m => m.HomeClientePageModule)
   },
+  {
+    path: 'cliente/info-mante',
+    loadChildren: () => import('./cliente/info-mante/info-mante.module').then( m => m.InfoMantePageModule)
+  },
+
 
 
 
