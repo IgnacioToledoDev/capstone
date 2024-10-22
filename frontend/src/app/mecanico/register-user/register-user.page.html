@@ -1,31 +1,40 @@
-<ion-content class="ion-padding">
-  <!-- Botón con la flecha en la esquina superior izquierda -->
-  <ion-icon
-    name="arrow-back-outline" class="back-button" fill="clear" a routerLink="/inicio-sesion"
-  ></ion-icon>
-  <br>
-  <br>
-  <h1 class="title">Registrar cliente</h1>
-  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="user-form">
-    <ion-label position="floting">Nombre de usuario:</ion-label>
-    <ion-item class="input-item">
-      <ion-input formControlName="username"></ion-input>
-    </ion-item>
-    <ion-label position="floting">Número de teléfono:</ion-label>
-    <ion-item class="input-item">
-      <ion-input formControlName="phoneNumber" type="tel"></ion-input>
-    </ion-item>
-    <ion-label position="floting">Correo electrónico</ion-label>
-    <ion-item class="input-item">
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()">
+        <ion-icon name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Registrar cliente</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <ion-item>
+      <ion-label position="floating">Correo electrónico</ion-label>
       <ion-input formControlName="email" type="email"></ion-input>
     </ion-item>
-    <ion-label position="floting">Rut</ion-label>
-    <ion-item class="input-item">
+    <ion-item>
+      <ion-label position="floating">Nombre de usuario</ion-label>
+      <ion-input formControlName="name"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Apellido de usuario</ion-label>
+      <ion-input formControlName="lastname"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Rut</ion-label>
       <ion-input formControlName="rut"></ion-input>
     </ion-item>
-    <ion-button type="submit" routerLink="/mecanico/agregar-vehiculo">Crear cuenta</ion-button>
+    <ion-item>
+      <ion-label position="floating">Número de teléfono</ion-label>
+      <ion-input formControlName="phone" ></ion-input>
+    </ion-item>
+    <ion-button expand="full" type="submit">Crear cuenta</ion-button>
   </form>
-  </ion-content>
+
+</ion-content>
 
   <ion-text class="line1">__________________</ion-text>
   <h2 class="final">AutoMinder</h2>
