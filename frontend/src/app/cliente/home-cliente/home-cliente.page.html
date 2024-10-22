@@ -19,7 +19,7 @@
         <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
       </ion-avatar>
       <ion-label>
-        <h2>Bienvenido, Joel</h2>
+        <h2>Bienvenido, {{ user.name }}</h2>
         <p>Cliente</p>
       </ion-label>
     </div>
@@ -30,7 +30,7 @@
     <ion-button expand="block" color="primary">Agendar hora</ion-button>
   </div>
 
-  <ion-card>
+  <ion-card routerLink="/cliente/info-mante">
     <ion-card-header>
       <ion-card-title>Manteniones en Curso</ion-card-title>
     </ion-card-header>

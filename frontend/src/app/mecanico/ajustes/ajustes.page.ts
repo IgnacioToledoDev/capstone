@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController, AlertController } from '@ionic/angular';
 import { Storage } from '@ionic/storage-angular';
+import { UserService } from 'src/app/services/user.service';
 
 
 @Component({
@@ -9,6 +10,8 @@ import { Storage } from '@ionic/storage-angular';
   styleUrls: ['./ajustes.page.scss'],
 })
 export class AjustesPage implements OnInit {
+  token: string | null = null;  
+  user: any = {};    
   
   goBack() {
     this.navCtrl.back();
@@ -17,11 +20,23 @@ export class AjustesPage implements OnInit {
   constructor(
     private navCtrl: NavController, 
     private storage: Storage, 
-    private alertController: AlertController
+    private alertController: AlertController,
+    private userService: UserService
   ) { }
 
   async ngOnInit() {
-    await this.storage.create(); // Asegura que el Storage está inicializado
+    await this.storage.create(); 
+    const sessionData = await this.userService.getUserSession();
+
+    if (sessionData) {
+      this.token = sessionData.token;  
+      this.user = sessionData.user;    
+
+      console.log('Token:', this.token);
+      console.log('User Info:', this.user);
+    } else {
+      console.log('No se encontraron datos de sesión.');
+    }
   }
   
   async cerrarSesion() {
