@@ -14,22 +14,22 @@ class StatusCarSeeder extends Seeder
     public function run(): void
     {
         DB::table('status_cars')->insert([
-            'status' => 'inactive',
+            'status' => 'Inactivo',
             'description' => 'When the car progress has not started.',
         ]);
 
         DB::table('status_cars')->insert([
-            'status' => 'started',
+            'status' => 'Comenzando',
             'description' => 'When the car progress has just started.',
         ]);
 
         DB::table('status_cars')->insert([
-            'status' => 'in progress',
+            'status' => 'En progreso',
             'description' => 'When the car is currently being worked on.',
         ]);
 
         DB::table('status_cars')->insert([
-            'status' => 'finished',
+            'status' => 'Finalizado',
             'description' => 'When the car work has been completed.',
         ]);
     }

@@ -1,16 +1,14 @@
 <app-menu></app-menu>
 
 <ion-header>
-  <ion-toolbar>
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-title>Home</ion-title>
-  </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-
+  <br>
   <ion-card class="client-card">
     <ion-card-content>
       <div class="card-content">
@@ -18,8 +16,9 @@
           <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
         </ion-avatar>
         <div class="text-content">
-          <h2>Bienvenido, {{ mecanico }} </h2>
-          <p>{{ rol }}</p>
+          <h2>Bienvenido, {{ user.name }} </h2>
+          <p>Mecanico </p>
+          <a href="/mecanico/agregar-vehiculo">home-mecanico</a>
         </div>
       </div>
     </ion-card-content>
@@ -61,7 +60,6 @@
   </ion-card>
 </ion-content>
 <ion-footer>
-  <ion-toolbar>
     <div class="button-container">
       <ion-button class="custom-button" expand="block">
         <ion-icon slot="start" name="home"></ion-icon>
@@ -72,5 +70,4 @@
         Agregar Perfil
       </ion-button>
     </div>
-  </ion-toolbar>
 </ion-footer>

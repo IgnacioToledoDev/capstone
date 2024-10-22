@@ -5,14 +5,14 @@
         "version": "1.0.0"
     },
     "paths": {
-        "/api/jwt/cars/brands": {
+        "/api/jwt/cars/brands/all": {
             "get": {
                 "tags": [
                     "Car Brands"
                 ],
                 "summary": "Obtener todas las marcas de autos",
                 "description": "Este endpoint permite obtener una lista de todas las marcas de autos. Requiere autenticación JWT.",
-                "operationId": "a8c26660c15f3783f1c1db8ac3029572",
+                "operationId": "cd80ab1043c99e4d9154ef2771cbd370",
                 "responses": {
                     "200": {
                         "description": "Marcas de autos obtenidas exitosamente."
@@ -54,15 +54,20 @@
                                         "type": "string",
                                         "example": "Toyota Corolla"
                                     },
+                                    "patent": {
+                                        "description": "Patent of the car",
+                                        "type": "string",
+                                        "example": "kbtd92"
+                                    },
+                                    "owner_id": {
+                                        "description": "Id of the owner",
+                                        "type": "integer",
+                                        "example": "1"
+                                    },
                                     "year": {
                                         "description": "Year of the car",
                                         "type": "integer",
                                         "example": 2024
-                                    },
-                                    "user_id": {
-                                        "description": "ID of the user who owns the car",
-                                        "type": "integer",
-                                        "example": 1
                                     }
                                 },
                                 "type": "object"
@@ -93,13 +98,13 @@
                                                 },
                                                 "model": {
                                                     "type": "string",
-                                                    "example": "Toyota Corolla"
+                                                    "example": "Corolla"
                                                 },
                                                 "year": {
                                                     "type": "integer",
                                                     "example": 2024
                                                 },
-                                                "user_id": {
+                                                "owner_id": {
                                                     "type": "integer",
                                                     "example": 1
                                                 },
@@ -181,7 +186,7 @@
                 ]
             }
         },
-        "/api/cars/{patent}": {
+        "/api/jwt/cars/{patent}": {
             "get": {
                 "tags": [
                     "Cars"
@@ -630,6 +635,277 @@
                                         "message": {
                                             "type": "string",
                                             "example": "Maintenance not saved."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/jwt/maintenance/historical": {
+            "get": {
+                "tags": [
+                    "Mechanic"
+                ],
+                "summary": "Get maintenance history for authenticated mechanic",
+                "description": "Retrieve the maintenance history of the authenticated mechanic, ordered by the start of the maintenance in descending order.",
+                "operationId": "3485d20c58d05568291951b1cee308fe",
+                "responses": {
+                    "200": {
+                        "description": "Historial retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "User not found or unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "user not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Mechanic not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "mechanic not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/jwt/maintenance/historical/{id}": {
+            "get": {
+                "tags": [
+                    "Mechanic"
+                ],
+                "summary": "Get detailed maintenance history for a specific maintenance ID",
+                "description": "Retrieve detailed historical information for a specific maintenance record, including details of the car and client.",
+                "operationId": "3490c1e4d52a0899801ecaf850d37eb2",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "The ID of the maintenance record to retrieve",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 123
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Historial retrieved successfully"
+                    },
+                    "401": {
+                        "description": "User not found or unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "user not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Maintenance not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "maintenance not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/jwt/maintenance/{maintenanceId}/status": {
+            "get": {
+                "tags": [
+                    "Maintenances"
+                ],
+                "summary": "Obtener el estado de un mantenimiento",
+                "description": "Devuelve el estado de un mantenimiento específico por su ID.",
+                "operationId": "6116a882284a70e70b6d1cbd560aa7fa",
+                "parameters": [
+                    {
+                        "name": "maintenanceId",
+                        "in": "path",
+                        "description": "ID del mantenimiento que se desea consultar.",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Estado del mantenimiento recuperado exitosamente."
+                    },
+                    "404": {
+                        "description": "Mantenimiento no encontrado.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "maintenance not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Usuario no autenticado.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "user not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/jwt/maintenance/{maintenanceId}/status/next": {
+            "post": {
+                "tags": [
+                    "Maintenances"
+                ],
+                "summary": "Cambiar el estado de un mantenimiento",
+                "description": "Cambia el estado de un mantenimiento específico por su ID.",
+                "operationId": "78d35d5985611a3d9710bc506514da6e",
+                "parameters": [
+                    {
+                        "name": "maintenanceId",
+                        "in": "path",
+                        "description": "ID del mantenimiento cuyo estado se desea cambiar.",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Estado del mantenimiento cambiado exitosamente."
+                    },
+                    "404": {
+                        "description": "Mantenimiento no encontrado.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "maintenance not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Usuario no autenticado.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "user not found"
                                         }
                                     },
                                     "type": "object"
@@ -1142,6 +1418,10 @@
         {
             "name": "Maintenances",
             "description": "Maintenances"
+        },
+        {
+            "name": "Mechanic",
+            "description": "Mechanic"
         },
         {
             "name": "Services",
