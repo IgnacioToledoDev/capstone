@@ -62,4 +62,9 @@ export class MenuComponent implements OnInit {
 
     this.navCtrl.navigateRoot('/mecanico/escanear-patente');
   }
+  async escanear_qr() {
+    console.log('escanear_qr');
+
+    this.navCtrl.navigateRoot('/mecanico/escanear-qr');
+  }
 }
