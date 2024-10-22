@@ -1,0 +1,45 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()">
+        <ion-icon name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Escanear Patente</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- Open Camera Button -->
+  <div class="button-container">
+    <ion-button expand="block" color="primary">
+      Abrir cámara
+    </ion-button>
+  </div>
+
+  <!-- License Plate Input -->
+  <div class="input-container">
+    <ion-label position="floating">Ingresar patente</ion-label>
+    <ion-input type="text" placeholder="Ingresar patente"></ion-input>
+  </div>
+
+  <!-- Send Email Button -->
+  <div class="button-container">
+    <ion-button expand="block" color="primary">
+      Enviar correo
+    </ion-button>
+  </div>
+</ion-content>
+
+<ion-footer>
+  <div class="button-container">
+    <ion-button class="custom-button" expand="block" routerLink="/mecanico/home-mecanico">
+      <ion-icon slot="start" name="home"></ion-icon>
+      Inicio
+    </ion-button>
+    <ion-button class="custom-button" expand="block" routerLink="/mecanico/register-user">
+      <ion-icon slot="start" name="person"></ion-icon>
+      Agregar Perfil
+    </ion-button>
+  </div>
+</ion-footer>

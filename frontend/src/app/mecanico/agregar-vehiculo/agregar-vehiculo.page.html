@@ -9,8 +9,10 @@
 <form (ngSubmit)="onSubmit()" [formGroup]="vehicleForm" class="car-form">
   <ion-item class="input-item">
     <ion-label position="floting" class="label">Marca:</ion-label>
-    <ion-select formControlName="carBrands">
-      <ion-select-option *ngFor="let carBrands of carBrands" [value]="carBrands">{{ carBrands }}</ion-select-option>
+    <ion-select formControlName="brand">
+      <ion-select-option *ngFor="let brand of carBrands" [value]="brand.id"> 
+        {{ brand.name }} 
+      </ion-select-option>
     </ion-select>
   </ion-item>
     <p></p>
