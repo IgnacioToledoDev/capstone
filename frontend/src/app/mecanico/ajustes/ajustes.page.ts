@@ -2,12 +2,17 @@ import { Component, OnInit } from '@angular/core';
 import { NavController, AlertController } from '@ionic/angular';
 import { Storage } from '@ionic/storage-angular';
 
+
 @Component({
-  selector: 'app-menu',
-  templateUrl: './menu.component.html',
-  styleUrls: ['./menu.component.scss'],
+  selector: 'app-ajustes',
+  templateUrl: './ajustes.page.html',
+  styleUrls: ['./ajustes.page.scss'],
 })
-export class MenuComponent implements OnInit {
+export class AjustesPage implements OnInit {
+  
+  goBack() {
+    this.navCtrl.back();
+  }
 
   constructor(
     private navCtrl: NavController, 
@@ -20,11 +25,8 @@ export class MenuComponent implements OnInit {
   }
   
   async cerrarSesion() {
-    // Borra todos los datos almacenados en el Storage
     await this.storage.clear();
     console.log('Sesión cerrada y almacenamiento borrado');
-
-    // Redirige al usuario a la página de inicio de sesión
     this.navCtrl.navigateRoot('/inicio-sesion');
   }
 
@@ -50,25 +52,5 @@ export class MenuComponent implements OnInit {
     });
 
     await alert.present();
-  }
-
-  async historial() {
-    console.log('Historial');
-
-    this.navCtrl.navigateRoot('/mecanico/historial');
-  }
-  async escanear_patente() {
-    console.log('escanear_patente');
-
-    this.navCtrl.navigateRoot('/mecanico/escanear-patente');
-  }
-  async escanear_qr() {
-    console.log('escanear_qr');
-
-    this.navCtrl.navigateRoot('/mecanico/escanear-qr');
-  }
-  async ajustes() {
-    console.log('ajustes');
-    this.navCtrl.navigateRoot('/mecanico/ajustes');
   }
 }
