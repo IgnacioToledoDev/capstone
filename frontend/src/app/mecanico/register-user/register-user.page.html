@@ -15,17 +15,24 @@
     <ion-item class="input-item">
       <ion-input formControlName="phone"></ion-input>
     </ion-item>
-    <ion-label position="floating">Correo electrónico:</ion-label>
+    <ion-label position="floating">Apellido de usuario:</ion-label>
     <ion-item class="input-item">
-      <ion-input formControlName="email" type="email"></ion-input>
+      <ion-input formControlName="lastname"></ion-input>
     </ion-item>
-    <ion-label position="floating">Rut:</ion-label>
+    <ion-label position="floating">Correo electronico:</ion-label>
+    <ion-item class="input-item">
+      <ion-input formControlName="email"></ion-input>
+    </ion-item>
+    <ion-label position="floaating">Rut:</ion-label>
     <ion-item class="input-item">
       <ion-input formControlName="rut"></ion-input>
     </ion-item>
-    <ion-button type="submit" routerLink="/mecanico/agregar-vehiculo">Crear cuenta</ion-button>
+    <ion-button expand="full" type="submit">Crear cuenta</ion-button>
   </form>
-  </ion-content>
 
-  <ion-text class="line1">__________________</ion-text>
-  <h2 class="final">AutoMinder</h2>
+</ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-title>AutoMinder</ion-title>
+  </ion-toolbar>
+</ion-footer>

@@ -70,9 +70,15 @@ const routes: Routes = [
     loadChildren: () => import('./mecanico/seguimiento/seguimiento.module').then( m => m.SeguimientoPageModule)
   },
   {
+    path: 'mecanico/escanear-patente',
+    loadChildren: () => import('./mecanico/escanear-patente/escanear-patente.module').then( m => m.EscanearPatentePageModule)
+  },
+  {
     path: 'cliente/home-cliente',
     loadChildren: () => import('./cliente/home-cliente/home-cliente.module').then( m => m.HomeClientePageModule)
   },
+
+
 
 
 ];
