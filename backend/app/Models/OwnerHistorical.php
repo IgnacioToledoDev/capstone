@@ -2,11 +2,23 @@
 
 namespace App\Models;
 
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class ownerHistorical extends Model
+/**
+ *
+ *
+ * @property-read Car|null $car
+ * @property-read User|null $owner
+ * @method static Builder|OwnerHistorical newModelQuery()
+ * @method static Builder|OwnerHistorical newQuery()
+ * @method static Builder|OwnerHistorical query()
+ * @mixin Eloquent
+ */
+class OwnerHistorical extends Model
 {
     use HasFactory;
 

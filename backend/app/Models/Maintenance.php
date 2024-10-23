@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
 
 /**
- *
+ * 
  *
  * @mixin Eloquent
  * @property int $id
@@ -44,6 +44,11 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Maintenance whereUpdatedAt($value)
  * @method static Builder|Maintenance whereStartMaintenance($value)
  * @method static Builder|Maintenance whereEndMaintenance($value)
+ * @property-read \App\Models\Car $car
+ * @property-read \App\Models\User $mechanic
+ * @property-read \App\Models\Service $service
+ * @property-read \App\Models\StatusCar $statusCar
+ * @mixin \Eloquent
  */
 class Maintenance extends Model
 {

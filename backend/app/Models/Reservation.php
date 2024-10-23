@@ -2,11 +2,23 @@
 
 namespace App\Models;
 
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class reservation extends Model
+/**
+ *
+ *
+ * @property-read Car|null $car
+ * @property-read Reminder|null $reminder
+ * @method static Builder|Reservation newModelQuery()
+ * @method static Builder|Reservation newQuery()
+ * @method static Builder|Reservation query()
+ * @mixin Eloquent
+ */
+class Reservation extends Model
 {
     use HasFactory;
 
@@ -25,6 +37,6 @@ class reservation extends Model
 
     public function reminder(): BelongsTo
     {
-        return $this->belongsTo(reminder::class, 'reminder_id');
+        return $this->belongsTo(Reminder::class, 'reminder_id');
     }
 }

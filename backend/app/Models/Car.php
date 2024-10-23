@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- *
+ * 
  *
  * @property int $id
  * @property int $brand_id
@@ -21,17 +22,21 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\CarBrand $carBrands
  * @property-read \App\Models\User $user
- * @method static \Illuminate\Database\Eloquent\Builder|Car newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Car newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Car query()
- * @method static \Illuminate\Database\Eloquent\Builder|Car whereBrandId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Car whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Car whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Car whereModel($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Car wherePatent($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Car whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Car whereUserId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Car whereYear($value)
+ * @method static Builder|Car newModelQuery()
+ * @method static Builder|Car newQuery()
+ * @method static Builder|Car query()
+ * @method static Builder|Car whereBrandId($value)
+ * @method static Builder|Car whereCreatedAt($value)
+ * @method static Builder|Car whereId($value)
+ * @method static Builder|Car whereModel($value)
+ * @method static Builder|Car wherePatent($value)
+ * @method static Builder|Car whereUpdatedAt($value)
+ * @method static Builder|Car whereUserId($value)
+ * @method static Builder|Car whereYear($value)
+ * @property int|null $model_id
+ * @method static Builder|Car whereMechanicId($value)
+ * @method static Builder|Car whereModelId($value)
+ * @method static Builder|Car whereOwnerId($value)
  * @mixin \Eloquent
  */
 class Car extends Model

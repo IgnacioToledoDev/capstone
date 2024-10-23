@@ -2,10 +2,20 @@
 
 namespace App\Models;
 
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class quotation extends Model
+/**
+ *
+ *
+ * @method static Builder|Quotation newModelQuery()
+ * @method static Builder|Quotation newQuery()
+ * @method static Builder|Quotation query()
+ * @mixin Eloquent
+ */
+class Quotation extends Model
 {
     use HasFactory;
 

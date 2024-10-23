@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Barryvdh\LaravelIdeHelper\Eloquent;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Carbon;
 
 /**
  *
@@ -13,17 +16,20 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property int $id
  * @property string $status
  * @property string $description
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @method static \Illuminate\Database\Eloquent\Builder|StatusCar newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|StatusCar newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|StatusCar query()
- * @method static \Illuminate\Database\Eloquent\Builder|StatusCar whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|StatusCar whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder|StatusCar whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|StatusCar whereStatus($value)
- * @method static \Illuminate\Database\Eloquent\Builder|StatusCar whereUpdatedAt($value)
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @method static Builder|StatusCar newModelQuery()
+ * @method static Builder|StatusCar newQuery()
+ * @method static Builder|StatusCar query()
+ * @method static Builder|StatusCar whereCreatedAt($value)
+ * @method static Builder|StatusCar whereDescription($value)
+ * @method static Builder|StatusCar whereId($value)
+ * @method static Builder|StatusCar whereStatus($value)
+ * @method static Builder|StatusCar whereUpdatedAt($value)
  * @mixin Eloquent
+ * @property-read Collection<int, Maintenance> $Maintenance
+ * @property-read int|null $maintenance_count
+ * @mixin \Eloquent
  */
 class StatusCar extends Model
 {
