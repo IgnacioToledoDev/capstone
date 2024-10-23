@@ -5,10 +5,12 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\CarResource\Pages;
 use App\Helper\UserHelper;
 use App\Models\Car;
+use App\Models\CarModel;
 use App\Models\User;
 use App\Utils\Constants;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -39,11 +41,23 @@ class CarResource extends Resource
                     ->label('Marca')
                     ->relationship('carBrands', 'name')
                     ->placeholder(Constants::SELECT_OPTION)
-                    ->required(),
-                Forms\Components\TextInput::make('model')
+                    ->required()
+                    ->live()
+                    ->afterStateUpdated(function (string $state, callable $set) {
+                        $set('model_id', null);
+                    }),
+                Forms\Components\Select::make('model_id')
                     ->label('Modelo')
-                    ->placeholder('Modelo')
-                    ->required(),
+                    ->options(function (Get $get) {
+                        return CarModel::query()
+                            ->where('brand_id', $get('brand_id'))
+                            ->pluck('name', 'id')
+                            ->toArray();
+                    })
+                    ->placeholder(Constants::SELECT_OPTION)
+                    ->required()
+                    ->live()
+                    ->disabled(fn (Get $get): bool => !$get('brand_id')),
                 Forms\Components\Select::make('year')
                     ->label('Año')
                     ->placeholder(Constants::SELECT_OPTION )
@@ -121,5 +135,15 @@ class CarResource extends Resource
     {
         $userHelper = new UserHelper();
         return $userHelper->getMechanicUsers();
+    }
+
+    protected static function getModelByBrand($brandId): array
+    {
+        $models = CarModel::where('brand_id', $brandId)->get();
+        foreach ($models as $model) {
+            $modelByBrand[$model->id] = $model->name;
+        }
+
+        return $modelByBrand ?? [];
     }
 }

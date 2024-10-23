@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property int $brand_id
@@ -28,7 +28,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static Builder|Car whereBrandId($value)
  * @method static Builder|Car whereCreatedAt($value)
  * @method static Builder|Car whereId($value)
- * @method static Builder|Car whereModel($value)
  * @method static Builder|Car wherePatent($value)
  * @method static Builder|Car whereUpdatedAt($value)
  * @method static Builder|Car whereUserId($value)
@@ -47,7 +46,7 @@ class Car extends Model
     protected $fillable = [
         'patent',
         'brand_id',
-        'model',
+        'model_id',
         'year',
         'owner_id',
         'mechanic_id',
@@ -65,5 +64,10 @@ class Car extends Model
     public function carBrands(): BelongsTo
     {
         return $this->belongsTo(CarBrand::class, 'brand_id');
+    }
+
+    public function carModels(): BelongsTo
+    {
+        return $this->belongsTo(CarModel::class, 'model_id');
     }
 }

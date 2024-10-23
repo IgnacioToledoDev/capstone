@@ -133,10 +133,11 @@ class MaintenanceResource extends Resource
         $options = [];
         foreach ($cars as $car) {
             $brandName = $carHelper->getCarBrandName($car->id);
+            $modelName = $carHelper->getCarModelName($car->model_id);
             $userFullName = $userHelper->getFullName($car->owner_id);
             $options[$car->id] = $brandName . ' ' .
                 $car->brand . ' ' .
-                $car->model . ' ' .
+                $car->$modelName . ' ' .
                 $car->year . ' de ' .
                 $userFullName
             ;
