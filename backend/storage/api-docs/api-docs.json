@@ -530,6 +530,59 @@
                 ],
                 "summary": "Register a new maintenance record",
                 "operationId": "79164cffac87e0c94805703d7c3a4bda",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "success": {
+                                        "type": "boolean",
+                                        "example": true
+                                    },
+                                    "maintenance": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "example": 10
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "example": "Mantenimiento preventivo"
+                                            },
+                                            "description": {
+                                                "type": "string",
+                                                "example": "Cambio de aceite y revisión general"
+                                            },
+                                            "status_id": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "services": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "pricing": {
+                                                "type": "number",
+                                                "example": 12050
+                                            },
+                                            "car_id": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "mechanic_id": {
+                                                "type": "integer",
+                                                "example": 5
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
                 "responses": {
                     "200": {
                         "description": "Maintenance saved successfully",

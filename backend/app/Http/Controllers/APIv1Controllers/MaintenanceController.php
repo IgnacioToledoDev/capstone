@@ -179,6 +179,20 @@ class MaintenanceController extends Controller
      *     security={{
      *         "bearerAuth": {}
      *     }},
+     *     @OA\RequestBody(
+     *          required=true,
+     *          @OA\JsonContent(
+     *              @OA\Property(property="success", type="boolean", example=true),
+     *              @OA\Property(property="maintenance", type="object",
+     *                  @OA\Property(property="id", type="integer", example=10),
+     *                  @OA\Property(property="name", type="string", example="Mantenimiento preventivo"),
+     *                  @OA\Property(property="description", type="string", example="Cambio de aceite y revisión general"),
+     *                  @OA\Property(property="status_id", type="integer", example=1),
+     *                  @OA\Property(property="services", type="integer", example=1),
+     *                  @OA\Property(property="car_id", type="integer", example=1),
+     *              )
+     *          )
+     *      ),
      *     @OA\Response(
      *         response=200,
      *         description="Maintenance saved successfully",
@@ -267,6 +281,8 @@ class MaintenanceController extends Controller
         if($maintenance->getAttribute('id') == null) {
             return $this->sendError('maintenance not saved');
         }
+        $maintenance->start_maintenance->format('d-m-Y H:i:s');
+        $maintenance->end_maintenance->format('d-m-Y H:i:s');
         $success['maintenance'] = $maintenance;
 
         return $this->sendResponse($success, 'maintenance saved successfully.');
@@ -600,12 +616,16 @@ class MaintenanceController extends Controller
         $actualStatus = $maintenance->status_id;
 
         if ($actualStatus < StatusCar::STATUS_FINISHED) {
+            if($actualStatus <= StatusCar::STATUS_STARTED) {
+                $maintenance->start_maintenance = now();
+            }
             $newStatus = $actualStatus + 1;
             $maintenance->status_id = $newStatus;
 
             $nextStatus = StatusCar::find($newStatus);
         } else {
-            $nextStatus = null;
+            $maintenance->end_maintenance->format('d-m-Y H:i:s');
+            $maintenance->save();
         }
 
         $maintenance->save();

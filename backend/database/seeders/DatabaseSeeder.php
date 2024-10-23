@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
             RolesSeeder::class,
             UserSeeder::class,
             CarBrandSeeder::class,
+            CarModelSeeder::class,
             CarSeeder::class,
             TenantSeeder::class,
             StatusCarSeeder::class,
