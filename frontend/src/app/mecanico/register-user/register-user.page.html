@@ -7,25 +7,25 @@
   <br>
   <h1 class="title">Registrar cliente</h1>
   <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="user-form">
-    <ion-label position="floting">Nombre de usuario:</ion-label>
+    <ion-label position="floating">Nombre de usuario:</ion-label>
     <ion-item class="input-item">
       <ion-input formControlName="name"></ion-input>
     </ion-item>
-    <ion-label position="floting">Número de teléfono:</ion-label>
+    <ion-label position="floating">Número de teléfono:</ion-label>
     <ion-item class="input-item">
       <ion-input formControlName="phone"></ion-input>
     </ion-item>
-    <ion-item>
-      <ion-label position="floating">Apellido de usuario</ion-label>
+    <ion-label position="floating">Apellido de usuario:</ion-label>
+    <ion-item class="input-item">
       <ion-input formControlName="lastname"></ion-input>
     </ion-item>
-    <ion-item>
-      <ion-label position="floating">Rut</ion-label>
-      <ion-input formControlName="rut"></ion-input>
+    <ion-label position="floating">Correo electronico:</ion-label>
+    <ion-item class="input-item">
+      <ion-input formControlName="email"></ion-input>
     </ion-item>
-    <ion-item>
-      <ion-label position="floating">Número de teléfono</ion-label>
-      <ion-input formControlName="phone" ></ion-input>
+    <ion-label position="floaating">Rut:</ion-label>
+    <ion-item class="input-item">
+      <ion-input formControlName="rut"></ion-input>
     </ion-item>
     <ion-button expand="full" type="submit">Crear cuenta</ion-button>
   </form>

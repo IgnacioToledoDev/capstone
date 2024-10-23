@@ -14,7 +14,7 @@ trait SupportsInverseRelations
      *
      * @var string|null
      */
-    protected string|null $inverseRelationship = null;
+    protected ?string $inverseRelationship = null;
 
     /**
      * Instruct Eloquent to link the related models back to the parent after the relationship query has run.
@@ -61,7 +61,7 @@ trait SupportsInverseRelations
      *
      * @return string|null
      */
-    protected function guessInverseRelation(): string|null
+    protected function guessInverseRelation(): ?string
     {
         return Arr::first(
             $this->getPossibleInverseRelations(),
@@ -97,7 +97,7 @@ trait SupportsInverseRelations
         $parent ??= $this->getParent();
 
         foreach ($models as $model) {
-            $this->applyInverseRelationToModel($model, $parent);
+            $model instanceof Model && $this->applyInverseRelationToModel($model, $parent);
         }
 
         return $models;
