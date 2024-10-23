@@ -16,7 +16,7 @@
           <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
         </ion-avatar>
         <div class="text-content">
-          <h2>Bienvenido, {{ user.name }} </h2>
+          <h2 class="ion-text-capitalize">Bienvenido, {{ user.name }} </h2>
           <p>Mecanico </p>
           <a href="/mecanico/agregar-vehiculo">home-mecanico</a>
         </div>
@@ -59,15 +59,23 @@
     </ion-card-content>
   </ion-card>
 </ion-content>
-<ion-footer>
-    <div class="button-container">
-      <ion-button class="custom-button" expand="block">
-        <ion-icon slot="start" name="home"></ion-icon>
-        Inicio
-      </ion-button>
-      <ion-button class="custom-button" expand="block" routerLink="/mecanico/register-user">
-        <ion-icon slot="start" name="person"></ion-icon>
-        Agregar Perfil
-      </ion-button>
-    </div>
-</ion-footer>
+<ion-tabs>
+
+  <ion-tab-bar slot="bottom">
+    <ion-tab-button href="">
+      <ion-icon aria-hidden="true" name="home"></ion-icon>
+      <ion-label>Home</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button  href="">
+      <ion-icon aria-hidden="true" name="wallet"></ion-icon>
+      <ion-label>Movimientos</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button  routerLink="/mecanico/register-user">
+      <ion-icon name="people"></ion-icon>
+      <ion-label>Crear Perfil</ion-label>
+    </ion-tab-button>
+  </ion-tab-bar>
+
+</ion-tabs>
