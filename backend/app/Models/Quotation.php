@@ -6,6 +6,7 @@ use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  *
@@ -20,9 +21,16 @@ class Quotation extends Model
     use HasFactory;
 
     protected $fillable = [
+        'car_id',
         'approve_date_client',
         'amount_services',
         'status',
         'is_approved_by_client'
     ];
+
+    public function car(): BelongsTo
+    {
+        return $this->belongsTo(Car::class, 'car_id');
+    }
+
 }
