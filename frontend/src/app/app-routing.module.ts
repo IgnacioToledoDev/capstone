@@ -82,6 +82,10 @@ const routes: Routes = [
     loadChildren: () => import('./mecanico/ajustes/ajustes.module').then( m => m.AjustesPageModule)
   },
   {
+    path: 'mecanico/lista-cotiza',
+    loadChildren: () => import('./mecanico/lista-cotiza/lista-cotiza.module').then( m => m.ListaCotizaPageModule)
+  },
+  {
     path: 'cliente/home-cliente',
     loadChildren: () => import('./cliente/home-cliente/home-cliente.module').then( m => m.HomeClientePageModule)
   },
@@ -89,6 +93,8 @@ const routes: Routes = [
     path: 'cliente/info-mante',
     loadChildren: () => import('./cliente/info-mante/info-mante.module').then( m => m.InfoMantePageModule)
   },
+
+
 
 
 

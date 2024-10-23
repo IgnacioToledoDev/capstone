@@ -59,15 +59,20 @@
     </ion-card-content>
   </ion-card>
 </ion-content>
+
 <ion-footer>
     <div class="button-container">
       <ion-button class="custom-button" expand="block">
         <ion-icon slot="start" name="home"></ion-icon>
         Inicio
       </ion-button>
+      <ion-button class="custom-button" expand="block" routerLink="/mecanico/lista-cotiza">
+        <ion-icon slot="start" name="person"></ion-icon>
+        Cotizasiones
+      </ion-button>
       <ion-button class="custom-button" expand="block" routerLink="/mecanico/register-user">
         <ion-icon slot="start" name="person"></ion-icon>
-        Agregar Perfil
+        + Perfil
       </ion-button>
     </div>
 </ion-footer>

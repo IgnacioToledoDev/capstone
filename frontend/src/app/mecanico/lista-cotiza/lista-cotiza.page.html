@@ -1,7 +1,7 @@
 <ion-header>
   <!-- Botón de regreso con flecha -->
 <ion-icon name="arrow-back-outline" class="back-button" fill="clear" (click)="goBack()"></ion-icon>
-  <ion-title class="title">Historial</ion-title>
+  <ion-title class="title">Cotizasiones</ion-title>
   <br>
   <br>
 </ion-header>
@@ -10,15 +10,16 @@
   <br>
   <br>
   <br>
-  <ion-searchbar class="input-item" placeholder="Buscar Servicios..."></ion-searchbar>
+  <ion-searchbar class="input-item" placeholder="Buscar Cotizasion..."></ion-searchbar>
   <ion-card class="client-card">
     <ion-card-content>
       <ion-list>
-        <ion-item *ngFor="let evento of eventos" routerLink="/mecanico/home-mecanico">
+        <ion-item *ngFor="let evento of eventos" >
           <ion-label>
             <ion-card-subtitle>{{ evento.patente }}</ion-card-subtitle>
             <h2>{{ evento.nombre }}</h2>
             <p>{{ evento.hora }}</p>
+            <p>{{ evento.estado }}</p>
           </ion-label>
         </ion-item>
       </ion-list>
@@ -27,7 +28,7 @@
 </ion-content>
 <ion-footer>
   <div class="button-container">
-    <ion-button class="custom-button" expand="block">
+    <ion-button class="custom-button" expand="block" routerLink="/mecanico/home-mecanico">
       <ion-icon slot="start" name="home"></ion-icon>
       Inicio
     </ion-button>
