@@ -1,44 +1,42 @@
-
-<ion-header>
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-button (click)="goBack()">
-        <ion-icon name="arrow-back-outline"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-    <ion-title>Agregar vehículo</ion-title>
-  </ion-toolbar>
-</ion-header>
-<ion-content>
-  <form [formGroup]="vehicleForm" (ngSubmit)="onSubmit()">
-    <ion-item>
-      <ion-label position="floating">Marca</ion-label>
-      <ion-select formControlName="brand">
-        <ion-select-option *ngFor="let brand of brands" [value]="brand">{{ brand }}</ion-select-option>
-      </ion-select>
-    </ion-item>
-    <ion-item>
-      <ion-label position="floating">Modelo</ion-label>
-      <ion-select formControlName="model">
-        <ion-select-option *ngFor="let model of models" [value]="model">{{ model }}</ion-select-option>
-      </ion-select>
-    </ion-item>
-    <ion-item>
-      <ion-label position="floating">Año</ion-label>
-      <ion-select formControlName="year">
-        <ion-select-option *ngFor="let year of years" [value]="year">{{ year }}</ion-select-option>
-      </ion-select>
-    </ion-item>
-    <ion-item>
-      <ion-label position="floating">Patente</ion-label>
-      <ion-input formControlName="patente"></ion-input>
-    </ion-item>
-    <ion-button expand="full" type="submit" routerLink="/mecanico/generar-servicio">Agregar vehículo</ion-button> 
+<ion-content class="ion-padding">
+<!-- Botón con la flecha en la esquina superior izquierda -->
+<ion-icon
+    name="arrow-back-outline" class="back-button" fill="clear" a routerLink="/inicio-sesion"
+></ion-icon>
+<br>
+<br>
+<h1 class="title">Agregar vehículo</h1>
+<form (ngSubmit)="onSubmit()" [formGroup]="vehicleForm" class="car-form">
+  <ion-item class="input-item">
+    <ion-label position="floting" class="label">Marca:</ion-label>
+    <ion-select formControlName="brand">
+      <ion-select-option *ngFor="let brand of carBrands" [value]="brand.id"> 
+        {{ brand.name }} 
+      </ion-select-option>
+    </ion-select>
+  </ion-item>
+    <p></p>
+  <ion-item class="input-item">
+    <ion-label position="floting" class="label">Modelo:</ion-label>
+    <ion-select formControlName="model">
+      <ion-select-option *ngFor="let model of models" [value]="model">{{ model }}</ion-select-option>
+    </ion-select>
+  </ion-item>
+    <p></p>
+  <ion-item class="input-item">
+    <ion-label position="floting" class="label">Año:</ion-label>
+    <ion-select formControlName="year">
+      <ion-select-option *ngFor="let year of years" [value]="year">{{ year }}</ion-select-option>
+    </ion-select>
+  </ion-item>
+  <ion-item class="input-item">
+    <ion-label position="floating" class="label">Patente</ion-label>
+    <ion-input formControlName="patente"></ion-input>
+  </ion-item>
+  <br>
+  <ion-button type="submit" routerLink="/mecanico/generar-servicio">Agregar vehículo</ion-button> 
   </form>
 </ion-content>
 
-<ion-footer>
-  <ion-toolbar>
-    <ion-title>AutoMinder</ion-title>
-  </ion-toolbar>
-</ion-footer>
+<ion-text class="line1">__________________</ion-text>
+  <h2 class="final">AutoMinder</h2>

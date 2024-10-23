@@ -1089,6 +1089,10 @@ class Container implements ArrayAccess, ContainerContract
             return [];
         }
 
+        if ($parameter->hasType() && $parameter->allowsNull()) {
+            return null;
+        }
+
         $this->unresolvablePrimitive($parameter);
     }
 
@@ -1348,7 +1352,7 @@ class Container implements ArrayAccess, ContainerContract
     /**
      * Fire all of the after resolving attribute callbacks.
      *
-     * @param  \ReflectionAttribute[]  $abstract
+     * @param  \ReflectionAttribute[]  $attributes
      * @param  mixed  $object
      * @return void
      */
@@ -1519,11 +1523,7 @@ class Container implements ArrayAccess, ContainerContract
      */
     public static function getInstance()
     {
-        if (is_null(static::$instance)) {
-            static::$instance = new static;
-        }
-
-        return static::$instance;
+        return static::$instance ??= new static;
     }
 
     /**

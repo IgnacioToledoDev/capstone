@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NavController, AlertController } from '@ionic/angular';
 import { UserService } from 'src/app/services/user.service';
 import { Storage } from '@ionic/storage-angular';  
-import { HttpErrorResponse } from '@angular/common/http';  // Importa HttpErrorResponse
+import { HttpErrorResponse } from '@angular/common/http';  
 
 @Component({
   selector: 'app-register-user',
@@ -48,7 +48,7 @@ export class RegisterUserPage implements OnInit {
 
           await this.storageService.set('token', userData.access_token);
 
-          this.navCtrl.navigateForward('/mecanico/home-mecanico');
+          this.navCtrl.navigateForward('mecanico/agregar-vehiculo');
         } else {
           await this.presentAlert('Error de registro', response.message || 'No se pudo completar el registro.');
         }

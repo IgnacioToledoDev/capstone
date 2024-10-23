@@ -13,29 +13,81 @@ export class CarService {
   constructor(
     private http: HttpClient,
     private storageService: Storage,
-  ) {    
-    storageService.create(); 
+  ) {
+    storageService.create();
   }
 
-  async newcar(car: NewCarInterface) {
-    const headers = await this.getAuthHeaders();
-    return new Promise((resolve, reject) => {
-      this.http.post(`${this.API_URL}/jwt/cars/create`, car, { headers }).subscribe(
-        (res) => {
-          console.log('Registro exitoso:', res);
-          resolve(res);
-        },
-        (err) => reject(err),
-      );
-    });
+  // Método para obtener las marcas de coches
+  async getCarBrands(): Promise<{ id: number, name: string }[]> {
+    try {
+      const headers = await this.getAuthHeaders();
+  
+      if (!headers.has('Authorization')) {
+        console.error('No se pudo recuperar el token de autenticación.');
+        return [];
+      }
+      const response = await this.http.get<any>(`${this.API_URL}/jwt/cars/brands/all`, { headers }).toPromise();
+  
+      if (response.success && response.data?.brands) {
+        const brands = response.data.brands.map((brand: { id: number, name: string }) => ({
+          id: brand.id,
+          name: brand.name
+        }));
+        return brands;
+      } else {
+        console.error('Respuesta no válida al obtener las marcas de coches:', response);
+        return [];
+      }
+    } catch (error) {
+      console.error('Error al obtener las marcas de coches:', error);
+      return [];
+    }
   }
+  
+
+  async registerCar(car: NewCarInterface) {
+    try {
+      const headers = await this.getAuthHeaders();
+  
+      if (!headers.has('Authorization')) {
+        throw new Error('No se pudo recuperar el token de autenticación.');
+      }
+  
+      console.log('Datos de registro a enviar:', car , headers);
+      const response: any = await this.http.post(`${this.API_URL}/jwt/cars/create`, car, { headers }).toPromise();
+      console.log('Registro car exitoso:', response);
+  
+      if (response.success) {
+        const carData = response.data.car;
+        const storedCar = {
+          brand_id: carData.brand_id,
+          model: carData.model,
+          year: carData.year,
+          patent: carData.patent,
+          owner_id: carData.owner_id,
+          id: carData.id,
+          createdAt: carData.created_at,
+          updatedAt: carData.updated_at
+        };
+        await this.storageService.set('newcar', storedCar);
+        console.log('Datos del coche guardados en el Storage bajo "newcar":', storedCar);
+      }
+      return response;
+  
+    } catch (error) {
+      console.error('Error en el registro del coche:', error);
+      throw error;
+    }
+  }
+  
+  
+
   public async getAuthHeaders() {
     const sessionData = await this.storageService.get('datos');
     const token = sessionData ? sessionData.token : null;  
-  
-    console.log('Token recuperado:', token);  
-  
+    
     return new HttpHeaders({
       Authorization: `Bearer ${token}`,
     });
-  }}
+  }
+}
