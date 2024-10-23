@@ -505,8 +505,10 @@ class MaintenanceController extends Controller
         }
 
         $brandName = $this->carHelper->getCarBrandName($car->brand_id);
+        $modelName = $this->carHelper->getCarModelName($car->brand_id);
         unset($client->password);
         $car->brand_id = $brandName;
+        $car->model_id = $modelName;
 
         $success['maintenance'] = $maintenance;
         $success['client'] = $client;
