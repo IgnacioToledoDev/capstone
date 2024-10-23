@@ -15,22 +15,27 @@ class CarModelSeeder extends Seeder
     {
         DB::table('car_model')->insert([
             'name' => 'Swift',
+            'brand_id' => 1
         ]);
 
         DB::table('car_model')->insert([
             'name' => 'Yarias',
+            'brand_id' => 1
         ]);
 
         DB::table('car_model')->insert([
             'name' => 'Kicks',
+            'brand_id' => 1
         ]);
 
         DB::table('car_model')->insert([
             'name' => 'rx7',
+            'brand_id' => 1
         ]);
 
         DB::table('car_model')->insert([
             'name' => 'Otro',
+            'brand_id' => 5
         ]);
     }
 }
