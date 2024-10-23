@@ -59,6 +59,11 @@
                                         "type": "string",
                                         "example": "kbtd92"
                                     },
+                                    "owner_id": {
+                                        "description": "Id of the owner",
+                                        "type": "integer",
+                                        "example": "1"
+                                    },
                                     "year": {
                                         "description": "Year of the car",
                                         "type": "integer",
@@ -93,7 +98,7 @@
                                                 },
                                                 "model": {
                                                     "type": "string",
-                                                    "example": "Toyota Corolla"
+                                                    "example": "Corolla"
                                                 },
                                                 "year": {
                                                     "type": "integer",
