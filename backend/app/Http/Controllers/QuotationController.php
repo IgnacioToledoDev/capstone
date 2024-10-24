@@ -26,7 +26,7 @@ class QuotationController extends Controller
      *     path="/quotations",
      *     summary="Crear una cotización",
      *     description="Este endpoint crea una nueva cotización para un auto, incluyendo los servicios solicitados y su estado de aprobación.",
-     *     tags={"Cotizaciones"},
+     *     tags={"Quotations"},
      *
      *     @OA\RequestBody(
      *         required=true,
@@ -49,10 +49,7 @@ class QuotationController extends Controller
      *         response=200,
      *         description="Cotización creada exitosamente",
      *         @OA\JsonContent(
-     *             @OA\Property(property="success", type="boolean", example=true),
-     *             @OA\Property(property="quotation", ref="#/components/schemas/Quotation"),
-     *             @OA\Property(property="message", type="string", example="Quotation created"),
-     *             @OA\Property(property="details", ref="#/components/schemas/QuotationDetails")
+     *             @OA\Property(property="success", type="boolean", example=true)
      *         )
      *     ),
      *
@@ -106,6 +103,7 @@ class QuotationController extends Controller
                 $detail->quotation_id = $quotation->id;
                 $detail->service_id = $service->id;
                 $detail->is_approved_by_client = $isApproved;
+                $detail->save();
             }
 
             $quotation->total_price = $totalPrice;
@@ -123,65 +121,94 @@ class QuotationController extends Controller
     /**
      * @OA\Get(
      *     path="/quotations/{quotationId}",
-     *     summary="Obtener detalles de una cotización",
-     *     description="Este endpoint permite obtener los detalles de una cotización para un auto, junto con los servicios aprobados y no aprobados por el cliente.",
-     *     tags={"Cotizaciones"},
+     *     summary="Obtiene detalles de una cotización",
+     *     description="Devuelve la información de una cotización específica, incluyendo el auto, los servicios aprobados por el cliente y los servicios no aprobados.",
+     *     tags={"Quotations"},
+     *     security={{"bearerAuth":{}}},
      *
      *     @OA\Parameter(
      *         name="quotationId",
      *         in="path",
      *         description="ID de la cotización",
      *         required=true,
-     *         @OA\Schema(type="integer", example=1)
+     *         @OA\Schema(type="integer")
      *     ),
      *     @OA\Parameter(
      *         name="carId",
      *         in="query",
-     *         description="ID del auto asociado a la cotización",
+     *         description="ID del auto relacionado con la cotización",
      *         required=true,
-     *         @OA\Schema(type="integer", example=1)
+     *         @OA\Schema(type="integer")
      *     ),
      *
      *     @OA\Response(
      *         response=200,
      *         description="Cotización obtenida exitosamente",
      *         @OA\JsonContent(
-     *             @OA\Property(property="success", type="boolean", example=true),
+     *             type="object",
+     *             @OA\Property(
+     *                 property="car",
+     *                 type="object",
+     *                 description="Detalles del auto",
+     *                 @OA\Property(property="id", type="integer", example=1),
+     *                 @OA\Property(property="make", type="string", example="Toyota"),
+     *                 @OA\Property(property="model", type="string", example="Corolla"),
+     *                 @OA\Property(property="year", type="integer", example=2020)
+     *             ),
      *             @OA\Property(
      *                 property="quotation",
-     *                 @OA\Property(property="car", ref="#/components/schemas/Car"),
-     *                 @OA\Property(property="quotation", ref="#/components/schemas/Quotation"),
-     *                 @OA\Property(property="servicesApprovedByClient", type="array", description="Servicios aprobados por el cliente",
-     *                     @OA\Items(ref="#/components/schemas/Service")
-     *                 ),
-     *                 @OA\Property(property="servicesNotApprovedByClient", type="array", description="Servicios no aprobados por el cliente",
-     *                     @OA\Items(ref="#/components/schemas/Service")
-     *                 ),
-     *                 @OA\Property(property="price", type="integer", example=1500, description="Precio total de la cotización")
+     *                 type="object",
+     *                 description="Detalles de la cotización",
+     *                 @OA\Property(property="id", type="integer", example=100),
+     *                 @OA\Property(property="total_price", type="number", format="float", example=1500.75),
+     *                 @OA\Property(property="car_id", type="integer", example=1)
      *             ),
-     *             @OA\Property(property="message", type="string", example="Quotation retrieved successfully")
+     *             @OA\Property(
+     *                 property="servicesApprovedByClient",
+     *                 type="array",
+     *                 description="Servicios aprobados por el cliente",
+     *                 @OA\Items(
+     *                     type="object",
+     *                     @OA\Property(property="id", type="integer", example=10),
+     *                     @OA\Property(property="name", type="string", example="Cambio de aceite"),
+     *                     @OA\Property(property="description", type="string", example="Cambio de aceite del motor")
+     *                 )
+     *             ),
+     *             @OA\Property(
+     *                 property="servicesNotApprovedByClient",
+     *                 type="array",
+     *                 description="Servicios no aprobados por el cliente",
+     *                 @OA\Items(
+     *                     type="object",
+     *                     @OA\Property(property="id", type="integer", example=11),
+     *                     @OA\Property(property="name", type="string", example="Cambio de neumáticos"),
+     *                     @OA\Property(property="description", type="string", example="Cambio de los neumáticos delanteros")
+     *                 )
+     *             ),
+     *             @OA\Property(property="price", type="number", format="float", example=1500.75)
      *         )
      *     ),
      *
      *     @OA\Response(
      *         response=401,
-     *         description="Error de autenticación o de validación",
+     *         description="Error de autenticación",
      *         @OA\JsonContent(
-     *             @OA\Property(property="success", type="boolean", example=false),
      *             @OA\Property(property="message", type="string", example="not user found")
      *         )
      *     ),
      *
      *     @OA\Response(
      *         response=404,
-     *         description="No se encontró el auto o la cotización",
+     *         description="Recurso no encontrado",
      *         @OA\JsonContent(
-     *             @OA\Property(property="success", type="boolean", example=false),
      *             @OA\Property(property="message", type="string", example="not found")
      *         )
      *     ),
      *
-     *     security={{"bearerAuth":{}}}
+     *     @OA\Response(
+     *         response=500,
+     *         description="Error interno del servidor"
+     *     )
      * )
      */
     public function show(Request $request, int $quotationId): JsonResponse

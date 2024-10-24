@@ -658,7 +658,7 @@ class MaintenanceController extends Controller
      *      path="/api/jwt/maintenance/{maintenanceId}/details",
      *      summary="Obtener detalles completos de una mantencion",
      *      description="Este endpoint permite obtener los detalles completos de una mantencion, incluyendo información del auto, cliente, y los servicios aprobados.",
-     *      tags={"Cotizaciones"},
+     *      tags={"Mantenciones"},
      *
      *      @OA\Parameter(
      *          name="maintenanceId",
@@ -779,10 +779,10 @@ class MaintenanceController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/jwt/cars/{carId}/maintenance/{maintenanceId}",
+     *     path="/api/jwt/maintenance/{carId}/{maintenanceId}/details",
      *     summary="Obtener detalles del historial de mantenciones de un vehículo",
      *     description="Este endpoint permite obtener los detalles de una mantención específica de un vehículo, incluyendo información del dueño, los servicios realizados, y detalles del vehículo.",
-     *     tags={"Mantenciones"},
+     *     tags={"Maintenances"},
      *
      *     @OA\Parameter(
      *         name="carId",
