@@ -86,6 +86,7 @@ class QuotationController extends Controller
             $quotation->approve_date_client = $approvedDateClient ?? null;
             $quotation->car_id = $carId;
             $quotation->save();
+            $quotationDetails = [];
             $totalPrice = 0;
             foreach ($userServices as $userService) {
                 $isApproved = $userService['isApproved'];
@@ -104,13 +105,14 @@ class QuotationController extends Controller
                 $detail->service_id = $service->id;
                 $detail->is_approved_by_client = $isApproved;
                 $detail->save();
+                $quotationDetails[$detail->id] = $detail;
             }
 
             $quotation->total_price = $totalPrice;
             $quotation->save();
             $success['quotation'] = $quotation;
             $success['message'] = "Quotation created";
-            $success['details'] = $detail;
+            $success['details'] = $quotationDetails;
 
             return $this->sendResponse($success, $success['message']);
         } catch (\Throwable $th) {
