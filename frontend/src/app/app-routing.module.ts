@@ -113,6 +113,11 @@ const routes: Routes = [
     path: 'cliente/seguimiento-cli',
     loadChildren: () => import('./cliente/seguimiento-cli/seguimiento-cli.module').then( m => m.SeguimientoCliPageModule)
   },
+  {
+    path: 'cliente/calificar',
+    loadChildren: () => import('./cliente/calificar/calificar.module').then( m => m.CalificarPageModule)
+  },
+
 
 
 

@@ -36,7 +36,7 @@ export class SeguimientoCliPage implements OnInit {
 
   }
   presentAlert(){
-    this.navCtrl.navigateForward('/cliente/home-cliente');
+    this.navCtrl.navigateForward('/cliente/calificar');
     console.log('Acción Finalizar');
   }
 }
