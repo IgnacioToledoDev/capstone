@@ -101,6 +101,11 @@ const routes: Routes = [
     path: 'mecanico/lista-car',
     loadChildren: () => import('./mecanico/lista-car/lista-car.module').then( m => m.ListaCarPageModule)
   },
+  {
+    path: 'mecanico/info-car',
+    loadChildren: () => import('./mecanico/info-car/info-car.module').then( m => m.InfoCarPageModule)
+  },
+
 
 
 
