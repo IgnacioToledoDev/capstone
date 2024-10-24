@@ -96,8 +96,8 @@
                                                     "type": "integer",
                                                     "example": 1
                                                 },
-                                                "model": {
-                                                    "type": "string",
+                                                "model_id": {
+                                                    "type": "integer",
                                                     "example": "Corolla"
                                                 },
                                                 "year": {
@@ -1718,6 +1718,46 @@
                                 }
                             }
                         }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/jwt/cars/models/all": {
+            "get": {
+                "tags": [
+                    "Car Brands"
+                ],
+                "summary": "Obtener todos los modelos de autos",
+                "description": "Este endpoint permite obtener una lista de todos los modelos de autos. Requiere autenticación JWT.",
+                "operationId": "d43baa42f71f381a612b9b9916f0017b",
+                "responses": {
+                    "200": {
+                        "description": "Modelos de autos obtenidas exitosamente."
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/jwt/cars/models/all/{brandId}": {
+            "get": {
+                "tags": [
+                    "Car Brands"
+                ],
+                "summary": "Obtener todos los modelos de autos por marca de auto",
+                "description": "Este endpoint permite obtener una lista de todos los modelos de autos por marca. Requiere autenticación JWT.",
+                "operationId": "3c6cbe4525f43e0ce9a1609210f1dd54",
+                "responses": {
+                    "200": {
+                        "description": "Modelos de autos obtenidas exitosamente."
                     }
                 },
                 "security": [

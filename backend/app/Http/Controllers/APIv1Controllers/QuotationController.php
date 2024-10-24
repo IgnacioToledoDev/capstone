@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\APIv1Controllers;
 
-use App\Helper\CarHelper;
-use App\Helper\UserHelper;
+use App\Http\Controllers\Controller;
 use App\Models\Car;
 use App\Models\Quotation;
 use App\Models\QuotationDetails;
@@ -14,7 +13,6 @@ use http\Exception\InvalidArgumentException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use OpenApi\Annotations as OA;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class QuotationController extends Controller
 {
