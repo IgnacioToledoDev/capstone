@@ -969,7 +969,7 @@
         "/api/jwt/maintenance/{maintenanceId}/details": {
             "get": {
                 "tags": [
-                    "Cotizaciones"
+                    "Mantenciones"
                 ],
                 "summary": "Obtener detalles completos de una mantencion",
                 "description": "Este endpoint permite obtener los detalles completos de una mantencion, incluyendo información del auto, cliente, y los servicios aprobados.",
@@ -1122,7 +1122,7 @@
         "/api/jwt/maintenance/{carId}/{maintenanceId}/details": {
             "get": {
                 "tags": [
-                    "Mantenciones"
+                    "Maintenances"
                 ],
                 "summary": "Obtener detalles del historial de mantenciones de un vehículo",
                 "description": "Este endpoint permite obtener los detalles de una mantención específica de un vehículo, incluyendo información del dueño, los servicios realizados, y detalles del vehículo.",
@@ -1716,7 +1716,7 @@
         "/quotations": {
             "post": {
                 "tags": [
-                    "Cotizaciones"
+                    "Quotations"
                 ],
                 "summary": "Crear una cotización",
                 "description": "Este endpoint crea una nueva cotización para un auto, incluyendo los servicios solicitados y su estado de aprobación.",
@@ -2040,10 +2040,6 @@
         {
             "name": "Mechanic",
             "description": "Mechanic"
-        },
-        {
-            "name": "Cotizaciones",
-            "description": "Cotizaciones"
         },
         {
             "name": "Mantenciones",
