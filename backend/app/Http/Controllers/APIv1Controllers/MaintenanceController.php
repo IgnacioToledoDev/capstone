@@ -7,6 +7,7 @@ use App\Helper\UserHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Car;
 use App\Models\Maintenance;
+use App\Models\MaintenanceDetails;
 use App\Models\Quotation;
 use App\Models\QuotationDetails;
 use App\Models\Reservation;
@@ -732,8 +733,8 @@ class MaintenanceController extends Controller
             if (!$maintenance) {
                 return $this->sendError('maintenance not found');
             }
-
-
+            $maintenanceDetails = MaintenanceDetails::whereMaintenanceId($maintenance->id)->first();
+            $quotationId = $maintenanceDetails->quotation_id;
             $quotation = Quotation::where(['id' => $quotationId])->first();
             $quotationDetails = QuotationDetails::whereQuotationId($quotationId)->get();
             $servicesOfQuotation = [];
@@ -769,6 +770,117 @@ class MaintenanceController extends Controller
 
             return $this->sendResponse($success, 'Get all data successfully.');
 
+        } catch (\Throwable $exception) {
+            return $this->sendError($exception->getMessage());
+        }
+    }
+
+    /**
+     * @OA\Get(
+     *     path="/cars/{carId}/maintenance/{maintenanceId}",
+     *     summary="Obtener detalles del historial de mantenciones de un vehículo",
+     *     description="Este endpoint permite obtener los detalles de una mantención específica de un vehículo, incluyendo información del dueño, los servicios realizados, y detalles del vehículo.",
+     *     tags={"Mantenciones"},
+     *
+     *     @OA\Parameter(
+     *         name="carId",
+     *         in="path",
+     *         description="ID del vehículo",
+     *         required=true,
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+     *     @OA\Parameter(
+     *         name="maintenanceId",
+     *         in="path",
+     *         description="ID de la mantención",
+     *         required=true,
+     *         @OA\Schema(type="integer", example=10)
+     *     ),
+     *
+     *     @OA\Response(
+     *         response=200,
+     *         description="Detalles del historial de mantenciones obtenidos exitosamente",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=true),
+     *             @OA\Property(
+     *                 property="owner",
+     *                 type="object",
+     *                 @OA\Property(property="name", type="string", example="Juan Pérez", description="Nombre del dueño del vehículo"),
+     *                 @OA\Property(property="email", type="string", example="juan.perez@example.com", description="Correo electrónico del dueño"),
+     *                 @OA\Property(property="phone", type="string", example="123456789", description="Teléfono del dueño")
+     *             ),
+     *             @OA\Property(
+     *                 property="services",
+     *                 type="array",
+     *                 description="Lista de servicios realizados en la mantención",
+     *                 @OA\Items(
+     *                     @OA\Property(property="id", type="integer", example=1, description="ID del servicio"),
+     *                     @OA\Property(property="name", type="string", example="Cambio de aceite", description="Nombre del servicio")
+     *                 )
+     *             ),
+     *             @OA\Property(
+     *                 property="car",
+     *                 type="object",
+     *                 @OA\Property(property="patent", type="string", example="ABC123", description="Patente del vehículo"),
+     *                 @OA\Property(property="brand", type="string", example="Toyota", description="Marca del vehículo"),
+     *                 @OA\Property(property="model", type="string", example="Corolla", description="Modelo del vehículo"),
+     *                 @OA\Property(property="year", type="integer", example=2015, description="Año del vehículo")
+     *             ),
+     *             @OA\Property(property="message", type="string", example="Get all data successfully.")
+     *         )
+     *     ),
+     *
+     *     @OA\Response(
+     *         response=404,
+     *         description="Vehículo o mantención no encontrados",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=false),
+     *             @OA\Property(property="message", type="string", example="Maintenance or car not found")
+     *         )
+     *     ),
+     *
+     *     security={{"bearerAuth":{}}}
+     * )
+     */
+    public function getMaintenanceDetails(int $carId, int $maintenanceId): JsonResponse
+    {
+        try {
+            if (auth()->check()) {
+                throw new BadHeaderException('user not found');
+            }
+
+            $maintenance = Maintenance::whereId($maintenanceId)->first();
+            $car = Car::whereId($carId)->first();
+            $details = MaintenanceDetails::whereMaintenanceId($maintenance->id)->get();
+            if(empty($maintenance || empty($car))) {
+                throw new NotFoundHttpException('Maintenance or car not found');
+            }
+
+            $services = [];
+            foreach ($details as $detail) {
+                $service = Service::whereId($detail->service_id)->first();
+                if (!empty($service)) {
+                    $services[$service->id] = $service->name;
+                }
+            }
+
+            $carModel = $this->carHelper->getCarModelName($car->model_id);
+            $brand = $this->carHelper->getCarBrandName($car->brand_id);
+            $owner = User::whereId($car->onwer_id)->first();
+            $success['owner'] = [
+                'name' => $owner->name,
+                'email' => $owner->email,
+                'phone' => $owner->phone,
+            ];
+            $success['services'] = $services;
+            $success['car'] = [
+                'patent' => $car->patent,
+                'brand' => $brand,
+                'model' => $carModel,
+                'year' => $car->year
+            ];
+
+            return $this->sendResponse($success, 'Get all data successfully.');
         } catch (\Throwable $exception) {
             return $this->sendError($exception->getMessage());
         }
