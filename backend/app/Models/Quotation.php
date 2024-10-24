@@ -25,7 +25,8 @@ class Quotation extends Model
         'approve_date_client',
         'amount_services',
         'approved_by_client',
-        'is_approved_by_client'
+        'is_approved_by_client',
+        'is_active'
     ];
 
     public function car(): BelongsTo

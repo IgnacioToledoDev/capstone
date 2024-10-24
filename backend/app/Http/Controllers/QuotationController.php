@@ -81,6 +81,7 @@ class QuotationController extends Controller
             $quotation->approved_by_client = $approvedByClient;
             $quotation->approve_date_client = $isApprovedDateClient ?? null;
             $quotation->car_id = $carId;
+            $quotation->is_active = false;
             $quotation->save();
             $quotationDetails = [];
             $totalPrice = 0;
