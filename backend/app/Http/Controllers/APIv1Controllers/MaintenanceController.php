@@ -657,7 +657,7 @@ class MaintenanceController extends Controller
      *  @OA\Get(
      *      path="/api/jwt/maintenance/{maintenanceId}/details",
      *      summary="Obtener detalles completos de una mantencion",
-     *      description="Este endpoint permite obtener los detalles completos de una cotización, incluyendo información del auto, cliente, y los servicios aprobados.",
+     *      description="Este endpoint permite obtener los detalles completos de una mantencion, incluyendo información del auto, cliente, y los servicios aprobados.",
      *      tags={"Cotizaciones"},
      *
      *      @OA\Parameter(
