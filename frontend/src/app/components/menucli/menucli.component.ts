@@ -56,7 +56,7 @@ export class MenucliComponent  implements OnInit {
   async historial() {
     console.log('Historial');
 
-    this.navCtrl.navigateRoot('/mecanico/historial');
+    this.navCtrl.navigateRoot('/cliente/mante-histo');
   }
   async escanear_patente() {
     console.log('escanear_patente');

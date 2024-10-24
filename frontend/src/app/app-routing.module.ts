@@ -90,6 +90,14 @@ const routes: Routes = [
     loadChildren: () => import('./mecanico/aprobar-cotiza/aprobar-cotiza.module').then( m => m.AprobarCotizaPageModule)
   },
   {
+    path: 'mecanico/lista-car',
+    loadChildren: () => import('./mecanico/lista-car/lista-car.module').then( m => m.ListaCarPageModule)
+  },
+  {
+    path: 'mecanico/info-car',
+    loadChildren: () => import('./mecanico/info-car/info-car.module').then( m => m.InfoCarPageModule)
+  },
+  {
     path: 'cliente/home-cliente',
     loadChildren: () => import('./cliente/home-cliente/home-cliente.module').then( m => m.HomeClientePageModule)
   },
@@ -98,13 +106,10 @@ const routes: Routes = [
     loadChildren: () => import('./cliente/info-mante/info-mante.module').then( m => m.InfoMantePageModule)
   },
   {
-    path: 'mecanico/lista-car',
-    loadChildren: () => import('./mecanico/lista-car/lista-car.module').then( m => m.ListaCarPageModule)
+    path: 'cliente/mante-histo',
+    loadChildren: () => import('./cliente/mante-histo/mante-histo.module').then( m => m.ManteHistoPageModule)
   },
-  {
-    path: 'mecanico/info-car',
-    loadChildren: () => import('./mecanico/info-car/info-car.module').then( m => m.InfoCarPageModule)
-  },
+
 
 
 
