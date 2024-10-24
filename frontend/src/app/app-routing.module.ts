@@ -117,6 +117,11 @@ const routes: Routes = [
     path: 'cliente/calificar',
     loadChildren: () => import('./cliente/calificar/calificar.module').then( m => m.CalificarPageModule)
   },
+  {
+    path: 'cliente/generar-qr',
+    loadChildren: () => import('./cliente/generar-qr/generar-qr.module').then( m => m.GenerarQrPageModule)
+  },
+
 
 
 

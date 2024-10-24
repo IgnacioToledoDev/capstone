@@ -58,15 +58,10 @@ export class MenucliComponent  implements OnInit {
 
     this.navCtrl.navigateRoot('/cliente/mante-histo');
   }
-  async escanear_patente() {
-    console.log('escanear_patente');
+  async generar_qr() {
+    console.log('generar_qr');
 
-    this.navCtrl.navigateRoot('/mecanico/escanear-patente');
-  }
-  async escanear_qr() {
-    console.log('escanear_qr');
-
-    this.navCtrl.navigateRoot('/mecanico/escanear-qr');
+    this.navCtrl.navigateRoot('/cliente/generar-qr');
   }
   async ajustes() {
     console.log('ajustes');

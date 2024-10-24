@@ -1,0 +1,32 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()">
+        <ion-icon name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Generar QR</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="photo-container">
+    <ion-img src="assets/image/qr.png" alt="Maintenance Image"></ion-img>
+  </div>
+  <ion-button expand="block" color="primary">
+    Generar QR
+  </ion-button>
+</ion-content>
+
+<ion-footer>
+  <div class="button-container">
+    <ion-button class="custom-button" expand="block" routerLink="/cliente/home-cliente">
+      <ion-icon slot="start" name="home"></ion-icon>
+      Inicio
+    </ion-button>
+    <ion-button class="custom-button" expand="block" routerLink="/mecanico/ajustes">
+      <ion-icon slot="start" name="person"></ion-icon>
+      Perfil
+    </ion-button>
+  </div>
+</ion-footer>
