@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- *
+ * 
  *
  * @method static find(mixed $brand_id)
  * @property int $id
@@ -21,6 +21,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Eloquent\Builder|CarBrand whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|CarBrand whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|CarBrand whereUpdatedAt($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Car> $cars
+ * @property-read int|null $cars_count
  * @mixin \Eloquent
  */
 class CarBrand extends Model

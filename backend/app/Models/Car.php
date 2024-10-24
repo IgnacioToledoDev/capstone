@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- *
+ * 
  *
  * @property int $id
  * @property int $brand_id
@@ -36,6 +36,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static Builder|Car whereMechanicId($value)
  * @method static Builder|Car whereModelId($value)
  * @method static Builder|Car whereOwnerId($value)
+ * @property-read \App\Models\CarModel|null $carModels
  * @mixin \Eloquent
  */
 class Car extends Model

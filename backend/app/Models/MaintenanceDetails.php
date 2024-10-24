@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
 
 /**
- *
+ * 
  *
  * @property int|null $maintenance_id
  * @property int|null $quotation_id
@@ -34,6 +34,7 @@ class MaintenanceDetails extends Model
     protected $fillable = [
         'maintenance_id',
         'quotation_id',
+        'service_id',
     ];
 
     public function maintenance(): BelongsTo

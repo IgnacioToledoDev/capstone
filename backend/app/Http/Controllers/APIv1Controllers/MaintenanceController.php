@@ -258,18 +258,6 @@ class MaintenanceController extends Controller
         $error = [];
         $totalPricing = 0;
 
-        foreach ($listServices as $service) {
-            $serviceFound = Service::whereId($service['id'])->first();
-            if(!$serviceFound){
-                $error = $serviceFound;
-            }
-
-            $totalPricing += $serviceFound['pricing'];
-        }
-
-        if(!empty($error)) {
-            $this->sendError('service not found');
-        }
 
         $mechanic = auth()->user();
         if(!$mechanic) {
@@ -280,9 +268,6 @@ class MaintenanceController extends Controller
         $maintenance->name = $this->generateName($typeService);
         $maintenance->description = $notes ?? null;
         $maintenance->status_id = StatusCar::STATUS_INACTIVE;
-        $maintenance->service_id = $listServices[0]['id'];
-        $maintenance->actual_mileage = 4000;
-        $maintenance->pricing = $totalPricing;
         $maintenance->car_id = $carId;
         $maintenance->mechanic_id = $mechanic->id;
         $maintenance->save();
@@ -290,9 +275,29 @@ class MaintenanceController extends Controller
         if($maintenance->getAttribute('id') == null) {
             return $this->sendError('maintenance not saved');
         }
+
+        foreach ($listServices as $service) {
+            $serviceFound = Service::whereId($service['id'])->first();
+            if(!$serviceFound){
+                $error[] = $serviceFound;
+            }
+            $maintenanceDetails = new MaintenanceDetails();
+            $maintenanceDetails->maintenance_id = $maintenance->id;
+            $maintenanceDetails->service_id = $serviceFound->id;
+            $maintenanceDetails->quotation_id = null;
+            $maintenanceDetails->save();
+            $totalPricing += $serviceFound['pricing'];
+        }
+
+        if(!empty($error)) {
+            $this->sendError('service not found');
+        }
+
+        $maintenance->pricing = $totalPricing;
         $maintenance->start_maintenance->format('d-m-Y H:i:s');
         $maintenance->end_maintenance->format('d-m-Y H:i:s');
         $success['maintenance'] = $maintenance;
+        $success['maintenanceDetails'] = $maintenanceDetails ?? null;
 
         return $this->sendResponse($success, 'maintenance saved successfully.');
     }

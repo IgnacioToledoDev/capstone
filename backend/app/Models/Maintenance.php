@@ -48,6 +48,8 @@ use Illuminate\Support\Carbon;
  * @property-read \App\Models\User $mechanic
  * @property-read \App\Models\Service $service
  * @property-read \App\Models\StatusCar $statusCar
+ * @property string|null $date_made
+ * @method static Builder|Maintenance whereDateMade($value)
  * @mixin \Eloquent
  */
 class Maintenance extends Model

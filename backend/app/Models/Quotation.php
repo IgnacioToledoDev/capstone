@@ -9,12 +9,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- *
+ * 
  *
  * @method static Builder|Quotation newModelQuery()
  * @method static Builder|Quotation newQuery()
  * @method static Builder|Quotation query()
  * @mixin Eloquent
+ * @property-read \App\Models\Car|null $car
+ * @mixin \Eloquent
  */
 class Quotation extends Model
 {

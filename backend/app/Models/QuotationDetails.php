@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
 
 /**
- *
+ * 
  *
  * @property int|null $quotation_id
  * @property int $total_services
@@ -26,6 +26,8 @@ use Illuminate\Support\Carbon;
  * @method static Builder|QuotationDetails whereServiceId($value)
  * @method static Builder|QuotationDetails whereTotalServices($value)
  * @method static Builder|QuotationDetails whereUpdatedAt($value)
+ * @property int $is_approved_by_client
+ * @method static Builder|QuotationDetails whereIsApprovedByClient($value)
  * @mixin Eloquent
  */
 class QuotationDetails extends Model

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- *
+ * 
  *
  * @method static Builder|ContactType newModelQuery()
  * @method static Builder|ContactType newQuery()
