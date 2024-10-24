@@ -109,6 +109,11 @@ const routes: Routes = [
     path: 'cliente/mante-histo',
     loadChildren: () => import('./cliente/mante-histo/mante-histo.module').then( m => m.ManteHistoPageModule)
   },
+  {
+    path: 'cliente/seguimiento-cli',
+    loadChildren: () => import('./cliente/seguimiento-cli/seguimiento-cli.module').then( m => m.SeguimientoCliPageModule)
+  },
+
 
 
 
