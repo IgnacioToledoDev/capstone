@@ -3,23 +3,31 @@
 namespace App\Http\Controllers\APIv1Controllers;
 
 use App\Helper\CarHelper;
+use App\Helper\UserHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Car;
 use App\Models\Maintenance;
+use App\Models\Quotation;
+use App\Models\QuotationDetails;
+use App\Models\Reservation;
 use App\Models\Service;
 use App\Models\StatusCar;
 use App\Models\TypeService;
 use App\Models\User;
+use http\Exception\BadHeaderException;
 use http\Exception\InvalidArgumentException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use OpenApi\Annotations as OA;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class MaintenanceController extends Controller
 {
     private CarHelper $carHelper;
-    public function __construct(CarHelper $carHelper)
+    private UserHelper $userHelper;
+    public function __construct(CarHelper $carHelper, UserHelper $userHelper)
     {
+        $this->userHelper = $userHelper;
         $this->carHelper = $carHelper;
     }
 
@@ -640,6 +648,130 @@ class MaintenanceController extends Controller
         $success['nextStatus'] = $nextStatusObj ? $nextStatusObj->status : false;
 
         return $this->sendResponse($success, 'maintenance status changed successfully.');
+    }
+
+
+
+    /**
+     *  @OA\Get(
+     *      path="/quotations/{maintenanceId}/details",
+     *      summary="Obtener detalles completos de una mantencion",
+     *      description="Este endpoint permite obtener los detalles completos de una cotización, incluyendo información del auto, cliente, y los servicios aprobados.",
+     *      tags={"Cotizaciones"},
+     *
+     *      @OA\Parameter(
+     *          name="maintenanceId",
+     *          in="path",
+     *          description="ID de la cotización",
+     *          required=true,
+     *          @OA\Schema(type="integer", example=1)
+     *      ),
+     *
+     *      @OA\Response(
+     *          response=200,
+     *          description="Detalles de la cotización obtenidos exitosamente",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="success", type="boolean", example=true),
+     *              @OA\Property(
+     *                  property="car",
+     *                  type="object",
+     *                  @OA\Property(property="patent", type="string", example="ABC123", description="Patente del auto"),
+     *                  @OA\Property(property="brand", type="string", example="Toyota", description="Marca del auto"),
+     *                  @OA\Property(property="model", type="string", example="Corolla", description="Modelo del auto")
+     *              ),
+     *              @OA\Property(
+     *                  property="client",
+     *                  type="object",
+     *                  @OA\Property(property="name", type="string", example="Juan Pérez", description="Nombre completo del cliente"),
+     *                  @OA\Property(property="email", type="string", example="juan.perez@example.com", description="Correo electrónico del cliente"),
+     *                  @OA\Property(property="phone", type="string", example="123456789", description="Teléfono del cliente"),
+     *                  @OA\Property(property="reservationData", type="string", example="2024-10-23", description="Fecha de la reserva")
+     *              ),
+     *              @OA\Property(
+     *                  property="services",
+     *                  type="array",
+     *                  description="Servicios aprobados en la cotización",
+     *                  @OA\Items(
+     *                      @OA\Property(property="id", type="integer", example=1, description="ID del servicio"),
+     *                      @OA\Property(property="name", type="string", example="Cambio de aceite", description="Nombre del servicio")
+     *                  )
+     *              ),
+     *              @OA\Property(property="message", type="string", example="Get all data successfully.")
+     *          )
+     *      ),
+     *
+     *      @OA\Response(
+     *          response=401,
+     *          description="Error de autenticación o de validación",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="success", type="boolean", example=false),
+     *              @OA\Property(property="message", type="string", example="user not found")
+     *          )
+     *      ),
+     *
+     *      @OA\Response(
+     *          response=404,
+     *          description="No se encontró la cotización",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="success", type="boolean", example=false),
+     *              @OA\Property(property="message", type="string", example="Quotation does not exist")
+     *          )
+     *      ),
+     *
+     *      security={{"bearerAuth":{}}}
+     *  )
+     * /
+     */
+    public function getMaintenanceInfo(int $maintenanceId): JsonResponse
+    {
+        try {
+            if (auth()->check()) {
+                throw new BadHeaderException('user not found');
+            }
+            $maintenance = Maintenance::whereId($maintenanceId)->first();
+            if (!$maintenance) {
+                return $this->sendError('maintenance not found');
+            }
+
+
+            $quotation = Quotation::where(['id' => $quotationId])->first();
+            $quotationDetails = QuotationDetails::whereQuotationId($quotationId)->get();
+            $servicesOfQuotation = [];
+            foreach ($quotationDetails as $quotationDetail) {
+                if($quotationDetail->is_approved_by_client) {
+                    $service = Service::whereId($quotationDetail->id)->first();
+                    $servicesOfQuotation[$service->id] = $service->name;
+                }
+            }
+            if(!$quotation){
+                throw new NotFoundHttpException('Quotation does not exist');
+            }
+            $car = Car::whereId($quotation->car_id)->first();
+            $carModel = $this->carHelper->getCarModelName($car->model_id);
+            $brand = $this->carHelper->getCarBrandName($car->brand_id);
+            $owner = User::whereId($car->onwer_id)->first();
+            $reservation = Reservation::where(['car_id' => $car->id])->first();
+            $dateReservation = !empty($reservation) ? $reservation->date_reservation : null;
+            $fullName = $this->userHelper->getFullName($owner->id);
+
+            $success['car'] = [
+                'patent' => $car->patent,
+                'brand' => $brand->name,
+                'model' => $carModel->name,
+            ];
+            $success['client'] = [
+                'name' => $fullName,
+                'email' => $owner->email,
+                'phone' => $owner->phone,
+                'reservationData' => $dateReservation
+            ];
+            $success['services'] = $servicesOfQuotation;
+
+            return $this->sendResponse($success, 'Get all data successfully.');
+
+        } catch (\Throwable $exception) {
+            return $this->sendError($exception->getMessage());
+        }
     }
 
 }

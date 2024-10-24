@@ -2,26 +2,24 @@
 
 namespace App\Http\Controllers;
 
+use App\Helper\CarHelper;
+use App\Helper\UserHelper;
 use App\Models\Car;
 use App\Models\Quotation;
 use App\Models\QuotationDetails;
+use App\Models\Reservation;
 use App\Models\Service;
+use App\Models\User;
 use Doctrine\DBAL\Exception\NoActiveTransaction;
 use http\Exception\BadHeaderException;
 use http\Exception\InvalidArgumentException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use OpenApi\Annotations as OA;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class QuotationController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
 
     /**
      * @OA\Post(
