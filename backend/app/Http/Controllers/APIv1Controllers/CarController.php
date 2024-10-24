@@ -112,6 +112,7 @@ class CarController extends Controller
             $car->owner_id = $validated['owner_id'];
             $car->save();
             $success['car'] = $car;
+            // todo if the car by the patent has old owner to change
 
             return $this->sendResponse($success, 'Car created successfully.');
         } catch (\Exception $e) {

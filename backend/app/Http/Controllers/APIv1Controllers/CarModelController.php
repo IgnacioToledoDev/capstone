@@ -14,7 +14,7 @@ class CarModelController extends Controller
      *     path="/api/jwt/cars/models/all",
      *     summary="Obtener todos los modelos de autos",
      *     description="Este endpoint permite obtener una lista de todos los modelos de autos. Requiere autenticación JWT.",
-     *     tags={"Car Brands"},
+     *     tags={"Car Models"},
      *     security={{"bearerAuth":{}}},
      *     @OA\Response(
      *         response=200,
@@ -38,7 +38,7 @@ class CarModelController extends Controller
      *     path="/api/jwt/cars/models/all/{brandId}",
      *     summary="Obtener todos los modelos de autos por marca de auto",
      *     description="Este endpoint permite obtener una lista de todos los modelos de autos por marca. Requiere autenticación JWT.",
-     *     tags={"Car Brands"},
+     *     tags={"Car Models"},
      *     security={{"bearerAuth":{}}},
      *     @OA\Response(
      *         response=200,
