@@ -14,7 +14,7 @@
   <ion-card class="client-card">
     <ion-card-content>
       <ion-list>
-        <ion-item *ngFor="let evento of eventos" >
+        <ion-item *ngFor="let evento of eventos" routerLink="/mecanico/aprobar-cotiza">
           <ion-label>
             <ion-card-subtitle>{{ evento.patente }}</ion-card-subtitle>
             <h2>{{ evento.nombre }}</h2>
