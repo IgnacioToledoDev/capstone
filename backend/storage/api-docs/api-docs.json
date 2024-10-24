@@ -536,38 +536,21 @@
                         "application/json": {
                             "schema": {
                                 "properties": {
-                                    "success": {
-                                        "type": "boolean",
-                                        "example": true
+                                    "carId": {
+                                        "type": "integer",
+                                        "example": 1
                                     },
-                                    "maintenance": {
-                                        "properties": {
-                                            "id": {
-                                                "type": "integer",
-                                                "example": 10
-                                            },
-                                            "name": {
-                                                "type": "string",
-                                                "example": "Mantenimiento preventivo"
-                                            },
-                                            "description": {
-                                                "type": "string",
-                                                "example": "Cambio de aceite y revisión general"
-                                            },
-                                            "status_id": {
-                                                "type": "integer",
-                                                "example": 1
-                                            },
-                                            "services": {
-                                                "type": "integer",
-                                                "example": 1
-                                            },
-                                            "car_id": {
-                                                "type": "integer",
-                                                "example": 1
-                                            }
-                                        },
-                                        "type": "object"
+                                    "recommendation_action": {
+                                        "type": "string",
+                                        "example": "Cambio de aceite y filtro"
+                                    },
+                                    "services": {
+                                        "type": "string",
+                                        "example": "[{'id': 1}, {'id': 2}]"
+                                    },
+                                    "typeServiceId": {
+                                        "type": "integer",
+                                        "example": "1"
                                     }
                                 },
                                 "type": "object"
@@ -604,14 +587,6 @@
                                                     "type": "integer",
                                                     "example": 1
                                                 },
-                                                "services": {
-                                                    "type": "integer",
-                                                    "example": 1
-                                                },
-                                                "pricing": {
-                                                    "type": "number",
-                                                    "example": 12050
-                                                },
                                                 "car_id": {
                                                     "type": "integer",
                                                     "example": 1
@@ -619,6 +594,20 @@
                                                 "mechanic_id": {
                                                     "type": "integer",
                                                     "example": 5
+                                                },
+                                                "pricing": {
+                                                    "type": "number",
+                                                    "example": 12050
+                                                },
+                                                "start_maintenance": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-10-10T10:00:00Z"
+                                                },
+                                                "end_maintenance": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-10-10T12:00:00Z"
                                                 },
                                                 "created_at": {
                                                     "type": "string",
@@ -632,6 +621,31 @@
                                                 }
                                             },
                                             "type": "object"
+                                        },
+                                        "maintenanceDetails": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "maintenance_id": {
+                                                        "type": "integer",
+                                                        "example": 10
+                                                    },
+                                                    "service_id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "quotation_id": {
+                                                        "type": "integer",
+                                                        "example": null
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2024-09-30T10:45:00Z"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
                                         }
                                     },
                                     "type": "object"
@@ -663,7 +677,7 @@
                                     "properties": {
                                         "message": {
                                             "type": "string",
-                                            "example": "Service not found."
+                                            "example": "Service or mechanic not found."
                                         }
                                     },
                                     "type": "object"

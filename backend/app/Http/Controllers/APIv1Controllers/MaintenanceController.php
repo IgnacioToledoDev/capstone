@@ -191,15 +191,10 @@ class MaintenanceController extends Controller
      *     @OA\RequestBody(
      *          required=true,
      *          @OA\JsonContent(
-     *              @OA\Property(property="success", type="boolean", example=true),
-     *              @OA\Property(property="maintenance", type="object",
-     *                  @OA\Property(property="id", type="integer", example=10),
-     *                  @OA\Property(property="name", type="string", example="Mantenimiento preventivo"),
-     *                  @OA\Property(property="description", type="string", example="Cambio de aceite y revisión general"),
-     *                  @OA\Property(property="status_id", type="integer", example=1),
-     *                  @OA\Property(property="services", type="integer", example=1),
-     *                  @OA\Property(property="car_id", type="integer", example=1),
-     *              )
+     *              @OA\Property(property="carId", type="integer", example=1),
+     *              @OA\Property(property="recommendation_action", type="string", example="Cambio de aceite y filtro"),
+     *              @OA\Property(property="services", type="string", example="[{'id': 1}, {'id': 2}]"),
+     *              @OA\Property(property="typeServiceId", type="integer", example="1")
      *          )
      *      ),
      *     @OA\Response(
@@ -212,12 +207,21 @@ class MaintenanceController extends Controller
      *                 @OA\Property(property="name", type="string", example="Mantenimiento preventivo"),
      *                 @OA\Property(property="description", type="string", example="Cambio de aceite y revisión general"),
      *                 @OA\Property(property="status_id", type="integer", example=1),
-     *                 @OA\Property(property="services", type="integer", example=1),
-     *                 @OA\Property(property="pricing", type="number", example=12050),
      *                 @OA\Property(property="car_id", type="integer", example=1),
      *                 @OA\Property(property="mechanic_id", type="integer", example=5),
+     *                 @OA\Property(property="pricing", type="number", example=12050),
+     *                 @OA\Property(property="start_maintenance", type="string", format="date-time", example="2024-10-10T10:00:00Z"),
+     *                 @OA\Property(property="end_maintenance", type="string", format="date-time", example="2024-10-10T12:00:00Z"),
      *                 @OA\Property(property="created_at", type="string", format="date-time", example="2024-09-30T10:45:00Z"),
      *                 @OA\Property(property="updated_at", type="string", format="date-time", example="2024-09-30T10:45:00Z")
+     *             ),
+     *             @OA\Property(property="maintenanceDetails", type="array",
+     *                 @OA\Items(
+     *                     @OA\Property(property="maintenance_id", type="integer", example=10),
+     *                     @OA\Property(property="service_id", type="integer", example=1),
+     *                     @OA\Property(property="quotation_id", type="integer", example=null),
+     *                     @OA\Property(property="created_at", type="string", format="date-time", example="2024-09-30T10:45:00Z")
+     *                 )
      *             )
      *         )
      *     ),
@@ -232,7 +236,7 @@ class MaintenanceController extends Controller
      *         response=404,
      *         description="Service or mechanic not found",
      *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string", example="Service not found.")
+     *             @OA\Property(property="message", type="string", example="Service or mechanic not found.")
      *         )
      *     ),
      *     @OA\Response(
@@ -253,7 +257,7 @@ class MaintenanceController extends Controller
         $carId = $request->get('carId');
         $notes = $request->get('recommendation_action');
         $services = $request->get('services');
-        $typeService = $request->get('typeService');
+        $typeServiceId = $request->get('typeServiceId');
         $listServices = json_decode($services, true);
         $error = [];
         $totalPricing = 0;
