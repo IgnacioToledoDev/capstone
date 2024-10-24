@@ -85,7 +85,7 @@ class CarResource extends Resource
                 Tables\Columns\TextColumn::make('carBrands.name')
                     ->searchable()
                     ->label('Marca'),
-                Tables\Columns\TextColumn::make('model')
+                Tables\Columns\TextColumn::make('carModels.name')
                     ->searchable()
                     ->label('Modelo'),
                 Tables\Columns\TextColumn::make('year')

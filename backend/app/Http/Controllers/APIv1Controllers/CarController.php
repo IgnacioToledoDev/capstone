@@ -106,7 +106,7 @@ class CarController extends Controller
 
             $car = new Car();
             $car->brand_id = $validated['brand_id'];
-            $car->model = $validated['model_id'];
+            $car->model_id = $validated['model_id'];
             $car->year = $validated['year'];
             $car->patent = $validated['patent'];
             $car->owner_id = $validated['owner_id'];
