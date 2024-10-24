@@ -79,4 +79,14 @@ ion-content {
       }
     }
   }
+  .button-container {
+    display: flex;
+  }
+  
+  .custom-button {
+    --border-radius: 0px; 
+    --color: #001f3f; 
+    width: 49%; 
+
+  }
   

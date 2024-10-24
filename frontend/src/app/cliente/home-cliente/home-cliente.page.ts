@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/services/user.service';
+import { NavController, AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-home-cliente',
@@ -17,7 +18,7 @@ export class HomeClientePage implements OnInit {
   token: string | null = null;  
   user: any = {};              
 
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService,private navCtrl: NavController, ) {}
 
   async ngOnInit() {
     const sessionData = await this.userService.getUserSession();
@@ -31,6 +32,9 @@ export class HomeClientePage implements OnInit {
     } else {
       console.log('No se encontraron datos de sesión.');
     }
+  }
+  goBack() {
+    this.navCtrl.back();
   }
 
 }

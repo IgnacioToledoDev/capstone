@@ -1,4 +1,4 @@
-<app-menu></app-menu>
+<app-menucli></app-menucli>
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
@@ -66,16 +66,16 @@
 
 <!-- Menu y contacto -->
 <ion-footer>
-  <ion-tabs>
-    <ion-tab-bar slot="bottom">
-      <ion-tab-button tab="inicio">
-        <ion-icon name="home-outline"></ion-icon>
-        <ion-label>Inicio</ion-label>
-      </ion-tab-button>
-      <ion-tab-button tab="contactar">
-        <ion-icon name="person-outline"></ion-icon>
-        <ion-label>Contactar</ion-label>
-      </ion-tab-button>
-    </ion-tab-bar>
-  </ion-tabs>
+  <ion-toolbar>
+    <div class="button-container">
+      <ion-button class="custom-button" expand="block" routerLink="/cliente/home-cliente">
+        <ion-icon slot="start" name="home"></ion-icon>
+        Inicio
+      </ion-button>
+      <ion-button class="custom-button" expand="block" routerLink="/mecanico/ajustes">
+        <ion-icon slot="start" name="person"></ion-icon>
+        Perfil
+      </ion-button>
+    </div>
+  </ion-toolbar>
 </ion-footer>
