@@ -5,7 +5,7 @@ return [
     'documentations' => [
         'default' => [
             'api' => [
-                'title' => 'Autominder',
+                'title' => 'Autominder - swagger',
             ],
 
             'routes' => [

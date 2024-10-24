@@ -49,10 +49,10 @@
                                         "type": "integer",
                                         "example": 1
                                     },
-                                    "model": {
+                                    "model_id": {
                                         "description": "Model of the car",
-                                        "type": "string",
-                                        "example": "Toyota Corolla"
+                                        "type": "integer",
+                                        "example": "1"
                                     },
                                     "patent": {
                                         "description": "Patent of the car",
@@ -98,7 +98,7 @@
                                                 },
                                                 "model_id": {
                                                     "type": "integer",
-                                                    "example": "Corolla"
+                                                    "example": "1"
                                                 },
                                                 "year": {
                                                     "type": "integer",
@@ -266,6 +266,46 @@
                                 }
                             }
                         }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/jwt/cars/models/all": {
+            "get": {
+                "tags": [
+                    "Car Brands"
+                ],
+                "summary": "Obtener todos los modelos de autos",
+                "description": "Este endpoint permite obtener una lista de todos los modelos de autos. Requiere autenticación JWT.",
+                "operationId": "bc7a5e9f2bb6080a918ce81ad6f9b03b",
+                "responses": {
+                    "200": {
+                        "description": "Modelos de autos obtenidas exitosamente."
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/jwt/cars/models/all/{brandId}": {
+            "get": {
+                "tags": [
+                    "Car Brands"
+                ],
+                "summary": "Obtener todos los modelos de autos por marca de auto",
+                "description": "Este endpoint permite obtener una lista de todos los modelos de autos por marca. Requiere autenticación JWT.",
+                "operationId": "5fa6a54e0ddf94be0b5453741744fecb",
+                "responses": {
+                    "200": {
+                        "description": "Modelos de autos obtenidas exitosamente."
                     }
                 },
                 "security": [
@@ -983,7 +1023,7 @@
         "/api/jwt/maintenance/{maintenanceId}/details": {
             "get": {
                 "tags": [
-                    "Mantenciones"
+                    "Maintenances"
                 ],
                 "summary": "Obtener detalles completos de una mantencion",
                 "description": "Este endpoint permite obtener los detalles completos de una mantencion, incluyendo información del auto, cliente, y los servicios aprobados.",
@@ -1267,6 +1307,283 @@
                                 }
                             }
                         }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/quotations": {
+            "post": {
+                "tags": [
+                    "Quotations"
+                ],
+                "summary": "Crear una cotización",
+                "description": "Este endpoint crea una nueva cotización para un auto, incluyendo los servicios solicitados y su estado de aprobación.",
+                "operationId": "102760f2a7b5ac2951b09671e2265e80",
+                "requestBody": {
+                    "description": "Datos para crear una cotización",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "carId",
+                                    "services"
+                                ],
+                                "properties": {
+                                    "carId": {
+                                        "description": "ID del auto al cual se le crea la cotización",
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "services": {
+                                        "description": "Lista de servicios solicitados",
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "serviceId": {
+                                                    "description": "ID del servicio",
+                                                    "type": "integer",
+                                                    "example": 101
+                                                },
+                                                "isApproved": {
+                                                    "description": "Si el servicio es aprobado por el cliente",
+                                                    "type": "boolean",
+                                                    "example": true
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "status": {
+                                        "description": "Estado de la cotización (aprobada o no)",
+                                        "type": "integer",
+                                        "example": true
+                                    },
+                                    "approvedDateClient": {
+                                        "description": "Fecha en la que el cliente aprobó la cotización",
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2024-10-23"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Cotización creada exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Error de autenticación o de validación",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Service not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/quotations/{quotationId}": {
+            "get": {
+                "tags": [
+                    "Quotations"
+                ],
+                "summary": "Obtiene detalles de una cotización",
+                "description": "Devuelve la información de una cotización específica, incluyendo el auto, los servicios aprobados por el cliente y los servicios no aprobados.",
+                "operationId": "96b16ab645a011c2232afedd46e7550e",
+                "parameters": [
+                    {
+                        "name": "quotationId",
+                        "in": "path",
+                        "description": "ID de la cotización",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "carId",
+                        "in": "query",
+                        "description": "ID del auto relacionado con la cotización",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Cotización obtenida exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "car": {
+                                            "description": "Detalles del auto",
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "make": {
+                                                    "type": "string",
+                                                    "example": "Toyota"
+                                                },
+                                                "model": {
+                                                    "type": "string",
+                                                    "example": "Corolla"
+                                                },
+                                                "year": {
+                                                    "type": "integer",
+                                                    "example": 2020
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "quotation": {
+                                            "description": "Detalles de la cotización",
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 100
+                                                },
+                                                "total_price": {
+                                                    "type": "number",
+                                                    "format": "float",
+                                                    "example": 1500.75
+                                                },
+                                                "car_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "servicesApprovedByClient": {
+                                            "description": "Servicios aprobados por el cliente",
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 10
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "Cambio de aceite"
+                                                    },
+                                                    "description": {
+                                                        "type": "string",
+                                                        "example": "Cambio de aceite del motor"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "servicesNotApprovedByClient": {
+                                            "description": "Servicios no aprobados por el cliente",
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 11
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "Cambio de neumáticos"
+                                                    },
+                                                    "description": {
+                                                        "type": "string",
+                                                        "example": "Cambio de los neumáticos delanteros"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "price": {
+                                            "type": "number",
+                                            "format": "float",
+                                            "example": 1500.75
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Error de autenticación",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "not user found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Recurso no encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
                     }
                 },
                 "security": [
@@ -1726,323 +2043,6 @@
                     }
                 ]
             }
-        },
-        "/api/jwt/cars/models/all": {
-            "get": {
-                "tags": [
-                    "Car Brands"
-                ],
-                "summary": "Obtener todos los modelos de autos",
-                "description": "Este endpoint permite obtener una lista de todos los modelos de autos. Requiere autenticación JWT.",
-                "operationId": "d43baa42f71f381a612b9b9916f0017b",
-                "responses": {
-                    "200": {
-                        "description": "Modelos de autos obtenidas exitosamente."
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            }
-        },
-        "/api/jwt/cars/models/all/{brandId}": {
-            "get": {
-                "tags": [
-                    "Car Brands"
-                ],
-                "summary": "Obtener todos los modelos de autos por marca de auto",
-                "description": "Este endpoint permite obtener una lista de todos los modelos de autos por marca. Requiere autenticación JWT.",
-                "operationId": "3c6cbe4525f43e0ce9a1609210f1dd54",
-                "responses": {
-                    "200": {
-                        "description": "Modelos de autos obtenidas exitosamente."
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            }
-        },
-        "/quotations": {
-            "post": {
-                "tags": [
-                    "Quotations"
-                ],
-                "summary": "Crear una cotización",
-                "description": "Este endpoint crea una nueva cotización para un auto, incluyendo los servicios solicitados y su estado de aprobación.",
-                "operationId": "cc3053caac1e446bb9003fae68c52d8f",
-                "requestBody": {
-                    "description": "Datos para crear una cotización",
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "required": [
-                                    "carId",
-                                    "services"
-                                ],
-                                "properties": {
-                                    "carId": {
-                                        "description": "ID del auto al cual se le crea la cotización",
-                                        "type": "integer",
-                                        "example": 1
-                                    },
-                                    "services": {
-                                        "description": "Lista de servicios solicitados",
-                                        "type": "array",
-                                        "items": {
-                                            "properties": {
-                                                "serviceId": {
-                                                    "description": "ID del servicio",
-                                                    "type": "integer",
-                                                    "example": 101
-                                                },
-                                                "isApproved": {
-                                                    "description": "Si el servicio es aprobado por el cliente",
-                                                    "type": "boolean",
-                                                    "example": true
-                                                }
-                                            },
-                                            "type": "object"
-                                        }
-                                    },
-                                    "status": {
-                                        "description": "Estado de la cotización (aprobada o no)",
-                                        "type": "integer",
-                                        "example": true
-                                    },
-                                    "approvedDateClient": {
-                                        "description": "Fecha en la que el cliente aprobó la cotización",
-                                        "type": "string",
-                                        "format": "date",
-                                        "example": "2024-10-23"
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Cotización creada exitosamente",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "success": {
-                                            "type": "boolean",
-                                            "example": true
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Error de autenticación o de validación",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "success": {
-                                            "type": "boolean",
-                                            "example": false
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Service not found"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            }
-        },
-        "/quotations/{quotationId}": {
-            "get": {
-                "tags": [
-                    "Quotations"
-                ],
-                "summary": "Obtiene detalles de una cotización",
-                "description": "Devuelve la información de una cotización específica, incluyendo el auto, los servicios aprobados por el cliente y los servicios no aprobados.",
-                "operationId": "24dc6400dcb9a372425cfe6430bd729a",
-                "parameters": [
-                    {
-                        "name": "quotationId",
-                        "in": "path",
-                        "description": "ID de la cotización",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    },
-                    {
-                        "name": "carId",
-                        "in": "query",
-                        "description": "ID del auto relacionado con la cotización",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Cotización obtenida exitosamente",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "car": {
-                                            "description": "Detalles del auto",
-                                            "properties": {
-                                                "id": {
-                                                    "type": "integer",
-                                                    "example": 1
-                                                },
-                                                "make": {
-                                                    "type": "string",
-                                                    "example": "Toyota"
-                                                },
-                                                "model": {
-                                                    "type": "string",
-                                                    "example": "Corolla"
-                                                },
-                                                "year": {
-                                                    "type": "integer",
-                                                    "example": 2020
-                                                }
-                                            },
-                                            "type": "object"
-                                        },
-                                        "quotation": {
-                                            "description": "Detalles de la cotización",
-                                            "properties": {
-                                                "id": {
-                                                    "type": "integer",
-                                                    "example": 100
-                                                },
-                                                "total_price": {
-                                                    "type": "number",
-                                                    "format": "float",
-                                                    "example": 1500.75
-                                                },
-                                                "car_id": {
-                                                    "type": "integer",
-                                                    "example": 1
-                                                }
-                                            },
-                                            "type": "object"
-                                        },
-                                        "servicesApprovedByClient": {
-                                            "description": "Servicios aprobados por el cliente",
-                                            "type": "array",
-                                            "items": {
-                                                "properties": {
-                                                    "id": {
-                                                        "type": "integer",
-                                                        "example": 10
-                                                    },
-                                                    "name": {
-                                                        "type": "string",
-                                                        "example": "Cambio de aceite"
-                                                    },
-                                                    "description": {
-                                                        "type": "string",
-                                                        "example": "Cambio de aceite del motor"
-                                                    }
-                                                },
-                                                "type": "object"
-                                            }
-                                        },
-                                        "servicesNotApprovedByClient": {
-                                            "description": "Servicios no aprobados por el cliente",
-                                            "type": "array",
-                                            "items": {
-                                                "properties": {
-                                                    "id": {
-                                                        "type": "integer",
-                                                        "example": 11
-                                                    },
-                                                    "name": {
-                                                        "type": "string",
-                                                        "example": "Cambio de neumáticos"
-                                                    },
-                                                    "description": {
-                                                        "type": "string",
-                                                        "example": "Cambio de los neumáticos delanteros"
-                                                    }
-                                                },
-                                                "type": "object"
-                                            }
-                                        },
-                                        "price": {
-                                            "type": "number",
-                                            "format": "float",
-                                            "example": 1500.75
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Error de autenticación",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "not user found"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Recurso no encontrado",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "not found"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Error interno del servidor"
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            }
         }
     },
     "components": {
@@ -2096,8 +2096,8 @@
             "description": "Mechanic"
         },
         {
-            "name": "Mantenciones",
-            "description": "Mantenciones"
+            "name": "Quotations",
+            "description": "Quotations"
         },
         {
             "name": "Services",
@@ -2110,10 +2110,6 @@
         {
             "name": "Clients",
             "description": "Clients"
-        },
-        {
-            "name": "Quotations",
-            "description": "Quotations"
         }
     ]
 }

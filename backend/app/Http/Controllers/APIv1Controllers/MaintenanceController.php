@@ -667,7 +667,7 @@ class MaintenanceController extends Controller
      *      path="/api/jwt/maintenance/{maintenanceId}/details",
      *      summary="Obtener detalles completos de una mantencion",
      *      description="Este endpoint permite obtener los detalles completos de una mantencion, incluyendo información del auto, cliente, y los servicios aprobados.",
-     *      tags={"Mantenciones"},
+     *      tags={"Maintenances"},
      *
      *      @OA\Parameter(
      *          name="maintenanceId",

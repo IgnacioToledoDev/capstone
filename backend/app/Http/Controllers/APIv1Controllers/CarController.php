@@ -35,7 +35,7 @@ class CarController extends Controller
      *         @OA\JsonContent(
      *             required={"brand_id", "model", "year", "user_id"},
      *             @OA\Property(property="brand_id", type="integer", example=1, description="ID of the car brand"),
-     *             @OA\Property(property="model", type="string", example="Toyota Corolla", description="Model of the car"),
+     *             @OA\Property(property="model_id", type="integer", example="1", description="Model of the car"),
      *             @OA\Property(property="patent", type="string", example="kbtd92", description="Patent of the car"),
      *             @OA\Property(property="owner_id", type="integer", example="1", description="Id of the owner"),
      *             @OA\Property(property="year", type="integer", example=2024, description="Year of the car"),
@@ -49,7 +49,7 @@ class CarController extends Controller
      *             @OA\Property(property="car", type="object",
      *                 @OA\Property(property="id", type="integer", example=1),
      *                 @OA\Property(property="brand_id", type="integer", example=1),
-     *                 @OA\Property(property="model_id", type="integer", example="Corolla"),
+     *                 @OA\Property(property="model_id", type="integer", example="1"),
      *                 @OA\Property(property="year", type="integer", example=2024),
      *                 @OA\Property(property="owner_id", type="integer", example=1),
      *                 @OA\Property(property="created_at", type="string", format="date-time", example="2024-09-17T02:42:18Z"),
