@@ -655,7 +655,7 @@ class MaintenanceController extends Controller
 
     /**
      *  @OA\Get(
-     *      path="/quotations/{maintenanceId}/details",
+     *      path="/api/jwt/maintenance/{maintenanceId}/details",
      *      summary="Obtener detalles completos de una mantencion",
      *      description="Este endpoint permite obtener los detalles completos de una cotización, incluyendo información del auto, cliente, y los servicios aprobados.",
      *      tags={"Cotizaciones"},
@@ -733,6 +733,7 @@ class MaintenanceController extends Controller
             if (!$maintenance) {
                 return $this->sendError('maintenance not found');
             }
+
             $maintenanceDetails = MaintenanceDetails::whereMaintenanceId($maintenance->id)->first();
             $quotationId = $maintenanceDetails->quotation_id;
             $quotation = Quotation::where(['id' => $quotationId])->first();
@@ -747,6 +748,7 @@ class MaintenanceController extends Controller
             if(!$quotation){
                 throw new NotFoundHttpException('Quotation does not exist');
             }
+
             $car = Car::whereId($quotation->car_id)->first();
             $carModel = $this->carHelper->getCarModelName($car->model_id);
             $brand = $this->carHelper->getCarBrandName($car->brand_id);
@@ -777,7 +779,7 @@ class MaintenanceController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/cars/{carId}/maintenance/{maintenanceId}",
+     *     path="/api/jwt/cars/{carId}/maintenance/{maintenanceId}",
      *     summary="Obtener detalles del historial de mantenciones de un vehículo",
      *     description="Este endpoint permite obtener los detalles de una mantención específica de un vehículo, incluyendo información del dueño, los servicios realizados, y detalles del vehículo.",
      *     tags={"Mantenciones"},
