@@ -78,7 +78,7 @@ class QuotationController extends Controller
             $isApprovedDateClient = $request->get('isApprovedDateClient');
             $quotation = new Quotation();
             $quotation->amount_services = count($userServices);
-            $quotation->status = $approvedByClient;
+            $quotation->approved_by_client = $approvedByClient;
             $quotation->approve_date_client = $isApprovedDateClient ?? null;
             $quotation->car_id = $carId;
             $quotation->save();

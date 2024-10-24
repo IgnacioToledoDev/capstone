@@ -24,7 +24,7 @@ class Quotation extends Model
         'car_id',
         'approve_date_client',
         'amount_services',
-        'status',
+        'approved_by_client',
         'is_approved_by_client'
     ];
 
