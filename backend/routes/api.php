@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\APIv1Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -12,4 +13,4 @@ require __DIR__ . '/api/CarModelsRoutes.php';
 require __DIR__ . '/api/QuotationRoutes.php';
 
 
-Route::get('login', [\App\Http\Controllers\APIv1Controllers\UserController::class, 'login'])->name('login');
+Route::get('login', [UserController::class, 'login'])->name('login');
