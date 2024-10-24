@@ -97,6 +97,11 @@ const routes: Routes = [
     path: 'cliente/info-mante',
     loadChildren: () => import('./cliente/info-mante/info-mante.module').then( m => m.InfoMantePageModule)
   },
+  {
+    path: 'mecanico/lista-car',
+    loadChildren: () => import('./mecanico/lista-car/lista-car.module').then( m => m.ListaCarPageModule)
+  },
+
 
 
 

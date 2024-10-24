@@ -23,8 +23,8 @@
   </ion-card>
 
   <ion-list class="settings-list">
-    <ion-item button>
-      <ion-icon slot="start" name="car-outline"></ion-icon>
+    <ion-item button routerLink="/mecanico/lista-car">
+      <ion-icon slot="start" name="car-outline" ></ion-icon>
       <ion-label>Autos</ion-label>
     </ion-item>
 
@@ -39,22 +39,6 @@
     </ion-item>
   </ion-list>
 
-  <ion-list class="feedback-list">
-    <ion-item button>
-      <ion-icon slot="start" name="help-circle-outline"></ion-icon>
-      <ion-label>Preguntas frecuentes - FAQ</ion-label>
-    </ion-item>
-
-    <ion-item button>
-      <ion-icon slot="start" name="globe-outline"></ion-icon>
-      <ion-label>Abrir sitio web</ion-label>
-    </ion-item>
-
-    <ion-item button>
-      <ion-icon slot="start" name="alert-circle-outline"></ion-icon>
-      <ion-label>Reportar un error</ion-label>
-    </ion-item>
-  </ion-list>
 
   <div class="logout-button" (click)="presentLogoutConfirm()">
     <ion-button expand="block" color="tertiary">
