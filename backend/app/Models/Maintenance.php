@@ -44,6 +44,13 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Maintenance whereUpdatedAt($value)
  * @method static Builder|Maintenance whereStartMaintenance($value)
  * @method static Builder|Maintenance whereEndMaintenance($value)
+ * @property-read \App\Models\Car $car
+ * @property-read \App\Models\User $mechanic
+ * @property-read \App\Models\Service $service
+ * @property-read \App\Models\StatusCar $statusCar
+ * @property string|null $date_made
+ * @method static Builder|Maintenance whereDateMade($value)
+ * @mixin \Eloquent
  */
 class Maintenance extends Model
 {
@@ -51,16 +58,14 @@ class Maintenance extends Model
 
     protected $fillable = [
         'name',
-        'description',
-        'status_id',
-        'service_id',
-        'actual_mileage',
         'recommendation_action',
+        'status_id',
         'pricing',
         'car_id',
         'mechanic_id',
         'start_maintenance',
         'end_maintenance',
+        'date_made'
     ];
 
     protected $attributes = [

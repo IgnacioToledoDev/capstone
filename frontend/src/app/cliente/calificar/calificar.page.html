@@ -1,0 +1,49 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()">
+        <ion-icon name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Calificación</ion-title>
+    <ion-buttons slot="end" routerLink="/cliente/home-cliente">
+      <ion-button >
+        <ion-icon name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <div class="calificacion-container">
+    <img src="https://ionicframework.com/docs/img/demos/avatar.svg" alt="Descripción de la imagen" class="imagen-calificacion" />
+
+    <div class="estrellas">
+      <ion-icon *ngFor="let star of stars; let i = index"
+                 [name]="i < rating ? 'star' : 'star-outline'"
+                 (click)="rate(i + 1)"></ion-icon>
+    </div>
+
+    <ion-item>
+      <ion-label position="stacked">Deja tu comentario:</ion-label>
+      <ion-textarea [(ngModel)]="comment" placeholder="Escribe tu comentario aquí..."></ion-textarea>
+    </ion-item>
+
+    <ion-button expand="full" (click)="submitRating()">Enviar Calificación</ion-button>
+  </div>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <div class="button-container">
+      <ion-button class="custom-button" expand="block" routerLink="/cliente/home-cliente">
+        <ion-icon slot="start" name="home"></ion-icon>
+        Inicio
+      </ion-button>
+      <ion-button class="custom-button" expand="block" routerLink="/mecanico/ajustes">
+        <ion-icon slot="start" name="person"></ion-icon>
+        Perfil
+      </ion-button>
+    </div>
+  </ion-toolbar>
+</ion-footer>

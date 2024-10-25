@@ -16,7 +16,7 @@
           <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
         </ion-avatar>
         <div class="text-content">
-          <h2>Bienvenido, {{ user.name }} </h2>
+          <h2 >Bienvenido, {{ user.name }} </h2>
           <p>Mecanico </p>
           <a href="/mecanico/agregar-vehiculo">home-mecanico</a>
         </div>
@@ -59,15 +59,20 @@
     </ion-card-content>
   </ion-card>
 </ion-content>
+
 <ion-footer>
     <div class="button-container">
       <ion-button class="custom-button" expand="block">
         <ion-icon slot="start" name="home"></ion-icon>
         Inicio
       </ion-button>
+      <ion-button class="custom-button" expand="block" routerLink="/mecanico/lista-cotiza">
+        <ion-icon slot="start" name="person"></ion-icon>
+        Cotizasiones
+      </ion-button>
       <ion-button class="custom-button" expand="block" routerLink="/mecanico/register-user">
         <ion-icon slot="start" name="person"></ion-icon>
-        Agregar Perfil
+        + Perfil
       </ion-button>
     </div>
 </ion-footer>

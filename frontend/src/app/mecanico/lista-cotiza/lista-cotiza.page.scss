@@ -1,0 +1,25 @@
+.button-container {
+    display: flex;
+  }
+  
+  .custom-button {
+    --border-radius: 0px; /* Esquinas cuadradas */
+    --color: #001f3f; 
+    width: 49%; 
+
+}
+
+
+.title {
+  color: #FFFFFF;
+  font-size: 2rem;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+.input-item {
+  --background: #FFFFFF; // Fondo gris claro para el input
+    border-radius: 8px; // Bordes redondeados
+    margin-bottom: 1.5rem; // Espacio entre campos de entrada
+    --color: black; // Texto negro para los inputs
+}

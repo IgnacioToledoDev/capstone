@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Carbon;
 
 /**
- *
+ * 
  *
  * @property int $id
  * @property string $name
@@ -29,6 +29,10 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Service whereTypeId($value)
  * @method static Builder|Service whereUpdatedAt($value)
  * @mixin Eloquent
+ * @property int|null $price
+ * @property-read \App\Models\TypeService $type
+ * @method static Builder|Service wherePrice($value)
+ * @mixin \Eloquent
  */
 class Service extends Model
 {
