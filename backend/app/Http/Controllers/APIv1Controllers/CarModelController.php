@@ -29,7 +29,7 @@ class CarModelController extends Controller
             $success['models'] = $models;
             return $this->sendResponse($success, 'All models retrieved successfully.');
         } catch (QueryException $ex) {
-            return $this->sendError($ex->getMessage(), 500);
+            return $this->sendError($ex->getMessage(), 400);
         }
     }
 
@@ -37,19 +37,37 @@ class CarModelController extends Controller
      * @OA\Get(
      *     path="/api/jwt/cars/models/all/{brandId}",
      *     summary="Obtener todos los modelos de autos por marca de auto",
-     *     description="Este endpoint permite obtener una lista de todos los modelos de autos por marca. Requiere autenticación JWT.",
+     *     description="Este endpoint permite obtener una lista de todos los modelos de autos asociados a una marca específica. Requiere autenticación JWT.",
      *     tags={"Car Models"},
      *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *        name="brandId",
+     *        in="path",
+     *        description="ID de la marca de auto",
+     *        required=true,
+     *        @OA\Schema(
+     *            type="integer",
+     *            example=1
+     *        )
+     *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="Modelos de autos obtenidas exitosamente.",
-     *         )
+     *         description="Modelos de autos obtenidos exitosamente.",
      *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Marca de auto no encontrada."
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="No autorizado."
+     *     )
      * )
      */
     public function getModelsByBrandId($brandId) {
-        $models = CarModel::whereBrandId($brandId)->get();
+        $models = CarModel::where('brand_id', $brandId)->get();
         $success['models'] = $models;
         return $this->sendResponse($success, 'All models retrieved successfully.');
     }
+
 }

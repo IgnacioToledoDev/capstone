@@ -301,11 +301,29 @@
                     "Car Models"
                 ],
                 "summary": "Obtener todos los modelos de autos por marca de auto",
-                "description": "Este endpoint permite obtener una lista de todos los modelos de autos por marca. Requiere autenticación JWT.",
+                "description": "Este endpoint permite obtener una lista de todos los modelos de autos asociados a una marca específica. Requiere autenticación JWT.",
                 "operationId": "5fa6a54e0ddf94be0b5453741744fecb",
+                "parameters": [
+                    {
+                        "name": "brandId",
+                        "in": "path",
+                        "description": "ID de la marca de auto",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
-                        "description": "Modelos de autos obtenidas exitosamente."
+                        "description": "Modelos de autos obtenidos exitosamente."
+                    },
+                    "404": {
+                        "description": "Marca de auto no encontrada."
+                    },
+                    "401": {
+                        "description": "No autorizado."
                     }
                 },
                 "security": [
