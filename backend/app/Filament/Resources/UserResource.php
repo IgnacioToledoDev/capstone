@@ -6,6 +6,7 @@ use App\Filament\Resources\UserResource\Pages;
 use App\Filament\Resources\UserResource\RelationManagers;
 use App\Models\User;
 use App\Rules\ValidateRut;
+use App\Utils\Constants;
 use Filament\Forms;
 use Filament\Forms\Components\TextInput as ComponentsTextInput;
 use Filament\Forms\Form;
@@ -14,6 +15,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Spatie\Permission\Models\Role;
 
 
 class UserResource extends Resource
@@ -66,10 +68,10 @@ class UserResource extends Resource
                     ->visibleOn(['create'])
                     ->placeholder('Contraseña del usuario'),
                 Forms\Components\Select::make('roles')
-                    ->relationship('roles', 'name')
+                    ->options(self::getRoles())
                     ->label('Roles')
                     ->required()
-                    ->placeholder('Seleccione un rol...')
+                    ->placeholder(Constants::SELECT_OPTION)
             ]);
     }
 
@@ -129,5 +131,16 @@ class UserResource extends Resource
             'create' => Pages\CreateUser::route('/create'),
             'edit' => Pages\EditUser::route('/{record}/edit'),
         ];
+    }
+
+    protected static function getRoles(): array
+    {
+        $roles = Role::where('guard_name', 'api')->get();
+        $options = [];
+        foreach ($roles as $role) {
+            $options[$role->id] = $role->name;
+        }
+
+        return $options;
     }
 }
