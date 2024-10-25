@@ -6,6 +6,8 @@ use App\Helper\CarHelper;
 use App\Helper\UserHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Car;
+use App\Models\CarBrand;
+use App\Models\CarModel;
 use App\Models\Maintenance;
 use App\Models\MaintenanceDetails;
 use App\Models\Quotation;
@@ -19,6 +21,7 @@ use http\Exception\BadHeaderException;
 use http\Exception\InvalidArgumentException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Date;
 use OpenApi\Annotations as OA;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -194,7 +197,6 @@ class MaintenanceController extends Controller
      *              @OA\Property(property="carId", type="integer", example=1),
      *              @OA\Property(property="recommendation_action", type="string", example="Cambio de aceite y filtro"),
      *              @OA\Property(property="services", type="string", example="[{'id': 1}, {'id': 2}]"),
-     *              @OA\Property(property="typeServiceId", type="integer", example="1")
      *          )
      *      ),
      *     @OA\Response(
@@ -254,11 +256,10 @@ class MaintenanceController extends Controller
             return $this->sendError('JWT not authenticated.', 401);
         }
 
-        $carId = $request->get('carId');
-        $notes = $request->get('recommendation_action');
-        $services = $request->get('services');
-        $typeServiceId = $request->get('typeServiceId');
-        $listServices = json_decode($services, true);
+        $carId = $request->input('carId');
+        var_dump($carId);
+        $notes = $request->input('recommendation_action');
+        $services = $request->input('services');
         $error = [];
         $totalPricing = 0;
 
@@ -269,18 +270,21 @@ class MaintenanceController extends Controller
         }
 
         $maintenance = new Maintenance();
-        $maintenance->name = $this->generateName($typeService);
-        $maintenance->description = $notes ?? null;
+        $maintenance->name = $this->generateName($carId);
+        $maintenance->recommendation_action = $notes ?? null;
         $maintenance->status_id = StatusCar::STATUS_INACTIVE;
         $maintenance->car_id = $carId;
         $maintenance->mechanic_id = $mechanic->id;
+        $maintenance->pricing = 0;
+        $maintenance->start_maintenance = now();
         $maintenance->save();
 
         if($maintenance->getAttribute('id') == null) {
             return $this->sendError('maintenance not saved');
         }
 
-        foreach ($listServices as $service) {
+        foreach ($services as $service) {
+            var_dump($service);
             $serviceFound = Service::whereId($service['id'])->first();
             if(!$serviceFound){
                 $error[] = $serviceFound;
@@ -298,8 +302,7 @@ class MaintenanceController extends Controller
         }
 
         $maintenance->pricing = $totalPricing;
-        $maintenance->start_maintenance->format('d-m-Y H:i:s');
-        $maintenance->end_maintenance->format('d-m-Y H:i:s');
+        $maintenance->save();
         $success['maintenance'] = $maintenance;
         $success['maintenanceDetails'] = $maintenanceDetails ?? null;
 
@@ -330,11 +333,11 @@ class MaintenanceController extends Controller
         //
     }
 
-    private function generateName($typeServiceId): string {
-        $typeService = TypeService::whereId($typeServiceId)->first();
-        $now = new \DateTime('now');
+    private function generateName(int $carId): string {
+      $carName = $this->carHelper->getFullName($carId);
+      $date = now();
 
-        return 'new ' . $typeService->name . $now->format('d-m-Y');
+      return 'Mantecion para el auto ' . $carName . ' ' . $date->format('d-m-Y H:i:s');
     }
 
     /**

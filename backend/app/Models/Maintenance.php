@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
 
 /**
- * 
+ *
  *
  * @mixin Eloquent
  * @property int $id
@@ -58,16 +58,14 @@ class Maintenance extends Model
 
     protected $fillable = [
         'name',
-        'description',
-        'status_id',
-        'service_id',
-        'actual_mileage',
         'recommendation_action',
+        'status_id',
         'pricing',
         'car_id',
         'mechanic_id',
         'start_maintenance',
         'end_maintenance',
+        'date_made'
     ];
 
     protected $attributes = [

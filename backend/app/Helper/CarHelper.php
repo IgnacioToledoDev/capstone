@@ -2,6 +2,7 @@
 
 namespace App\Helper;
 
+use App\Models\Car;
 use App\Models\CarBrand;
 use App\Models\CarModel;
 
@@ -18,5 +19,14 @@ class CarHelper
     {
         $modelName = CarModel::where(['id'=> $carModelId])->value('name');
         return $modelName ?? 'not found name';
+    }
+
+    public function getFullName(int $carId): string
+    {
+        $car = Car::whereId($carId)->first();
+        $brandName = CarBrand::whereId($car->brand_id)->first()->name;
+        $modelName = CarModel::whereId($car->model_id)->first()->name;
+
+        return $brandName. ' ' .  $modelName. ' ' .  $car->year;
     }
 }
