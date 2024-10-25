@@ -196,7 +196,16 @@ class MaintenanceController extends Controller
      *          @OA\JsonContent(
      *              @OA\Property(property="carId", type="integer", example=1),
      *              @OA\Property(property="recommendation_action", type="string", example="Cambio de aceite y filtro"),
-     *              @OA\Property(property="services", type="string", example="[{'id': 1}, {'id': 2}]"),
+     *              @OA\Property(
+     *               property="services",
+     *              type="array",
+     *              @OA\Items(
+     *              type="object",
+     *              @OA\Property(property="id", type="integer", example=1)
+     *              ),
+     *              example={{"id": 1}, {"id": 2}}
+     *              ),
+     *              @OA\Property(property="startNow", type="boolean", example=true),
      *          )
      *      ),
      *     @OA\Response(
@@ -257,7 +266,6 @@ class MaintenanceController extends Controller
         }
 
         $carId = $request->input('carId');
-        var_dump($carId);
         $notes = $request->input('recommendation_action');
         $services = $request->input('services');
         $error = [];
@@ -269,6 +277,13 @@ class MaintenanceController extends Controller
             return $this->sendError('mechanic not found');
         }
 
+
+        $starNow = $request->input('startNow');
+        $starNowDate = null;
+        if ($starNow === true) {
+            $starNowDate = now();
+        }
+
         $maintenance = new Maintenance();
         $maintenance->name = $this->generateName($carId);
         $maintenance->recommendation_action = $notes ?? null;
@@ -276,7 +291,7 @@ class MaintenanceController extends Controller
         $maintenance->car_id = $carId;
         $maintenance->mechanic_id = $mechanic->id;
         $maintenance->pricing = 0;
-        $maintenance->start_maintenance = now();
+        $maintenance->start_maintenance = $starNowDate;
         $maintenance->save();
 
         if($maintenance->getAttribute('id') == null) {
@@ -284,7 +299,6 @@ class MaintenanceController extends Controller
         }
 
         foreach ($services as $service) {
-            var_dump($service);
             $serviceFound = Service::whereId($service['id'])->first();
             if(!$serviceFound){
                 $error[] = $serviceFound;

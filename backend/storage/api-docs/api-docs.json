@@ -603,12 +603,28 @@
                                         "example": "Cambio de aceite y filtro"
                                     },
                                     "services": {
-                                        "type": "string",
-                                        "example": "[{'id': 1}, {'id': 2}]"
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "example": [
+                                            {
+                                                "id": 1
+                                            },
+                                            {
+                                                "id": 2
+                                            }
+                                        ]
                                     },
-                                    "typeServiceId": {
-                                        "type": "integer",
-                                        "example": "1"
+                                    "startNow": {
+                                        "type": "boolean",
+                                        "example": true
                                     }
                                 },
                                 "type": "object"
