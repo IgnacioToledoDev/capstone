@@ -73,11 +73,11 @@ class QuotationController extends Controller
             $userServices = $request->get('services');
             $approvedByClient = $request->get('status');
             $isApprovedDateClient = $request->get('isApprovedDateClient');
-            if (!$isApprovedDateClient) {
+            if (empty($isApprovedDateClient)) {
                 $isApprovedDateClient = new Date('now');
             }
 
-            $date = $approvedByClient ? $isApprovedDateClient : null;
+            $date = $approvedByClient ? $isApprovedDateClient->format('Y-m-d') : null;
             $quotation = new Quotation();
             $quotation->amount_services = count($userServices);
             $quotation->approved_by_client = $approvedByClient;
@@ -112,7 +112,7 @@ class QuotationController extends Controller
             $success['quotation'] = $quotation;
             $success['details'] = $quotationDetails;
 
-            return $this->sendResponse($success, $success['message']);
+            return $this->sendResponse($success, 'quotation created successfully');
         } catch (\Throwable $th) {
             return $this->sendError($th->getMessage(), 401);
         }
