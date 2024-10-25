@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * 
+ *
  *
  * @method static Builder|Quotation newModelQuery()
  * @method static Builder|Quotation newQuery()
@@ -21,6 +21,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Quotation extends Model
 {
     use HasFactory;
+
+    protected $table = 'quotation';
 
     protected $fillable = [
         'car_id',

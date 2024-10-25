@@ -278,7 +278,7 @@
         "/api/jwt/cars/models/all": {
             "get": {
                 "tags": [
-                    "Car Brands"
+                    "Car Models"
                 ],
                 "summary": "Obtener todos los modelos de autos",
                 "description": "Este endpoint permite obtener una lista de todos los modelos de autos. Requiere autenticación JWT.",
@@ -298,7 +298,7 @@
         "/api/jwt/cars/models/all/{brandId}": {
             "get": {
                 "tags": [
-                    "Car Brands"
+                    "Car Models"
                 ],
                 "summary": "Obtener todos los modelos de autos por marca de auto",
                 "description": "Este endpoint permite obtener una lista de todos los modelos de autos por marca. Requiere autenticación JWT.",
@@ -1316,14 +1316,14 @@
                 ]
             }
         },
-        "/quotations": {
+        "/api/jwt/quotations/create": {
             "post": {
                 "tags": [
                     "Quotations"
                 ],
                 "summary": "Crear una cotización",
                 "description": "Este endpoint crea una nueva cotización para un auto, incluyendo los servicios solicitados y su estado de aprobación.",
-                "operationId": "102760f2a7b5ac2951b09671e2265e80",
+                "operationId": "022894ef495ded902bab5f14b82a94b5",
                 "requestBody": {
                     "description": "Datos para crear una cotización",
                     "required": true,
@@ -1421,14 +1421,14 @@
                 ]
             }
         },
-        "/quotations/{quotationId}": {
+        "/api/jwt/quotations/{quotationId}": {
             "get": {
                 "tags": [
                     "Quotations"
                 ],
                 "summary": "Obtiene detalles de una cotización",
                 "description": "Devuelve la información de una cotización específica, incluyendo el auto, los servicios aprobados por el cliente y los servicios no aprobados.",
-                "operationId": "96b16ab645a011c2232afedd46e7550e",
+                "operationId": "4174e5d189b35eedde57c0e4f2bc93dd",
                 "parameters": [
                     {
                         "name": "quotationId",
@@ -2086,6 +2086,10 @@
         {
             "name": "Cars",
             "description": "Cars"
+        },
+        {
+            "name": "Car Models",
+            "description": "Car Models"
         },
         {
             "name": "Maintenances",

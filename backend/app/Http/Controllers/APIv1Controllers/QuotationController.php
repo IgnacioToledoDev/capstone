@@ -12,6 +12,7 @@ use http\Exception\BadHeaderException;
 use http\Exception\InvalidArgumentException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Date;
 use OpenApi\Annotations as OA;
 
 class QuotationController extends Controller
@@ -19,7 +20,7 @@ class QuotationController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/quotations",
+     *     path="/api/jwt/quotations/create",
      *     summary="Crear una cotización",
      *     description="Este endpoint crea una nueva cotización para un auto, incluyendo los servicios solicitados y su estado de aprobación.",
      *     tags={"Quotations"},
@@ -72,10 +73,16 @@ class QuotationController extends Controller
             $userServices = $request->get('services');
             $approvedByClient = $request->get('status');
             $isApprovedDateClient = $request->get('isApprovedDateClient');
+            if (!$isApprovedDateClient) {
+                $isApprovedDateClient = new Date('now');
+            }
+
+            $date = $approvedByClient ? $isApprovedDateClient : null;
             $quotation = new Quotation();
             $quotation->amount_services = count($userServices);
             $quotation->approved_by_client = $approvedByClient;
-            $quotation->approve_date_client = $isApprovedDateClient ?? null;
+            $quotation->approve_date_client = $date;
+            $quotation->total_price = 0;
             $quotation->car_id = $carId;
             $quotation->is_active = false;
             $quotation->save();
@@ -98,13 +105,11 @@ class QuotationController extends Controller
                 $detail->service_id = $service->id;
                 $detail->is_approved_by_client = $isApproved;
                 $detail->save();
-                $quotationDetails[$detail->id] = $detail;
+                $quotationDetails[] = $detail;
             }
-
             $quotation->total_price = $totalPrice;
             $quotation->save();
             $success['quotation'] = $quotation;
-            $success['message'] = "Quotation created";
             $success['details'] = $quotationDetails;
 
             return $this->sendResponse($success, $success['message']);
@@ -115,7 +120,7 @@ class QuotationController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/quotations/{quotationId}",
+     *     path="/api/jwt/quotations/{quotationId}",
      *     summary="Obtiene detalles de una cotización",
      *     description="Devuelve la información de una cotización específica, incluyendo el auto, los servicios aprobados por el cliente y los servicios no aprobados.",
      *     tags={"Quotations"},
