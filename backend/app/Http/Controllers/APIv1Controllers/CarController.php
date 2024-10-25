@@ -5,6 +5,7 @@ namespace App\Http\Controllers\APIv1Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Car;
 use App\Models\CarBrand;
+use App\Models\CarModel;
 use App\Models\User;
 use DateTime;
 use Illuminate\Http\JsonResponse;
@@ -34,7 +35,7 @@ class CarController extends Controller
      *         @OA\JsonContent(
      *             required={"brand_id", "model", "year", "user_id"},
      *             @OA\Property(property="brand_id", type="integer", example=1, description="ID of the car brand"),
-     *             @OA\Property(property="model", type="string", example="Toyota Corolla", description="Model of the car"),
+     *             @OA\Property(property="model_id", type="integer", example="1", description="Model of the car"),
      *             @OA\Property(property="patent", type="string", example="kbtd92", description="Patent of the car"),
      *             @OA\Property(property="owner_id", type="integer", example="1", description="Id of the owner"),
      *             @OA\Property(property="year", type="integer", example=2024, description="Year of the car"),
@@ -48,7 +49,7 @@ class CarController extends Controller
      *             @OA\Property(property="car", type="object",
      *                 @OA\Property(property="id", type="integer", example=1),
      *                 @OA\Property(property="brand_id", type="integer", example=1),
-     *                 @OA\Property(property="model", type="string", example="Corolla"),
+     *                 @OA\Property(property="model_id", type="integer", example="1"),
      *                 @OA\Property(property="year", type="integer", example=2024),
      *                 @OA\Property(property="owner_id", type="integer", example=1),
      *                 @OA\Property(property="created_at", type="string", format="date-time", example="2024-09-17T02:42:18Z"),
@@ -90,26 +91,28 @@ class CarController extends Controller
 
             $validated = $request->validate([
                 'brand_id' => 'required|integer',
-                'model' => 'required|string',
+                'model_id' => 'required|integer',
                 'year' => 'required|integer|min:' . Car::MIN_YEAR . '|max:' . $this->getMaxYear(),
                 'patent' => 'required|string',
                 'owner_id' => 'required|integer',
             ]);
 
             $brand = CarBrand::find($validated['brand_id'])->get();
+            $model = CarModel::find($validated['model_id'])->get();
             $owner = User::whereId($validated['owner_id'])->first();
-            if (!$brand && !$owner) {
+            if (!$brand && !$owner && !$model) {
                 return $this->sendError('Error');
             }
 
             $car = new Car();
             $car->brand_id = $validated['brand_id'];
-            $car->model = $validated['model'];
+            $car->model_id = $validated['model_id'];
             $car->year = $validated['year'];
             $car->patent = $validated['patent'];
             $car->owner_id = $validated['owner_id'];
             $car->save();
             $success['car'] = $car;
+            // todo if the car by the patent has old owner to change
 
             return $this->sendResponse($success, 'Car created successfully.');
         } catch (\Exception $e) {
