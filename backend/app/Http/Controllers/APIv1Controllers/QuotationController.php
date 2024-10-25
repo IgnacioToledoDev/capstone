@@ -224,8 +224,8 @@ class QuotationController extends Controller
                 throw new NoActiveTransaction('not found');
             }
 
-            $quotation = Quotation::where(['car_id' => $carId])->last();
-            $details = QuotationDetails::whereQuotationId($quotationId)->first();
+            $quotation = Quotation::where(['car_id' => $carId, 'id' => $quotationId])->first();
+            $details = QuotationDetails::whereQuotationId($quotationId)->get();
             $services = [];
             $servicesNotApprovedByClient = [];
             foreach ($details as $detail) {
@@ -242,7 +242,7 @@ class QuotationController extends Controller
                 'quotation' => $quotation,
                 'servicesApprovedByClient' => $services,
                 'servicesNotApprovedByClient' => $servicesNotApprovedByClient,
-                'price' => $quotation->total_price
+                'total_price' => $quotation->total_price
             ];
 
             $success['quotation'] = $response;
