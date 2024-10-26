@@ -10,6 +10,8 @@ class MechanicScore extends Model
 {
     use HasFactory;
 
+    protected $table = 'mechanic_score';
+
     protected $fillable = [
         'mechanic_id',
         'user_id',

@@ -2078,14 +2078,14 @@
                 ]
             }
         },
-        "/api/mechanics/{mechanicId}/score": {
+        "/api/jwt/mechanic/{mechanicId}/setScore": {
             "post": {
                 "tags": [
                     "Mechanic"
                 ],
                 "summary": "Asigna una puntuación y un comentario a un mecánico",
                 "description": "Permite que un usuario autenticado asigne una puntuación de 1 a 5 y un comentario a un mecánico específico.",
-                "operationId": "41cbde3923ae514f0d9187126ecc39c6",
+                "operationId": "6e79f6605b40a724f287d01d80f95138",
                 "parameters": [
                     {
                         "name": "mechanicId",

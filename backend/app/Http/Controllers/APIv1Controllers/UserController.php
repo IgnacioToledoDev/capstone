@@ -304,13 +304,14 @@ class UserController extends Controller
         if ($emailIsInUsed) {
             return $this->sendError('Email already registered.');
         }
+        $defaultPasswordClient = trim(str_replace("-", "", $validator->getValue('rut')));
 
         $client = new User();
         $client->username = $validator->getValue('name') . ' ' . $validator->getValue('lastname');;
         $client->email = $validator->getValue('email');
         $client->name  = $validator->getValue('name');
         $client->lastname = $validator->getValue('lastname');
-        $client->password = Hash::make($validator->getValue('rut'));
+        $client->password = Hash::make($defaultPasswordClient);
         $client->rut = $validator->getValue('rut');
         $client->phone = $validator->getValue('phone');
         $client->save();
@@ -383,7 +384,7 @@ class UserController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/mechanics/{mechanicId}/score",
+     *     path="/api/jwt/mechanic/{mechanicId}/setScore",
      *     summary="Asigna una puntuación y un comentario a un mecánico",
      *     description="Permite que un usuario autenticado asigne una puntuación de 1 a 5 y un comentario a un mecánico específico.",
      *     tags={"Mechanic"},
