@@ -524,7 +524,7 @@ class UserController extends Controller
         $mechanicScore->mechanic_id = $mechanic->id;
         $mechanicScore->user_id = $client->id;
         $mechanicScore->score = $score;
-        $mechanic->comment = !empty($comment) ? $comment : null;
+        $mechanicScore->comment = $comment ?? null;
         $mechanicScore->save();
         $success['mechanicScore'] = $mechanicScore;
 
