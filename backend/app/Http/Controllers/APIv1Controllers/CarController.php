@@ -5,6 +5,7 @@ namespace App\Http\Controllers\APIv1Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Car;
 use App\Models\CarBrand;
+use App\Models\User;
 use DateTime;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -34,8 +35,9 @@ class CarController extends Controller
      *             required={"brand_id", "model", "year", "user_id"},
      *             @OA\Property(property="brand_id", type="integer", example=1, description="ID of the car brand"),
      *             @OA\Property(property="model", type="string", example="Toyota Corolla", description="Model of the car"),
+     *             @OA\Property(property="patent", type="string", example="kbtd92", description="Patent of the car"),
+     *             @OA\Property(property="owner_id", type="integer", example="1", description="Id of the owner"),
      *             @OA\Property(property="year", type="integer", example=2024, description="Year of the car"),
-     *             @OA\Property(property="user_id", type="integer", example=1, description="ID of the user who owns the car")
      *         )
      *     ),
      *     @OA\Response(
@@ -46,9 +48,9 @@ class CarController extends Controller
      *             @OA\Property(property="car", type="object",
      *                 @OA\Property(property="id", type="integer", example=1),
      *                 @OA\Property(property="brand_id", type="integer", example=1),
-     *                 @OA\Property(property="model", type="string", example="Toyota Corolla"),
+     *                 @OA\Property(property="model", type="string", example="Corolla"),
      *                 @OA\Property(property="year", type="integer", example=2024),
-     *                 @OA\Property(property="user_id", type="integer", example=1),
+     *                 @OA\Property(property="owner_id", type="integer", example=1),
      *                 @OA\Property(property="created_at", type="string", format="date-time", example="2024-09-17T02:42:18Z"),
      *                 @OA\Property(property="updated_at", type="string", format="date-time", example="2024-09-17T02:42:18Z")
      *             )
@@ -90,12 +92,13 @@ class CarController extends Controller
                 'brand_id' => 'required|integer',
                 'model' => 'required|string',
                 'year' => 'required|integer|min:' . Car::MIN_YEAR . '|max:' . $this->getMaxYear(),
-                'patent' => 'required|string'
+                'patent' => 'required|string',
+                'owner_id' => 'required|integer',
             ]);
 
             $brand = CarBrand::find($validated['brand_id'])->get();
-
-            if (!$brand) {
+            $owner = User::whereId($validated['owner_id'])->first();
+            if (!$brand && !$owner) {
                 return $this->sendError('Error');
             }
 
@@ -103,7 +106,8 @@ class CarController extends Controller
             $car->brand_id = $validated['brand_id'];
             $car->model = $validated['model'];
             $car->year = $validated['year'];
-            $car->user_id = $user->id;
+            $car->patent = $validated['patent'];
+            $car->owner_id = $validated['owner_id'];
             $car->save();
             $success['car'] = $car;
 
@@ -115,7 +119,7 @@ class CarController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/cars/{patent}",
+     *     path="/api/jwt/cars/{patent}",
      *     tags={"Cars"},
      *     summary="Retrieve car by patent",
      *     description="Returns car details based on the patent provided.",
@@ -132,7 +136,6 @@ class CarController extends Controller
      *             example="ABC123"
      *         )
      *     ),
-     *
      *     @OA\Response(
      *         response=200,
      *         description="Car retrieved successfully",

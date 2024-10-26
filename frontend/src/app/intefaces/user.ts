@@ -4,10 +4,11 @@ export interface UserLoginInterface {
   }
 
 export interface UserRegisterInterface {
-    username: string;
     email: string;
-    password: string;
-    c_password?: string;
+    name: string;
+    lastname: string; 
+    rut: string;
+    phone: string;
   }
 
 export interface UserRecoveryInterface {

@@ -65,6 +65,38 @@ const routes: Routes = [
     path: 'mecanico/info-ser-cli',
     loadChildren: () => import('./mecanico/info-ser-cli/info-ser-cli.module').then( m => m.InfoSerCliPageModule)
   },
+  {
+    path: 'mecanico/seguimiento',
+    loadChildren: () => import('./mecanico/seguimiento/seguimiento.module').then( m => m.SeguimientoPageModule)
+  },
+  {
+    path: 'mecanico/escanear-patente',
+    loadChildren: () => import('./mecanico/escanear-patente/escanear-patente.module').then( m => m.EscanearPatentePageModule)
+  },
+  {
+    path: 'mecanico/escanear-qr',
+    loadChildren: () => import('./mecanico/escanear-qr/escanear-qr.module').then( m => m.EscanearQrPageModule)
+  },
+  {
+    path: 'mecanico/ajustes',
+    loadChildren: () => import('./mecanico/ajustes/ajustes.module').then( m => m.AjustesPageModule)
+  },
+  {
+    path: 'cliente/home-cliente',
+    loadChildren: () => import('./cliente/home-cliente/home-cliente.module').then( m => m.HomeClientePageModule)
+  },
+  {
+    path: 'cliente/info-mante',
+    loadChildren: () => import('./cliente/info-mante/info-mante.module').then( m => m.InfoMantePageModule)
+  },
+
+
+
+
+
+
+
+
 ];
 
 @NgModule({

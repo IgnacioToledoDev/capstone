@@ -1,16 +1,4 @@
 services:
-  backend:
-    container_name: autominder_backend
-    build: ./backend/
-    ports:
-      - "8000:8000"
-    volumes:
-      - ./backend:/var/www/html
-    depends_on:
-      - mysql
-    networks:
-      - autominder_network
-  
   mysql:
     container_name: autominder_mysql
     image: mysql:8
@@ -21,6 +9,19 @@ services:
       MYSQL_PASSWORD: capstone2024.
     ports:
       - "3307:3306"
+    networks:
+      - autominder_network
+
+  backend:
+    container_name: autominder_backend
+    build: ./backend/
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/var/www/html
+      - /var/www/html/vendor
+    depends_on:
+      - mysql
     networks:
       - autominder_network
 

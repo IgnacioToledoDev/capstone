@@ -1,19 +1,32 @@
 <ion-content class="ion-padding">
-  <h1>Recuperar Contraseña</h1>
-  <form [formGroup]="recoverForm" (ngSubmit)="onSubmit()">
-    <ion-item>
-      <p>Para poder cambiar la contraseña es necesario enviar un correo electrónico para verificar que eres tú.</p>
-    </ion-item>
-    <ion-item>
-      <ion-label position="floating">Correo electrónico:</ion-label>
+  <!-- Botón de regreso con flecha -->
+  <ion-button class="back-button" fill="clear" a routerLink="/inicio-sesion">
+    <ion-icon name="arrow-back-outline"></ion-icon>
+  </ion-button>
+  <br>
+  <br>
+  <br>
+  <!-- Título de Recuperar Contraseña -->
+  <h1 class="title">Recuperar contraseña</h1>
+
+  <!-- Descripción -->
+  <p class="description">
+    Para poder cambiar contraseña es necesario enviar un correo electrónico para verificar que eres tú.
+  </p>
+
+  <!-- Formulario de Recuperar Contraseña -->
+  <form [formGroup]="recoverForm" (ngSubmit)="onSubmit()" class="recover-form">
+    <ion-label position="stacked">Correo electrónico:</ion-label>
+    <ion-item class="input-item">
       <ion-input type="email" formControlName="email"></ion-input>
     </ion-item>
-    <ion-button expand="block" type="submit" [disabled]="recoverForm.invalid">Enviar Correo</ion-button>
+
+    <!-- Botón para enviar correo -->
+    <ion-button type="submit" class="submit-button">
+      Enviar correo
+    </ion-button>
   </form>
 </ion-content>
 
-<ion-footer>
-  <ion-toolbar>
-    <ion-title>AutoMinder</ion-title>
-  </ion-toolbar>
-</ion-footer>
+<ion-text class="line1">__________________</ion-text>
+<h2 class="final">AutoMinder</h2>

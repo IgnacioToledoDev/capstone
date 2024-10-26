@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { AgregarVehiculoPageRoutingModule } from './agregar-vehiculo-routing.module';
 
 import { AgregarVehiculoPage } from './agregar-vehiculo.page';
+import { ComponentsModule } from 'src/app/components/components.module';
 
 @NgModule({
   imports: [
@@ -14,7 +15,8 @@ import { AgregarVehiculoPage } from './agregar-vehiculo.page';
     FormsModule,
     IonicModule,
     AgregarVehiculoPageRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ComponentsModule,
   ],
   declarations: [AgregarVehiculoPage]
 })

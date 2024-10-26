@@ -38,10 +38,11 @@ class Service extends Model
         'name',
         'description',
         'type_id',
+        'price',
     ];
 
     public function type(): BelongsTo
     {
-        return $this->belongsTo(TypeService::class, 'id', 'id');
+        return $this->belongsTo(TypeService::class, 'type_id');
     }
 }
