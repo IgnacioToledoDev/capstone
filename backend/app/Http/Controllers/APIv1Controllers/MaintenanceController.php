@@ -297,18 +297,21 @@ class MaintenanceController extends Controller
         if($maintenance->getAttribute('id') == null) {
             return $this->sendError('maintenance not saved');
         }
+        $maintenanceDetailsList = [];
 
         foreach ($services as $service) {
             $serviceFound = Service::whereId($service['id'])->first();
             if(!$serviceFound){
                 $error[] = $serviceFound;
             }
+
             $maintenanceDetails = new MaintenanceDetails();
             $maintenanceDetails->maintenance_id = $maintenance->id;
             $maintenanceDetails->service_id = $serviceFound->id;
             $maintenanceDetails->quotation_id = null;
             $maintenanceDetails->save();
-            $totalPricing += $serviceFound['pricing'];
+            $maintenanceDetailsList[] = $maintenanceDetails;
+            $totalPricing += $serviceFound['price'];
         }
 
         if(!empty($error)) {
@@ -318,7 +321,7 @@ class MaintenanceController extends Controller
         $maintenance->pricing = $totalPricing;
         $maintenance->save();
         $success['maintenance'] = $maintenance;
-        $success['maintenanceDetails'] = $maintenanceDetails ?? null;
+        $success['maintenanceDetails'] = $maintenanceDetailsList ?? null;
 
         return $this->sendResponse($success, 'maintenance saved successfully.');
     }
