@@ -5,14 +5,14 @@
         "version": "1.0.0"
     },
     "paths": {
-        "/api/jwt/cars/brands": {
+        "/api/jwt/cars/brands/all": {
             "get": {
                 "tags": [
                     "Car Brands"
                 ],
                 "summary": "Obtener todas las marcas de autos",
                 "description": "Este endpoint permite obtener una lista de todas las marcas de autos. Requiere autenticación JWT.",
-                "operationId": "a8c26660c15f3783f1c1db8ac3029572",
+                "operationId": "cd80ab1043c99e4d9154ef2771cbd370",
                 "responses": {
                     "200": {
                         "description": "Marcas de autos obtenidas exitosamente."
@@ -49,20 +49,25 @@
                                         "type": "integer",
                                         "example": 1
                                     },
-                                    "model": {
+                                    "model_id": {
                                         "description": "Model of the car",
+                                        "type": "integer",
+                                        "example": "1"
+                                    },
+                                    "patent": {
+                                        "description": "Patent of the car",
                                         "type": "string",
-                                        "example": "Toyota Corolla"
+                                        "example": "kbtd92"
+                                    },
+                                    "owner_id": {
+                                        "description": "Id of the owner",
+                                        "type": "integer",
+                                        "example": "1"
                                     },
                                     "year": {
                                         "description": "Year of the car",
                                         "type": "integer",
                                         "example": 2024
-                                    },
-                                    "user_id": {
-                                        "description": "ID of the user who owns the car",
-                                        "type": "integer",
-                                        "example": 1
                                     }
                                 },
                                 "type": "object"
@@ -91,15 +96,15 @@
                                                     "type": "integer",
                                                     "example": 1
                                                 },
-                                                "model": {
-                                                    "type": "string",
-                                                    "example": "Toyota Corolla"
+                                                "model_id": {
+                                                    "type": "integer",
+                                                    "example": "1"
                                                 },
                                                 "year": {
                                                     "type": "integer",
                                                     "example": 2024
                                                 },
-                                                "user_id": {
+                                                "owner_id": {
                                                     "type": "integer",
                                                     "example": 1
                                                 },
@@ -173,10 +178,15 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
-        "/api/cars/{patent}": {
+        "/api/jwt/cars/{patent}": {
             "get": {
                 "tags": [
                     "Cars"
@@ -265,13 +275,363 @@
                 ]
             }
         },
+        "/api/jwt/cars/models/all": {
+            "get": {
+                "tags": [
+                    "Car Models"
+                ],
+                "summary": "Obtener todos los modelos de autos",
+                "description": "Este endpoint permite obtener una lista de todos los modelos de autos. Requiere autenticación JWT.",
+                "operationId": "bc7a5e9f2bb6080a918ce81ad6f9b03b",
+                "responses": {
+                    "200": {
+                        "description": "Modelos de autos obtenidas exitosamente."
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/jwt/cars/models/all/{brandId}": {
+            "get": {
+                "tags": [
+                    "Car Models"
+                ],
+                "summary": "Obtener todos los modelos de autos por marca de auto",
+                "description": "Este endpoint permite obtener una lista de todos los modelos de autos asociados a una marca específica. Requiere autenticación JWT.",
+                "operationId": "5fa6a54e0ddf94be0b5453741744fecb",
+                "parameters": [
+                    {
+                        "name": "brandId",
+                        "in": "path",
+                        "description": "ID de la marca de auto",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Modelos de autos obtenidos exitosamente."
+                    },
+                    "404": {
+                        "description": "Marca de auto no encontrada."
+                    },
+                    "401": {
+                        "description": "No autorizado."
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/jwt/maintenance/calendar": {
+            "get": {
+                "tags": [
+                    "Maintenances"
+                ],
+                "summary": "Obtiene el calendario de mantenimientos y clientes actuales para el mecánico autenticado",
+                "operationId": "697da6dd5f12e4f8c6432f9a875ccfbc",
+                "responses": {
+                    "200": {
+                        "description": "Calendario y clientes actuales obtenidos exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "calendar": {
+                                                    "description": "Lista de mantenimientos del día actual",
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "car_id": {
+                                                                "type": "integer",
+                                                                "example": 10
+                                                            },
+                                                            "start_maintenance": {
+                                                                "type": "string",
+                                                                "format": "date-time",
+                                                                "example": "2024-10-03 10:00:00"
+                                                            },
+                                                            "mechanic_id": {
+                                                                "type": "integer",
+                                                                "example": 2
+                                                            },
+                                                            "description": {
+                                                                "type": "string",
+                                                                "example": "Cambio de aceite"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                },
+                                                "current": {
+                                                    "description": "Lista de clientes actuales basados en el mantenimiento en curso",
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "name": {
+                                                                "type": "string",
+                                                                "example": "Juan Pérez"
+                                                            },
+                                                            "email": {
+                                                                "type": "string",
+                                                                "example": "juan.perez@example.com"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "No autenticado o token no válido",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Usuario no encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "user not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error en la petición o falta de datos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "maintenance start_maintenance no available"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/jwt/maintenance/update/current-client": {
+            "get": {
+                "tags": [
+                    "Maintenances"
+                ],
+                "summary": "Actualizar el cliente actual del usuario autenticado",
+                "description": "Este endpoint actualiza el cliente actual para el usuario autenticado y devuelve la información del cliente actualizado.",
+                "operationId": "updateCurrentClient",
+                "responses": {
+                    "200": {
+                        "description": "Cliente actualizado exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "current": {
+                                                    "description": "Información del cliente actual",
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "name": {
+                                                            "type": "string",
+                                                            "example": "John Doe"
+                                                        },
+                                                        "email": {
+                                                            "type": "string",
+                                                            "example": "john.doe@example.com"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Calendar retrieved successfully."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "No autenticado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "user not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error del servidor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Internal server error"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/jwt/maintenance/create": {
             "post": {
                 "tags": [
-                    "Maintenance"
+                    "Maintenances"
                 ],
                 "summary": "Register a new maintenance record",
                 "operationId": "79164cffac87e0c94805703d7c3a4bda",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "carId": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "recommendation_action": {
+                                        "type": "string",
+                                        "example": "Cambio de aceite y filtro"
+                                    },
+                                    "services": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "example": [
+                                            {
+                                                "id": 1
+                                            },
+                                            {
+                                                "id": 2
+                                            }
+                                        ]
+                                    },
+                                    "startNow": {
+                                        "type": "boolean",
+                                        "example": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
                 "responses": {
                     "200": {
                         "description": "Maintenance saved successfully",
@@ -301,14 +661,6 @@
                                                     "type": "integer",
                                                     "example": 1
                                                 },
-                                                "services": {
-                                                    "type": "integer",
-                                                    "example": 1
-                                                },
-                                                "pricing": {
-                                                    "type": "number",
-                                                    "example": 12050
-                                                },
                                                 "car_id": {
                                                     "type": "integer",
                                                     "example": 1
@@ -316,6 +668,20 @@
                                                 "mechanic_id": {
                                                     "type": "integer",
                                                     "example": 5
+                                                },
+                                                "pricing": {
+                                                    "type": "number",
+                                                    "example": 12050
+                                                },
+                                                "start_maintenance": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-10-10T10:00:00Z"
+                                                },
+                                                "end_maintenance": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-10-10T12:00:00Z"
                                                 },
                                                 "created_at": {
                                                     "type": "string",
@@ -329,6 +695,31 @@
                                                 }
                                             },
                                             "type": "object"
+                                        },
+                                        "maintenanceDetails": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "maintenance_id": {
+                                                        "type": "integer",
+                                                        "example": 10
+                                                    },
+                                                    "service_id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "quotation_id": {
+                                                        "type": "integer",
+                                                        "example": null
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2024-09-30T10:45:00Z"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
                                         }
                                     },
                                     "type": "object"
@@ -360,7 +751,7 @@
                                     "properties": {
                                         "message": {
                                             "type": "string",
-                                            "example": "Service not found."
+                                            "example": "Service or mechanic not found."
                                         }
                                     },
                                     "type": "object"
@@ -383,6 +774,850 @@
                                 }
                             }
                         }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/jwt/maintenance/historical": {
+            "get": {
+                "tags": [
+                    "Mechanic"
+                ],
+                "summary": "Get maintenance history for authenticated mechanic",
+                "description": "Retrieve the maintenance history of the authenticated mechanic, ordered by the start of the maintenance in descending order.",
+                "operationId": "3485d20c58d05568291951b1cee308fe",
+                "responses": {
+                    "200": {
+                        "description": "Historial retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "User not found or unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "user not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Mechanic not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "mechanic not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/jwt/maintenance/historical/{id}": {
+            "get": {
+                "tags": [
+                    "Mechanic"
+                ],
+                "summary": "Get detailed maintenance history for a specific maintenance ID",
+                "description": "Retrieve detailed historical information for a specific maintenance record, including details of the car and client.",
+                "operationId": "3490c1e4d52a0899801ecaf850d37eb2",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "The ID of the maintenance record to retrieve",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 123
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Historial retrieved successfully"
+                    },
+                    "401": {
+                        "description": "User not found or unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "user not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Maintenance not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "maintenance not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/jwt/maintenance/{maintenanceId}/status": {
+            "get": {
+                "tags": [
+                    "Maintenances"
+                ],
+                "summary": "Obtener el estado de un mantenimiento",
+                "description": "Devuelve el estado de un mantenimiento específico por su ID.",
+                "operationId": "6116a882284a70e70b6d1cbd560aa7fa",
+                "parameters": [
+                    {
+                        "name": "maintenanceId",
+                        "in": "path",
+                        "description": "ID del mantenimiento que se desea consultar.",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Estado del mantenimiento recuperado exitosamente."
+                    },
+                    "404": {
+                        "description": "Mantenimiento no encontrado.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "maintenance not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Usuario no autenticado.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "user not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/jwt/maintenance/{maintenanceId}/status/next": {
+            "post": {
+                "tags": [
+                    "Maintenances"
+                ],
+                "summary": "Cambiar el estado de un mantenimiento",
+                "description": "Cambia el estado de un mantenimiento específico por su ID.",
+                "operationId": "78d35d5985611a3d9710bc506514da6e",
+                "parameters": [
+                    {
+                        "name": "maintenanceId",
+                        "in": "path",
+                        "description": "ID del mantenimiento cuyo estado se desea cambiar.",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Estado del mantenimiento cambiado exitosamente."
+                    },
+                    "404": {
+                        "description": "Mantenimiento no encontrado.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "maintenance not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Usuario no autenticado.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "user not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/jwt/maintenance/{maintenanceId}/details": {
+            "get": {
+                "tags": [
+                    "Maintenances"
+                ],
+                "summary": "Obtener detalles completos de una mantencion",
+                "description": "Este endpoint permite obtener los detalles completos de una mantencion, incluyendo información del auto, cliente, y los servicios aprobados.",
+                "operationId": "2c3ca12a9d46bb6de2673f8c69686552",
+                "parameters": [
+                    {
+                        "name": "maintenanceId",
+                        "in": "path",
+                        "description": "ID de la cotización",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detalles de la cotización obtenidos exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "car": {
+                                            "properties": {
+                                                "patent": {
+                                                    "description": "Patente del auto",
+                                                    "type": "string",
+                                                    "example": "ABC123"
+                                                },
+                                                "brand": {
+                                                    "description": "Marca del auto",
+                                                    "type": "string",
+                                                    "example": "Toyota"
+                                                },
+                                                "model": {
+                                                    "description": "Modelo del auto",
+                                                    "type": "string",
+                                                    "example": "Corolla"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "client": {
+                                            "properties": {
+                                                "name": {
+                                                    "description": "Nombre completo del cliente",
+                                                    "type": "string",
+                                                    "example": "Juan Pérez"
+                                                },
+                                                "email": {
+                                                    "description": "Correo electrónico del cliente",
+                                                    "type": "string",
+                                                    "example": "juan.perez@example.com"
+                                                },
+                                                "phone": {
+                                                    "description": "Teléfono del cliente",
+                                                    "type": "string",
+                                                    "example": "123456789"
+                                                },
+                                                "reservationData": {
+                                                    "description": "Fecha de la reserva",
+                                                    "type": "string",
+                                                    "example": "2024-10-23"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "services": {
+                                            "description": "Servicios aprobados en la cotización",
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "description": "ID del servicio",
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "name": {
+                                                        "description": "Nombre del servicio",
+                                                        "type": "string",
+                                                        "example": "Cambio de aceite"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Get all data successfully."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Error de autenticación o de validación",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "user not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No se encontró la cotización",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Quotation does not exist"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/jwt/maintenance/{carId}/{maintenanceId}/details": {
+            "get": {
+                "tags": [
+                    "Maintenances"
+                ],
+                "summary": "Obtener detalles del historial de mantenciones de un vehículo",
+                "description": "Este endpoint permite obtener los detalles de una mantención específica de un vehículo, incluyendo información del dueño, los servicios realizados, y detalles del vehículo.",
+                "operationId": "6c007fe56c4dab68e27d07e7f9259db3",
+                "parameters": [
+                    {
+                        "name": "carId",
+                        "in": "path",
+                        "description": "ID del vehículo",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    },
+                    {
+                        "name": "maintenanceId",
+                        "in": "path",
+                        "description": "ID de la mantención",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 10
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detalles del historial de mantenciones obtenidos exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "owner": {
+                                            "properties": {
+                                                "name": {
+                                                    "description": "Nombre del dueño del vehículo",
+                                                    "type": "string",
+                                                    "example": "Juan Pérez"
+                                                },
+                                                "email": {
+                                                    "description": "Correo electrónico del dueño",
+                                                    "type": "string",
+                                                    "example": "juan.perez@example.com"
+                                                },
+                                                "phone": {
+                                                    "description": "Teléfono del dueño",
+                                                    "type": "string",
+                                                    "example": "123456789"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "services": {
+                                            "description": "Lista de servicios realizados en la mantención",
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "description": "ID del servicio",
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "name": {
+                                                        "description": "Nombre del servicio",
+                                                        "type": "string",
+                                                        "example": "Cambio de aceite"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "car": {
+                                            "properties": {
+                                                "patent": {
+                                                    "description": "Patente del vehículo",
+                                                    "type": "string",
+                                                    "example": "ABC123"
+                                                },
+                                                "brand": {
+                                                    "description": "Marca del vehículo",
+                                                    "type": "string",
+                                                    "example": "Toyota"
+                                                },
+                                                "model": {
+                                                    "description": "Modelo del vehículo",
+                                                    "type": "string",
+                                                    "example": "Corolla"
+                                                },
+                                                "year": {
+                                                    "description": "Año del vehículo",
+                                                    "type": "integer",
+                                                    "example": 2015
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Get all data successfully."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Vehículo o mantención no encontrados",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Maintenance or car not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/jwt/quotations/create": {
+            "post": {
+                "tags": [
+                    "Quotations"
+                ],
+                "summary": "Crear una cotización",
+                "description": "Este endpoint crea una nueva cotización para un auto, incluyendo los servicios solicitados y su estado de aprobación.",
+                "operationId": "022894ef495ded902bab5f14b82a94b5",
+                "requestBody": {
+                    "description": "Datos para crear una cotización",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "carId",
+                                    "services"
+                                ],
+                                "properties": {
+                                    "carId": {
+                                        "description": "ID del auto al cual se le crea la cotización",
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "services": {
+                                        "description": "Lista de servicios solicitados",
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "serviceId": {
+                                                    "description": "ID del servicio",
+                                                    "type": "integer",
+                                                    "example": 101
+                                                },
+                                                "isApproved": {
+                                                    "description": "Si el servicio es aprobado por el cliente",
+                                                    "type": "boolean",
+                                                    "example": true
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "status": {
+                                        "description": "Estado de la cotización (aprobada o no)",
+                                        "type": "integer",
+                                        "example": true
+                                    },
+                                    "approvedDateClient": {
+                                        "description": "Fecha en la que el cliente aprobó la cotización",
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2024-10-23"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Cotización creada exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Error de autenticación o de validación",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Service not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/jwt/quotations/{quotationId}": {
+            "get": {
+                "tags": [
+                    "Quotations"
+                ],
+                "summary": "Obtiene detalles de una cotización",
+                "description": "Devuelve la información de una cotización específica, incluyendo el auto, los servicios aprobados por el cliente y los servicios no aprobados.",
+                "operationId": "4174e5d189b35eedde57c0e4f2bc93dd",
+                "parameters": [
+                    {
+                        "name": "quotationId",
+                        "in": "path",
+                        "description": "ID de la cotización",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "carId",
+                        "in": "query",
+                        "description": "ID del auto relacionado con la cotización",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Cotización obtenida exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "car": {
+                                            "description": "Detalles del auto",
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "make": {
+                                                    "type": "string",
+                                                    "example": "Toyota"
+                                                },
+                                                "model": {
+                                                    "type": "string",
+                                                    "example": "Corolla"
+                                                },
+                                                "year": {
+                                                    "type": "integer",
+                                                    "example": 2020
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "quotation": {
+                                            "description": "Detalles de la cotización",
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 100
+                                                },
+                                                "total_price": {
+                                                    "type": "number",
+                                                    "format": "float",
+                                                    "example": 1500.75
+                                                },
+                                                "car_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "servicesApprovedByClient": {
+                                            "description": "Servicios aprobados por el cliente",
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 10
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "Cambio de aceite"
+                                                    },
+                                                    "description": {
+                                                        "type": "string",
+                                                        "example": "Cambio de aceite del motor"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "servicesNotApprovedByClient": {
+                                            "description": "Servicios no aprobados por el cliente",
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 11
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "Cambio de neumáticos"
+                                                    },
+                                                    "description": {
+                                                        "type": "string",
+                                                        "example": "Cambio de los neumáticos delanteros"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "price": {
+                                            "type": "number",
+                                            "format": "float",
+                                            "example": 1500.75
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Error de autenticación",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "not user found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Recurso no encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
                     }
                 },
                 "security": [
@@ -647,6 +1882,11 @@
                                         "description": "Client's RUT",
                                         "type": "string",
                                         "example": "12345678-9"
+                                    },
+                                    "phone": {
+                                        "description": "Client's phone",
+                                        "type": "string",
+                                        "example": "986415709"
                                     }
                                 },
                                 "type": "object"
@@ -837,6 +2077,166 @@
                     }
                 ]
             }
+        },
+        "/api/jwt/mechanic/{mechanicId}/setScore": {
+            "post": {
+                "tags": [
+                    "Mechanic"
+                ],
+                "summary": "Asigna una puntuación y un comentario a un mecánico",
+                "description": "Permite que un usuario autenticado asigne una puntuación de 1 a 5 y un comentario a un mecánico específico.",
+                "operationId": "6e79f6605b40a724f287d01d80f95138",
+                "parameters": [
+                    {
+                        "name": "mechanicId",
+                        "in": "path",
+                        "description": "ID del mecánico al cual se le va a asignar la puntuación.",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Puntuación y comentario para el mecánico",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "score": {
+                                        "description": "Puntuación a asignar al mecánico (debe estar entre 1 y 5).",
+                                        "type": "integer",
+                                        "maximum": 5,
+                                        "minimum": 1,
+                                        "example": 4
+                                    },
+                                    "comment": {
+                                        "description": "Comentario opcional sobre el servicio del mecánico.",
+                                        "type": "string",
+                                        "example": "Excelente trabajo y muy profesional."
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Puntuación y comentario asignados con éxito",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Mechanic score updated successfully."
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "mechanic": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "name": {
+                                                            "type": "string",
+                                                            "example": "John Doe"
+                                                        },
+                                                        "score": {
+                                                            "type": "integer",
+                                                            "example": 4
+                                                        },
+                                                        "comment": {
+                                                            "type": "string",
+                                                            "example": "Excelente trabajo y muy profesional."
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Usuario no autenticado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "You need to sign in first."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Solicitud incorrecta",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Score must be between 1 and 5."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "El usuario no es un mecánico",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "User is not mechanic."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
         }
     },
     "components": {
@@ -882,8 +2282,20 @@
             "description": "Cars"
         },
         {
-            "name": "Maintenance",
-            "description": "Maintenance"
+            "name": "Car Models",
+            "description": "Car Models"
+        },
+        {
+            "name": "Maintenances",
+            "description": "Maintenances"
+        },
+        {
+            "name": "Mechanic",
+            "description": "Mechanic"
+        },
+        {
+            "name": "Quotations",
+            "description": "Quotations"
         },
         {
             "name": "Services",
