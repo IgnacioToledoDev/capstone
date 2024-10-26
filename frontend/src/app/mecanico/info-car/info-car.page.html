@@ -1,12 +1,14 @@
 <ion-header>
   <!-- Botón de regreso con flecha -->
 <ion-icon name="arrow-back-outline" class="back-button" fill="clear" (click)="goBack()"></ion-icon>
-  <ion-title>Información vehículo</ion-title>
+  <ion-title>Información Vehículo</ion-title>
   <br>
   <br>
 </ion-header>
 
 <ion-content>
+  <br>
+  <br>
 <ion-card>
   <ion-card-header>
     <ion-card-title class="title">Datos Cliente</ion-card-title>
@@ -56,7 +58,7 @@
   <ion-card-header>
     <ion-card-title class="title">Lista de Servicios</ion-card-title>
   </ion-card-header>
-  <ion-searchbar class="input-item" placeholder="Buscar Cotizasion..."></ion-searchbar>
+  <ion-searchbar class="input-item" placeholder="Buscar Cotización..."></ion-searchbar>
   <ion-card-content class="info-card">
     <ion-list>
       <ion-item *ngFor="let evento of eventos" routerLink="/mecanico/info-car">
