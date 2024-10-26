@@ -2077,6 +2077,166 @@
                     }
                 ]
             }
+        },
+        "/api/mechanics/{mechanicId}/score": {
+            "post": {
+                "tags": [
+                    "Mechanic"
+                ],
+                "summary": "Asigna una puntuación y un comentario a un mecánico",
+                "description": "Permite que un usuario autenticado asigne una puntuación de 1 a 5 y un comentario a un mecánico específico.",
+                "operationId": "41cbde3923ae514f0d9187126ecc39c6",
+                "parameters": [
+                    {
+                        "name": "mechanicId",
+                        "in": "path",
+                        "description": "ID del mecánico al cual se le va a asignar la puntuación.",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Puntuación y comentario para el mecánico",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "score": {
+                                        "description": "Puntuación a asignar al mecánico (debe estar entre 1 y 5).",
+                                        "type": "integer",
+                                        "maximum": 5,
+                                        "minimum": 1,
+                                        "example": 4
+                                    },
+                                    "comment": {
+                                        "description": "Comentario opcional sobre el servicio del mecánico.",
+                                        "type": "string",
+                                        "example": "Excelente trabajo y muy profesional."
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Puntuación y comentario asignados con éxito",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Mechanic score updated successfully."
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "mechanic": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "name": {
+                                                            "type": "string",
+                                                            "example": "John Doe"
+                                                        },
+                                                        "score": {
+                                                            "type": "integer",
+                                                            "example": 4
+                                                        },
+                                                        "comment": {
+                                                            "type": "string",
+                                                            "example": "Excelente trabajo y muy profesional."
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Usuario no autenticado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "You need to sign in first."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Solicitud incorrecta",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Score must be between 1 and 5."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "El usuario no es un mecánico",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "User is not mechanic."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
         }
     },
     "components": {

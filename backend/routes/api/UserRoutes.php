@@ -11,3 +11,7 @@ Route::prefix('users')->group(function () {
     Route::post('logout', [UserController::class, 'logout']);
     Route::post('client/register', [UserController::class, 'registerClient'])->middleware('auth:api');
 });
+
+Route::prefix('mechanic')->group(function () {
+    Route::post('{mechanicId}/setScore/', [UserController::class, 'loginClient']);
+})->middleware('auth:api');
