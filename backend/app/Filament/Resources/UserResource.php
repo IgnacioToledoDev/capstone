@@ -134,15 +134,4 @@ class UserResource extends Resource
             'edit' => Pages\EditUser::route('/{record}/edit'),
         ];
     }
-
-    protected static function getRoles(): array
-    {
-        $roles = Role::where('guard_name', 'api')->get();
-        $options = [];
-        foreach ($roles as $role) {
-            $options[$role->id] = $role->name;
-        }
-
-        return $options;
-    }
 }
