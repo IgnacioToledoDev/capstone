@@ -68,10 +68,12 @@ class UserResource extends Resource
                     ->visibleOn(['create'])
                     ->placeholder('Contraseña del usuario'),
                 Forms\Components\Select::make('roles')
-                    ->options(self::getRoles())
+                    ->relationship('roles', 'name', function ($query) {
+                        $query->where('guard_name', 'api');
+                    })
                     ->label('Roles')
                     ->required()
-                    ->placeholder(Constants::SELECT_OPTION)
+                    ->placeholder('Seleccione un rol...')
             ]);
     }
 
