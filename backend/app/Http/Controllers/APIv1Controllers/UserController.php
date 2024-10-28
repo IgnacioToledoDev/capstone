@@ -67,9 +67,9 @@ class UserController extends Controller
             return response()->json(['error' => 'invalid_credentials'], 401);
         }
 
-        $user->load('roles');
-        $userRole = $user->roles->isNotEmpty() ? $user->roles->first()->name : 'No Role';
-        $user->role = $userRole;
+        $user = User::where('email', $request->email)->first();
+        $roles = User::with('roles')->find($user->id);
+        $user->roles = $roles->roles[0]->name;
         unset($user->password);
 
         $success = [
@@ -82,7 +82,6 @@ class UserController extends Controller
 
         return $this->sendResponse($success, 'User login successfully.');
     }
-
     /**
      * @OA\Post(
      *     path="/api/users/recovery",
