@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertController ,NavController} from '@ionic/angular';
+import { NavController} from '@ionic/angular';
 
 @Component({
   selector: 'app-lista-car',
@@ -15,7 +15,6 @@ export class ListaCarPage implements OnInit {
   ];
 
   constructor(
-    private alertController: AlertController,
     private navCtrl: NavController
   ) { }
 

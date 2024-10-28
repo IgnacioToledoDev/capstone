@@ -14,7 +14,7 @@ export class AgregarVehiculoPage implements OnInit {
   carBrands: { id: number; name: string }[] = [];
   vehicleForm: FormGroup; 
   models: string[] = ['Corolla', 'Civic', 'Mustang', 'Camaro']; 
-  years: number[] = [2020, 2021, 2022, 2023]; 
+  years: number[] = [2020, 2021, 2022, 2023,2019,2018,2017,2016]; 
 
   constructor(
     private formBuilder: FormBuilder,
