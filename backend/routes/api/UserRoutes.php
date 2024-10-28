@@ -9,9 +9,13 @@ Route::prefix('users')->group(function () {
     Route::post('recovery', [UserController::class, 'recoveryPassword']);
     Route::post('reset', [UserController::class, 'resetPassword']);
     Route::post('logout', [UserController::class, 'logout']);
-    Route::post('client/register', [UserController::class, 'registerClient'])->middleware('auth:api');
 });
 
 Route::prefix('/jwt/mechanic')->group(function () {
     Route::post('/{mechanicId}/setScore', [UserController::class, 'setMechanicScore']);
+})->middleware('auth:api');
+
+
+Route::prefix('/jwt/client')->group(function () {
+    Route::post('/register', [UserController::class, 'registerClient'])->middleware('auth:api');
 })->middleware('auth:api');

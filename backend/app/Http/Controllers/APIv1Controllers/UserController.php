@@ -206,7 +206,7 @@ class UserController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/users/client/register",
+     *     path="/api/jwt/client/register",
      *     summary="Register a new client",
      *     tags={"Clients"},
      *     security={{
