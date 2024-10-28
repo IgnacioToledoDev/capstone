@@ -56,27 +56,23 @@ class UserController extends Controller
      */
     public function login(Request $request): JsonResponse
     {
-        try {
-            $credentials = $request->only('email', 'password');
+        $credentials = $request->only('email', 'password');
 
-            if (!$token = JWTAuth::attempt($credentials)) {
-                return response()->json(['error' => 'invalid_credentials'], 401);
-            }
-            $user = User::where('email', $request->email)->first();
-            $roles = User::with('roles')->find($user->id);
-            $user->roles = $roles->roles[0]->name;
-            unset($user->password);
-
-            $success['access_token'] = $token;
-            $success['token_type'] = 'bearer';
-            $success['user'] = $user;
-            $success['expires_in'] = JWTAuth::factory()->getTTL() * 525600;
-            $success['status'] = 200;
-
-            return $this->sendResponse($success, 'User login successfully.');
-        } catch (JWTException $e) {
-            return $this->sendError('Unauthorized', [], 400);
+        if (!$token = JWTAuth::attempt($credentials)) {
+            return response()->json(['error' => 'invalid_credentials'], 401);
         }
+        $user = User::where('email', $request->email)->first();
+        $roles = User::with('roles')->find($user->id);
+        $user->roles = $roles->roles[0]->name;
+        unset($user->password);
+
+        $success['access_token'] = $token;
+        $success['token_type'] = 'bearer';
+        $success['user'] = $user;
+        $success['expires_in'] = JWTAuth::factory()->getTTL() * 525600;
+        $success['status'] = 200;
+
+        return $this->sendResponse($success, 'User login successfully.');
     }
 
     /**
