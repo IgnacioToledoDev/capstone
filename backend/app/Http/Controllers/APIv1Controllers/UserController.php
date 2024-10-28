@@ -58,19 +58,27 @@ class UserController extends Controller
     {
         $credentials = $request->only('email', 'password');
 
+        $user = User::where('email', $request->email)->first();
+        if (!$user) {
+            return response()->json(['error' => 'User not found'], 404);
+        }
+
         if (!$token = JWTAuth::attempt($credentials)) {
             return response()->json(['error' => 'invalid_credentials'], 401);
         }
-        $user = User::where('email', $request->email)->first();
-        $roles = User::with('roles')->find($user->id);
-        $user->roles = $roles->roles[0]->name;
+
+        $user->load('roles');
+        $userRole = $user->roles->isNotEmpty() ? $user->roles->first()->name : 'No Role';
+        $user->role = $userRole;
         unset($user->password);
 
-        $success['access_token'] = $token;
-        $success['token_type'] = 'bearer';
-        $success['user'] = $user;
-        $success['expires_in'] = JWTAuth::factory()->getTTL() * 525600;
-        $success['status'] = 200;
+        $success = [
+            'access_token' => $token,
+            'token_type' => 'bearer',
+            'user' => $user,
+            'expires_in' => JWTAuth::factory()->getTTL() * 525600,
+            'status' => 200
+        ];
 
         return $this->sendResponse($success, 'User login successfully.');
     }
