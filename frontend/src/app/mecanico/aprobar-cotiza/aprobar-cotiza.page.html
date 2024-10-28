@@ -1,12 +1,14 @@
 <ion-header>
   <!-- Botón de regreso con flecha -->
-<ion-icon name="arrow-back-outline" class="back-button" fill="clear" a routerLink="/mecanico/home-mecanico"></ion-icon>
+<ion-icon name="arrow-back-outline" class="back-button" fill="clear" (click)="goBack()"></ion-icon>
   <ion-title>Información Cliente</ion-title>
   <br>
   <br>
 </ion-header>
 
 <ion-content>
+  <br>
+  <br>
 <ion-card>
   <ion-card-header>
     <ion-card-title class="title">Datos Cliente</ion-card-title>
@@ -65,7 +67,7 @@
     </ion-item>
     <ion-item>
       <ion-label>Total servicios</ion-label>
-      <ion-note slot="end">$200.000</ion-note>
+      <ion-note slot="end" class="color">$200.000</ion-note>
     </ion-item>
   </ion-card-content>
 </ion-card>
