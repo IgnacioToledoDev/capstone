@@ -40,22 +40,14 @@ class MaintenanceResource extends Resource
                 TextInput::make('name')
                     ->label('Nombre')
                     ->required(),
-                TextInput::make('description')
-                    ->label('Descripcion')
-                    ->required(),
                 Select::make('status_id')
                     ->label('Estado')
                     ->placeholder(Constants::SELECT_OPTION)
                     ->relationship('statusCar', 'status')
                     ->required()
                     ->default(1),
-                Select::make('service_id')
-                    ->label('Servicio')
-                    ->relationship('service', 'name')
-                    ->required()
-                    ->placeholder(Constants::SELECT_OPTION),
                 TextInput::make('pricing')
-                    ->label('Precio')
+                    ->label('Precio total')
                     ->required()
                     ->numeric(),
                 Select::make('car_id')
@@ -73,7 +65,7 @@ class MaintenanceResource extends Resource
                 DatePicker::make('end_maintenance')
                     ->label('Fecha Fin Mantenimiento'),
                 Textarea::make('recommendation_action')
-                    ->label('Recomendacion')
+                    ->label('Recomendacion'),
             ]);
     }
 
