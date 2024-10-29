@@ -1841,13 +1841,13 @@
                 }
             }
         },
-        "/api/users/client/register": {
+        "/api/jwt/client/register": {
             "post": {
                 "tags": [
                     "Clients"
                 ],
                 "summary": "Register a new client",
-                "operationId": "6575aa7aacff6d9a495aa853b1323238",
+                "operationId": "f6a1e44d2262de3354b613b0b08f9eac",
                 "requestBody": {
                     "required": true,
                     "content": {
