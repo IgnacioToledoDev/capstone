@@ -1,13 +1,9 @@
 <ion-header>
   <ion-icon name="arrow-back-outline" slot="start" class="back-button" (click)="goBack()" fill="clear"></ion-icon>
   <ion-title>Generar servicios</ion-title>
-  <br>
-  <br>
 </ion-header>
 
 <ion-content>
-  <br>
-  <br>
   <ion-card>
     <ion-card-header class="dark-card">
       <ion-card-title>Datos vehículo</ion-card-title>
@@ -30,8 +26,7 @@
     </ion-card-content>
   </ion-card>
 
-  <ion-searchbar class="input-item" placeholder="Buscar Servicios..."></ion-searchbar>
-
+  <ion-searchbar class="input-item" placeholder="Buscar Servicios..." (ionInput)="filterServices($event)"></ion-searchbar>
   <ion-buttons>
     <ion-button class="xd">Servicios</ion-button>
     <ion-button class="xd">Reparaciones</ion-button>
@@ -41,7 +36,7 @@
   <ion-card>
     <ion-list>
       <ion-card-content class="dark-card">
-        <ng-container *ngFor="let service of services">
+        <ng-container *ngFor="let service of filteredServices">
           <ion-item>
             <ion-label>{{ service.name }}</ion-label>
             <ion-button slot="end" (click)="addService(service)">Agregar</ion-button>

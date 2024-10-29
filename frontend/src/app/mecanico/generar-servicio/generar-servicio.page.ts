@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController, NavController } from '@ionic/angular';
 import { Storage } from '@ionic/storage-angular';
-import { CotizaService } from 'src/app/services/cotiza.service'; // Asegúrate de importar tu servicio aquí
+import { CotizaService } from 'src/app/services/cotiza.service';
 
 @Component({
   selector: 'app-generar-servicio',
@@ -12,13 +12,14 @@ export class GenerarServicioPage implements OnInit {
   user: any = {};
   car: any = {};
   services: { id: number, name: string, price: number }[] = [];
+  filteredServices: { id: number, name: string, price: number }[] = [];
   selectedServices: { id: number, name: string, price: number }[] = [];
 
   constructor(
     private alertController: AlertController,
     private navCtrl: NavController,
     private storageService: Storage,
-    private cotizaService: CotizaService // Inyectamos el servicio
+    private cotizaService: CotizaService
   ) {}
 
   async ngOnInit() {
@@ -27,21 +28,15 @@ export class GenerarServicioPage implements OnInit {
     const userData = await this.storageService.get('newuser');
     if (userData && userData.user) {
       this.user = userData.user;
-      console.log('Datos del usuario almacenados en "newuser":', this.user);
-    } else {
-      console.log('No se encontró el usuario en el Storage');
     }
 
     const carData = await this.storageService.get('newcar');
     if (carData) {
       this.car = carData;
-      console.log('Datos del coche almacenados en "newcar":', this.car);
-    } else {
-      console.log('No se encontró el coche en el Storage');
     }
 
-    // Obtén los servicios desde el servicio CotizaService
     this.services = await this.cotizaService.getCarServices();
+    this.filteredServices = [...this.services]; // Inicialmente, los servicios filtrados son todos los servicios
   }
 
   goBack() {
@@ -57,15 +52,10 @@ export class GenerarServicioPage implements OnInit {
         {
           text: 'Cancelar',
           role: 'cancel',
-          handler: () => {
-            console.log('Acción cancelada');
-          },
         },
         {
           text: 'Aceptar',
           handler: () => {
-            console.log('Acción aceptada');
-            // Aquí puedes implementar la lógica para guardar la cotización
             this.navCtrl.navigateForward('/mecanico/cotizar');
           },
         },
@@ -85,5 +75,12 @@ export class GenerarServicioPage implements OnInit {
 
   calculateTotal(): number {
     return this.selectedServices.reduce((total, service) => total + service.price, 0);
+  }
+
+  filterServices(event: any) {
+    const searchTerm = event.target.value.toLowerCase();
+    this.filteredServices = this.services.filter(service => 
+      service.name.toLowerCase().includes(searchTerm)
+    );
   }
 }
