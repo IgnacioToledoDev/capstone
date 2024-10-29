@@ -1,15 +1,14 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-button (click)="goBack()">
-        <ion-icon name="arrow-back-outline"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-    <ion-title>Seguimiento </ion-title>
-  </ion-toolbar>
+  <!-- Botón de regreso con flecha -->
+<ion-icon name="arrow-back-outline" class="back-button" fill="clear" (click)="goBack()"></ion-icon>
+  <ion-title>Seguimiento</ion-title>
+  <br>
+  <br>
 </ion-header>
 
 <ion-content>
+  <br>
+  <br>
   <ion-card class="client-card">
     <ion-card-content>
         <ion-item *ngFor="let evento of eventosinicio">
@@ -70,7 +69,9 @@
 </ion-content>
 <ion-footer>
   <ion-toolbar>
-    <ion-button expand="full" (click)="presentAlert()">Finalizar estado</ion-button>
+    <div>
+    <ion-button class="input-button" (click)="presentAlert()">Finalizar estado</ion-button>
+    </div>
     <h6 class="pad">Al finalizar el estado va a cambiar a “Listo para entrega”</h6>
   </ion-toolbar>
 </ion-footer>
