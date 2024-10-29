@@ -67,7 +67,10 @@ class ServiceController extends Controller
             $types = TypeService::all();
             $serviceNameList = [];
             foreach ($types as $type) {
-                $serviceNameList[] = $type->name;
+                $serviceNameList[] = [
+                    'id' => $type->id,
+                    'name' => $type->name
+                ];
             }
 
             $success['types'] = $serviceNameList;
@@ -81,10 +84,7 @@ class ServiceController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
-
-    }
+    public function store(Request $request) {}
 
     /**
      * Display the specified resource.
