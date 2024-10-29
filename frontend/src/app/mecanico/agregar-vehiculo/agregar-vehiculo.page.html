@@ -9,7 +9,7 @@
 <form (ngSubmit)="onSubmit()" [formGroup]="vehicleForm" class="car-form">
   <ion-item class="input-item">
     <ion-label position="floting" class="label">Marca:</ion-label>
-    <ion-select formControlName="brand">
+    <ion-select formControlName="brand" (ionChange)="onBrandChange($event.detail.value)">
       <ion-select-option *ngFor="let brand of carBrands" [value]="brand.id"> 
         {{ brand.name }} 
       </ion-select-option>
@@ -19,7 +19,9 @@
   <ion-item class="input-item">
     <ion-label position="floting" class="label">Modelo:</ion-label>
     <ion-select formControlName="model">
-      <ion-select-option *ngFor="let model of models" [value]="model">{{ model }}</ion-select-option>
+      <ion-select-option *ngFor="let model of models" [value]="model.id">
+        {{ model.name }}
+      </ion-select-option>
     </ion-select>
   </ion-item>
     <p></p>
