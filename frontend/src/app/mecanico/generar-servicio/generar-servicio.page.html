@@ -1,14 +1,9 @@
 <ion-header>
-  <!-- Botón de regreso con flecha -->
-<ion-icon name="arrow-back-outline" slot="star" class="back-button" (click)="goBack()" fill="clear"></ion-icon>
+  <ion-icon name="arrow-back-outline" slot="start" class="back-button" (click)="goBack()" fill="clear"></ion-icon>
   <ion-title>Generar servicios</ion-title>
-  <br>
-  <br>
 </ion-header>
 
 <ion-content>
-  <br>
-  <br>
   <ion-card>
     <ion-card-header class="dark-card">
       <ion-card-title>Datos vehículo</ion-card-title>
@@ -16,68 +11,58 @@
     <ion-card-content class="dark-card">
       <ion-list>
         <ion-item>
-          <ion-label>Patente :{{ car.patente }}</ion-label>
+          <ion-label>Patente: {{ car.patente }}</ion-label>
         </ion-item>
         <ion-item>
-          <ion-label>Marca : {{ car.brand }}</ion-label>
+          <ion-label>Marca: {{ car.brand }}</ion-label>
         </ion-item>
         <ion-item>
-          <ion-label>Modelo : {{ car.model }}</ion-label>
+          <ion-label>Modelo: {{ car.model }}</ion-label>
         </ion-item>
         <ion-item>
-          <ion-label>Año : {{ car.year }}</ion-label>
+          <ion-label>Año: {{ car.year }}</ion-label>
         </ion-item>
       </ion-list>
     </ion-card-content>
   </ion-card>
-  <ion-searchbar class="input-item" placeholder="Buscar Servicios..."></ion-searchbar>
+
+  <ion-searchbar class="input-item" placeholder="Buscar Servicios..." (ionInput)="filterServices($event)"></ion-searchbar>
   <ion-buttons>
     <ion-button class="xd">Servicios</ion-button>
     <ion-button class="xd">Reparaciones</ion-button>
     <ion-button class="xd">Mejoras</ion-button>
   </ion-buttons>
-  
+
   <ion-card>
     <ion-list>
       <ion-card-content class="dark-card">
-      <ion-item>
-        <ion-label>Cambio de aceite</ion-label>
-        <ion-button slot="end">Agregar</ion-button>
-      </ion-item>
-      <ion-item>
-        <ion-label>Cambio de frenos</ion-label>
-        <ion-button slot="end">Agregar</ion-button>
-      </ion-item>
-      <ion-item>
-        <ion-label>Cambio de ruedas</ion-label>
-        <ion-button slot="end">Agregar</ion-button>
-      </ion-item>
-      <ion-item>
-        <ion-label>Revisión técnica</ion-label>
-        <ion-button slot="end">Agregar</ion-button>
-      </ion-item>
+        <ng-container *ngFor="let service of filteredServices">
+          <ion-item>
+            <ion-label>{{ service.name }}</ion-label>
+            <ion-button slot="end" (click)="addService(service)">Agregar</ion-button>
+          </ion-item>
+        </ng-container>
       </ion-card-content>
     </ion-list>
-    </ion-card>
-    
+  </ion-card>
+
   <ion-card>
     <ion-card-header class="dark-card">
       <ion-card-title>Lista de Servicios</ion-card-title>
     </ion-card-header>
     <ion-card-content class="dark-card">
-      <ion-item>
-        <ion-label>Cambio de aceite 4X4</ion-label>
-        <ion-button slot="end">Eliminar</ion-button>
-      </ion-item>
-      <ion-item>
-        <ion-label>Revisión técnica auto mini</ion-label>
-        <ion-button slot="end">Eliminar</ion-button>
-      </ion-item>
+      <ng-container *ngFor="let service of selectedServices">
+        <ion-item>
+          <ion-label>{{ service.name }}</ion-label>
+          <ion-button slot="end" (click)="removeService(service)">Eliminar</ion-button>
+        </ion-item>
+      </ng-container>
       <ion-item>
         <ion-label>Total servicios</ion-label>
-        <ion-note slot="end">$200.000</ion-note>
+        <ion-note slot="end">${{ calculateTotal() }}</ion-note>
       </ion-item>
     </ion-card-content>
   </ion-card>
+
   <ion-button expand="full" (click)="presentAlert()">Confirmar</ion-button>
 </ion-content>
