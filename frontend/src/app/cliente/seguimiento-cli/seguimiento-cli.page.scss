@@ -47,6 +47,25 @@
       }
     }
   }
+
+      // Estilo del botón con la flecha de regreso
+      .back-button {
+        position: absolute;
+        top: 30px;  // Ajustar la posición
+        left: 10px; // Ajustar la posición
+        color: #ffffff; // Flecha blanca
+        padding: 0; // Sin relleno adicional
+        border: none; // Sin borde
+        font-size: 2rem; // Tamaño de la flecha
+    }
+    
+      // Estilo del título
+    ion-title {
+        color: #ffffff;
+        font-size: 1.8rem;
+        text-align: center;
+        margin-top: 2.5rem;
+    }
   
   ion-item {
     --background: #1E293B;
@@ -55,6 +74,14 @@
   .button-container {
     display: flex;
   }
+
+  .input-button{
+    width: 60%;
+    margin: 1rem auto;
+    display: flex;
+    align-items: center;
+    --color: #FFFF;
+}
   
   .custom-button {
     --border-radius: 0px;
