@@ -1,14 +1,14 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-button (click)="goBack()">
-        <ion-icon name="arrow-back-outline"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-    <ion-title>Ver Cotizacion</ion-title>
-  </ion-toolbar>
+  <!-- Botón de regreso con flecha -->
+<ion-icon name="arrow-back-outline" slot="start" class="back-button" fill="clear" (click)="goBack()"></ion-icon>
+  <ion-title class="title">Ver Cotización</ion-title>
+  <br>
+  <br>
 </ion-header>
+
 <ion-content>
+  <br>
+  <br>
   <ion-card>
     <ion-card-header>
       <ion-card-title>Datos Cliente</ion-card-title>
@@ -67,7 +67,7 @@
       </ion-item>
       <ion-item>
         <ion-label>Total servicios</ion-label>
-        <ion-note slot="end">$200.000</ion-note>
+        <ion-note slot="end" class="button-color">$200.000</ion-note>
       </ion-item>
     </ion-card-content>
   </ion-card>
@@ -87,6 +87,6 @@
 </ion-content>
 <ion-footer>
   <ion-toolbar>
-    <ion-button expand="full" routerLink="/cliente/seguimiento-cli">Seguimiento</ion-button>
+    <ion-button expand="full" routerLink="/cliente/seguimiento-cli" class="button-color">Seguimiento</ion-button>
   </ion-toolbar>
 </ion-footer>
