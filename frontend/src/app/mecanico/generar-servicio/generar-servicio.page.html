@@ -39,6 +39,7 @@
         <ng-container *ngFor="let service of filteredServices">
           <ion-item>
             <ion-label>{{ service.name }}</ion-label>
+            <ion-label>{{ service.price }}</ion-label>
             <ion-button slot="end" (click)="addService(service)">Agregar</ion-button>
           </ion-item>
         </ng-container>

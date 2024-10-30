@@ -36,7 +36,7 @@ export class GenerarServicioPage implements OnInit {
     }
 
     this.services = await this.cotizaService.getCarServices();
-    this.filteredServices = [...this.services]; // Inicialmente, los servicios filtrados son todos los servicios
+    this.filteredServices = [...this.services];
   }
 
   goBack() {
@@ -55,7 +55,8 @@ export class GenerarServicioPage implements OnInit {
         },
         {
           text: 'Aceptar',
-          handler: () => {
+          handler: async () => {
+            await this.guardarCotizacion();
             this.navCtrl.navigateForward('/mecanico/cotizar');
           },
         },
@@ -82,5 +83,9 @@ export class GenerarServicioPage implements OnInit {
     this.filteredServices = this.services.filter(service => 
       service.name.toLowerCase().includes(searchTerm)
     );
+  }
+
+  async guardarCotizacion() {
+    await this.storageService.set('servi_coti', this.selectedServices);
   }
 }

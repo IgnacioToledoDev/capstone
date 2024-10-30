@@ -1,14 +1,9 @@
 <ion-header>
-  <!-- Botón de regreso con flecha -->
-<ion-icon name="arrow-back-outline" slot="star" class="back-button" (click)="goBack()" fill="clear"></ion-icon>
+  <ion-icon name="arrow-back-outline" slot="star" class="back-button" (click)="goBack()" fill="clear"></ion-icon>
   <ion-title>Generar Cotización</ion-title>
-  <br>
-  <br>
 </ion-header>
 
 <ion-content>
-  <br>
-  <br>
   <ion-card>
     <ion-card-header>
       <ion-card-title>Datos Cliente</ion-card-title>
@@ -22,14 +17,15 @@
           <ion-label>Correo : {{ user.email }}</ion-label>
         </ion-item>
         <ion-item>
-          <ion-label>Numero Telefonico : {{ user.phone }}</ion-label>
+          <ion-label>Número Telefónico : {{ user.phone }}</ion-label>
         </ion-item>
       </ion-list>
     </ion-card-content>
   </ion-card>
+
   <ion-card>
     <ion-card-header>
-      <ion-card-title>Datos vehículo</ion-card-title>
+      <ion-card-title>Datos Vehículo</ion-card-title>
     </ion-card-header>
     <ion-card-content>
       <ion-list>
@@ -37,7 +33,7 @@
           <ion-label>Patente : {{ car.patente }}</ion-label>
         </ion-item>
         <ion-item>
-          <ion-label>Marca : {{ car.brand }} </ion-label>
+          <ion-label>Marca : {{ car.brand }}</ion-label>
         </ion-item>
         <ion-item>
           <ion-label>Modelo : {{ car.model }}</ion-label>
@@ -48,25 +44,37 @@
       </ion-list>
     </ion-card-content>
   </ion-card>
+
   <ion-card>
     <ion-card-header>
-      <ion-card-title>Lista de Servicios</ion-card-title>
+      <ion-card-title>Lista de Servicios Seleccionados</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <ion-item>
-        <ion-label>Cambio de aceite 4X4</ion-label>
-        <ion-button slot="end" class="button-color">Eliminar</ion-button>
-      </ion-item>
-      <ion-item>
-        <ion-label>Revisión técnica auto mini</ion-label>
-        <ion-button slot="end" class="button-color">Eliminar</ion-button>
+      <ion-item *ngFor="let service of selectedServices">
+        <ion-label>{{ service.name }}</ion-label>
+        <ion-label slot="end">{{ service.price }}</ion-label>
+        <ion-button slot="end" class="button-color" (click)="removeService(service)">Eliminar</ion-button>
       </ion-item>
       <ion-item>
         <ion-label>Total servicios</ion-label>
-        <ion-note slot="end" class="button-color">$200.000</ion-note>
+        <ion-note slot="end" class="button-color">${{ calculateTotal() }}</ion-note>
       </ion-item>
     </ion-card-content>
   </ion-card>
+
+  <ion-card *ngIf="deletedServices.length > 0">
+    <ion-card-header>
+      <ion-card-title>Lista de Servicios Eliminados</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item *ngFor="let deletedService of deletedServices">
+        <ion-label>{{ deletedService.name }}</ion-label>
+        <ion-label slot="end">{{ deletedService.price }}</ion-label>
+        <ion-button slot="end" class="button-color" (click)="restoreService(deletedService)">Agregar</ion-button>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+
   <ion-card>
     <ion-card-header>
       <ion-card-title>Notas</ion-card-title>
@@ -77,10 +85,15 @@
       </ion-item>
     </ion-card-content>
   </ion-card>
-  
 </ion-content>
+
 <ion-footer>
-  <ion-toolbar>
-    <ion-button expand="full" (click)="presentAlert()" class="button-color">Confirmar</ion-button>
-  </ion-toolbar>
+  <div class="button-container">
+    <ion-button class="custom-button" expand="block" (click)="presentAlert()" >
+      Enviar
+    </ion-button>
+    <ion-button class="custom-button" expand="block" routerLink="/mecanico/aprobar-cotiza">
+      Aprobar
+    </ion-button>
+  </div>
 </ion-footer>
