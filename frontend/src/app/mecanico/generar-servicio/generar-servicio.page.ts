@@ -11,9 +11,10 @@ import { CotizaService } from 'src/app/services/cotiza.service';
 export class GenerarServicioPage implements OnInit {
   user: any = {};
   car: any = {};
-  services: { id: number, name: string, price: number }[] = [];
-  filteredServices: { id: number, name: string, price: number }[] = [];
+  services: { id: number, name: string, description: string, type_id: number, price: number }[] = [];
+  filteredServices: { id: number, name: string, description: string, type_id: number, price: number }[] = [];
   selectedServices: { id: number, name: string, price: number }[] = [];
+  serviceTypes: { id: number, name: string }[] = [];
 
   constructor(
     private alertController: AlertController,
@@ -35,8 +36,11 @@ export class GenerarServicioPage implements OnInit {
       this.car = carData;
     }
 
+    // Fetch services and service types
     this.services = await this.cotizaService.getCarServices();
-    this.filteredServices = [...this.services];
+    this.serviceTypes = await this.cotizaService.getServiceTypes();
+
+    this.filteredServices = [...this.services]; // Initialize with all services
   }
 
   goBack() {
@@ -83,6 +87,10 @@ export class GenerarServicioPage implements OnInit {
     this.filteredServices = this.services.filter(service => 
       service.name.toLowerCase().includes(searchTerm)
     );
+  }
+
+  filterByType(typeId: number) {
+    this.filteredServices = this.services.filter(service => service.type_id === typeId);
   }
 
   async guardarCotizacion() {

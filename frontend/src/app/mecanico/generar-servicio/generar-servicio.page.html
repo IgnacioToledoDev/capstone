@@ -28,9 +28,9 @@
 
   <ion-searchbar class="input-item" placeholder="Buscar Servicios..." (ionInput)="filterServices($event)"></ion-searchbar>
   <ion-buttons>
-    <ion-button class="xd">Servicios</ion-button>
-    <ion-button class="xd">Reparaciones</ion-button>
-    <ion-button class="xd">Mejoras</ion-button>
+    <ion-button class="xd" (click)="filterByType(1)">Servicios</ion-button>
+    <ion-button class="xd" (click)="filterByType(2)">Reparaciones</ion-button>
+    <ion-button class="xd" (click)="filterByType(3)">Mejoras</ion-button>
   </ion-buttons>
 
   <ion-card>

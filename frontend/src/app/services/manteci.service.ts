@@ -4,8 +4,6 @@ import { environment } from 'src/environments/environment';
 import { Storage } from '@ionic/storage-angular';
 import { CalendarEntry , CurrentUser } from '../intefaces/car';
 
-
-
 @Injectable({
   providedIn: 'root'
 })

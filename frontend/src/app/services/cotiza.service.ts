@@ -17,7 +17,7 @@ export class CotizaService {
     storageService.create();
   }
 
-  async getCarServices(): Promise<{ id: number, name: string, description: string, price: number }[]> {
+  async getCarServices(): Promise<{ id: number, name: string, description: string , type_id:number , price: number }[]> {
     try {
       const headers = await this.getAuthHeaders();
 
@@ -29,10 +29,11 @@ export class CotizaService {
       const response = await this.http.get<any>(`${this.API_URL}/jwt/services/`, { headers }).toPromise();
 
       if (response.success && response.data?.services) {
-        const services = response.data.services.map((service: { id: number, name: string, description: string, price: number }) => ({
+        const services = response.data.services.map((service: { id: number, name: string, description: string, type_id:number  , price: number }) => ({
           id: service.id,
           name: service.name,
           description: service.description,
+          type_id: service.type_id,
           price: service.price
         }));
         return services;
