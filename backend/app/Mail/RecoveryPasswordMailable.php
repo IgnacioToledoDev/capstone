@@ -26,7 +26,7 @@ class RecoveryPasswordMailable extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Password Recovery',
+            subject: 'Solicitud recuperación de contraseña',
         );
     }
 
