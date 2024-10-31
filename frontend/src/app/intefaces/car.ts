@@ -19,3 +19,14 @@ export interface CurrentUser {
   name: string;
   email: string;
 }
+export interface HistoricalEntry {
+  id: number;
+  name: string;
+  status_id: number;
+  recommendation_action: string;
+  pricing: number;
+  car_id: number;
+  mechanic_id: number;
+  start_maintenance: string;
+  end_maintenance: string;
+}
