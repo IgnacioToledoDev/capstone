@@ -2,6 +2,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Storage } from '@ionic/storage-angular';
+import { CreateQuotationRequest , CreateQuotationResponse } from '../intefaces/catiza'; 
+
 
 @Injectable({
   providedIn: 'root'
@@ -71,6 +73,30 @@ export class CotizaService {
     } catch (error) {
       console.error('Error al obtener los tipos de servicios:', error);
       return [];
+    }
+  }
+
+  async createQuotation(data: CreateQuotationRequest): Promise<CreateQuotationResponse | null | undefined> {
+    try {
+      const headers = await this.getAuthHeaders();
+  
+      if (!headers.has('Authorization')) {
+        console.error('No se pudo recuperar el token de autenticación.');
+        return null;
+      }
+  
+      const response = await this.http.post<CreateQuotationResponse>(`${this.API_URL}/jwt/quotations/create`, data, { headers }).toPromise();
+  
+      if (response && response.success) {
+        console.log('Cotización creada exitosamente:', response);
+        return response;
+      } else {
+        console.error('Error al crear la cotización:', response);
+        return null;
+      }
+    } catch (error) {
+      console.error('Error en el servicio al crear la cotización:', error);
+      return null;
     }
   }
 

@@ -55,7 +55,7 @@
       <ng-container *ngFor="let service of selectedServices">
         <ion-item>
           <ion-label>{{ service.name }}</ion-label>
-          <ion-button slot="end" (click)="removeService(service)">Eliminar</ion-button>
+          <ion-button slot="end" color="danger" (click)="removeService(service)">Eliminar</ion-button>
         </ion-item>
       </ng-container>
       <ion-item>
