@@ -18,10 +18,10 @@ class ReservationController extends Controller
 {
     /**
      * @OA\Post(
-     *     path="/api/reservations",
+     *     path="/api/jwt/reservations",
      *     summary="Crear una nueva reservación",
      *     description="Crea una nueva reservación para el vehículo especificado y opcionalmente configura un recordatorio.",
-     *     tags={"Reservaciones"},
+     *     tags={"Reservations"},
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
@@ -114,17 +114,17 @@ class ReservationController extends Controller
         }
     }
 
-    private function sendMechanicNotification($mechanicId, Reservation $reservation, User $client): bool
+    private function sendMechanicNotification($mechanicId, Reservation $reservation, User $client): void
     {
         try {
             $mechanic = User::whereId($mechanicId)->first();
             $mechanicEmail = $mechanic->email;
             Mail::to($mechanicEmail)->send(new ReservationMaintenanceMailable($mechanic, $reservation, $client));
 
-            return true;
+            return;
         } catch (ModelNotFoundException $exception) {
             $mechanic = null;
-            return false;
+            return;
         }
     }
 }
