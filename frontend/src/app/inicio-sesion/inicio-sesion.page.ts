@@ -36,7 +36,11 @@ export class InicioSesionPage implements OnInit {
         
         const userRoles = response.data.user.roles; 
         console.log('Roles del usuario:', userRoles);
-        if (userRoles.includes('MECHANIC_USER')) {
+
+        if (userRoles.includes('SUPER_ADMIN')) {
+          // Mostrar alerta con opciones para SUPER_ADMIN
+          this.presentAdminRoleAlert();
+        } else if (userRoles.includes('MECHANIC_USER')) {
           this.navCtrl.navigateForward('/mecanico/home-mecanico');
         } else if (userRoles.includes('CUSTOMER_USER')) {
           this.navCtrl.navigateForward('/cliente/home-cliente');
@@ -50,6 +54,27 @@ export class InicioSesionPage implements OnInit {
     }
   }
   
+  async presentAdminRoleAlert() {
+    const alert = await this.alertController.create({
+      header: 'Selecciona tu modo',
+      message: '¿Quieres entrar como mecánico o como cliente?',
+      buttons: [
+        {
+          text: 'Mecánico',
+          handler: () => {
+            this.navCtrl.navigateForward('/mecanico/home-mecanico');
+          }
+        },
+        {
+          text: 'Cliente',
+          handler: () => {
+            this.navCtrl.navigateForward('/cliente/home-cliente');
+          }
+        }
+      ]
+    });
+    await alert.present();
+  }
 
   async presentAlert(header: string, message: string) {
     const alert = await this.alertController.create({
@@ -61,14 +86,15 @@ export class InicioSesionPage implements OnInit {
   }
 
   async checkIfAuthenticated() {
-    const sessionData = await this.userService.getUserSession(); // Obtener la sesión almacenada
+    const sessionData = await this.userService.getUserSession();
   
     if (sessionData) {
       const userRoles = sessionData.user.roles;
       console.log('Roles del usuario autenticado:', userRoles);
   
-      // Verificar los roles y redirigir a la página correspondiente
-      if (userRoles.includes('MECHANIC_USER')) {
+      if (userRoles.includes('SUPER_ADMIN')) {
+        this.presentAdminRoleAlert();
+      } else if (userRoles.includes('MECHANIC_USER')) {
         this.navCtrl.navigateForward('/mecanico/home-mecanico');
       } else if (userRoles.includes('CUSTOMER_USER')) {
         this.navCtrl.navigateForward('/cliente/home-cliente');
@@ -79,5 +105,4 @@ export class InicioSesionPage implements OnInit {
       console.log('Usuario no autenticado.');
     }
   }
-  
 }

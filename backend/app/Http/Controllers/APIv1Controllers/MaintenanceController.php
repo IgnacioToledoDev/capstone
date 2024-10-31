@@ -3,23 +3,35 @@
 namespace App\Http\Controllers\APIv1Controllers;
 
 use App\Helper\CarHelper;
+use App\Helper\UserHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Car;
+use App\Models\CarBrand;
+use App\Models\CarModel;
 use App\Models\Maintenance;
+use App\Models\MaintenanceDetails;
+use App\Models\Quotation;
+use App\Models\QuotationDetails;
+use App\Models\Reservation;
 use App\Models\Service;
 use App\Models\StatusCar;
 use App\Models\TypeService;
 use App\Models\User;
+use http\Exception\BadHeaderException;
 use http\Exception\InvalidArgumentException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Date;
 use OpenApi\Annotations as OA;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class MaintenanceController extends Controller
 {
     private CarHelper $carHelper;
-    public function __construct(CarHelper $carHelper)
+    private UserHelper $userHelper;
+    public function __construct(CarHelper $carHelper, UserHelper $userHelper)
     {
+        $this->userHelper = $userHelper;
         $this->carHelper = $carHelper;
     }
 
@@ -179,6 +191,23 @@ class MaintenanceController extends Controller
      *     security={{
      *         "bearerAuth": {}
      *     }},
+     *     @OA\RequestBody(
+     *          required=true,
+     *          @OA\JsonContent(
+     *              @OA\Property(property="carId", type="integer", example=1),
+     *              @OA\Property(property="recommendation_action", type="string", example="Cambio de aceite y filtro"),
+     *              @OA\Property(
+     *               property="services",
+     *              type="array",
+     *              @OA\Items(
+     *              type="object",
+     *              @OA\Property(property="id", type="integer", example=1)
+     *              ),
+     *              example={{"id": 1}, {"id": 2}}
+     *              ),
+     *              @OA\Property(property="startNow", type="boolean", example=true),
+     *          )
+     *      ),
      *     @OA\Response(
      *         response=200,
      *         description="Maintenance saved successfully",
@@ -189,12 +218,21 @@ class MaintenanceController extends Controller
      *                 @OA\Property(property="name", type="string", example="Mantenimiento preventivo"),
      *                 @OA\Property(property="description", type="string", example="Cambio de aceite y revisión general"),
      *                 @OA\Property(property="status_id", type="integer", example=1),
-     *                 @OA\Property(property="services", type="integer", example=1),
-     *                 @OA\Property(property="pricing", type="number", example=12050),
      *                 @OA\Property(property="car_id", type="integer", example=1),
      *                 @OA\Property(property="mechanic_id", type="integer", example=5),
+     *                 @OA\Property(property="pricing", type="number", example=12050),
+     *                 @OA\Property(property="start_maintenance", type="string", format="date-time", example="2024-10-10T10:00:00Z"),
+     *                 @OA\Property(property="end_maintenance", type="string", format="date-time", example="2024-10-10T12:00:00Z"),
      *                 @OA\Property(property="created_at", type="string", format="date-time", example="2024-09-30T10:45:00Z"),
      *                 @OA\Property(property="updated_at", type="string", format="date-time", example="2024-09-30T10:45:00Z")
+     *             ),
+     *             @OA\Property(property="maintenanceDetails", type="array",
+     *                 @OA\Items(
+     *                     @OA\Property(property="maintenance_id", type="integer", example=10),
+     *                     @OA\Property(property="service_id", type="integer", example=1),
+     *                     @OA\Property(property="quotation_id", type="integer", example=null),
+     *                     @OA\Property(property="created_at", type="string", format="date-time", example="2024-09-30T10:45:00Z")
+     *                 )
      *             )
      *         )
      *     ),
@@ -209,7 +247,7 @@ class MaintenanceController extends Controller
      *         response=404,
      *         description="Service or mechanic not found",
      *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string", example="Service not found.")
+     *             @OA\Property(property="message", type="string", example="Service or mechanic not found.")
      *         )
      *     ),
      *     @OA\Response(
@@ -227,47 +265,63 @@ class MaintenanceController extends Controller
             return $this->sendError('JWT not authenticated.', 401);
         }
 
-        $carId = $request->get('carId');
-        $notes = $request->get('recommendation_action');
-        $services = $request->get('services');
-        $typeService = $request->get('typeService');
-        $listServices = json_decode($services, true);
+        $carId = $request->input('carId');
+        $notes = $request->input('recommendation_action');
+        $services = $request->input('services');
         $error = [];
         $totalPricing = 0;
 
-        foreach ($listServices as $service) {
-            $serviceFound = Service::whereId($service['id'])->first();
-            if(!$serviceFound){
-                $error = $serviceFound;
-            }
-
-            $totalPricing += $serviceFound['pricing'];
-        }
-
-        if(!empty($error)) {
-            $this->sendError('service not found');
-        }
 
         $mechanic = auth()->user();
         if(!$mechanic) {
             return $this->sendError('mechanic not found');
         }
 
+
+        $starNow = $request->input('startNow');
+        $starNowDate = null;
+        if ($starNow === true) {
+            $starNowDate = now();
+        }
+
         $maintenance = new Maintenance();
-        $maintenance->name = $this->generateName($typeService);
-        $maintenance->description = $notes ?? null;
+        $maintenance->name = $this->generateName($carId);
+        $maintenance->recommendation_action = $notes ?? null;
         $maintenance->status_id = StatusCar::STATUS_INACTIVE;
-        $maintenance->service_id = $listServices[0]['id'];
-        $maintenance->actual_mileage = 4000;
-        $maintenance->pricing = $totalPricing;
         $maintenance->car_id = $carId;
         $maintenance->mechanic_id = $mechanic->id;
+        $maintenance->pricing = 0;
+        $maintenance->start_maintenance = $starNowDate;
         $maintenance->save();
 
         if($maintenance->getAttribute('id') == null) {
             return $this->sendError('maintenance not saved');
         }
+        $maintenanceDetailsList = [];
+
+        foreach ($services as $service) {
+            $serviceFound = Service::whereId($service['id'])->first();
+            if(!$serviceFound){
+                $error[] = $serviceFound;
+            }
+
+            $maintenanceDetails = new MaintenanceDetails();
+            $maintenanceDetails->maintenance_id = $maintenance->id;
+            $maintenanceDetails->service_id = $serviceFound->id;
+            $maintenanceDetails->quotation_id = null;
+            $maintenanceDetails->save();
+            $maintenanceDetailsList[] = $maintenanceDetails;
+            $totalPricing += $serviceFound['price'];
+        }
+
+        if(!empty($error)) {
+            $this->sendError('service not found');
+        }
+
+        $maintenance->pricing = $totalPricing;
+        $maintenance->save();
         $success['maintenance'] = $maintenance;
+        $success['maintenanceDetails'] = $maintenanceDetailsList ?? null;
 
         return $this->sendResponse($success, 'maintenance saved successfully.');
     }
@@ -296,11 +350,11 @@ class MaintenanceController extends Controller
         //
     }
 
-    private function generateName($typeServiceId): string {
-        $typeService = TypeService::whereId($typeServiceId)->first();
-        $now = new \DateTime('now');
+    private function generateName(int $carId): string {
+      $carName = $this->carHelper->getFullName($carId);
+      $date = now();
 
-        return 'new ' . $typeService->name . $now->format('d-m-Y');
+      return 'Mantecion para el auto ' . $carName . ' ' . $date->format('d-m-Y H:i:s');
     }
 
     /**
@@ -489,8 +543,10 @@ class MaintenanceController extends Controller
         }
 
         $brandName = $this->carHelper->getCarBrandName($car->brand_id);
+        $modelName = $this->carHelper->getCarModelName($car->brand_id);
         unset($client->password);
         $car->brand_id = $brandName;
+        $car->model_id = $modelName;
 
         $success['maintenance'] = $maintenance;
         $success['client'] = $client;
@@ -600,12 +656,16 @@ class MaintenanceController extends Controller
         $actualStatus = $maintenance->status_id;
 
         if ($actualStatus < StatusCar::STATUS_FINISHED) {
+            if($actualStatus <= StatusCar::STATUS_STARTED) {
+                $maintenance->start_maintenance = now();
+            }
             $newStatus = $actualStatus + 1;
             $maintenance->status_id = $newStatus;
 
             $nextStatus = StatusCar::find($newStatus);
         } else {
-            $nextStatus = null;
+            $maintenance->end_maintenance->format('d-m-Y H:i:s');
+            $maintenance->save();
         }
 
         $maintenance->save();
@@ -618,6 +678,243 @@ class MaintenanceController extends Controller
         $success['nextStatus'] = $nextStatusObj ? $nextStatusObj->status : false;
 
         return $this->sendResponse($success, 'maintenance status changed successfully.');
+    }
+
+
+
+    /**
+     *  @OA\Get(
+     *      path="/api/jwt/maintenance/{maintenanceId}/details",
+     *      summary="Obtener detalles completos de una mantencion",
+     *      description="Este endpoint permite obtener los detalles completos de una mantencion, incluyendo información del auto, cliente, y los servicios aprobados.",
+     *      tags={"Maintenances"},
+     *
+     *      @OA\Parameter(
+     *          name="maintenanceId",
+     *          in="path",
+     *          description="ID de la cotización",
+     *          required=true,
+     *          @OA\Schema(type="integer", example=1)
+     *      ),
+     *
+     *      @OA\Response(
+     *          response=200,
+     *          description="Detalles de la cotización obtenidos exitosamente",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="success", type="boolean", example=true),
+     *              @OA\Property(
+     *                  property="car",
+     *                  type="object",
+     *                  @OA\Property(property="patent", type="string", example="ABC123", description="Patente del auto"),
+     *                  @OA\Property(property="brand", type="string", example="Toyota", description="Marca del auto"),
+     *                  @OA\Property(property="model", type="string", example="Corolla", description="Modelo del auto")
+     *              ),
+     *              @OA\Property(
+     *                  property="client",
+     *                  type="object",
+     *                  @OA\Property(property="name", type="string", example="Juan Pérez", description="Nombre completo del cliente"),
+     *                  @OA\Property(property="email", type="string", example="juan.perez@example.com", description="Correo electrónico del cliente"),
+     *                  @OA\Property(property="phone", type="string", example="123456789", description="Teléfono del cliente"),
+     *                  @OA\Property(property="reservationData", type="string", example="2024-10-23", description="Fecha de la reserva")
+     *              ),
+     *              @OA\Property(
+     *                  property="services",
+     *                  type="array",
+     *                  description="Servicios aprobados en la cotización",
+     *                  @OA\Items(
+     *                      @OA\Property(property="id", type="integer", example=1, description="ID del servicio"),
+     *                      @OA\Property(property="name", type="string", example="Cambio de aceite", description="Nombre del servicio")
+     *                  )
+     *              ),
+     *              @OA\Property(property="message", type="string", example="Get all data successfully.")
+     *          )
+     *      ),
+     *
+     *      @OA\Response(
+     *          response=401,
+     *          description="Error de autenticación o de validación",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="success", type="boolean", example=false),
+     *              @OA\Property(property="message", type="string", example="user not found")
+     *          )
+     *      ),
+     *
+     *      @OA\Response(
+     *          response=404,
+     *          description="No se encontró la cotización",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="success", type="boolean", example=false),
+     *              @OA\Property(property="message", type="string", example="Quotation does not exist")
+     *          )
+     *      ),
+     *
+     *      security={{"bearerAuth":{}}}
+     *  )
+     * /
+     */
+    public function getMaintenanceInfo(int $maintenanceId): JsonResponse
+    {
+        try {
+            if (auth()->check()) {
+                throw new BadHeaderException('user not found');
+            }
+            $maintenance = Maintenance::whereId($maintenanceId)->first();
+            if (!$maintenance) {
+                return $this->sendError('maintenance not found');
+            }
+
+            $maintenanceDetails = MaintenanceDetails::whereMaintenanceId($maintenance->id)->first();
+            $quotationId = $maintenanceDetails->quotation_id;
+            $quotation = Quotation::where(['id' => $quotationId])->first();
+            $quotationDetails = QuotationDetails::whereQuotationId($quotationId)->get();
+            $servicesOfQuotation = [];
+            foreach ($quotationDetails as $quotationDetail) {
+                if($quotationDetail->is_approved_by_client) {
+                    $service = Service::whereId($quotationDetail->id)->first();
+                    $servicesOfQuotation[$service->id] = $service->name;
+                }
+            }
+            if(!$quotation){
+                throw new NotFoundHttpException('Quotation does not exist');
+            }
+
+            $car = Car::whereId($quotation->car_id)->first();
+            $carModel = $this->carHelper->getCarModelName($car->model_id);
+            $brand = $this->carHelper->getCarBrandName($car->brand_id);
+            $owner = User::whereId($car->onwer_id)->first();
+            $reservation = Reservation::where(['car_id' => $car->id])->first();
+            $dateReservation = !empty($reservation) ? $reservation->date_reservation : null;
+            $fullName = $this->userHelper->getFullName($owner->id);
+
+            $success['car'] = [
+                'patent' => $car->patent,
+                'brand' => $brand->name,
+                'model' => $carModel->name,
+            ];
+            $success['client'] = [
+                'name' => $fullName,
+                'email' => $owner->email,
+                'phone' => $owner->phone,
+                'reservationData' => $dateReservation
+            ];
+            $success['services'] = $servicesOfQuotation;
+
+            return $this->sendResponse($success, 'Get all data successfully.');
+
+        } catch (\Throwable $exception) {
+            return $this->sendError($exception->getMessage());
+        }
+    }
+
+    /**
+     * @OA\Get(
+     *     path="/api/jwt/maintenance/{carId}/{maintenanceId}/details",
+     *     summary="Obtener detalles del historial de mantenciones de un vehículo",
+     *     description="Este endpoint permite obtener los detalles de una mantención específica de un vehículo, incluyendo información del dueño, los servicios realizados, y detalles del vehículo.",
+     *     tags={"Maintenances"},
+     *
+     *     @OA\Parameter(
+     *         name="carId",
+     *         in="path",
+     *         description="ID del vehículo",
+     *         required=true,
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+     *     @OA\Parameter(
+     *         name="maintenanceId",
+     *         in="path",
+     *         description="ID de la mantención",
+     *         required=true,
+     *         @OA\Schema(type="integer", example=10)
+     *     ),
+     *
+     *     @OA\Response(
+     *         response=200,
+     *         description="Detalles del historial de mantenciones obtenidos exitosamente",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=true),
+     *             @OA\Property(
+     *                 property="owner",
+     *                 type="object",
+     *                 @OA\Property(property="name", type="string", example="Juan Pérez", description="Nombre del dueño del vehículo"),
+     *                 @OA\Property(property="email", type="string", example="juan.perez@example.com", description="Correo electrónico del dueño"),
+     *                 @OA\Property(property="phone", type="string", example="123456789", description="Teléfono del dueño")
+     *             ),
+     *             @OA\Property(
+     *                 property="services",
+     *                 type="array",
+     *                 description="Lista de servicios realizados en la mantención",
+     *                 @OA\Items(
+     *                     @OA\Property(property="id", type="integer", example=1, description="ID del servicio"),
+     *                     @OA\Property(property="name", type="string", example="Cambio de aceite", description="Nombre del servicio")
+     *                 )
+     *             ),
+     *             @OA\Property(
+     *                 property="car",
+     *                 type="object",
+     *                 @OA\Property(property="patent", type="string", example="ABC123", description="Patente del vehículo"),
+     *                 @OA\Property(property="brand", type="string", example="Toyota", description="Marca del vehículo"),
+     *                 @OA\Property(property="model", type="string", example="Corolla", description="Modelo del vehículo"),
+     *                 @OA\Property(property="year", type="integer", example=2015, description="Año del vehículo")
+     *             ),
+     *             @OA\Property(property="message", type="string", example="Get all data successfully.")
+     *         )
+     *     ),
+     *
+     *     @OA\Response(
+     *         response=404,
+     *         description="Vehículo o mantención no encontrados",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=false),
+     *             @OA\Property(property="message", type="string", example="Maintenance or car not found")
+     *         )
+     *     ),
+     *
+     *     security={{"bearerAuth":{}}}
+     * )
+     */
+    public function getMaintenanceDetails(int $carId, int $maintenanceId): JsonResponse
+    {
+        try {
+            if (auth()->check()) {
+                throw new BadHeaderException('user not found');
+            }
+
+            $maintenance = Maintenance::whereId($maintenanceId)->first();
+            $car = Car::whereId($carId)->first();
+            $details = MaintenanceDetails::whereMaintenanceId($maintenance->id)->get();
+            if(empty($maintenance || empty($car))) {
+                throw new NotFoundHttpException('Maintenance or car not found');
+            }
+
+            $services = [];
+            foreach ($details as $detail) {
+                $service = Service::whereId($detail->service_id)->first();
+                if (!empty($service)) {
+                    $services[$service->id] = $service->name;
+                }
+            }
+
+            $carModel = $this->carHelper->getCarModelName($car->model_id);
+            $brand = $this->carHelper->getCarBrandName($car->brand_id);
+            $owner = User::whereId($car->onwer_id)->first();
+            $success['owner'] = [
+                'name' => $owner->name,
+                'email' => $owner->email,
+                'phone' => $owner->phone,
+            ];
+            $success['services'] = $services;
+            $success['car'] = [
+                'patent' => $car->patent,
+                'brand' => $brand,
+                'model' => $carModel,
+                'year' => $car->year
+            ];
+
+            return $this->sendResponse($success, 'Get all data successfully.');
+        } catch (\Throwable $exception) {
+            return $this->sendError($exception->getMessage());
+        }
     }
 
 }

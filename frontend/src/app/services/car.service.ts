@@ -1,3 +1,4 @@
+
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { NewCarInterface } from '../intefaces/car';
@@ -43,6 +44,34 @@ export class CarService {
       return [];
     }
   }
+
+  async getCarModelsByBrand(brandId: number): Promise<{ id: number, name: string }[]> {
+    try {
+      const headers = await this.getAuthHeaders();
+  
+      if (!headers.has('Authorization')) {
+        console.error('No se pudo recuperar el token de autenticación.');
+        return [];
+      }
+  
+      const response = await this.http.get<any>(`${this.API_URL}/jwt/cars/models/all/${brandId}`, { headers }).toPromise();
+  
+      if (response.success && response.data?.models) {
+        const models = response.data.models.map((model: { id: number, name: string }) => ({
+          id: model.id,
+          name: model.name
+        }));
+        return models;
+      } else {
+        console.error('Respuesta no válida al obtener los modelos de coches:', response);
+        return [];
+      }
+    } catch (error) {
+      console.error('Error al obtener los modelos de coches:', error);
+      return [];
+    }
+  }
+  
   
 
   async registerCar(car: NewCarInterface) {

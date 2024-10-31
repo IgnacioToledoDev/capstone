@@ -15,7 +15,7 @@ class CarSeeder extends Seeder
     {
         DB::table('cars')->insert([
             'brand_id' => 1,
-            'model' => 'Swift',
+            'model_id' => 1,
             'year' => 2018,
             'owner_id' => 1,
             'mechanic_id' => 5,
@@ -23,7 +23,7 @@ class CarSeeder extends Seeder
 
         DB::table('cars')->insert([
             'brand_id' => 2,
-            'model' => 'Yaris',
+            'model_id' => 2,
             'year' => 2013,
             'owner_id' => 2,
             'mechanic_id' => 4

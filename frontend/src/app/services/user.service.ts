@@ -120,4 +120,5 @@ export class UserService {
     return new HttpHeaders({
       Authorization: `Bearer ${token}`,
     });
-  }}
+  }
+}

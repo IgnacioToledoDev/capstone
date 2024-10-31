@@ -16,7 +16,7 @@
           <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
         </ion-avatar>
         <div class="text-content">
-          <h2>Bienvenido, {{ user.name }} </h2>
+          <h2 >Bienvenido, {{ user.name }} </h2>
           <p>Mecanico </p>
           <a href="/mecanico/agregar-vehiculo">home-mecanico</a>
         </div>
@@ -24,21 +24,31 @@
     </ion-card-content>
   </ion-card>
 
-  <ion-card class="client-card" routerLink="/mecanico/info-ser-cli">
+
+  <ion-card class="client-card">
     <ion-card-header>
-      <ion-card-title>Cliente actual</ion-card-title>
+      <ion-card-title>Cliente Actual</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <div class="card-content">
-        <ion-avatar>
-          <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
-        </ion-avatar>
-        <div class="text-content">
-          <h2>Jhon Doe</h2>
-          <p>jhondoe.example.com</p>
-          <p>+56 9 852 132 13</p>
+      <ng-container *ngIf="currentUser; else noClient">
+        <div class="card-content">
+          <ion-avatar>
+            <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+          </ion-avatar>
+          <div class="text-content">
+            <h2>{{ currentUser.name }}</h2>
+            <p>{{ currentUser.email }}</p>
+          </div>
         </div>
-      </div>
+      </ng-container>
+
+      <ng-template #noClient>
+        <ion-card>
+          <ion-card-content>
+            <p class="no-client-msg">No hay cliente asignado actualmente</p>
+          </ion-card-content>
+        </ion-card>
+      </ng-template>
     </ion-card-content>
   </ion-card>
 
@@ -47,27 +57,40 @@
       <ion-card-title>Agenda de Hoy</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <ion-list>
-        <ion-item *ngFor="let evento of eventos">
+      <ion-list *ngIf="calendar.length > 0; else noMaintenance">
+        <ion-item *ngFor="let entry of calendar">
           <ion-label>
-            <ion-card-subtitle>{{ evento.patente }}</ion-card-subtitle>
-            <h2>{{ evento.nombre }}</h2>
-            <p>{{ evento.hora }}</p>
+            <ion-card-subtitle>Patente: {{ entry.car_id }}</ion-card-subtitle>
+            <h2>Servicio: {{ entry.description }}</h2>
+            <p>Hora: {{ entry.start_maintenance | date: 'shortTime' }}</p>
           </ion-label>
         </ion-item>
       </ion-list>
+
+      <ng-template #noMaintenance>
+        <ion-card>
+          <ion-card-content>
+            <p class="no-maintenance-msg">No hay mantenimientos pendientes</p>
+          </ion-card-content>
+        </ion-card>
+      </ng-template>
     </ion-card-content>
   </ion-card>
 </ion-content>
+
 <ion-footer>
     <div class="button-container">
       <ion-button class="custom-button" expand="block">
         <ion-icon slot="start" name="home"></ion-icon>
         Inicio
       </ion-button>
+      <ion-button class="custom-button" expand="block" routerLink="/mecanico/lista-cotiza">
+        <ion-icon slot="start" name="person"></ion-icon>
+        Cotizasiones
+      </ion-button>
       <ion-button class="custom-button" expand="block" routerLink="/mecanico/register-user">
         <ion-icon slot="start" name="person"></ion-icon>
-        Agregar Perfil
+        + Perfil
       </ion-button>
     </div>
 </ion-footer>

@@ -1,30 +1,34 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-button (click)="goBack()">
-        <ion-icon name="arrow-back-outline"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-    <ion-title>Ajustes</ion-title>
-  </ion-toolbar>
+  <!-- Botón de regreso con flecha -->
+<ion-icon name="arrow-back-outline" class="back-button" fill="clear" (click)="goBack()"></ion-icon>
+  <ion-title>Ajustes</ion-title>
+  <br>
+  <br>
 </ion-header>
 
 <ion-content>
+  <br>
+  <br>
   <ion-card class="profile-card">
     <ion-card-header>
       <ion-avatar>
+        <br>
         <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
       </ion-avatar>
-      <ion-card-title>Bienvenido, {{ user.name }}</ion-card-title>
+      <ion-card-title class="ion-text-capitalize">Bienvenido, {{ user.name }}</ion-card-title>
+      <br>
       <ion-card-subtitle>
         {{ user.roles === 'MECHANIC_USER' ? 'Mecánico' : 'Cliente' }}
       </ion-card-subtitle>
     </ion-card-header>
+    <br>
   </ion-card>
-
+  
+  <h1 class="title">Configuraciones Básicas</h1>
+  <ion-card>
   <ion-list class="settings-list">
-    <ion-item button>
-      <ion-icon slot="start" name="car-outline"></ion-icon>
+    <ion-item button routerLink="/mecanico/lista-car">
+      <ion-icon slot="start" name="car-outline" ></ion-icon>
       <ion-label>Autos</ion-label>
     </ion-item>
 
@@ -38,28 +42,13 @@
       <ion-label>Cambiar contraseña</ion-label>
     </ion-item>
   </ion-list>
+</ion-card>
 
-  <ion-list class="feedback-list">
-    <ion-item button>
-      <ion-icon slot="start" name="help-circle-outline"></ion-icon>
-      <ion-label>Preguntas frecuentes - FAQ</ion-label>
-    </ion-item>
-
-    <ion-item button>
-      <ion-icon slot="start" name="globe-outline"></ion-icon>
-      <ion-label>Abrir sitio web</ion-label>
-    </ion-item>
-
-    <ion-item button>
-      <ion-icon slot="start" name="alert-circle-outline"></ion-icon>
-      <ion-label>Reportar un error</ion-label>
-    </ion-item>
-  </ion-list>
 
   <div class="logout-button" (click)="presentLogoutConfirm()">
     <ion-button expand="block" color="tertiary">
       <ion-icon slot="start" name="log-out-outline"></ion-icon>
-      Cerrar sesión
+      Cerrar Sesión
     </ion-button>
   </div>
 </ion-content>
@@ -67,7 +56,7 @@
 <ion-footer>
   <ion-toolbar>
     <div class="button-container">
-      <ion-button class="custom-button" expand="block" routerLink="/mecanico/home-mecanico">
+      <ion-button class="custom-button" expand="block" (click)="goBack()">
         <ion-icon slot="start" name="home"></ion-icon>
         Inicio
       </ion-button>

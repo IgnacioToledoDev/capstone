@@ -25,10 +25,7 @@ class MaintenanceSeeder extends Seeder
         DB::table('maintenances')->insert([
             [
                 'name' => 'Cambio de Aceite y Filtro',
-                'description' => 'Sustitución del aceite del motor y filtro para mantener el rendimiento óptimo del vehículo.',
                 'status_id' => $status->id,
-                'service_id' => $service1->id,
-                'actual_mileage' => 15000,
                 'recommendation_action' => 'Revisar el aceite cada 10,000 km y cambiar el filtro.',
                 'pricing' => 50000,
                 'car_id' => $car1->id,
@@ -36,10 +33,7 @@ class MaintenanceSeeder extends Seeder
             ],
             [
                 'name' => 'Revisión Completa de Frenos',
-                'description' => 'Inspección y mantenimiento del sistema de frenos, incluyendo discos y pastillas.',
                 'status_id' => $status->id,
-                'service_id' => $service1->id,
-                'actual_mileage' => 20000,
                 'recommendation_action' => 'Reemplazar pastillas de freno si el desgaste es mayor al 50%.',
                 'pricing' => 100000,
                 'car_id' => $car1->id,
@@ -47,10 +41,7 @@ class MaintenanceSeeder extends Seeder
             ],
             [
                 'name' => 'Alineación y Balanceo de Ruedas',
-                'description' => 'Ajuste de alineación y balanceo para mejorar la estabilidad del coche.',
                 'status_id' => $status->id,
-                'service_id' => $service1->id,
-                'actual_mileage' => 25000,
                 'recommendation_action' => 'Realizar alineación y balanceo cada 15,000 km.',
                 'pricing' => 80000,
                 'car_id' => $car1->id,

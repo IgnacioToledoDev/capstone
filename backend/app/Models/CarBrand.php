@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * 
@@ -20,6 +21,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|CarBrand whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|CarBrand whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|CarBrand whereUpdatedAt($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Car> $cars
+ * @property-read int|null $cars_count
  * @mixin \Eloquent
  */
 class CarBrand extends Model
@@ -30,4 +33,10 @@ class CarBrand extends Model
         'id',
         'name',
     ];
+
+
+    public function cars(): HasMany
+    {
+        return $this->hasMany(Car::class, 'model_id');
+    }
 }

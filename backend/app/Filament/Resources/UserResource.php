@@ -6,14 +6,13 @@ use App\Filament\Resources\UserResource\Pages;
 use App\Filament\Resources\UserResource\RelationManagers;
 use App\Models\User;
 use App\Rules\ValidateRut;
+use App\Utils\Constants;
 use Filament\Forms;
-use Filament\Forms\Components\TextInput as ComponentsTextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Rawilk\FilamentPasswordInput\Password;
 
 
 class UserResource extends Resource
@@ -66,10 +65,16 @@ class UserResource extends Resource
                     ->visibleOn(['create'])
                     ->placeholder('Contraseña del usuario'),
                 Forms\Components\Select::make('roles')
-                    ->relationship('roles', 'name')
+                    ->relationship('roles', 'name', function ($query) {
+                        $query->where('guard_name', 'api');
+                    })
                     ->label('Roles')
                     ->required()
-                    ->placeholder('Seleccione un rol...')
+                    ->placeholder(Constants::SELECT_OPTION),
+                Password::make('password')
+                    ->label('Contraseña')
+                    ->visible(fn () => auth()->user()->hasRole([User::SUPER_ADMIN,
+                        User::COMPANY_ADMIN]))
             ]);
     }
 

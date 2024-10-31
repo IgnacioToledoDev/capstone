@@ -13,27 +13,28 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class AgregarVehiculoPage implements OnInit {
   carBrands: { id: number; name: string }[] = [];
   vehicleForm: FormGroup; 
-  models: string[] = ['Corolla', 'Civic', 'Mustang', 'Camaro']; 
-  years: number[] = [2020, 2021, 2022, 2023]; 
+  models: { id: number; name: string }[] = []; 
+  years: number[] = []; // Inicialmente vacío
 
   constructor(
     private formBuilder: FormBuilder,
     private navCtrl: NavController,
     private alertController: AlertController,
-    private CarService: CarService,
+    private carService: CarService,
     private storageService: Storage 
   ) {
     this.vehicleForm = this.formBuilder.group({
       brand: ['', Validators.required], 
-      model: ['', Validators.required], 
+      model: [{ value: '', disabled: true }, Validators.required], 
       year: ['', Validators.required],  
       patente: ['', Validators.required], 
     });
   }
 
   async ngOnInit() {
+    this.generateYears(); // Llamar al método para generar años
     try {
-      const brands = await this.CarService.getCarBrands();
+      const brands = await this.carService.getCarBrands();
       if (brands && Array.isArray(brands)) {
         this.carBrands = brands; 
         console.log('Marcas de coches cargadas:', this.carBrands);
@@ -43,6 +44,35 @@ export class AgregarVehiculoPage implements OnInit {
     } catch (error) {
       console.error('Error al cargar las marcas de coches:', error);
       this.carBrands = [];
+    }
+  }
+
+  // Método para generar años desde el año actual hasta 1970
+  generateYears() {
+    const currentYear = new Date().getFullYear();
+    this.years = [];
+    for (let year = currentYear; year >= 1970; year--) {
+      this.years.push(year);
+    }
+  }
+
+  async onBrandChange(brandId: number) {
+    if (brandId) {
+      this.vehicleForm.controls['model'].enable();
+      try {
+        const models = await this.carService.getCarModelsByBrand(brandId);
+        if (models && Array.isArray(models)) {
+          this.models = models;
+          console.log('Modelos de coches cargados:', this.models);
+        } else {
+          console.error('Formato de modelos de coches no válido:', models);
+        }
+      } catch (error) {
+        console.error('Error al cargar los modelos de coches:', error);
+        this.models = [];
+      }
+    } else {
+      this.vehicleForm.controls['model'].disable();
     }
   }
 
@@ -70,7 +100,7 @@ export class AgregarVehiculoPage implements OnInit {
           throw new Error('No se encontró el owner_id en el Storage.');
         }
   
-        const response: any = await this.CarService.registerCar({ brand_id: brand, model, patent: patente, owner_id, year });
+        const response: any = await this.carService.registerCar({ brand_id: brand, model_id: model, patent: patente, owner_id, year });
         console.log('Registro exitoso:', response);
   
         if (response.success === true) {
@@ -102,7 +132,6 @@ export class AgregarVehiculoPage implements OnInit {
     }
   }
   
-
   async presentAlert(header: string, message: string) {
     const alert = await this.alertController.create({
       header,

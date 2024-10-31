@@ -4,6 +4,7 @@ namespace App\Http\Controllers\APIv1Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Mail\RecoveryPasswordMailable;
+use App\Models\MechanicScore;
 use App\Models\User;
 use App\Helper\UserHelper;
 use Illuminate\Auth\Events\PasswordReset;
@@ -55,29 +56,32 @@ class UserController extends Controller
      */
     public function login(Request $request): JsonResponse
     {
-        try {
-            $credentials = $request->only('email', 'password');
+        $credentials = $request->only('email', 'password');
 
-            if (!$token = JWTAuth::attempt($credentials)) {
-                return response()->json(['error' => 'invalid_credentials'], 401);
-            }
-            $user = User::where('email', $request->email)->first();
-            $roles = User::with('roles')->find($user->id);
-            $user->roles = $roles->roles[0]->name;
-            unset($user->password);
-
-            $success['access_token'] = $token;
-            $success['token_type'] = 'bearer';
-            $success['user'] = $user;
-            $success['expires_in'] = JWTAuth::factory()->getTTL() * 525600;
-            $success['status'] = 200;
-
-            return $this->sendResponse($success, 'User login successfully.');
-        } catch (JWTException $e) {
-            return $this->sendError('Unauthorized', [], 400);
+        $user = User::where('email', $request->email)->first();
+        if (!$user) {
+            return response()->json(['error' => 'User not found'], 404);
         }
-    }
 
+        if (!$token = JWTAuth::attempt($credentials)) {
+            return response()->json(['error' => 'invalid_credentials'], 401);
+        }
+
+        $user = User::where('email', $request->email)->first();
+        $roles = User::with('roles')->find($user->id);
+        $user->roles = $roles->roles[0]->name;
+        unset($user->password);
+
+        $success = [
+            'access_token' => $token,
+            'token_type' => 'bearer',
+            'user' => $user,
+            'expires_in' => JWTAuth::factory()->getTTL() * 525600,
+            'status' => 200
+        ];
+
+        return $this->sendResponse($success, 'User login successfully.');
+    }
     /**
      * @OA\Post(
      *     path="/api/users/recovery",
@@ -205,7 +209,7 @@ class UserController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/users/client/register",
+     *     path="/api/jwt/client/register",
      *     summary="Register a new client",
      *     tags={"Clients"},
      *     security={{
@@ -303,13 +307,14 @@ class UserController extends Controller
         if ($emailIsInUsed) {
             return $this->sendError('Email already registered.');
         }
+        $defaultPasswordClient = trim(str_replace("-", "", $validator->getValue('rut')));
 
         $client = new User();
         $client->username = $validator->getValue('name') . ' ' . $validator->getValue('lastname');;
         $client->email = $validator->getValue('email');
         $client->name  = $validator->getValue('name');
         $client->lastname = $validator->getValue('lastname');
-        $client->password = Hash::make($validator->getValue('rut'));
+        $client->password = Hash::make($defaultPasswordClient);
         $client->rut = $validator->getValue('rut');
         $client->phone = $validator->getValue('phone');
         $client->save();
@@ -378,5 +383,154 @@ class UserController extends Controller
         } catch (\Exception $e) {
             return $this->sendError('Failed to log out.', 400);
         }
+    }
+
+    /**
+     * @OA\Post(
+     *     path="/api/jwt/mechanic/{mechanicId}/setScore",
+     *     summary="Asigna una puntuación y un comentario a un mecánico",
+     *     description="Permite que un usuario autenticado asigne una puntuación de 1 a 5 y un comentario a un mecánico específico.",
+     *     tags={"Mechanic"},
+     *     security={{
+     *         "bearerAuth": {}
+     *     }},
+     *     @OA\Parameter(
+     *         name="mechanicId",
+     *         in="path",
+     *         required=true,
+     *         description="ID del mecánico al cual se le va a asignar la puntuación.",
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         description="Puntuación y comentario para el mecánico",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="score",
+     *                 type="integer",
+     *                 description="Puntuación a asignar al mecánico (debe estar entre 1 y 5).",
+     *                 minimum=1,
+     *                 maximum=5,
+     *                 example=4
+     *             ),
+     *             @OA\Property(
+     *                 property="comment",
+     *                 type="string",
+     *                 description="Comentario opcional sobre el servicio del mecánico.",
+     *                 example="Excelente trabajo y muy profesional."
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Puntuación y comentario asignados con éxito",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="success",
+     *                 type="boolean",
+     *                 example=true
+     *             ),
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="Mechanic score updated successfully."
+     *             ),
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="object",
+     *                 @OA\Property(
+     *                     property="mechanic",
+     *                     type="object",
+     *                     @OA\Property(property="id", type="integer", example=1),
+     *                     @OA\Property(property="name", type="string", example="John Doe"),
+     *                     @OA\Property(property="score", type="integer", example=4),
+     *                     @OA\Property(property="comment", type="string", example="Excelente trabajo y muy profesional.")
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Usuario no autenticado",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="success",
+     *                 type="boolean",
+     *                 example=false
+     *             ),
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="You need to sign in first."
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Solicitud incorrecta",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="success",
+     *                 type="boolean",
+     *                 example=false
+     *             ),
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="Score must be between 1 and 5."
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="El usuario no es un mecánico",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="success",
+     *                 type="boolean",
+     *                 example=false
+     *             ),
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="User is not mechanic."
+     *             )
+     *         )
+     *     )
+     * )
+     **/
+    public function setMechanicScore(int $mechanicId, Request $request): JsonResponse
+    {
+        if (auth()->check() === false) {
+            return $this->sendError('You need to sign in first.');
+        }
+
+        $score = $request->input("score");
+        $comment = $request->input("comment");
+        $client = auth()->user();
+
+        if ($score < 1 || $score > 5) {
+            return $this->sendError('Score must be between 1 and 5.');
+        }
+
+        $mechanic = User::whereId($mechanicId)->first();
+        if(!$mechanic->hasRole(User::MECHANIC)) {
+            return $this->sendError('user is not mechanic.');
+        }
+
+        $mechanicScore = new MechanicScore();
+        $mechanicScore->mechanic_id = $mechanic->id;
+        $mechanicScore->user_id = $client->id;
+        $mechanicScore->score = $score;
+        $mechanicScore->comment = $comment ?? null;
+        $mechanicScore->save();
+        $success['mechanicScore'] = $mechanicScore;
+
+        return $this->sendResponse($success, 'Mechanic score updated successfully.');
     }
 }
