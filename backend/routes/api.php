@@ -12,6 +12,7 @@ require __DIR__ . '/api/MaintenanceRoutes.php';
 require __DIR__ . '/api/CarModelsRoutes.php';
 require __DIR__ . '/api/QuotationRoutes.php';
 require __DIR__ . '/api/ReservationRoutes.php';
+require __DIR__ . '/api/ContactTypesRoutes.php';
 
 
 Route::get('login', [UserController::class, 'login'])->name('login');

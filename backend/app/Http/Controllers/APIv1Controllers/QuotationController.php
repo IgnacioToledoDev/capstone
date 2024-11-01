@@ -38,7 +38,6 @@ class QuotationController extends Controller
      *                 )
      *             ),
      *             @OA\Property(property="status", type="integer", example=true, description="Estado de la cotización (aprobada o no)"),
-     *             @OA\Property(property="approvedDateClient", type="string", format="date", example="2024-10-23", description="Fecha en la que el cliente aprobó la cotización")
      *         )
      *     ),
      *
@@ -72,12 +71,11 @@ class QuotationController extends Controller
             $carId = $request->get('carId');
             $userServices = $request->get('services');
             $approvedByClient = $request->get('status');
-            $isApprovedDateClient = $request->get('isApprovedDateClient');
             if (empty($isApprovedDateClient)) {
                 $isApprovedDateClient = new Date('now');
             }
 
-            $date = $approvedByClient ? $isApprovedDateClient->format('Y-m-d') : null;
+            $date = now()->format('d/m/Y');
             $quotation = new Quotation();
             $quotation->amount_services = count($userServices);
             $quotation->approved_by_client = $approvedByClient;

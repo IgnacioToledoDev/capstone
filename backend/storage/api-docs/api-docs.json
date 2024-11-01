@@ -333,6 +333,87 @@
                 ]
             }
         },
+        "/api/contactTypes": {
+            "get": {
+                "tags": [
+                    "Contacto"
+                ],
+                "summary": "Obtener todos los tipos de contacto",
+                "operationId": "c1efea93037c50da0a7cec954c2fb21f",
+                "responses": {
+                    "200": {
+                        "description": "Tipos de contacto recuperados exitosamente.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "contactTypes": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "name": {
+                                                                "type": "string",
+                                                                "example": "Teléfono"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "retrieved contact types successfully."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error en la solicitud.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Error message"
+                                        },
+                                        "code": {
+                                            "type": "integer",
+                                            "example": 400
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/jwt/maintenance/calendar": {
             "get": {
                 "tags": [
@@ -1397,12 +1478,6 @@
                                         "description": "Estado de la cotización (aprobada o no)",
                                         "type": "integer",
                                         "example": true
-                                    },
-                                    "approvedDateClient": {
-                                        "description": "Fecha en la que el cliente aprobó la cotización",
-                                        "type": "string",
-                                        "format": "date",
-                                        "example": "2024-10-23"
                                     }
                                 },
                                 "type": "object"
@@ -1625,6 +1700,112 @@
                         "bearerAuth": []
                     }
                 ]
+            }
+        },
+        "/api/jwt/reservations": {
+            "post": {
+                "tags": [
+                    "Reservations"
+                ],
+                "summary": "Crear una nueva reservación",
+                "description": "Crea una nueva reservación para el vehículo especificado y opcionalmente configura un recordatorio.",
+                "operationId": "ac3f6cb26af0d4b08b2da5e62ebc33b9",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "reservationDate",
+                                    "carId"
+                                ],
+                                "properties": {
+                                    "reservationDate": {
+                                        "description": "Fecha y hora de la reservación en formato d-m-Y H:i",
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "example": "2024-10-15 14:30"
+                                    },
+                                    "carId": {
+                                        "description": "ID del vehículo para la reservación",
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "wantReminder": {
+                                        "description": "Si el usuario desea un recordatorio",
+                                        "type": "boolean",
+                                        "example": true
+                                    },
+                                    "typeReminder": {
+                                        "description": "Tipo de recordatorio si se solicita",
+                                        "type": "integer",
+                                        "example": 2
+                                    },
+                                    "mechanicId": {
+                                        "description": "ID del mecánico a notificar",
+                                        "type": "integer",
+                                        "example": 3
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Reservación creada exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "reservation": {
+                                                    "type": "object"
+                                                },
+                                                "reminder": {
+                                                    "type": "string",
+                                                    "example": "Sera enviado a traves de correo email (Por defecto)"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "reservation created successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error de validación",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Validation error"
+                                        },
+                                        "errors": {
+                                            "description": "Detalles de los errores de validación",
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
             }
         },
         "/api/jwt/services/": {
@@ -2286,6 +2467,10 @@
             "description": "Car Models"
         },
         {
+            "name": "Contacto",
+            "description": "Contacto"
+        },
+        {
             "name": "Maintenances",
             "description": "Maintenances"
         },
@@ -2296,6 +2481,10 @@
         {
             "name": "Quotations",
             "description": "Quotations"
+        },
+        {
+            "name": "Reservations",
+            "description": "Reservations"
         },
         {
             "name": "Services",

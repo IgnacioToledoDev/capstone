@@ -39,7 +39,7 @@ class ReservationController extends Controller
      *         @OA\JsonContent(
      *             @OA\Property(property="success", type="boolean", example=true),
      *             @OA\Property(property="data", type="object",
-     *                 @OA\Property(property="reservation", type="object", ref="#/components/schemas/Reservation"),
+     *                 @OA\Property(property="reservation", type="object"),
      *                 @OA\Property(property="reminder", type="string", example="Sera enviado a traves de correo email (Por defecto)")
      *             ),
      *             @OA\Property(property="message", type="string", example="reservation created successfully")

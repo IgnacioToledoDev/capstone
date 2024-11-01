@@ -456,8 +456,32 @@ class MaintenanceController extends Controller
         $maintenances = Maintenance::whereMechanicId($mechanic->id)
             ->orderBy('start_maintenance', 'desc')
             ->get();
+        $historical = [];
 
-        $success['historical'] = $maintenances;
+        foreach ($maintenances as $maintenance) {
+            $car = Car::whereId($maintenance->car_id)->first();
+            $owner = User::whereId($car->owner_id)->first();
+            unset($owner->mechanic_score);
+            unset($owner->password);
+            $fullNameCar = $this->carHelper->getFullName($car->id);
+            $carObject = [
+                'id' => $car->id,
+                'patent' => $car->patent,
+                'brand' => $this->carHelper->getCarBrandName($car->id),
+                'model' => $this->carHelper->getCarModelName($car->id),
+                'year' => $car->year,
+                'fullName' => $fullNameCar,
+            ];
+
+            $record = [
+                'maintenance' => $maintenance,
+                'car' => $carObject,
+                'owner' => $owner,
+            ];
+            $historical[] = $record;
+        }
+
+        $success['historical'] = $historical;
 
         return $this->sendResponse($success, 'Historial retrieved successfully.');
     }
@@ -547,6 +571,7 @@ class MaintenanceController extends Controller
         unset($client->password);
         $car->brand_id = $brandName;
         $car->model_id = $modelName;
+        // todo faltan enviar los servicios
 
         $success['maintenance'] = $maintenance;
         $success['client'] = $client;

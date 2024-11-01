@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
             TypeServiceSeeder::class,
             ServiceSeeder::class,
             MaintenanceSeeder::class,
+            ContactTypeSeeder::class,
         ]);
     }
 }
