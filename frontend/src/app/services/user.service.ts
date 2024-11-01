@@ -27,9 +27,8 @@ export class UserService {
         throw new Error('No se pudo recuperar el token de autenticación.');
       }
   
-      console.log('Datos de registro a enviar:', user, headers);
   
-      const response: any = await this.http.post(`${this.API_URL}/users/client/register`, user, { headers }).toPromise();
+      const response: any = await this.http.post(`${this.API_URL}/jwt/client/register`, user, { headers }).toPromise();
       console.log('Registro exitoso:', response);
   
       if (response.success) {

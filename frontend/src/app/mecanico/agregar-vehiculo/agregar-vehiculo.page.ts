@@ -14,7 +14,7 @@ export class AgregarVehiculoPage implements OnInit {
   carBrands: { id: number; name: string }[] = [];
   vehicleForm: FormGroup; 
   models: { id: number; name: string }[] = []; 
-  years: number[] = []; // Inicialmente vacío
+  years: number[] = []; 
 
   constructor(
     private formBuilder: FormBuilder,
@@ -32,7 +32,7 @@ export class AgregarVehiculoPage implements OnInit {
   }
 
   async ngOnInit() {
-    this.generateYears(); // Llamar al método para generar años
+    this.generateYears(); 
     try {
       const brands = await this.carService.getCarBrands();
       if (brands && Array.isArray(brands)) {
@@ -47,7 +47,6 @@ export class AgregarVehiculoPage implements OnInit {
     }
   }
 
-  // Método para generar años desde el año actual hasta 1970
   generateYears() {
     const currentYear = new Date().getFullYear();
     this.years = [];
@@ -105,7 +104,15 @@ export class AgregarVehiculoPage implements OnInit {
   
         if (response.success === true) {
           const carBrandName = this.carBrands.find(b => b.id === brand)?.name || 'Unknown brand';
-          await this.storageService.set('newcar', { brand: carBrandName, model, year, patente });
+          const carModelName = this.models.find(m => m.id === model)?.name || 'Unknown model';
+  
+          // Guardar en el Storage el nombre de la marca, modelo, año, y patente
+          await this.storageService.set('newcar', { 
+            brand: carBrandName, 
+            model: carModelName, 
+            year, 
+            patente 
+          });
   
           await this.storageService.set('token', response.data.access_token);
           this.showAlert();

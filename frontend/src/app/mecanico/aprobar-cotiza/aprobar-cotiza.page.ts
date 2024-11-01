@@ -36,7 +36,7 @@ export class AprobarCotizaPage implements OnInit {
           text: 'Aceptar',
           handler: async () => {
             console.log('Acción aceptada');
-            this.navCtrl.navigateForward('/mecanico/home-mecanico');
+            this.navCtrl.navigateForward('/mecanico/info-ser-cli');
           },
         },
       ],

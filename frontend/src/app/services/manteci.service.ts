@@ -2,9 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Storage } from '@ionic/storage-angular';
-import { CalendarEntry , CurrentUser } from '../intefaces/car';
-
-
+import { CalendarEntry , CurrentUser , HistoricalEntry  } from '../intefaces/car';
 
 @Injectable({
   providedIn: 'root'
@@ -54,6 +52,40 @@ export class ManteciService {
     } catch (error) {
       console.error('Error al obtener el calendario de mantenimiento:', error);
       return { calendar: [], current: [] };
+    }
+  }
+
+  async getMaintenanceHistorical(): Promise<HistoricalEntry[]> {
+    try {
+      const headers = await this.getAuthHeaders();
+
+      if (!headers.has('Authorization')) {
+        console.error('No se pudo recuperar el token de autenticación.');
+        return [];
+      }
+
+      const response = await this.http.get<any>(`${this.API_URL}/jwt/maintenance/historical`, { headers }).toPromise();
+
+      if (response.success && response.data?.historical) {
+        const historicalData = response.data.historical.map((entry: any) => ({
+          id: entry.id,
+          name: entry.name,
+          status_id: entry.status_id,
+          recommendation_action: entry.recommendation_action,
+          pricing: entry.pricing,
+          car_id: entry.car_id,
+          mechanic_id: entry.mechanic_id,
+          start_maintenance: entry.start_maintenance,
+          end_maintenance: entry.end_maintenance
+        }));
+        return historicalData;
+      } else {
+        console.error('Respuesta no válida al obtener el historial de mantenimiento:', response);
+        return [];
+      }
+    } catch (error) {
+      console.error('Error al obtener el historial de mantenimiento:', error);
+      return [];
     }
   }
 

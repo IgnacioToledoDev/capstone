@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController, NavController } from '@ionic/angular';
-import { Storage } from '@ionic/storage-angular'; 
+import { Storage } from '@ionic/storage-angular';
+import { CotizaService } from 'src/app/services/cotiza.service';
+import { CreateQuotationRequest } from 'src/app/intefaces/catiza'; 
 
 @Component({
   selector: 'app-cotizar',
@@ -8,34 +10,34 @@ import { Storage } from '@ionic/storage-angular';
   styleUrls: ['./cotizar.page.scss'],
 })
 export class CotizarPage implements OnInit {
-  user: any = {};  
-  car: any = {};   
+  user: any = {};
+  car: any = {};
+  selectedServices: { id: number, name: string, price: number }[] = [];
+  deletedServices: { id: number, name: string, price: number }[] = [];
 
   constructor(
     private alertController: AlertController,
     private navCtrl: NavController,
-    private storageService: Storage 
+    private storageService: Storage,
+    private cotizaService: CotizaService // Inject CotizaService CreateQuotationRequest
   ) {}
 
   async ngOnInit() {
-
     await this.storageService.create();
 
- 
     const userData = await this.storageService.get('newuser');
     if (userData && userData.user) {
       this.user = userData.user;
-      console.log('Datos del usuario almacenados en "newuser":', this.user); 
-    } else {
-      console.log('No se encontró el usuario en el Storage');
     }
 
     const carData = await this.storageService.get('newcar');
     if (carData) {
       this.car = carData;
-      console.log('Datos del coche almacenados en "newcar":', this.car); 
-    } else {
-      console.log('No se encontró el coche en el Storage');
+    }
+
+    const storedServices = await this.storageService.get('servi_coti');
+    if (storedServices) {
+      this.selectedServices = storedServices;
     }
   }
 
@@ -46,22 +48,17 @@ export class CotizarPage implements OnInit {
   async presentAlert() {
     const alert = await this.alertController.create({
       header: 'Confirmación',
-      message: '¿Estás seguro de querer guardar la Cotización?',
+      message: '¿Estás seguro de querer Enviar la Cotización?',
       backdropDismiss: true,
       buttons: [
         {
           text: 'Cancelar',
           role: 'cancel',
-          handler: () => {
-            console.log('Acción cancelada');
-          },
         },
         {
           text: 'Aceptar',
           handler: async () => {
-            console.log('Acción aceptada');
-            await this.presentConfirmationAlert();
-            this.navCtrl.navigateForward('/mecanico/home-mecanico');
+            await this.createQuotation();
           },
         },
       ],
@@ -70,13 +67,57 @@ export class CotizarPage implements OnInit {
     await alert.present();
   }
 
+  async createQuotation() {
+    const quotationData: CreateQuotationRequest = {
+      carId: this.car.id,
+      services: this.selectedServices.map(service => ({
+        serviceId: service.id,
+        isApproved: true 
+      })),
+      status: true,
+      approvedDateClient: new Date().toISOString().slice(0, 10) 
+    };
+
+    const response = await this.cotizaService.createQuotation(quotationData);
+
+    if (response && response.success) {
+      await this.presentConfirmationAlert();
+      this.navCtrl.navigateForward('/mecanico/home-mecanico');
+    } else {
+      const errorAlert = await this.alertController.create({
+        header: 'Error',
+        message: 'Hubo un problema al crear la cotización. Inténtalo nuevamente.',
+        buttons: ['OK'],
+      });
+      await errorAlert.present();
+    }
+  }
+
   async presentConfirmationAlert() {
     const confirmationAlert = await this.alertController.create({
       header: 'Éxito',
-      message: 'La cotización ha sido creada exitosamente.',
+      message: 'La cotización ha sido creada y enviada exitosamente.',
       buttons: ['OK'],
     });
 
     await confirmationAlert.present();
+  }
+
+  async removeService(service: { id: number; name: string; price: number }) {
+    this.selectedServices = this.selectedServices.filter(s => s.id !== service.id);
+    this.deletedServices.push(service);
+
+    await this.storageService.set('servi_coti', this.selectedServices);
+  }
+
+  async restoreService(service: { id: number; name: string; price: number }) {
+    this.deletedServices = this.deletedServices.filter(s => s.id !== service.id);
+    this.selectedServices.push(service);
+
+    await this.storageService.set('servi_coti', this.selectedServices);
+  }
+
+  calculateTotal(): number {
+    return this.selectedServices.reduce((total, service) => total + service.price, 0);
   }
 }
