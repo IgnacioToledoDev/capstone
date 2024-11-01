@@ -310,10 +310,53 @@ class QuotationController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * @OA\Patch(
+     *     path="/api/jwt/quotation/{quotationId}/approve",
+     *     summary="Aprobar una cotización",
+     *     description="Este endpoint permite al cliente aprobar una cotización específica utilizando su ID. Al aprobar, se actualiza el estado de la cotización para indicar que ha sido aprobada por el cliente.",
+     *     tags={"Quotations"},
+     *     security={{"bearerAuth": {}}},
+     *     @OA\Parameter(
+     *         name="quotationId",
+     *         in="path",
+     *         required=true,
+     *         description="ID de la cotización que se desea aprobar.",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Cotización aprobada con éxito."
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Cotización no encontrada.",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Cotización no encontrada.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="No autorizado. Usuario no autenticado.",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="No autenticado.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Error interno del servidor.",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Ocurrió un error al aprobar la cotización.")
+     *         )
+     *     )
+     * )
      */
-    public function destroy(QuotationController $quotation)
+    public function approve(Request $request, int $quotationId): JsonResponse
     {
-        //
+        $quotation = Quotation::where(['id' => $quotationId])->first();
+        $quotation->approved_by_client = true;
+        $quotation->save();
+
+        $success['quotation'] = $quotation;
+        return $this->sendResponse($success, 'Quotation approved successfully');
     }
 }

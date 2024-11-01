@@ -1674,6 +1674,85 @@
                 ]
             }
         },
+        "/api/jwt/quotation/{quotationId}/approve": {
+            "patch": {
+                "tags": [
+                    "Quotations"
+                ],
+                "summary": "Aprobar una cotización",
+                "description": "Este endpoint permite al cliente aprobar una cotización específica utilizando su ID. Al aprobar, se actualiza el estado de la cotización para indicar que ha sido aprobada por el cliente.",
+                "operationId": "f3ddc39aa99977607310566a3600807d",
+                "parameters": [
+                    {
+                        "name": "quotationId",
+                        "in": "path",
+                        "description": "ID de la cotización que se desea aprobar.",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Cotización aprobada con éxito."
+                    },
+                    "404": {
+                        "description": "Cotización no encontrada.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Cotización no encontrada."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "No autorizado. Usuario no autenticado.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "No autenticado."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno del servidor.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Ocurrió un error al aprobar la cotización."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/jwt/reservation/create": {
             "post": {
                 "tags": [
