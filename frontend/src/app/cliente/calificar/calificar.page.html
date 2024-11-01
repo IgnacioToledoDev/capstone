@@ -1,20 +1,16 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-button (click)="goBack()">
-        <ion-icon name="arrow-back-outline"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-    <ion-title>Calificación</ion-title>
-    <ion-buttons slot="end" routerLink="/cliente/home-cliente">
-      <ion-button >
-        <ion-icon name="close-outline"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
+  <!-- Botón de regreso con flecha -->
+<ion-icon name="arrow-back-outline" slot="start" class="back-button" fill="clear" (click)="goBack()"></ion-icon>
+<ion-icon name="close-outline" slot="end" class="close-button" routerLink="/cliente/home-cliente"></ion-icon>
+  <ion-title class="title">Calificación</ion-title>
+  <br>
+  <br>
 </ion-header>
 
 <ion-content padding>
+  <br>
+  <br>
+  <br>
   <div class="calificacion-container">
     <img src="https://ionicframework.com/docs/img/demos/avatar.svg" alt="Descripción de la imagen" class="imagen-calificacion" />
 
@@ -25,11 +21,11 @@
     </div>
 
     <ion-item>
-      <ion-label position="stacked">Deja tu comentario:</ion-label>
-      <ion-textarea [(ngModel)]="comment" placeholder="Escribe tu comentario aquí..."></ion-textarea>
+      <ion-label position="stacked" class="text">Deja tu comentario:</ion-label>
+      <ion-textarea [(ngModel)]="comment" class="input-item" placeholder="Escribe tu comentario aquí..."></ion-textarea>
     </ion-item>
-
-    <ion-button expand="full" (click)="submitRating()">Enviar Calificación</ion-button>
+    <br>
+    <ion-button color="tertiary" (click)="submitRating()">Enviar Calificación</ion-button>
   </div>
 </ion-content>
 

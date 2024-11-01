@@ -5,7 +5,7 @@
     padding: 16px;
   
     .imagen-calificacion {
-      width: 100%;
+      width: 90%;
       max-width: 400px;
       border-radius: 8px;
       margin-bottom: 16px;
@@ -34,6 +34,46 @@
     --border-radius: 0px; 
     --color: #001f3f; 
     width: 49%; 
-
   }
-  
+
+// Estilo del botón con la flecha de regreso
+.back-button {
+  position: absolute;
+  top: 30px;  // Ajustar la posición
+  left: 10px; // Ajustar la posición
+  color: #ffffff; // Flecha blanca
+  padding: 0; // Sin relleno adicional
+  border: none; // Sin borde
+  font-size: 2rem; // Tamaño de la flecha
+}
+
+// Estilo del botón con la flecha de regreso
+.close-button {
+  position: absolute;
+  top: 30px;  // Ajustar la posición
+  right: 10px; // Ajustar la posición
+  color: #ffffff; // Flecha blanca
+  padding: 0; // Sin relleno adicional
+  border: none; // Sin borde
+  font-size: 2rem; // Tamaño de la flecha
+}
+
+.text {
+  text-align: center;
+  font-size: 1.2rem;
+}
+
+.input-item{
+  --background: #FFFFFF; // Fondo gris claro para el input
+  color: black; // Texto negro para los inputs
+  max-width: 400px; 
+  width: 100%;
+}
+
+// Estilo del título
+  ion-title {
+  color: #ffffff;
+  font-size: 1.8rem;
+  text-align: center;
+  margin-top: 2.5rem;
+}
