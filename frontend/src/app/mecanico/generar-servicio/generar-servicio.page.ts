@@ -34,6 +34,7 @@ export class GenerarServicioPage implements OnInit {
     const carData = await this.storageService.get('newcar');
     if (carData) {
       this.car = carData;
+      console.log('Datos del coche almacenados temporalmente:', this.car);
     }
 
     // Fetch services and service types

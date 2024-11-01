@@ -15,6 +15,7 @@ export class AgregarVehiculoPage implements OnInit {
   vehicleForm: FormGroup; 
   models: { id: number; name: string }[] = []; 
   years: number[] = []; 
+  carData: any;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -32,6 +33,7 @@ export class AgregarVehiculoPage implements OnInit {
   }
 
   async ngOnInit() {
+    await this.storageService.create(); 
     this.generateYears(); 
     try {
       const brands = await this.carService.getCarBrands();
@@ -90,31 +92,42 @@ export class AgregarVehiculoPage implements OnInit {
 
   async onSubmit() {
     if (this.vehicleForm.valid) {
-      const { brand, model, patente, year } = this.vehicleForm.value; 
+      const { brand, model, patente, year } = this.vehicleForm.value;
       try {
         const storedUser = await this.storageService.get('newuser');
-        const owner_id = storedUser?.user?.id;  
+        const owner_id = storedUser?.user?.id;
   
         if (!owner_id) {
           throw new Error('No se encontró el owner_id en el Storage.');
         }
   
-        const response: any = await this.carService.registerCar({ brand_id: brand, model_id: model, patent: patente, owner_id, year });
+        const response: any = await this.carService.registerCar({
+          brand_id: brand,
+          model_id: model,
+          patent: patente,
+          owner_id,
+          year
+        });
         console.log('Registro exitoso:', response);
   
         if (response.success === true) {
+          // Retrieve the existing 'newcar' data from storage
+          const currentCarData = await this.storageService.get('newcar') || {};
+  
+          // Find the brand and model names
           const carBrandName = this.carBrands.find(b => b.id === brand)?.name || 'Unknown brand';
           const carModelName = this.models.find(m => m.id === model)?.name || 'Unknown model';
   
-          // Guardar en el Storage el nombre de la marca, modelo, año, y patente
-          await this.storageService.set('newcar', { 
-            brand: carBrandName, 
-            model: carModelName, 
-            year, 
-            patente 
-          });
+          // Update only the brand and model names in 'newcar' without altering other data
+          const updatedCarData = {
+            ...currentCarData, // Keep existing data
+            brand: carBrandName,
+            model: carModelName,
+          };
   
-          await this.storageService.set('token', response.data.access_token);
+          // Save the updated data back to Storage
+          await this.storageService.set('newcar', updatedCarData);
+  
           this.showAlert();
           setTimeout(() => {
             this.navCtrl.navigateForward('/mecanico/generar-servicio');
@@ -139,6 +152,7 @@ export class AgregarVehiculoPage implements OnInit {
     }
   }
   
+
   async presentAlert(header: string, message: string) {
     const alert = await this.alertController.create({
       header,
