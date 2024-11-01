@@ -1135,29 +1135,28 @@
                 ]
             }
         },
-        "/api/jwt/maintenance/{maintenanceId}/details": {
+        "/api/jwt/maintenanceDetails/{maintenanceId}": {
             "get": {
                 "tags": [
                     "Maintenances"
                 ],
-                "summary": "Obtener detalles completos de una mantencion",
-                "description": "Este endpoint permite obtener los detalles completos de una mantencion, incluyendo información del auto, cliente, y los servicios aprobados.",
-                "operationId": "2c3ca12a9d46bb6de2673f8c69686552",
+                "summary": "Obtener detalles de una mantención específica",
+                "description": "Este endpoint permite obtener los detalles de una mantención, incluyendo información del vehículo, del dueño y los servicios realizados.",
+                "operationId": "92624b1b48d00098ca03c6b95a72ffe0",
                 "parameters": [
                     {
                         "name": "maintenanceId",
                         "in": "path",
-                        "description": "ID de la cotización",
+                        "description": "ID de la mantención",
                         "required": true,
                         "schema": {
-                            "type": "integer",
-                            "example": 1
+                            "type": "integer"
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "Detalles de la cotización obtenidos exitosamente",
+                        "description": "Detalles obtenidos con éxito",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1166,69 +1165,56 @@
                                             "type": "boolean",
                                             "example": true
                                         },
-                                        "car": {
+                                        "data": {
                                             "properties": {
-                                                "patent": {
-                                                    "description": "Patente del auto",
-                                                    "type": "string",
-                                                    "example": "ABC123"
-                                                },
-                                                "brand": {
-                                                    "description": "Marca del auto",
-                                                    "type": "string",
-                                                    "example": "Toyota"
-                                                },
-                                                "model": {
-                                                    "description": "Modelo del auto",
-                                                    "type": "string",
-                                                    "example": "Corolla"
-                                                }
-                                            },
-                                            "type": "object"
-                                        },
-                                        "client": {
-                                            "properties": {
-                                                "name": {
-                                                    "description": "Nombre completo del cliente",
-                                                    "type": "string",
-                                                    "example": "Juan Pérez"
-                                                },
-                                                "email": {
-                                                    "description": "Correo electrónico del cliente",
-                                                    "type": "string",
-                                                    "example": "juan.perez@example.com"
-                                                },
-                                                "phone": {
-                                                    "description": "Teléfono del cliente",
-                                                    "type": "string",
-                                                    "example": "123456789"
-                                                },
-                                                "reservationData": {
-                                                    "description": "Fecha de la reserva",
-                                                    "type": "string",
-                                                    "example": "2024-10-23"
-                                                }
-                                            },
-                                            "type": "object"
-                                        },
-                                        "services": {
-                                            "description": "Servicios aprobados en la cotización",
-                                            "type": "array",
-                                            "items": {
-                                                "properties": {
-                                                    "id": {
-                                                        "description": "ID del servicio",
-                                                        "type": "integer",
-                                                        "example": 1
+                                                "owner": {
+                                                    "properties": {
+                                                        "name": {
+                                                            "type": "string",
+                                                            "example": "John Doe"
+                                                        },
+                                                        "email": {
+                                                            "type": "string",
+                                                            "example": "john.doe@example.com"
+                                                        },
+                                                        "phone": {
+                                                            "type": "string",
+                                                            "example": "+1234567890"
+                                                        }
                                                     },
-                                                    "name": {
-                                                        "description": "Nombre del servicio",
+                                                    "type": "object"
+                                                },
+                                                "services": {
+                                                    "type": "object",
+                                                    "additionalProperties": {
                                                         "type": "string",
-                                                        "example": "Cambio de aceite"
+                                                        "example": "Cambio de aceite",
+                                                        "property": null
                                                     }
                                                 },
-                                                "type": "object"
-                                            }
+                                                "car": {
+                                                    "properties": {
+                                                        "patent": {
+                                                            "type": "string",
+                                                            "example": "ABC123"
+                                                        },
+                                                        "brand": {
+                                                            "type": "string",
+                                                            "example": "Toyota"
+                                                        },
+                                                        "model": {
+                                                            "type": "string",
+                                                            "example": "Corolla"
+                                                        },
+                                                        "year": {
+                                                            "type": "integer",
+                                                            "example": 2020
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
                                         },
                                         "message": {
                                             "type": "string",
@@ -1240,8 +1226,8 @@
                             }
                         }
                     },
-                    "401": {
-                        "description": "Error de autenticación o de validación",
+                    "400": {
+                        "description": "Usuario no autenticado",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1261,150 +1247,7 @@
                         }
                     },
                     "404": {
-                        "description": "No se encontró la cotización",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "success": {
-                                            "type": "boolean",
-                                            "example": false
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Quotation does not exist"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            }
-        },
-        "/api/jwt/maintenance/{carId}/{maintenanceId}/details": {
-            "get": {
-                "tags": [
-                    "Maintenances"
-                ],
-                "summary": "Obtener detalles del historial de mantenciones de un vehículo",
-                "description": "Este endpoint permite obtener los detalles de una mantención específica de un vehículo, incluyendo información del dueño, los servicios realizados, y detalles del vehículo.",
-                "operationId": "6c007fe56c4dab68e27d07e7f9259db3",
-                "parameters": [
-                    {
-                        "name": "carId",
-                        "in": "path",
-                        "description": "ID del vehículo",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "example": 1
-                        }
-                    },
-                    {
-                        "name": "maintenanceId",
-                        "in": "path",
-                        "description": "ID de la mantención",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "example": 10
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Detalles del historial de mantenciones obtenidos exitosamente",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "success": {
-                                            "type": "boolean",
-                                            "example": true
-                                        },
-                                        "owner": {
-                                            "properties": {
-                                                "name": {
-                                                    "description": "Nombre del dueño del vehículo",
-                                                    "type": "string",
-                                                    "example": "Juan Pérez"
-                                                },
-                                                "email": {
-                                                    "description": "Correo electrónico del dueño",
-                                                    "type": "string",
-                                                    "example": "juan.perez@example.com"
-                                                },
-                                                "phone": {
-                                                    "description": "Teléfono del dueño",
-                                                    "type": "string",
-                                                    "example": "123456789"
-                                                }
-                                            },
-                                            "type": "object"
-                                        },
-                                        "services": {
-                                            "description": "Lista de servicios realizados en la mantención",
-                                            "type": "array",
-                                            "items": {
-                                                "properties": {
-                                                    "id": {
-                                                        "description": "ID del servicio",
-                                                        "type": "integer",
-                                                        "example": 1
-                                                    },
-                                                    "name": {
-                                                        "description": "Nombre del servicio",
-                                                        "type": "string",
-                                                        "example": "Cambio de aceite"
-                                                    }
-                                                },
-                                                "type": "object"
-                                            }
-                                        },
-                                        "car": {
-                                            "properties": {
-                                                "patent": {
-                                                    "description": "Patente del vehículo",
-                                                    "type": "string",
-                                                    "example": "ABC123"
-                                                },
-                                                "brand": {
-                                                    "description": "Marca del vehículo",
-                                                    "type": "string",
-                                                    "example": "Toyota"
-                                                },
-                                                "model": {
-                                                    "description": "Modelo del vehículo",
-                                                    "type": "string",
-                                                    "example": "Corolla"
-                                                },
-                                                "year": {
-                                                    "description": "Año del vehículo",
-                                                    "type": "integer",
-                                                    "example": 2015
-                                                }
-                                            },
-                                            "type": "object"
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Get all data successfully."
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Vehículo o mantención no encontrados",
+                        "description": "Mantención o vehículo no encontrado",
                         "content": {
                             "application/json": {
                                 "schema": {
