@@ -259,7 +259,7 @@ class QuotationController extends Controller
      *     path="/api/jwt/quotations/",
      *     summary="Obtener todas las cotizaciones de los vehículos del usuario autenticado",
      *     description="Este endpoint recupera todas las cotizaciones asociadas con los vehículos de propiedad del usuario autenticado. Devuelve un array de cotizaciones para cada vehículo.",
-     *     tags={"Cotizaciones"},
+     *     tags={"Quotations"},
      *     security={{"bearerAuth": {}}},
      *     @OA\Response(
      *         response=200,

@@ -1625,7 +1625,7 @@
         "/api/jwt/quotations/": {
             "get": {
                 "tags": [
-                    "Cotizaciones"
+                    "Quotations"
                 ],
                 "summary": "Obtener todas las cotizaciones de los vehículos del usuario autenticado",
                 "description": "Este endpoint recupera todas las cotizaciones asociadas con los vehículos de propiedad del usuario autenticado. Devuelve un array de cotizaciones para cada vehículo.",
@@ -2458,10 +2458,6 @@
         {
             "name": "Quotations",
             "description": "Quotations"
-        },
-        {
-            "name": "Cotizaciones",
-            "description": "Cotizaciones"
         },
         {
             "name": "Reservations",
