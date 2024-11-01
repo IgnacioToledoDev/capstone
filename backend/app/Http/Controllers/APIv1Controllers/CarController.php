@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\APIv1Controllers;
 
+use App\Helper\CarHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Car;
 use App\Models\CarBrand;
@@ -14,12 +15,82 @@ use OpenApi\Annotations as OA;
 
 class CarController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    private CarHelper $carHelper;
+    public function __construct(CarHelper $carHelper)
     {
-        //
+        $this->carHelper = $carHelper;
+    }
+
+    /**
+     * @OA\Get(
+     *     path="/api/jwt/cars",
+     *     summary="Obtener lista de autos del usuario autenticado",
+     *     description="Este endpoint devuelve la lista de autos pertenecientes al usuario autenticado.",
+     *     tags={"Cars"},
+     *     security={{
+     *         "bearerAuth": {}
+     *     }},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Lista de autos recuperada exitosamente",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="success",
+     *                 type="boolean",
+     *                 example=true
+     *             ),
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="object",
+     *                 @OA\Property(
+     *                     property="cars",
+     *                     type="array",
+     *                     @OA\Items(
+     *                         type="object",
+     *                         @OA\Property(property="id", type="integer", example=1),
+     *                         @OA\Property(property="patent", type="string", example="ABC123"),
+     *                         @OA\Property(property="brand", type="string", example="Toyota"),
+     *                         @OA\Property(property="model", type="string", example="Corolla"),
+     *                         @OA\Property(property="year", type="integer", example=2015)
+     *                     )
+     *                 )
+     *             ),
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="Cars retrieved successfully."
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="No autorizado",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *         )
+     *     )
+     * )
+     */
+    public function index(): JsonResponse
+    {
+        $user = auth()->user();
+        $cars = Car::whereOwnerId($user->id)->get();
+        $allCars = [];
+        foreach ($cars as $car) {
+            $carObj = [
+                'id' => $car->id,
+                'patent' => $car->patent,
+                'brand' => $this->carHelper->getCarBrandName($car->id),
+                'model' => $this->carHelper->getCarModelName($car->id),
+                'year' => $car->year,
+            ];
+            $allCars[] = $carObj;
+        }
+
+        $success['cars'] = $allCars;
+
+        return $this->sendResponse($success, 'Cars retrieved successfully.');
     }
 
     /**
@@ -208,22 +279,6 @@ class CarController extends Controller
         $success['car'] = $car;
 
         return $this->sendResponse($success, 'Car retrieved successfully.');
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
     }
 
     private function getMaxYear(): int

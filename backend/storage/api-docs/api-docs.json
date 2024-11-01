@@ -25,6 +25,92 @@
                 ]
             }
         },
+        "/api/jwt/cars": {
+            "get": {
+                "tags": [
+                    "Cars"
+                ],
+                "summary": "Obtener lista de autos del usuario autenticado",
+                "description": "Este endpoint devuelve la lista de autos pertenecientes al usuario autenticado.",
+                "operationId": "c27dbd18300b7c33331f0d68674caffc",
+                "responses": {
+                    "200": {
+                        "description": "Lista de autos recuperada exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "cars": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "patent": {
+                                                                "type": "string",
+                                                                "example": "ABC123"
+                                                            },
+                                                            "brand": {
+                                                                "type": "string",
+                                                                "example": "Toyota"
+                                                            },
+                                                            "model": {
+                                                                "type": "string",
+                                                                "example": "Corolla"
+                                                            },
+                                                            "year": {
+                                                                "type": "integer",
+                                                                "example": 2015
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Cars retrieved successfully."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "No autorizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/jwt/cars/create": {
             "post": {
                 "tags": [
