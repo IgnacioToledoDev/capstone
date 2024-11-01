@@ -557,6 +557,24 @@ class MaintenanceController extends Controller
         if (!$maintenance) {
             return $this->sendError('maintenance not found');
         }
+        $maintenanceDetails = MaintenanceDetails::whereMaintenanceId($maintenance->id)->get();
+        $details = [];
+        if($maintenanceDetails->count() === 0) {
+            $details = [
+                'message' => 'Maintenance not have details',
+            ];
+        }
+        foreach ($maintenanceDetails as $maintenanceDetail) {
+            $services = Service::whereId($maintenanceDetail->service_id)->get();
+            $arrServices = [];
+            foreach ($services as $service) {
+                $serviceFound = Service::whereId($service->id)->first();
+                $arrServices[] = $serviceFound;
+                $details = [
+                    'services' => $arrServices
+                ];
+            }
+        }
 
         $carId = $maintenance->toArray()['car_id'];
         $car = Car::whereId($carId)->first();
@@ -569,11 +587,12 @@ class MaintenanceController extends Controller
         $brandName = $this->carHelper->getCarBrandName($car->brand_id);
         $modelName = $this->carHelper->getCarModelName($car->brand_id);
         unset($client->password);
+        unset($client->mechanic_score);
         $car->brand_id = $brandName;
         $car->model_id = $modelName;
-        // todo faltan enviar los servicios
 
         $success['maintenance'] = $maintenance;
+        $success['details'] = $details;
         $success['client'] = $client;
         $success['car'] = $car;
 

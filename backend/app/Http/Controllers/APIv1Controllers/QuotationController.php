@@ -75,7 +75,7 @@ class QuotationController extends Controller
                 $isApprovedDateClient = new Date('now');
             }
 
-            $date = now()->format('d/m/Y');
+            $date = now();
             $quotation = new Quotation();
             $quotation->amount_services = count($userServices);
             $quotation->approved_by_client = $approvedByClient;
@@ -86,11 +86,10 @@ class QuotationController extends Controller
             $quotation->save();
             $quotationDetails = [];
             $totalPrice = 0;
+
             foreach ($userServices as $userService) {
                 $isApproved = $userService['isApproved'];
-                if(!$quotation->exists) {
-                    throw new InvalidArgumentException('Quotation no created');
-                }
+
 
                 $service = Service::whereId($userService['serviceId'])->first();
                 if (!$service) {
