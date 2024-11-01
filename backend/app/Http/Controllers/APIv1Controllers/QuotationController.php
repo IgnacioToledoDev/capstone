@@ -255,11 +255,58 @@ class QuotationController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * @OA\Get(
+     *     path="/api/jwt/quotations/",
+     *     summary="Obtener todas las cotizaciones de los vehículos del usuario autenticado",
+     *     description="Este endpoint recupera todas las cotizaciones asociadas con los vehículos de propiedad del usuario autenticado. Devuelve un array de cotizaciones para cada vehículo.",
+     *     tags={"Cotizaciones"},
+     *     security={{"bearerAuth": {}}},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Cotizaciones recuperadas con éxito.",
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="No autorizado. Usuario no autenticado.",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="No autenticado.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Error interno del servidor.",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Ocurrió un error al recuperar las cotizaciones.")
+     *         )
+     *     )
+     * )
      */
-    public function update(Request $request, QuotationController $quotation)
+    public function index(Request $request): JsonResponse
     {
-        //
+        $user = auth()->user();
+        $cars = Car::where(['owner_id' => $user->id])->get();
+        $quotations = [];
+        foreach ($cars as $car) {
+            $allQuotations = Quotation::where(['car_id' => $car->id])->get();
+            foreach ($allQuotations as $quotation) {
+                $details = QuotationDetails::whereQuotationId($quotation->id)->get();
+                $listDetails = [];
+                foreach ($details as $detail) {
+                    $service = Service::whereId($detail->service_id)->first();
+                    $listDetails[] = [
+                        'details' => $detail,
+                        'service' => $service
+                    ];
+                }
+                $quotations[] = [
+                    'quotation' => $quotation,
+                    'content' => $listDetails
+                ];
+            }
+        }
+
+        $success['quotations'] = $quotations;
+        return $this->sendResponse($success, 'Quotation retrieved successfully');
     }
 
     /**

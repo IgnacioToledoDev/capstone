@@ -1622,6 +1622,58 @@
                 ]
             }
         },
+        "/api/jwt/quotations/": {
+            "get": {
+                "tags": [
+                    "Cotizaciones"
+                ],
+                "summary": "Obtener todas las cotizaciones de los vehículos del usuario autenticado",
+                "description": "Este endpoint recupera todas las cotizaciones asociadas con los vehículos de propiedad del usuario autenticado. Devuelve un array de cotizaciones para cada vehículo.",
+                "operationId": "68ecad39957c860b05160d8d02ca98c9",
+                "responses": {
+                    "200": {
+                        "description": "Cotizaciones recuperadas con éxito."
+                    },
+                    "401": {
+                        "description": "No autorizado. Usuario no autenticado.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "No autenticado."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno del servidor.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Ocurrió un error al recuperar las cotizaciones."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/jwt/reservation/create": {
             "post": {
                 "tags": [
@@ -2406,6 +2458,10 @@
         {
             "name": "Quotations",
             "description": "Quotations"
+        },
+        {
+            "name": "Cotizaciones",
+            "description": "Cotizaciones"
         },
         {
             "name": "Reservations",
