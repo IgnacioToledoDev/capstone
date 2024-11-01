@@ -33,6 +33,7 @@ export class CotizarPage implements OnInit {
     const carData = await this.storageService.get('newcar');
     if (carData) {
       this.car = carData;
+      console.log('Modelos de coches cargados:', this.car);
     }
 
     const storedServices = await this.storageService.get('servi_coti');

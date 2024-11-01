@@ -76,7 +76,7 @@ export class CotizaService {
     }
   }
 
-  async createQuotation(data: CreateQuotationRequest): Promise<CreateQuotationResponse | null | undefined> {
+  async createQuotation(data: CreateQuotationRequest): Promise<CreateQuotationResponse | null | undefined> { 
     try {
       const headers = await this.getAuthHeaders();
   
@@ -86,9 +86,14 @@ export class CotizaService {
       }
   
       const response = await this.http.post<CreateQuotationResponse>(`${this.API_URL}/jwt/quotations/create`, data, { headers }).toPromise();
+      console.log('Datos de quotations:', response);
   
       if (response && response.success) {
         console.log('Cotización creada exitosamente:', response);
+
+        await this.storageService.set('Quotation', response);
+        console.log('Cotización guardada en el Storage:', response);
+  
         return response;
       } else {
         console.error('Error al crear la cotización:', response);
