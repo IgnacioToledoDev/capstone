@@ -2474,6 +2474,96 @@
                     }
                 ]
             }
+        },
+        "/api/jwt/mechanic/all": {
+            "get": {
+                "tags": [
+                    "Mechanic"
+                ],
+                "summary": "Obtener todos los mecánicos",
+                "description": "Este endpoint permite obtener una lista de todos los usuarios con el rol de mecánico. El usuario debe estar autenticado para acceder a esta información.",
+                "operationId": "1fe6de49fbcf150cf868a69786b8986b",
+                "responses": {
+                    "200": {
+                        "description": "Lista de todos los mecánicos obtenida con éxito",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "mechanics": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "name": {
+                                                                "type": "string",
+                                                                "example": "John Doe"
+                                                            },
+                                                            "email": {
+                                                                "type": "string",
+                                                                "example": "johndoe@example.com"
+                                                            },
+                                                            "phone": {
+                                                                "type": "string",
+                                                                "example": "+123456789"
+                                                            },
+                                                            "role": {
+                                                                "type": "string",
+                                                                "example": "mechanic"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "All mechanics retrieved successfully."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Usuario no autenticado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "You need to sign in first."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
         }
     },
     "components": {
