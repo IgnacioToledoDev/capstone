@@ -18,10 +18,11 @@ class ReservationController extends Controller
 {
     /**
      * @OA\Post(
-     *     path="/api/jwt/reservations",
+     *     path="/api/jwt/reservation/create",
      *     summary="Crear una nueva reservación",
      *     description="Crea una nueva reservación para el vehículo especificado y opcionalmente configura un recordatorio.",
      *     tags={"Reservations"},
+     *     security={{"bearerAuth":{}}},
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(

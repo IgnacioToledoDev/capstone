@@ -1622,14 +1622,14 @@
                 ]
             }
         },
-        "/api/jwt/reservations": {
+        "/api/jwt/reservation/create": {
             "post": {
                 "tags": [
                     "Reservations"
                 ],
                 "summary": "Crear una nueva reservación",
                 "description": "Crea una nueva reservación para el vehículo especificado y opcionalmente configura un recordatorio.",
-                "operationId": "ac3f6cb26af0d4b08b2da5e62ebc33b9",
+                "operationId": "97512533f516a348b7e9186b41bcf4a6",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -1725,7 +1725,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/api/jwt/services/": {

@@ -9,7 +9,7 @@ class ContactTypeSeeder extends Seeder
 {
     public function run(): void
     {
-        DB::table('contact_types')->insert([
+        DB::table('contact_type')->insert([
             [
                 'name' => 'Correo electronico',
             ],

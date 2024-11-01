@@ -4,6 +4,7 @@ namespace App\Mail;
 
 use App\Models\Reservation;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
@@ -35,12 +36,13 @@ class ReservationMaintenanceMailable extends Mailable
 
     public function content(): Content
     {
+        $reservationDate = Carbon::parse($this->reservation->date_reservation);
         return new Content(
             view: 'emails.reservationMaintenanceEmail',
             with: [
                 'mechanicName' => $this->mechanic->getFullNameAttribute(),
-                'reservationDate' => $this->reservation->date_reservation->format('d/m/Y'),
-                'reservationTime' => $this->reservation->date_reservation->format('H:i'),
+                'reservationDate' => $reservationDate->format('d/m/Y'),
+                'reservationTime' => $reservationDate->format('H:i'),
                 'clientName' => $this->client->getFullNameAttribute(),
                 'clientPhone' => $this->client->phone,
                 'clientEmail' => $this->client->email
