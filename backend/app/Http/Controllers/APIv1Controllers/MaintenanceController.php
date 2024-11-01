@@ -800,11 +800,11 @@ class MaintenanceController extends Controller
                     $services[$service->id] = $service->name;
                 }
             }
-            $status = StatusCar::whereId($maintenance->status_car_id)->first();
-
+            $status = StatusCar::where(['id' => $maintenance->status_car_id])->first();
             $carModel = $this->carHelper->getCarModelName($car->model_id);
             $brand = $this->carHelper->getCarBrandName($car->brand_id);
             $owner = User::where(['id' => $car->owner_id ])->first();
+
             $success['maintenance'] = $maintenance;
             $success['maintenanceStatus'] = $status;
             $success['owner'] =  [

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\APIv1Controllers;
 
+use App\Helper\CarHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Car;
 use App\Models\Quotation;
@@ -17,6 +18,11 @@ use OpenApi\Annotations as OA;
 
 class QuotationController extends Controller
 {
+    private CarHelper $carHelper;
+    public function __construct(CarHelper $carHelper)
+    {
+        $this->carHelper = $carHelper;
+    }
 
     /**
      * @OA\Post(
@@ -130,13 +136,6 @@ class QuotationController extends Controller
      *         required=true,
      *         @OA\Schema(type="integer")
      *     ),
-     *     @OA\Parameter(
-     *         name="carId",
-     *         in="query",
-     *         description="ID del auto relacionado con la cotización",
-     *         required=true,
-     *         @OA\Schema(type="integer")
-     *     ),
      *
      *     @OA\Response(
      *         response=200,
@@ -215,13 +214,13 @@ class QuotationController extends Controller
                 throw new BadHeaderException('not user found');
             }
 
-            $carId = $request->get('carId');
-            $car = Car::whereId($carId)->first();
+            $quotation = Quotation::where(['id' => $quotationId])->first();
+            $car = Car::whereId($quotation->car_id)->first();
             if (!$car) {
                 throw new NoActiveTransaction('not found');
             }
 
-            $quotation = Quotation::where(['car_id' => $carId, 'id' => $quotationId])->first();
+
             $details = QuotationDetails::whereQuotationId($quotationId)->get();
             $services = [];
             $servicesNotApprovedByClient = [];
@@ -235,7 +234,12 @@ class QuotationController extends Controller
             }
 
             $response = [
-                'car' => $car,
+                'car' => [
+                    'patent' => $car->patent,
+                    'brand' => $this->carHelper->getCarBrandName($car->id),
+                    'model' => $this->carHelper->getCarModelName($car->id),
+                    'year' => $car->year,
+                ],
                 'quotation' => $quotation,
                 'servicesApprovedByClient' => $services,
                 'servicesNotApprovedByClient' => $servicesNotApprovedByClient,
@@ -246,7 +250,7 @@ class QuotationController extends Controller
 
             return $this->sendResponse($success, 'Quotation retrieved successfully');
         } catch (\Throwable $th) {
-            return $this->sendError($th->getMessage(), 401);
+            return $this->sendError($th->getMessage());
         }
     }
 

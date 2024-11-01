@@ -1390,15 +1390,6 @@
                         "schema": {
                             "type": "integer"
                         }
-                    },
-                    {
-                        "name": "carId",
-                        "in": "query",
-                        "description": "ID del auto relacionado con la cotización",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
                     }
                 ],
                 "responses": {
