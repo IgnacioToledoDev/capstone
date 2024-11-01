@@ -311,7 +311,7 @@ class QuotationController extends Controller
 
     /**
      * @OA\Patch(
-     *     path="/api/jwt/quotation/{quotationId}/approve",
+     *     path="/api/jwt/quotations/{quotationId}/approve",
      *     summary="Aprobar una cotización",
      *     description="Este endpoint permite al cliente aprobar una cotización específica utilizando su ID. Al aprobar, se actualiza el estado de la cotización para indicar que ha sido aprobada por el cliente.",
      *     tags={"Quotations"},

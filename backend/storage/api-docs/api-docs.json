@@ -1674,14 +1674,14 @@
                 ]
             }
         },
-        "/api/jwt/quotation/{quotationId}/approve": {
+        "/api/jwt/quotations/{quotationId}/approve": {
             "patch": {
                 "tags": [
                     "Quotations"
                 ],
                 "summary": "Aprobar una cotización",
                 "description": "Este endpoint permite al cliente aprobar una cotización específica utilizando su ID. Al aprobar, se actualiza el estado de la cotización para indicar que ha sido aprobada por el cliente.",
-                "operationId": "f3ddc39aa99977607310566a3600807d",
+                "operationId": "23fdb0bfb330c3e9a80cf595d115080a",
                 "parameters": [
                     {
                         "name": "quotationId",
