@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController, NavController } from '@ionic/angular';
-import { ManteciService } from 'src/app/services/manteci.service'; 
-
+import { ManteciService } from 'src/app/services/manteci.service';
+import { HistoricalEntry } from 'src/app/intefaces/car';  // Importa la interfaz HistoricalEntry
 
 @Component({
   selector: 'app-historial',
@@ -10,18 +10,7 @@ import { ManteciService } from 'src/app/services/manteci.service';
 })
 export class HistorialPage implements OnInit {
 
-  eventos: { 
-    id: number,
-    name: string,
-    status_id: number,
-    recommendation_action: string,
-    pricing: number,
-    car_id: number,
-    mechanic_id: number,
-    start_maintenance: string,
-    end_maintenance: string 
-  }[] = [];
-
+  eventos: HistoricalEntry[] = []; // Usa la interfaz HistoricalEntry HistoricalEntry
   filteredEventos = this.eventos;
 
   constructor(
@@ -37,18 +26,8 @@ export class HistorialPage implements OnInit {
   async loadMaintenanceHistory() {
     try {
       const response = await this.manteciService.getMaintenanceHistorical();
-      this.eventos = response.map((entry) => ({
-        id: entry.id,
-        name: entry.name,
-        status_id: entry.status_id,
-        recommendation_action: entry.recommendation_action,
-        pricing: entry.pricing,
-        car_id: entry.car_id,
-        mechanic_id: entry.mechanic_id,
-        start_maintenance: entry.start_maintenance,
-        end_maintenance: entry.end_maintenance
-      }));
-      this.filteredEventos = [...this.eventos]; // Initialize filtered list
+      this.eventos = response; // La respuesta ya incluye los datos de `car` y `owner`
+      this.filteredEventos = [...this.eventos]; // Inicializar lista filtrada
     } catch (error) {
       console.error('Error loading maintenance history:', error);
     }
