@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * 
+ *
  *
  * @property-read Car|null $car
  * @property-read Reminder|null $reminder
@@ -21,6 +21,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Reservation extends Model
 {
     use HasFactory;
+
+    protected $table = 'reservation';
 
     protected $fillable = [
         'car_id',

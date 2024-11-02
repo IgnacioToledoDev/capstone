@@ -109,6 +109,35 @@ export class CarService {
     }
   }
   
+  async getCars(): Promise<{ id: number; patent: string; brand: string; model: string; year: number }[]> {
+    try {
+      const headers = await this.getAuthHeaders();
+  
+      if (!headers.has('Authorization')) {
+        console.error('No se pudo recuperar el token de autenticación.');
+        return [];
+      }
+  
+      const response = await this.http.get<any>(`${this.API_URL}/jwt/cars`, { headers }).toPromise();
+  
+      if (response.success && response.data?.cars) {
+        const cars = response.data.cars.map((car: { id: number; patent: string; brand: string; model: string; year: number }) => ({
+          id: car.id,
+          patent: car.patent,
+          brand: car.brand,
+          model: car.model,
+          year: car.year
+        }));
+        return cars;
+      } else {
+        console.error('Respuesta no válida al obtener los coches:', response);
+        return [];
+      }
+    } catch (error) {
+      console.error('Error al obtener los coches:', error);
+      return [];
+    }
+  }
   
 
   public async getAuthHeaders() {

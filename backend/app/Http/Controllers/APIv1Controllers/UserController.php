@@ -533,4 +533,95 @@ class UserController extends Controller
 
         return $this->sendResponse($success, 'Mechanic score updated successfully.');
     }
+
+    /**
+     * @OA\Get(
+     *     path="/api/jwt/mechanic/all",
+     *     summary="Obtener todos los mecánicos",
+     *     description="Este endpoint permite obtener una lista de todos los usuarios con el rol de mecánico. El usuario debe estar autenticado para acceder a esta información.",
+     *     tags={"Mechanic"},
+     *     *     security={{
+     * *         "bearerAuth": {}
+     * *     }},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Lista de todos los mecánicos obtenida con éxito",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="success",
+     *                 type="boolean",
+     *                 example=true
+     *             ),
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="object",
+     *                 @OA\Property(
+     *                     property="mechanics",
+     *                     type="array",
+     *                     @OA\Items(
+     *                         type="object",
+     *                         @OA\Property(
+     *                             property="id",
+     *                             type="integer",
+     *                             example=1
+     *                         ),
+     *                         @OA\Property(
+     *                             property="name",
+     *                             type="string",
+     *                             example="John Doe"
+     *                         ),
+     *                         @OA\Property(
+     *                             property="email",
+     *                             type="string",
+     *                             example="johndoe@example.com"
+     *                         ),
+     *                         @OA\Property(
+     *                             property="phone",
+     *                             type="string",
+     *                             example="+123456789"
+     *                         ),
+     *                         @OA\Property(
+     *                             property="role",
+     *                             type="string",
+     *                             example="mechanic"
+     *                         )
+     *                     )
+     *                 )
+     *             ),
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="All mechanics retrieved successfully."
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Usuario no autenticado",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="success",
+     *                 type="boolean",
+     *                 example=false
+     *             ),
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="You need to sign in first."
+     *             )
+     *         )
+     *     )
+     * )
+     */
+    public function getAllMechanics(): JsonResponse
+    {
+        if (auth()->check() === false) {
+            return $this->sendError('You need to sign in first.');
+        }
+
+       $success['mechanics'] = $this->userHelper->getMechanicUsers();
+        return $this->sendResponse($success, 'All mechanics retrieved successfully.');
+    }
 }

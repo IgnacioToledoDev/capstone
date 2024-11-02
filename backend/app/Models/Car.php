@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use Barryvdh\LaravelIdeHelper\Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 
 /**
  *
@@ -18,10 +20,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property int $user_id
  * @property int $owner_id
  * @property int $mechanic_id
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Models\CarBrand $carBrands
- * @property-read \App\Models\User $user
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read CarBrand $carBrands
+ * @property-read User $user
  * @method static Builder|Car newModelQuery()
  * @method static Builder|Car newQuery()
  * @method static Builder|Car query()
@@ -36,8 +38,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static Builder|Car whereMechanicId($value)
  * @method static Builder|Car whereModelId($value)
  * @method static Builder|Car whereOwnerId($value)
- * @property-read \App\Models\CarModel|null $carModels
- * @mixin \Eloquent
+ * @property-read CarModel|null $carModels
+ * @mixin Eloquent
  */
 class Car extends Model
 {

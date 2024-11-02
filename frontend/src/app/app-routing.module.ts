@@ -121,6 +121,19 @@ const routes: Routes = [
     path: 'cliente/generar-qr',
     loadChildren: () => import('./cliente/generar-qr/generar-qr.module').then( m => m.GenerarQrPageModule)
   },
+  {
+    path: 'cliente/reserva',
+    loadChildren: () => import('./cliente/reserva/reserva.module').then( m => m.ReservaPageModule)
+  },
+  {
+    path: 'cliente/cotiza-estado',
+    loadChildren: () => import('./cliente/cotiza-estado/cotiza-estado.module').then( m => m.CotizaEstadoPageModule)
+  },
+  {
+    path: 'cliente/agenda-car-lis',
+    loadChildren: () => import('./cliente/agenda-car-lis/agenda-car-lis.module').then( m => m.AgendaCarLisPageModule)
+  },
+
 
 
 

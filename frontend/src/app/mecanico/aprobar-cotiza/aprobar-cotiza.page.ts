@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController ,NavController} from '@ionic/angular';
+
 @Component({
   selector: 'app-aprobar-cotiza',
   templateUrl: './aprobar-cotiza.page.html',
@@ -36,7 +37,7 @@ export class AprobarCotizaPage implements OnInit {
           text: 'Aceptar',
           handler: async () => {
             console.log('Acción aceptada');
-            this.navCtrl.navigateForward('/mecanico/home-mecanico');
+            this.navCtrl.navigateForward('/mecanico/info-ser-cli');
           },
         },
       ],

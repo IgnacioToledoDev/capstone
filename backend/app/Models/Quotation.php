@@ -30,12 +30,18 @@ class Quotation extends Model
         'amount_services',
         'approved_by_client',
         'is_approved_by_client',
-        'is_active'
+        'is_active',
+        'mechanic_id'
     ];
 
     public function car(): BelongsTo
     {
         return $this->belongsTo(Car::class, 'car_id');
+    }
+
+    public function mechanic(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'mechanic_id');
     }
 
 }

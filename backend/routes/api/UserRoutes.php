@@ -13,6 +13,7 @@ Route::prefix('users')->group(function () {
 
 Route::prefix('/jwt/mechanic')->group(function () {
     Route::post('/{mechanicId}/setScore', [UserController::class, 'setMechanicScore']);
+    Route::get('/all', [UserController::class, 'getAllMechanics']);
 })->middleware('auth:api');
 
 
