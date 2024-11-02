@@ -419,13 +419,13 @@
                 ]
             }
         },
-        "/api/contactTypes": {
+        "/api/jwt/contactTypes": {
             "get": {
                 "tags": [
                     "Contacto"
                 ],
                 "summary": "Obtener todos los tipos de contacto",
-                "operationId": "c1efea93037c50da0a7cec954c2fb21f",
+                "operationId": "365ca0c9d9f7929dacf291c162f19c44",
                 "responses": {
                     "200": {
                         "description": "Tipos de contacto recuperados exitosamente.",

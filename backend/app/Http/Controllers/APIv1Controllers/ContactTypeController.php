@@ -11,7 +11,7 @@ class ContactTypeController extends Controller
 {
     /**
      * @OA\Get(
-     *     path="/api/contactTypes",
+     *     path="/api/jwt/contactTypes",
      *     summary="Obtener todos los tipos de contacto",
      *     tags={"Contacto"},
      *     security={{
