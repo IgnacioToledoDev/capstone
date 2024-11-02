@@ -1384,11 +1384,6 @@
                                         "type": "integer",
                                         "example": 1
                                     },
-                                    "mechanicId": {
-                                        "description": "ID del mecanico que hara la mantencion en caso de aprobar la mantencion",
-                                        "type": "integer",
-                                        "example": 1
-                                    },
                                     "services": {
                                         "description": "Lista de servicios solicitados",
                                         "type": "array",
