@@ -1,5 +1,11 @@
+ion-content {
+  background-color: #0B1121;  
+  color: #ffffff;
+}
+
+
 .client-card {
-    background-color: #1E293B;
+    background-color: #0B1121;
     
     ion-card-header {
       ion-card-title {
@@ -68,7 +74,7 @@
     }
   
   ion-item {
-    --background: #1E293B;
+    --background: #0B1121;
   }
   
   .button-container {
@@ -85,7 +91,7 @@
   
   .custom-button {
     --border-radius: 0px;
-    --color: #001f3f;
+    --color: #0B1121;
     width: 49%;
   }
   .pad{

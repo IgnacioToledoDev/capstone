@@ -1,6 +1,6 @@
 ion-content {
     background-color: #0B1121;
-    color: #fff;
+    color: #ffffff;
   
     .welcome-container {
       display: flex;
@@ -22,7 +22,7 @@ ion-content {
   
       ion-label p {
         margin: 0;
-        color: #fff;
+        color: #ffffff;
         margin-left: 50px;
       }
     }
@@ -80,14 +80,14 @@ ion-content {
   }
   
   ion-footer {
-    background-color: #0a0e2e;
+    background-color: #0B1121;
   
     ion-tab-bar {
-      background-color: #1b1f3b;
+      background-color: #0B1121;
       ion-tab-button {
-        color: #fff;
+        color: #ffffff;
         ion-icon {
-          color: #fff;
+          color: #ffffff;
         }
       }
     }
@@ -98,8 +98,6 @@ ion-content {
   
   .custom-button {
     --border-radius: 0px; 
-    --color: #001f3f; 
+    --color: #0B1121; 
     width: 49%; 
-
   }
-  

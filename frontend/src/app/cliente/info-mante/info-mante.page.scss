@@ -1,3 +1,8 @@
+ion-content {
+    background-color: #0B1121;
+    color: #ffffff;
+}
+
 // Estilo del botón con la flecha de regreso
 .back-button {
     position: absolute;
@@ -27,7 +32,7 @@ ion-card-title{
 
 .input-item{
     --background: #FFFFFF; // Fondo gris claro para el input
-    color: black; // Texto negro para los inputs
+    color: #0B1121; // Texto negro para los inputs
     max-width: 400px; 
     width: 100%;
 }

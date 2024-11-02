@@ -1,3 +1,9 @@
+ion-content {
+  background-color: #0B1121;  
+  color: #ffffff;
+  text-align: center;
+}
+
 .calificacion-container {
     display: flex;
     flex-direction: column;
@@ -32,7 +38,7 @@
   
   .custom-button {
     --border-radius: 0px; 
-    --color: #001f3f; 
+    --color: #0B1121; 
     width: 49%; 
   }
 
@@ -47,6 +53,11 @@
   font-size: 2rem; // Tamaño de la flecha
 }
 
+.title {
+  text-align: center;
+  font-size: 1.2rem;
+}
+
 // Estilo del botón con la flecha de regreso
 .close-button {
   position: absolute;
@@ -59,21 +70,28 @@
 }
 
 .text {
+  text-align: start;
+  font-size: 1.2rem;
+  color: #BCBCBC;
+}
+
+.guide {
   text-align: center;
   font-size: 1.2rem;
+  color: #ffffff;
 }
 
 .input-item{
   --background: #FFFFFF; // Fondo gris claro para el input
-  color: black; // Texto negro para los inputs
-  max-width: 400px; 
-  width: 100%;
+  color: #0B1121; // Texto negro para los inputs
+  width: 350px;
+  height: 90px;
 }
 
 // Estilo del título
   ion-title {
   color: #ffffff;
-  font-size: 1.8rem;
+  font-size: 2rem;
   text-align: center;
   margin-top: 2.5rem;
 }

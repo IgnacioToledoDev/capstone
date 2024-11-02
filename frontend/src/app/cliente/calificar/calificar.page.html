@@ -2,8 +2,7 @@
   <!-- Botón de regreso con flecha -->
 <ion-icon name="arrow-back-outline" slot="start" class="back-button" fill="clear" (click)="goBack()"></ion-icon>
 <ion-icon name="close-outline" slot="end" class="close-button" routerLink="/cliente/home-cliente"></ion-icon>
-  <ion-title class="title">Calificación</ion-title>
-  <br>
+  <ion-title>Reseña</ion-title>
   <br>
 </ion-header>
 
@@ -11,9 +10,10 @@
   <br>
   <br>
   <br>
+  <h2 class="title">Evalúa a nuestro mecánico</h2>
   <div class="calificacion-container">
-    <img src="https://ionicframework.com/docs/img/demos/avatar.svg" alt="Descripción de la imagen" class="imagen-calificacion" />
-
+    <img src="assets/icon/avatar.png" alt="Descripción de la imagen" class="imagen-calificacion" />
+    <ion-label position="stacked" class="guide">Dale una calificación del 1 al 5:</ion-label>
     <div class="estrellas">
       <ion-icon *ngFor="let star of stars; let i = index"
                  [name]="i < rating ? 'star' : 'star-outline'"
@@ -21,10 +21,9 @@
     </div>
 
     <ion-item>
-      <ion-label position="stacked" class="text">Deja tu comentario:</ion-label>
+      <ion-label position="stacked" class="text">Notas:</ion-label>
       <ion-textarea [(ngModel)]="comment" class="input-item" placeholder="Escribe tu comentario aquí..."></ion-textarea>
     </ion-item>
-    <br>
     <ion-button color="tertiary" (click)="submitRating()">Enviar Calificación</ion-button>
   </div>
 </ion-content>
