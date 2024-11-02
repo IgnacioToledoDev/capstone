@@ -63,10 +63,13 @@
             <ion-card-subtitle>Patente: {{ entry.car_id }}</ion-card-subtitle>
             <h2>Servicio: {{ entry.description }}</h2>
             <p>Hora: {{ entry.start_maintenance | date: 'shortTime' }}</p>
+            <p>Finalización: {{ entry.end_maintenance | date: 'shortTime' }}</p> 
+            <p>Precio: {{ entry.pricing | currency:'$':'symbol':'1.0-0' }}</p> 
+            <p>Recomendación: {{ entry.recommendation_action }}</p> 
           </ion-label>
         </ion-item>
       </ion-list>
-
+  
       <ng-template #noMaintenance>
         <ion-card>
           <ion-card-content>
@@ -76,6 +79,7 @@
       </ng-template>
     </ion-card-content>
   </ion-card>
+  
 </ion-content>
 
 <ion-footer>

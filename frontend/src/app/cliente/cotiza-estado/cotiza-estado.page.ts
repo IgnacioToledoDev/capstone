@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { AlertController ,NavController} from '@ionic/angular';
 
 @Component({
-  selector: 'app-aprobar-cotiza',
-  templateUrl: './aprobar-cotiza.page.html',
-  styleUrls: ['./aprobar-cotiza.page.scss'],
+  selector: 'app-cotiza-estado',
+  templateUrl: './cotiza-estado.page.html',
+  styleUrls: ['./cotiza-estado.page.scss'],
 })
-export class AprobarCotizaPage implements OnInit {
+export class CotizaEstadoPage implements OnInit {
+
 
 
   constructor(
