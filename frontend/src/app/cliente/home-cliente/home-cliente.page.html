@@ -14,25 +14,28 @@
 
 <ion-content class="ion-padding">
   <ion-card class="welcome-container">
-    <div >
+    <div>
       <ion-avatar>
         <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
       </ion-avatar>
+      <br>
       <ion-label>
         <h2>Bienvenido, {{ user.name }}</h2>
+        <br>
         <p>Cliente</p>
+        <br>
       </ion-label>
     </div>
   </ion-card>
 
   <div class="action-buttons">
-    <ion-button expand="block" color="primary" routerLink="/cliente/generar-qr">Generar QR</ion-button>
-    <ion-button expand="block" color="primary" routerLink="/cliente/agenda-car-lis">Agendar hora</ion-button>
+    <ion-button expand="block" color="tertiary" routerLink="/cliente/generar-qr">Generar QR</ion-button>
+    <ion-button expand="block" color="tertiary">Agendar hora</ion-button>
   </div>
 
   <ion-card routerLink="/cliente/info-mante">
     <ion-card-header>
-      <ion-card-title>Manteniones en Curso</ion-card-title>
+      <ion-card-title class="text">Mantenciones en Curso:</ion-card-title>
     </ion-card-header>
     <ion-card-content>
       <div class="maintenance-info">
@@ -43,7 +46,7 @@
           <p>Año: 2018</p>
           <p>Patente: KDTD82</p>
         </ion-label>
-        <ion-badge color="primary">En progreso</ion-badge>
+        <ion-badge color="tertiary">En progreso</ion-badge>
       </div>
     </ion-card-content>
   </ion-card>
@@ -52,7 +55,7 @@
   <!-- Elige el servicio a realizar -->
   <ion-card>
     <ion-card-header>
-      <ion-card-title>Elige el servicio a realizar</ion-card-title>
+      <ion-card-title class="text_2">Elige el servicio a realizar:</ion-card-title>
     </ion-card-header>
     <ion-card-content>
       <div class="service-options">
