@@ -5,6 +5,7 @@ namespace App\Http\Controllers\APIv1Controllers;
 use App\Helper\CarHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Car;
+use App\Models\Maintenance;
 use App\Models\Quotation;
 use App\Models\QuotationDetails;
 use App\Models\Service;
@@ -38,6 +39,7 @@ class QuotationController extends Controller
      *         @OA\JsonContent(
      *             required={"carId", "services"},
      *             @OA\Property(property="carId", type="integer", example=1, description="ID del auto al cual se le crea la cotización"),
+     *             @OA\Property(property="mechanicId", type="integer", example=1, description="ID del mecanico que hara la mantencion en caso de aprobar la mantencion"),
      *             @OA\Property(property="services", type="array", description="Lista de servicios solicitados",
      *                 @OA\Items(
      *                     @OA\Property(property="serviceId", type="integer", example=101, description="ID del servicio"),
@@ -78,9 +80,17 @@ class QuotationController extends Controller
             $carId = $request->get('carId');
             $userServices = $request->get('services');
             $approvedByClient = $request->get('status');
+            $mechanicId = $request->get('mechanicId');
             if (empty($isApprovedDateClient)) {
                 $isApprovedDateClient = new Date('now');
             }
+
+            $mechanic = User::whereId($mechanicId)->firstOrFail();
+            unset($mechanic->password);
+            if (empty($mechanic)) {
+                throw new BadHeaderException('mechanic not found');
+            }
+
 
             $date = now();
             $quotation = new Quotation();
@@ -90,6 +100,7 @@ class QuotationController extends Controller
             $quotation->total_price = 0;
             $quotation->car_id = $carId;
             $quotation->is_active = false;
+            $quotation->mechanic_id = $mechanic->id;
             $quotation->save();
             $quotationDetails = [];
             $totalPrice = 0;
@@ -221,7 +232,6 @@ class QuotationController extends Controller
                 throw new NoActiveTransaction('not found');
             }
 
-
             $details = QuotationDetails::whereQuotationId($quotationId)->get();
             $services = [];
             $servicesNotApprovedByClient = [];
@@ -234,10 +244,17 @@ class QuotationController extends Controller
                 }
             }
 
-            if ($car->mechanic_id !== null) {
+            if ($quotation->mechanic === null) {
                 $defaultMechanic = User::whereId($car->mechanic_id)->first();
                 unset($defaultMechanic->password);
+            } elseif ($quotation->mechanic->id !== $car->mechanic->id) {
+                $defaultMechanic = User::whereId($quotation->mechanic->id)->first();
+                unset($defaultMechanic->password);
+            } else {
+                $defaultMechanic = null;
             }
+
+
 
             $response = [
                 'car' => [
@@ -305,6 +322,8 @@ class QuotationController extends Controller
                         'service' => $service
                     ];
                 }
+                $mechanic = User::whereId($quotation->mechanic_id)->first();
+                unset($mechanic->password);
                 $quotations[] = [
                     'quotation' => $quotation,
                     'content' => $listDetails,
@@ -313,7 +332,8 @@ class QuotationController extends Controller
                         'brand' => $this->carHelper->getCarBrandName($car->id),
                         'model' => $this->carHelper->getCarModelName($car->id),
                         'year' => $car->year
-                    ]
+                    ],
+                    'mechanic' => $mechanic ?? null
                 ];
             }
         }
