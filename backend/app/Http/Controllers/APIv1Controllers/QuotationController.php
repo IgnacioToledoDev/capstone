@@ -8,6 +8,7 @@ use App\Models\Car;
 use App\Models\Quotation;
 use App\Models\QuotationDetails;
 use App\Models\Service;
+use App\Models\User;
 use Doctrine\DBAL\Exception\NoActiveTransaction;
 use http\Exception\BadHeaderException;
 use http\Exception\InvalidArgumentException;
@@ -233,6 +234,11 @@ class QuotationController extends Controller
                 }
             }
 
+            if ($car->mechanic_id !== null) {
+                $defaultMechanic = User::whereId($car->mechanic_id)->first();
+                unset($defaultMechanic->password);
+            }
+
             $response = [
                 'car' => [
                     'patent' => $car->patent,
@@ -243,7 +249,8 @@ class QuotationController extends Controller
                 'quotation' => $quotation,
                 'servicesApprovedByClient' => $services,
                 'servicesNotApprovedByClient' => $servicesNotApprovedByClient,
-                'total_price' => $quotation->total_price
+                'total_price' => $quotation->total_price,
+                'defaultMechanic' => $defaultMechanic ?? null,
             ];
 
             $success['quotation'] = $response;
@@ -300,7 +307,13 @@ class QuotationController extends Controller
                 }
                 $quotations[] = [
                     'quotation' => $quotation,
-                    'content' => $listDetails
+                    'content' => $listDetails,
+                    'car' => [
+                        'patent' => $car->patent,
+                        'brand' => $this->carHelper->getCarBrandName($car->id),
+                        'model' => $this->carHelper->getCarModelName($car->id),
+                        'year' => $car->year
+                    ]
                 ];
             }
         }
