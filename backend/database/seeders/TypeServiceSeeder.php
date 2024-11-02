@@ -13,19 +13,20 @@ class TypeServiceSeeder extends Seeder
      */
     public function run(): void
     {
-    DB::table('type_services')->insert([
-        [
-            'name' => 'Inspection and Diagnostic',
-            'description' => 'Comprehensive inspection and diagnostic to assess the vehicle\'s condition and identify potential issues.',
-        ],
-        [
-            'name' => 'Preventive Maintenance',
-            'description' => 'Regular maintenance aimed at preventing potential problems and ensuring the vehicle runs efficiently.',
-        ],
-        [
-            'name' => 'Corrective Maintenance',
-            'description' => 'Maintenance focused on fixing identified issues and restoring the vehicle to its proper working condition.',
-        ],
-    ]);
-}
+        DB::table('type_services')->insert([
+            [
+                'name' => 'Inspección y Diagnóstico',
+                'description' => 'Inspección y diagnóstico completo para evaluar el estado del vehículo e identificar posibles problemas.',
+            ],
+            [
+                'name' => 'Mantenimiento Preventivo',
+                'description' => 'Mantenimiento regular orientado a prevenir problemas potenciales y asegurar que el vehículo funcione eficientemente.',
+            ],
+            [
+                'name' => 'Mantenimiento Correctivo',
+                'description' => 'Mantenimiento enfocado en corregir problemas identificados y restaurar el vehículo a su estado de funcionamiento adecuado.',
+            ],
+
+        ]);
+    }
 }
