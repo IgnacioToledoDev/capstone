@@ -39,7 +39,6 @@ class QuotationController extends Controller
      *         @OA\JsonContent(
      *             required={"carId", "services"},
      *             @OA\Property(property="carId", type="integer", example=1, description="ID del auto al cual se le crea la cotización"),
-     *             @OA\Property(property="mechanicId", type="integer", example=1, description="ID del mecanico que hara la mantencion en caso de aprobar la mantencion"),
      *             @OA\Property(property="services", type="array", description="Lista de servicios solicitados",
      *                 @OA\Items(
      *                     @OA\Property(property="serviceId", type="integer", example=101, description="ID del servicio"),
@@ -80,7 +79,7 @@ class QuotationController extends Controller
             $carId = $request->get('carId');
             $userServices = $request->get('services');
             $approvedByClient = $request->get('status');
-            $mechanicId = $request->get('mechanicId');
+            $mechanicId = auth()->user()->id;
             if (empty($isApprovedDateClient)) {
                 $isApprovedDateClient = new Date('now');
             }
