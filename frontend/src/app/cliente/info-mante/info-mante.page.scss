@@ -1,0 +1,38 @@
+ion-content {
+    background-color: #0B1121;
+    color: #ffffff;
+}
+
+// Estilo del botón con la flecha de regreso
+.back-button {
+    position: absolute;
+    top: 30px;  // Ajustar la posición
+    left: 10px; // Ajustar la posición
+    color: #ffffff; // Flecha blanca
+    padding: 0; // Sin relleno adicional
+    border: none; // Sin borde
+    font-size: 2rem; // Tamaño de la flecha
+}
+
+ion-card-title{
+    color: #BCBCBC;
+}
+
+.title {
+    color: #FFFFFF;
+    font-size: 1.6rem;
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.button-color{
+    --color: #ffffff;
+}
+
+.input-item{
+    --background: #FFFFFF; // Fondo gris claro para el input
+    color: #0B1121; // Texto negro para los inputs
+    max-width: 400px; 
+    width: 100%;
+}
