@@ -1,31 +1,26 @@
 <ion-header>
-  <!-- Botón de regreso con flecha -->
-<ion-icon name="arrow-back-outline" class="back-button" fill="clear" (click)="goBack()"></ion-icon>
-  <ion-title class="title">Lisat de catizasiones </ion-title>
-  <br>
-  <br>
+  <!-- Back button with arrow -->
+  <ion-icon name="arrow-back-outline" class="back-button" fill="clear" (click)="goBack()"></ion-icon>
+  <ion-title class="title">Lista de Cotizaciones</ion-title>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <br>
-  <br>
-  <br>
-  <ion-searchbar class="input-item" placeholder="Buscar vehículos..."></ion-searchbar>
-  <ion-card class="client-card">
+  <ion-card class="client-card" *ngFor="let quotation of quotations" (click)="saveQuotation(quotation)">
     <ion-card-content>
-      <ion-list>
-        <ion-item *ngFor="let evento of eventos" routerLink="/cliente/cotiza-estado">
-          <ion-label>
-            <ion-card-subtitle>{{ evento.nombre }}</ion-card-subtitle>
-            <h2>{{ evento.patente}}</h2>
-            <p>{{ evento.marca }}</p>
-            <p>{{ evento.modelo }}</p>
-          </ion-label>
-        </ion-item>
-      </ion-list>
+      <!-- Car Details -->
+      <ion-item>
+        <ion-label>
+          <h2>Cotización</h2>
+          <p>Nombre Mecánico: {{ quotation.mechanic.name }}</p>
+          <p>Patente Vehículo: {{ quotation.car.patent }}</p>
+          <p>Servicios Totales: {{ quotation.quotation.amount_services }}</p>
+          <p>Precio Total: {{ quotation.quotation.total_price | currency }}</p>
+        </ion-label>
+      </ion-item>
     </ion-card-content>
   </ion-card>
 </ion-content>
+
 <ion-footer>
   <div class="button-container">
     <ion-button class="custom-button" expand="block" routerLink="/cliente/home-cliente">

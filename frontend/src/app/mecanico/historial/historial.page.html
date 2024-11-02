@@ -24,7 +24,7 @@
             <h2>Servicio: {{ evento.name }}</h2>
             <p>Nombre clinte: {{ evento.owner.name }} {{ evento.owner.lastname }}</p>
             <p>Email clinte: {{ evento.owner.email }}</p>
-            <p>Inicio: {{ evento.start_maintenance | date: 'short' }} Fin: {{ evento.end_maintenance | date: 'short' }}</p>
+            <p>Fin: {{ evento.end_maintenance | date: 'short' }}</p>
             <p>vehículo: {{ evento.car.fullName }}</p>
           </ion-label>
         </ion-item>

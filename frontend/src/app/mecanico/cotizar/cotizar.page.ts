@@ -68,14 +68,37 @@ export class CotizarPage implements OnInit {
     await alert.present();
   }
 
+  async presentAlertNega() {
+    const alert = await this.alertController.create({
+      header: 'Confirmación',
+      message: '¿Estás seguro de querer Aprobar la Cotización?',
+      backdropDismiss: true,
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+        },
+        {
+          text: 'Aceptar',
+          handler: async () => {
+            await this.createQuotationNega();
+          },
+        },
+      ],
+    });
+
+    await alert.present();
+  }
+
+
   async createQuotation() {
     const quotationData: CreateQuotationRequest = {
       carId: this.car.id,
       services: this.selectedServices.map(service => ({
         serviceId: service.id,
-        isApproved: true 
+        isApproved: true   // Estado de el sevicio
       })),
-      status: true,
+      status: false, // Estado de la cotiza
       approvedDateClient: new Date().toISOString().slice(0, 10) 
     };
 
@@ -84,6 +107,32 @@ export class CotizarPage implements OnInit {
     if (response && response.success) {
       await this.presentConfirmationAlert();
       this.navCtrl.navigateForward('/mecanico/home-mecanico');
+    } else {
+      const errorAlert = await this.alertController.create({
+        header: 'Error',
+        message: 'Hubo un problema al crear la cotización. Inténtalo nuevamente.',
+        buttons: ['OK'],
+      });
+      await errorAlert.present();
+    }
+  }
+
+  async createQuotationNega() {
+    const quotationData: CreateQuotationRequest = {
+      carId: this.car.id,
+      services: this.selectedServices.map(service => ({
+        serviceId: service.id,
+        isApproved: true   // Estado de el sevicio
+      })),
+      status: true, // Estado de la cotiza
+      approvedDateClient: new Date().toISOString().slice(0, 10) 
+    };
+
+    const response = await this.cotizaService.createQuotation(quotationData);
+
+    if (response && response.success) {
+      await this.presentConfirmationAlert();
+      this.navCtrl.navigateForward('/mecanico/aprobar-cotiza');
     } else {
       const errorAlert = await this.alertController.create({
         header: 'Error',

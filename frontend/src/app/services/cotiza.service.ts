@@ -105,6 +105,52 @@ export class CotizaService {
     }
   }
 
+  async getQuotations(): Promise<any[]> {
+    try {
+      const headers = await this.getAuthHeaders();
+      const response = await this.http.get<any>(`${this.API_URL}/jwt/quotations/`, { headers }).toPromise();
+  
+      if (response.success && response.data?.quotations) {
+        return response.data.quotations; // Adjust this based on the actual response structure
+      } else {
+        console.error('Error en la respuesta al obtener las cotizaciones:', response);
+        return [];
+      }
+    } catch (error) {
+      console.error('Error al obtener las cotizaciones:', error);
+      throw error; // Re-throw to handle it in the calling method
+    }
+  }
+
+  async approveQuotation(quotationId: number): Promise<CreateQuotationResponse | null> {
+    try {
+      const headers = await this.getAuthHeaders();
+
+      if (!headers.has('Authorization')) {
+        console.error('No se pudo recuperar el token de autenticación.');
+        return null;
+      }
+
+      const response = await this.http.patch<CreateQuotationResponse>(`${this.API_URL}/jwt/quotations/${quotationId}/approve`, 
+        {}, 
+        { headers }
+      ).toPromise();
+
+      if (response && response.success) {
+        console.log('Cotización aprobada exitosamente:', response);
+        return response;
+      } else {
+        console.error('Error al aprobar la cotización:', response);
+        return null;
+      }
+    } catch (error) {
+      console.error('Error en el servicio al aprobar la cotización:', error);
+      return null;
+    }
+  }
+
+  
+
   async checkAuthenticated() {
     const token = await this.storageService.get('datos');
     this.isAuthenticated = token !== null;

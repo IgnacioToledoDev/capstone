@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController ,NavController} from '@ionic/angular';
+import { Storage } from '@ionic/storage-angular';
 
 @Component({
   selector: 'app-aprobar-cotiza',
@@ -7,14 +8,34 @@ import { AlertController ,NavController} from '@ionic/angular';
   styleUrls: ['./aprobar-cotiza.page.scss'],
 })
 export class AprobarCotizaPage implements OnInit {
-
-
+  user: any = {};
+  car: any = {};
+  selectedServices: { id: number, name: string, price: number }[] = [];
   constructor(
     private alertController: AlertController,
-    private navCtrl: NavController
+    private navCtrl: NavController,
+    private storageService: Storage,
   ) {}
 
-  ngOnInit() {}
+  async ngOnInit() {
+    await this.storageService.create();
+
+    const userData = await this.storageService.get('newuser');
+    if (userData && userData.user) {
+      this.user = userData.user;
+    }
+
+    const carData = await this.storageService.get('newcar');
+    if (carData) {
+      this.car = carData;
+      console.log('Modelos de coches cargados:', this.car);
+    }
+
+    const storedServices = await this.storageService.get('servi_coti');
+    if (storedServices) {
+      this.selectedServices = storedServices;
+    }
+  }
 
   goBack() {
     this.navCtrl.back();
