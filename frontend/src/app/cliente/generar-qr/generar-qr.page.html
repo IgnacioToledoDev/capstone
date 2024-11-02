@@ -9,11 +9,11 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content class="ion-padding">
   <div class="photo-container">
-    <ion-img src="assets/image/qr.png" alt="Maintenance Image"></ion-img>
+    <qr-code [value]="value" size="300"  />
   </div>
-  <ion-button expand="block" color="primary">
+  <ion-button expand="block" color="primary" class="ion-padding">
     Generar QR
   </ion-button>
 </ion-content>
