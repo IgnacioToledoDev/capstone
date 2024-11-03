@@ -13,6 +13,7 @@ Route::prefix('/jwt/maintenance')->middleware('auth:api')->group(function () {
     Route::get('/historical/{id}', [MaintenanceController::class, 'getMaintenanceHistoricalInformation']);
     Route::get('/{maintenanceId}/status', [MaintenanceController::class, 'getStatus']);
     Route::post('/{maintenanceId}/status/next', [MaintenanceController::class, 'changeStatus']);
+    Route::get('/inCourse/', [MaintenanceController::class, 'getMaintenanceInCourse']);
 });
 
 Route::prefix('/jwt/maintenanceDetails')->middleware('auth:api')->group(function () {

@@ -718,7 +718,7 @@ class UserController extends Controller
     public function getUserInformation(): JsonResponse
     {
         try {
-            if(auth()->check() === false) {
+            if (auth()->check() === false) {
                 return $this->sendError('You need to sign in first.');
             }
             $userJWT = auth()->user();
