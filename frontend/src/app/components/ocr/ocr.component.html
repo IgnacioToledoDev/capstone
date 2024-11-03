@@ -1,0 +1,13 @@
+<div class="file-upload-container">
+  <!-- Campo para seleccionar archivo -->
+  <input type="file" (change)="onFileSelected($event)" class="file-input" />
+  
+  <!-- Botón para reconocer el texto en la imagen seleccionada -->
+  <button (click)="recognizeText()" class="recognize-button">Reconocer Texto</button>
+</div>
+
+<!-- Mostrar el texto reconocido si existe -->
+<div *ngIf="recognizedText" class="recognized-text-container">
+  <h3>Texto Reconocido:</h3>
+  <p>{{ recognizedText }}</p>
+</div>
