@@ -1,0 +1,57 @@
+// Contenedor de subida de archivos y botón
+.file-upload-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+
+// Estilo para el input de archivo
+.file-input {
+  background-color: #ffffff;
+  border: 1px solid #3d45af;
+  border-radius: 5px;
+  padding: 8px;
+  margin-bottom: 10px;
+  width: 100%;
+  max-width: 300px;
+  color: rgb(0, 0, 0)
+}
+
+// Estilo del botón de reconocimiento de texto
+.recognize-button {
+  background-color: #3b82f6;
+  color: rgb(0, 0, 0);
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #2563eb;
+  }
+}
+
+// Contenedor para el texto reconocido
+.recognized-text-container {
+  margin-top: 20px;
+  text-align: center;
+  color: #333;
+}
+
+// Estilo para el título del texto reconocido
+.recognized-text-container h3 {
+  color: #0b1121;
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+// Estilo para el párrafo de texto reconocido
+.recognized-text-container p {
+  background-color: #f1f5f9;
+  padding: 10px;
+  border-radius: 5px;
+  color: #111827;
+}
