@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController, NavController } from '@ionic/angular';
 import { Storage } from '@ionic/storage-angular';
-import {UserService} from "../../services/user.service";
+import { UserService } from "../../services/user.service";
 
 @Component({
   selector: 'app-generar-qr',
@@ -16,7 +16,7 @@ export class GenerarQrPage implements OnInit {
     private navCtrl: NavController,
     private userService: UserService,
     private storageService: Storage // para mas adelante
-  ) {}
+  ) { }
 
 
 
@@ -34,11 +34,4 @@ export class GenerarQrPage implements OnInit {
   goBack() {
     this.navCtrl.back();
   }
-
-  /**
-   * todo
-   * hacer un endpoint que tenga la informacion del cliente
-   * y el car id
-   */
-
 }
