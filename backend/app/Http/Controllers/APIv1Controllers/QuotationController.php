@@ -444,4 +444,72 @@ class QuotationController extends Controller
 
         return $this->sendResponse([], 'Quotation decline successfully');
     }
+
+    /**
+     * @OA\Get(
+     *     path="/api/jwt/quotations/{mechanicId}/all",
+     *     summary="Todas la cotizaciones que fueron asignadas a un mecanico",
+     *     description="Este endpoint obtiene todas las cotizaciones que fueron asignados a un mechanico",
+     *     tags={"Quotations"},
+     *     security={{"bearerAuth": {}}},
+     *     @OA\Parameter(
+     *         name="mechanicId",
+     *         in="path",
+     *         required=true,
+     *         description="ID del mecanico que se quieren obtener las cotizaciones.",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Cotizaciones recuperadas con éxito."
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Cotizaciones no encontradas.",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Cotización no encontrada.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="No autorizado. Usuario no autenticado.",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="No autenticado.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Error interno del servidor.",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Ocurrió un error al aprobar la cotización.")
+     *         )
+     *     )
+     * )
+     */
+    public function getAllQuotationsByMechanicAssigned(Request $request, int $mechanicId): JsonResponse
+    {
+        $quotations = Quotation::where(['mechanic_id' => $mechanicId])->get();
+        $element = [
+            'quotations' => [],
+            'details' => [],
+        ];
+        foreach ($quotations as $quotation) {
+            $details = QuotationDetails::whereQuotationId($quotation->id)->get();
+            $services = [];
+            foreach ($details as $detail) {
+                $service = Service::whereId($detail->service_id)->first();
+                $services[] = $service;
+                $quotationElement = [
+                    'quotation' => $quotation,
+                    'details' => [
+                        'is_approved_by_client' => $detail->is_approved_by_client,
+                        'services' => $services,
+                    ]
+                ];
+                $element['quotations'][] = $quotationElement;
+            }
+        }
+
+        return $this->sendResponse($element, 'Quotations retrieved successfully');
+    }
 }

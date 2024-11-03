@@ -1832,6 +1832,85 @@
                 ]
             }
         },
+        "/api/jwt/quotations/{mechanicId}/all": {
+            "get": {
+                "tags": [
+                    "Quotations"
+                ],
+                "summary": "Todas la cotizacines que fueron asignadas a un mecanico",
+                "description": "Este endpoint obtiene todas las cotizaciones que fueron asignados a un mechanico",
+                "operationId": "b9e8dfd771893c2d25d52937af415b40",
+                "parameters": [
+                    {
+                        "name": "mechanicId",
+                        "in": "path",
+                        "description": "ID del mecanico que se quieren obtener las cotizaciones.",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Cotizaciones recuperadas con éxito."
+                    },
+                    "404": {
+                        "description": "Cotizaciones no encontradas.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Cotización no encontrada."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "No autorizado. Usuario no autenticado.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "No autenticado."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno del servidor.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Ocurrió un error al aprobar la cotización."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/jwt/reservation/create": {
             "post": {
                 "tags": [

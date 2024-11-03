@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
 
 /**
- * 
+ *
  *
  * @property int|null $quotation_id
  * @property int $total_services
@@ -36,8 +36,8 @@ class QuotationDetails extends Model
 
     protected $fillable = [
       'quotation_id',
-      'total_services',
-      'service_id'
+      'service_id',
+      'is_approved_by_client',
     ];
 
     public function quotation(): BelongsTo
