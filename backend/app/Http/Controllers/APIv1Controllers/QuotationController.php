@@ -246,7 +246,7 @@ class QuotationController extends Controller
             if ($quotation->mechanic === null) {
                 $defaultMechanic = User::whereId($car->mechanic_id)->first();
                 unset($defaultMechanic->password);
-            } elseif ($quotation->mechanic->id !== $car->mechanic->id) {
+            } elseif ($quotation->mechanic->id !== $car->mechanic_id) {
                 $defaultMechanic = User::whereId($quotation->mechanic->id)->first();
                 unset($defaultMechanic->password);
             } else {
