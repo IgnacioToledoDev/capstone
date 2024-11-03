@@ -292,6 +292,7 @@ class MaintenanceController extends Controller
         $maintenance->mechanic_id = $mechanic->id;
         $maintenance->pricing = 0;
         $maintenance->start_maintenance = $starNowDate;
+        $maintenance->end_maintenance = null;
         $maintenance->save();
 
         if($maintenance->getAttribute('id') == null) {
@@ -641,7 +642,7 @@ class MaintenanceController extends Controller
             return $this->sendError('maintenance not found');
         }
 
-        $status = StatusCar::whereId($maintenance->status_car_id)->first();
+        $status = StatusCar::find($maintenance->status_id);
         $success['status'] = $status;
         return $this->sendResponse($success, 'Status retrieved successfully.');
     }
@@ -824,5 +825,94 @@ class MaintenanceController extends Controller
         } catch (\Throwable $exception) {
             return $this->sendError($exception->getMessage(), $exception->getLine());
         }
+    }
+
+    /**
+     * @OA\Get(
+     *     path="/api/jwt/maintenance/inCourse",
+     *     summary="Obtener detalles de la mantención en curso",
+     *     description="Este endpoint permite obtener los detalles de la mantención en curso de un vehículo asociado al usuario autenticado, incluyendo información del vehículo, del dueño y los servicios realizados.",
+     *     tags={"Maintenances"},
+     *     security={{"bearerAuth": {}}},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Detalles obtenidos con éxito",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=true),
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="object",
+     *                 @OA\Property(
+     *                     property="owner",
+     *                     type="object",
+     *                     @OA\Property(property="name", type="string", example="John Doe"),
+     *                     @OA\Property(property="email", type="string", example="john.doe@example.com"),
+     *                     @OA\Property(property="phone", type="string", example="+1234567890")
+     *                 ),
+     *                 @OA\Property(
+     *                     property="services",
+     *                     type="array",
+     *                     @OA\Items(type="string", example="Cambio de aceite")
+     *                 ),
+     *                 @OA\Property(
+     *                     property="car",
+     *                     type="object",
+     *                     @OA\Property(property="patent", type="string", example="ABC123"),
+     *                     @OA\Property(property="brand", type="string", example="Toyota"),
+     *                     @OA\Property(property="model", type="string", example="Corolla"),
+     *                     @OA\Property(property="year", type="integer", example=2020)
+     *                 )
+     *             ),
+     *             @OA\Property(property="message", type="string", example="Maintenance in course found successfully.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Usuario no autenticado",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=false),
+     *             @OA\Property(property="message", type="string", example="User not authenticated.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Mantención o vehículo no encontrado",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=false),
+     *             @OA\Property(property="message", type="string", example="Maintenance or car not found.")
+     *         )
+     *     )
+     * )
+     */
+    public function getMaintenanceInCourse(Request $request): JsonResponse
+    {
+        $user = auth()->user();
+
+        $cars = Car::whereOwnerId($user->id)->pluck('id');
+
+        $maintenanceInCourse = Maintenance::whereIn('car_id', $cars)
+            ->where('status_id', [StatusCar::STATUS_STARTED, StatusCar::STATUS_PROGRESS])
+            ->where('start_maintenance', '<', now())
+            ->first();
+
+        if (!$maintenanceInCourse) {
+            return $this->sendError('No maintenance in course found.', 404); // Retornar un error si no se encuentra
+        }
+
+        $car = Car::whereId($maintenanceInCourse->car_id)->first();
+        $status = StatusCar::whereId($maintenanceInCourse->status_id)->first();
+
+        $success['maintenanceInCourse'] = [
+            'maintenance' => $maintenanceInCourse,
+            'status' => $status->status,
+            'car' => [
+                'patent' => $car->patent,
+                'brand' => $this->carHelper->getCarBrandName($car->id),
+                'model' => $this->carHelper->getCarModelName($car->id),
+                'year' => $car->year
+            ]
+        ];
+
+        return $this->sendResponse($success['maintenanceInCourse'], 'maintenance in course founded successfully.');
     }
 }

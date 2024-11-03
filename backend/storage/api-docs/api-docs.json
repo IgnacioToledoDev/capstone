@@ -1360,6 +1360,133 @@
                 ]
             }
         },
+        "/api/jwt/maintenance/inCourse": {
+            "get": {
+                "tags": [
+                    "Maintenances"
+                ],
+                "summary": "Obtener detalles de la mantención en curso",
+                "description": "Este endpoint permite obtener los detalles de la mantención en curso de un vehículo asociado al usuario autenticado, incluyendo información del vehículo, del dueño y los servicios realizados.",
+                "operationId": "a3365cee3cad798e1f9ff0909459be90",
+                "responses": {
+                    "200": {
+                        "description": "Detalles obtenidos con éxito",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "owner": {
+                                                    "properties": {
+                                                        "name": {
+                                                            "type": "string",
+                                                            "example": "John Doe"
+                                                        },
+                                                        "email": {
+                                                            "type": "string",
+                                                            "example": "john.doe@example.com"
+                                                        },
+                                                        "phone": {
+                                                            "type": "string",
+                                                            "example": "+1234567890"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                },
+                                                "services": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "Cambio de aceite"
+                                                    }
+                                                },
+                                                "car": {
+                                                    "properties": {
+                                                        "patent": {
+                                                            "type": "string",
+                                                            "example": "ABC123"
+                                                        },
+                                                        "brand": {
+                                                            "type": "string",
+                                                            "example": "Toyota"
+                                                        },
+                                                        "model": {
+                                                            "type": "string",
+                                                            "example": "Corolla"
+                                                        },
+                                                        "year": {
+                                                            "type": "integer",
+                                                            "example": 2020
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Maintenance in course found successfully."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Usuario no autenticado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "User not authenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Mantención o vehículo no encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Maintenance or car not found."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/jwt/quotations/create": {
             "post": {
                 "tags": [
