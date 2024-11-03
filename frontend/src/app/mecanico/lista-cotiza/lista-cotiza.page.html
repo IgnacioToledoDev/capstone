@@ -1,6 +1,6 @@
 <ion-header>
-  <!-- Botón de regreso con flecha -->
-<ion-icon name="arrow-back-outline" class="back-button" fill="clear" (click)="goBack()"></ion-icon>
+  <!-- Back button with arrow icon -->
+  <ion-icon name="arrow-back-outline" class="back-button" fill="clear" (click)="goBack()"></ion-icon>
   <ion-title class="title">Cotizaciones</ion-title>
   <br>
   <br>
@@ -10,22 +10,38 @@
   <br>
   <br>
   <br>
-  <ion-searchbar class="input-item" placeholder="Buscar Cotización..."></ion-searchbar>
-  <ion-card class="client-card">
-    <ion-card-content>
-      <ion-list>
-        <ion-item *ngFor="let evento of eventos" routerLink="/mecanico/aprobar-cotiza">
-          <ion-label>
-            <ion-card-subtitle>{{ evento.patente }}</ion-card-subtitle>
-            <h2>{{ evento.nombre }}</h2>
-            <p>{{ evento.hora }}</p>
-            <p>{{ evento.estado }}</p>
-          </ion-label>
-        </ion-item>
-      </ion-list>
-    </ion-card-content>
-  </ion-card>
+  <ion-searchbar 
+    class="input-item" 
+    placeholder="Buscar Cotización..." 
+    (ionInput)="filterQuotations($event)">
+  </ion-searchbar>
+  
+  <ion-card class="client-card" 
+  *ngFor="let quotation of filteredQuotations" 
+  (click)="saveQuotationId(quotation.quotation.id)">
+<ion-card-header>
+<!-- Car and Client Information -->
+<ion-card-title>{{ quotation.client.name }} {{ quotation.client.lastname }}</ion-card-title>
+</ion-card-header>
+
+<ion-card-content>
+<ion-list>
+<ion-item>
+  <ion-label>
+    <h3>Resumen de Cotización</h3>
+    <p>RUT Cliente: {{ quotation.client.rut }}</p>
+    <p>Patente: {{ quotation.car.patent }}</p>
+    <p>Fecha de Aprobación: {{ quotation.quotation.approve_date_client | date }}</p>
+    <p>Total de Servicios: {{ quotation.quotation.amount_services }}</p>
+    <p>Precio Total: {{ quotation.quotation.total_price | currency }}</p>
+  </ion-label>
+</ion-item>
+</ion-list>
+</ion-card-content>
+</ion-card>
+
 </ion-content>
+
 <ion-footer>
   <div class="button-container">
     <ion-button class="custom-button" expand="block" routerLink="/mecanico/home-mecanico">

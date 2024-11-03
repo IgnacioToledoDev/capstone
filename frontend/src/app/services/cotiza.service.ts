@@ -149,6 +149,31 @@ export class CotizaService {
     }
   }
 
+  async getQuotationsByMechanic(mechanicId: number): Promise<any[]> {
+    try {
+      const headers = await this.getAuthHeaders();
+
+      if (!headers.has('Authorization')) {
+        console.error('No se pudo recuperar el token de autenticación.');
+        return [];
+      }
+
+      const response = await this.http.get<any>(
+        `${this.API_URL}/jwt/quotations/${mechanicId}/all`,
+        { headers }
+      ).toPromise();
+
+      if (response.success && response.data?.quotations) {
+        return response.data.quotations;
+      } else {
+        console.error('Error en la respuesta al obtener las cotizaciones del mecánico:', response);
+        return [];
+      }
+    } catch (error) {
+      console.error('Error al obtener las cotizaciones del mecánico:', error);
+      return [];
+    }
+  }
   
 
   async checkAuthenticated() {
