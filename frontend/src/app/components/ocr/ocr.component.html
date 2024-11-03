@@ -1,0 +1,8 @@
+<div>
+  <input type="file" (change)="onFileSelected($event)" />
+  <button (click)="recognizeText()">Reconocer Texto</button>
+</div>
+<div *ngIf="recognizedText">
+  <h3>Texto Reconocido:</h3>
+  <p>{{ recognizedText }}</p>
+</div>
