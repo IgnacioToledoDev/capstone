@@ -6985,6 +6985,86 @@
             "install-path": "../ramsey/uuid"
         },
         {
+            "name": "rawilk/filament-password-input",
+            "version": "v2.0.2",
+            "version_normalized": "2.0.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/rawilk/filament-password-input.git",
+                "reference": "bd898d5db4d4e66709094f2d1a78732a4ce9bb48"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/rawilk/filament-password-input/zipball/bd898d5db4d4e66709094f2d1a78732a4ce9bb48",
+                "reference": "bd898d5db4d4e66709094f2d1a78732a4ce9bb48",
+                "shasum": ""
+            },
+            "require": {
+                "filament/forms": "^3.2",
+                "illuminate/contracts": "^10.0|^11.0",
+                "php": "^8.1|^8.2|^8.3",
+                "spatie/laravel-package-tools": "^1.14"
+            },
+            "require-dev": {
+                "larastan/larastan": "^2.6",
+                "laravel/pint": "^1.0",
+                "nunomaduro/collision": "^7.9|^8.0",
+                "orchestra/testbench": "^8.8|^9.0",
+                "pestphp/pest": "^2.20",
+                "pestphp/pest-plugin-laravel": "^2.2",
+                "pestphp/pest-plugin-livewire": "^2.1",
+                "spatie/laravel-ray": "^1.31"
+            },
+            "time": "2024-10-01T14:28:10+00:00",
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Rawilk\\FilamentPasswordInput\\FilamentPasswordInputServiceProvider"
+                    ]
+                }
+            },
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "Rawilk\\FilamentPasswordInput\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Randall Wilk",
+                    "email": "randall@randallwilk.dev",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Enhanced password input component for filament.",
+            "homepage": "https://github.com/rawilk/filament-password-input",
+            "keywords": [
+                "Forms",
+                "filament",
+                "filament-password-input",
+                "laravel",
+                "password",
+                "rawilk",
+                "ui"
+            ],
+            "support": {
+                "issues": "https://github.com/rawilk/filament-password-input/issues",
+                "source": "https://github.com/rawilk/filament-password-input/tree/v2.0.2"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/rawilk",
+                    "type": "github"
+                }
+            ],
+            "install-path": "../rawilk/filament-password-input"
+        },
+        {
             "name": "ryangjchandler/blade-capture-directive",
             "version": "v1.0.0",
             "version_normalized": "1.0.0.0",
