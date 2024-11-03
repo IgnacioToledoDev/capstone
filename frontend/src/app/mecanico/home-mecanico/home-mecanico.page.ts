@@ -18,6 +18,7 @@ export class HomeMecanicoPage implements OnInit {
 
   async ngOnInit() {
     const sessionData = await this.userService.getUserSession();
+    console.log(sessionData);
 
     if (sessionData) {
       this.token = sessionData.token;
@@ -26,7 +27,7 @@ export class HomeMecanicoPage implements OnInit {
       console.log('Token:', this.token);
       console.log('User Info:', this.user);
     } else {
-      console.log('No se encontraron datos de sesión.');
+      console.log('No se encontraron datos de sesión.'); sessionData
     }
 
 

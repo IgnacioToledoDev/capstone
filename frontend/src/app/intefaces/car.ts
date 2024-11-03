@@ -29,4 +29,20 @@ export interface HistoricalEntry {
   mechanic_id: number;
   start_maintenance: string;
   end_maintenance: string;
+  car: {
+    id: number;
+    patent: string | null;
+    brand: string;
+    model: string;
+    year: number;
+    fullName: string;
+  };
+  owner: {
+    id: number;
+    name: string;
+    email: string;
+    phone: string | null;
+    username: string;
+    lastname: string;
+  };
 }

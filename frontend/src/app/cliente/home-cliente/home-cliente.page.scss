@@ -1,15 +1,17 @@
 ion-content {
-    background-color: #0a0e2e;
-    color: #fff;
+    background-color: #0B1121;
+    color: #ffffff;
   
     .welcome-container {
       display: flex;
-      align-items: center;
-      margin-bottom: 20px;
+      margin-bottom: 10px;
       padding-top: 10px;
+      justify-content: center;
+      max-width: 320px;
   
       ion-avatar {
-        margin-right: 10px;
+        margin-left: 50px;
+        align-items: center;
       }
   
       ion-label h2 {
@@ -20,7 +22,8 @@ ion-content {
   
       ion-label p {
         margin: 0;
-        color: #ccc;
+        color: #ffffff;
+        margin-left: 50px;
       }
     }
   
@@ -32,6 +35,16 @@ ion-content {
       ion-button {
         width: 48%;
       }
+    }
+
+    .text {
+      text-align: center;
+      font-size: 1.5rem;
+    }
+
+    .text_2 {
+      text-align: center;
+      font-size: 1.4rem;
     }
   
     .maintenance-info {
@@ -67,14 +80,14 @@ ion-content {
   }
   
   ion-footer {
-    background-color: #0a0e2e;
+    background-color: #0B1121;
   
     ion-tab-bar {
-      background-color: #1b1f3b;
+      background-color: #0B1121;
       ion-tab-button {
-        color: #fff;
+        color: #ffffff;
         ion-icon {
-          color: #fff;
+          color: #ffffff;
         }
       }
     }
@@ -85,8 +98,6 @@ ion-content {
   
   .custom-button {
     --border-radius: 0px; 
-    --color: #001f3f; 
+    --color: #0B1121; 
     width: 49%; 
-
   }
-  

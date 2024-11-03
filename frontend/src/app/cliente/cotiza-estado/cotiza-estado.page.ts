@@ -1,40 +1,36 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertController ,NavController} from '@ionic/angular';
+import { AlertController, NavController } from '@ionic/angular';
 import { Storage } from '@ionic/storage-angular';
+import { Quotation } from 'src/app/intefaces/catiza'; 
 
 @Component({
-  selector: 'app-aprobar-cotiza',
-  templateUrl: './aprobar-cotiza.page.html',
-  styleUrls: ['./aprobar-cotiza.page.scss'],
+  selector: 'app-cotiza-estado',
+  templateUrl: './cotiza-estado.page.html',
+  styleUrls: ['./cotiza-estado.page.scss'],
 })
-export class AprobarCotizaPage implements OnInit {
-  user: any = {};
-  car: any = {};
-  selectedServices: { id: number, name: string, price: number }[] = [];
+export class CotizaEstadoPage implements OnInit {
+
+  selectedQuotation: Quotation | null = null;
+
   constructor(
     private alertController: AlertController,
     private navCtrl: NavController,
-    private storageService: Storage,
-  ) {}
+    private storage: Storage
+  ) {
+    this.initStorage();
+  }
+
+  async initStorage() {
+    await this.storage.create(); // Initializes the storage
+  }
 
   async ngOnInit() {
-    await this.storageService.create();
+    await this.loadSelectedQuotation();
+  }
 
-    const userData = await this.storageService.get('newuser');
-    if (userData && userData.user) {
-      this.user = userData.user;
-    }
-
-    const carData = await this.storageService.get('newcar');
-    if (carData) {
-      this.car = carData;
-      console.log('Modelos de coches cargados:', this.car);
-    }
-
-    const storedServices = await this.storageService.get('servi_coti');
-    if (storedServices) {
-      this.selectedServices = storedServices;
-    }
+  async loadSelectedQuotation() {
+    this.selectedQuotation = await this.storage.get('selectedQuotation');
+    console.log('Loaded quotation:', this.selectedQuotation);
   }
 
   goBack() {
@@ -44,8 +40,8 @@ export class AprobarCotizaPage implements OnInit {
   async presentAlert() {
     const alert = await this.alertController.create({
       header: 'Confirmación',
-      message: '¿estás seguro de querer Aceptar la cotizasion?',
-      backdropDismiss: true, 
+      message: '¿Estás seguro de querer aceptar la cotización?',
+      backdropDismiss: true,
       buttons: [
         {
           text: 'Cancelar',
@@ -66,11 +62,12 @@ export class AprobarCotizaPage implements OnInit {
 
     await alert.present();
   }
-  async presentAlertre() {
+
+  async presentAlertRe() {
     const alert = await this.alertController.create({
       header: 'Confirmación',
-      message: '¿estás seguro de querer Rechazar la cotizasion?',
-      backdropDismiss: true, 
+      message: '¿Estás seguro de querer rechazar la cotización?',
+      backdropDismiss: true,
       buttons: [
         {
           text: 'Cancelar',
@@ -91,5 +88,4 @@ export class AprobarCotizaPage implements OnInit {
 
     await alert.present();
   }
-
 }

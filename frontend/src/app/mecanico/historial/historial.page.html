@@ -19,17 +19,13 @@
   <ion-card class="client-card">
     <ion-card-content>
       <ion-list>
-        <ion-item *ngFor="let evento of eventos" routerLink="/mecanico/home-mecanico">
+        <ion-item *ngFor="let evento of filteredEventos" routerLink="/mecanico/home-mecanico">
           <ion-label>
-            <h2>ID: {{ evento.id }}</h2>
-            <h3>Servicio: {{ evento.name }}</h3>
-            <p>Status ID: {{ evento.status_id }}</p>
-            <p>Recomendación: {{ evento.recommendation_action }}</p>
-            <p>Precio: {{ evento.pricing | currency }}</p>
-            <p>Car ID: {{ evento.car_id }}</p>
-            <p>Mecánico ID: {{ evento.mechanic_id }}</p>
-            <p>Inicio: {{ evento.start_maintenance | date: 'short' }}</p>
+            <h2>Servicio: {{ evento.name }}</h2>
+            <p>Nombre clinte: {{ evento.owner.name }} {{ evento.owner.lastname }}</p>
+            <p>Email clinte: {{ evento.owner.email }}</p>
             <p>Fin: {{ evento.end_maintenance | date: 'short' }}</p>
+            <p>vehículo: {{ evento.car.fullName }}</p>
           </ion-label>
         </ion-item>
       </ion-list>

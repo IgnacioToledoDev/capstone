@@ -1142,6 +1142,15 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+        'rawilk/filament-password-input' => array(
+            'pretty_version' => 'v2.0.2',
+            'version' => '2.0.2.0',
+            'reference' => 'bd898d5db4d4e66709094f2d1a78732a4ce9bb48',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../rawilk/filament-password-input',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'rhumsaa/uuid' => array(
             'dev_requirement' => false,
             'replaced' => array(
