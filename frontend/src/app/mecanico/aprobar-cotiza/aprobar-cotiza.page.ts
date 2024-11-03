@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertController ,NavController} from '@ionic/angular';
+import { AlertController, NavController } from '@ionic/angular';
 import { Storage } from '@ionic/storage-angular';
+import { CotizaService } from 'src/app/services/cotiza.service'; // Import the service
 
 @Component({
   selector: 'app-aprobar-cotiza',
@@ -9,33 +10,48 @@ import { Storage } from '@ionic/storage-angular';
 })
 export class AprobarCotizaPage implements OnInit {
   user: any = {};
-  car: any = {};
   selectedServices: { id: number, name: string, price: number }[] = [];
+  quotation: any = {}; 
+
   constructor(
     private alertController: AlertController,
     private navCtrl: NavController,
     private storageService: Storage,
+    private cotizaService: CotizaService 
   ) {}
 
   async ngOnInit() {
     await this.storageService.create();
 
-    const userData = await this.storageService.get('newuser');
-    if (userData && userData.user) {
-      this.user = userData.user;
+    const quotationId = await this.storageService.get('id-cotiza');
+    if (quotationId) {
+      console.log('ID de cotización guardado:', quotationId);
+      await this.loadQuotation(quotationId); 
     }
 
-    const carData = await this.storageService.get('newcar');
+    const carData = await this.storageService.get('client-data');
     if (carData) {
-      this.car = carData;
-      console.log('Modelos de coches cargados:', this.car);
+      this.user = carData;
+      console.log('cliente guardado:', this.user);
     }
 
-    const storedServices = await this.storageService.get('servi_coti');
-    if (storedServices) {
-      this.selectedServices = storedServices;
-    }
   }
+
+  async loadQuotatin(quotationId: number) {
+    this.quotation = await this.cotizaService.getQuotationById(quotationId);
+    console.log('Detalles de la cotización:', this.quotation);
+    console.log('Car object:', this.quotation.car.brand); // Check the car object
+}
+  async loadQuotation(quotationId: number) {
+  try {
+    this.quotation = await this.cotizaService.getQuotationById(quotationId);
+    console.log('Cotizaciones obtenidas:', this.quotation);
+    console.log('Car object:', this.quotation.car.brand);
+  } catch (error) {
+    console.error('Error al obtener las cotizaciones:', error);
+  }
+}
+
 
   goBack() {
     this.navCtrl.back();
@@ -44,8 +60,8 @@ export class AprobarCotizaPage implements OnInit {
   async presentAlert() {
     const alert = await this.alertController.create({
       header: 'Confirmación',
-      message: '¿estás seguro de querer Aceptar la cotizasion?',
-      backdropDismiss: true, 
+      message: '¿estás seguro de querer aceptar la cotización?',
+      backdropDismiss: true,
       buttons: [
         {
           text: 'Cancelar',
@@ -58,6 +74,8 @@ export class AprobarCotizaPage implements OnInit {
           text: 'Aceptar',
           handler: async () => {
             console.log('Acción aceptada');
+            // Here you might want to approve the quotation using the service
+            // await this.cotizaService.approveQuotation(this.quotation.id);
             this.navCtrl.navigateForward('/mecanico/info-ser-cli');
           },
         },
@@ -66,11 +84,12 @@ export class AprobarCotizaPage implements OnInit {
 
     await alert.present();
   }
+
   async presentAlertre() {
     const alert = await this.alertController.create({
       header: 'Confirmación',
-      message: '¿estás seguro de querer Rechazar la cotizasion?',
-      backdropDismiss: true, 
+      message: '¿estás seguro de querer rechazar la cotización?',
+      backdropDismiss: true,
       buttons: [
         {
           text: 'Cancelar',
@@ -91,5 +110,4 @@ export class AprobarCotizaPage implements OnInit {
 
     await alert.present();
   }
-
 }

@@ -22,13 +22,13 @@ export class CarService {
   async getCarBrands(): Promise<{ id: number, name: string }[]> {
     try {
       const headers = await this.getAuthHeaders();
-  
+
       if (!headers.has('Authorization')) {
         console.error('No se pudo recuperar el token de autenticación.');
         return [];
       }
       const response = await this.http.get<any>(`${this.API_URL}/jwt/cars/brands/all`, { headers }).toPromise();
-  
+
       if (response.success && response.data?.brands) {
         const brands = response.data.brands.map((brand: { id: number, name: string }) => ({
           id: brand.id,
@@ -48,14 +48,14 @@ export class CarService {
   async getCarModelsByBrand(brandId: number): Promise<{ id: number, name: string }[]> {
     try {
       const headers = await this.getAuthHeaders();
-  
+
       if (!headers.has('Authorization')) {
         console.error('No se pudo recuperar el token de autenticación.');
         return [];
       }
-  
+
       const response = await this.http.get<any>(`${this.API_URL}/jwt/cars/models/all/${brandId}`, { headers }).toPromise();
-  
+
       if (response.success && response.data?.models) {
         const models = response.data.models.map((model: { id: number, name: string }) => ({
           id: model.id,
@@ -71,21 +71,21 @@ export class CarService {
       return [];
     }
   }
-  
-  
+
+
 
   async registerCar(car: NewCarInterface) {
     try {
       const headers = await this.getAuthHeaders();
-  
+
       if (!headers.has('Authorization')) {
         throw new Error('No se pudo recuperar el token de autenticación.');
       }
-  
+
       console.log('Datos de registro a enviar:', car , headers);
       const response: any = await this.http.post(`${this.API_URL}/jwt/cars/create`, car, { headers }).toPromise();
       console.log('Registro car exitoso:', response);
-  
+
       if (response.success) {
         const carData = response.data.car;
         const storedCar = {
@@ -102,7 +102,7 @@ export class CarService {
         console.log('Datos del coche guardados en el Storage bajo "newcar":', storedCar);
       }
       return response;
-  
+
     } catch (error) {
       console.error('Error en el registro del coche:', error);
       throw error;
@@ -140,10 +140,11 @@ export class CarService {
   }
   
 
+
   public async getAuthHeaders() {
     const sessionData = await this.storageService.get('datos');
-    const token = sessionData ? sessionData.token : null;  
-    
+    const token = sessionData ? sessionData.token : null;
+
     return new HttpHeaders({
       Authorization: `Bearer ${token}`,
     });

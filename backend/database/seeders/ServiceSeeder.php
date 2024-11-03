@@ -47,6 +47,50 @@ class ServiceSeeder extends Seeder
                 'type_id' => $type->id,
                 'price' => 10000
             ],
+            /**Inicio aporte Jose.*/
+            [
+                'name' => 'Cambio de aceite y filtro',
+                'description' => 'Es uno de los servicios más frecuentes, ya que el aceite y el filtro deben reemplazarse regularmente para asegurar el buen funcionamiento del motor.',
+                'type_id' => 2,
+                'price' => 15000
+            ],
+            [
+                'name' => 'Revisión y reemplazo de frenos',
+                'description' => 'La inspección y cambio de pastillas, discos y líquido de frenos son esenciales para mantener la seguridad del vehículo.',
+                'type_id' => 3,
+                'price' => 20000
+            ],
+            [
+                'name' => 'Revisión de suspensión y amortiguadores',
+                'description' => 'La suspensión afecta directamente el confort y la estabilidad del vehículo, por lo que su revisión es fundamental.',
+                'type_id' => 1,
+                'price' => 18500
+            ],
+            [
+                'name' => 'Cambio de filtros de aire y combustible',
+                'description' => 'Estos filtros son importantes para el rendimiento y la eficiencia del motor. Se revisan y reemplazan según el uso y las recomendaciones del fabricante.',
+                'type_id' => 2,
+                'price' => 10000
+            ],
+            [
+                'name' => 'Revisión del sistema de refrigeración',
+                'description' => 'Incluye verificar el nivel y el estado del refrigerante, además de inspeccionar el radiador y las mangueras para evitar sobrecalentamientos.',
+                'type_id' => 1,
+                'price' => 25000
+            ],
+            [
+                'name' => 'Revisión y carga de batería',
+                'description' => 'Los talleres revisan el estado de la batería y, si es necesario, la recargan o reemplazan.',
+                'type_id' => 3,
+                'price' => 16000
+            ],
+            [
+                'name' => 'Cambio de bujías',
+                'description' => 'Las bujías deben revisarse y, si es necesario, cambiarse para asegurar una combustión eficiente del motor.',
+                'type_id' => 2,
+                'price' => 12500
+            ],
+            /**Fin aporte Jose.*/
         ]);
     }
 }

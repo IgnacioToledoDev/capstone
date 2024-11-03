@@ -21,7 +21,7 @@ use OpenApi\Annotations as OA;
  */
 abstract class Controller
 {
-    public function sendResponse($result, $message): JsonResponse
+    public function sendResponse($result, $message, $status = 200): JsonResponse
     {
         $response = [
             'success' => true,
@@ -29,7 +29,7 @@ abstract class Controller
             'message' => $message,
         ];
 
-        return response()->json($response, $result['status'] ?? 200);
+        return response()->json($response, $status);
     }
 
     public function sendError($error, $errorMessages = [], $code = 404): JsonResponse

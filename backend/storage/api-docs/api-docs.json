@@ -1360,6 +1360,133 @@
                 ]
             }
         },
+        "/api/jwt/maintenance/inCourse": {
+            "get": {
+                "tags": [
+                    "Maintenances"
+                ],
+                "summary": "Obtener detalles de la mantención en curso",
+                "description": "Este endpoint permite obtener los detalles de la mantención en curso de un vehículo asociado al usuario autenticado, incluyendo información del vehículo, del dueño y los servicios realizados.",
+                "operationId": "a3365cee3cad798e1f9ff0909459be90",
+                "responses": {
+                    "200": {
+                        "description": "Detalles obtenidos con éxito",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "owner": {
+                                                    "properties": {
+                                                        "name": {
+                                                            "type": "string",
+                                                            "example": "John Doe"
+                                                        },
+                                                        "email": {
+                                                            "type": "string",
+                                                            "example": "john.doe@example.com"
+                                                        },
+                                                        "phone": {
+                                                            "type": "string",
+                                                            "example": "+1234567890"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                },
+                                                "services": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "Cambio de aceite"
+                                                    }
+                                                },
+                                                "car": {
+                                                    "properties": {
+                                                        "patent": {
+                                                            "type": "string",
+                                                            "example": "ABC123"
+                                                        },
+                                                        "brand": {
+                                                            "type": "string",
+                                                            "example": "Toyota"
+                                                        },
+                                                        "model": {
+                                                            "type": "string",
+                                                            "example": "Corolla"
+                                                        },
+                                                        "year": {
+                                                            "type": "integer",
+                                                            "example": 2020
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Maintenance in course found successfully."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Usuario no autenticado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "User not authenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Mantención o vehículo no encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Maintenance or car not found."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/jwt/quotations/create": {
             "post": {
                 "tags": [
@@ -1699,6 +1826,164 @@
                     },
                     "404": {
                         "description": "Cotización no encontrada.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Cotización no encontrada."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "No autorizado. Usuario no autenticado.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "No autenticado."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno del servidor.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Ocurrió un error al aprobar la cotización."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/jwt/quotations/{quotationId}/decline": {
+            "patch": {
+                "tags": [
+                    "Quotations"
+                ],
+                "summary": "Declinar/Rechazar una cotización",
+                "description": "Este endpoint permite al cliente rechazar una cotización específica utilizando su ID. Al rechazar, se actualiza el estado de la cotización para indicar que ha sido rechazar por el cliente.",
+                "operationId": "536c930595ba04800495e793fce9b843",
+                "parameters": [
+                    {
+                        "name": "quotationId",
+                        "in": "path",
+                        "description": "ID de la cotización que se desea rechazar.",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Cotización rechazar con éxito."
+                    },
+                    "404": {
+                        "description": "Cotización no encontrada.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Cotización no encontrada."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "No autorizado. Usuario no autenticado.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "No autenticado."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno del servidor.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Ocurrió un error al aprobar la cotización."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/jwt/quotations/{mechanicId}/all": {
+            "get": {
+                "tags": [
+                    "Quotations"
+                ],
+                "summary": "Todas la cotizaciones que fueron asignadas a un mecanico",
+                "description": "Este endpoint obtiene todas las cotizaciones que fueron asignados a un mechanico",
+                "operationId": "b9e8dfd771893c2d25d52937af415b40",
+                "parameters": [
+                    {
+                        "name": "mechanicId",
+                        "in": "path",
+                        "description": "ID del mecanico que se quieren obtener las cotizaciones.",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Cotizaciones recuperadas con éxito."
+                    },
+                    "404": {
+                        "description": "Cotizaciones no encontradas.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -2550,6 +2835,109 @@
                                         "message": {
                                             "type": "string",
                                             "example": "You need to sign in first."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/jwt/client/information": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Obtiene la información del usuario autenticado",
+                "description": "Devuelve la información del usuario autenticado y el ID del carro asociado",
+                "operationId": "0cb2091cffa5eac0a446ea4d89c4dc99",
+                "responses": {
+                    "200": {
+                        "description": "Datos del usuario obtenidos exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "user": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "name": {
+                                                            "type": "string",
+                                                            "example": "John Doe"
+                                                        },
+                                                        "email": {
+                                                            "type": "string",
+                                                            "example": "john.doe@example.com"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                },
+                                                "car_id": {
+                                                    "type": "integer",
+                                                    "example": 5
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "user data retrieved successfully."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Usuario no autenticado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "You need to sign in first."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Usuario o carro no encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "User or car not found."
                                         }
                                     },
                                     "type": "object"
