@@ -490,38 +490,37 @@ class QuotationController extends Controller
     {
         $quotations = Quotation::where(['mechanic_id' => $mechanicId])->get();
         $element = [
-            'quotations' => [],
-            'details' => [],
-            'client' => [
-                'data' => [],
-                'car' => []
-            ]
+            'quotations' => []
         ];
+
         foreach ($quotations as $quotation) {
             $details = QuotationDetails::whereQuotationId($quotation->id)->get();
             $car = Car::whereId($quotation->car_id)->first();
             $owner = User::whereId($car->owner_id)->first();
             unset($owner->password);
+
             $services = [];
             foreach ($details as $detail) {
                 $service = Service::whereId($detail->service_id)->first();
-                $services[] = $service;
-                $quotationElement = [
-                    'quotation' => $quotation,
-                    'details' => [
-                        'is_approved_by_client' => $detail->is_approved_by_client,
-                        'services' => $services,
-                    ],
-                    'client' => $owner,
-                    'car' => [
-                        'patent' => $car->patent,
-                        'brand' => $this->carHelper->getCarBrandName($car->id),
-                        'model' => $this->carHelper->getCarModelName($car->id),
-                        'year' => $car->year,
-                    ]
+                $services[] = [
+                    'service' => $service,
+                    'is_approved_by_client' => $detail->is_approved_by_client,
                 ];
-                $element['quotations'][] = $quotationElement;
             }
+
+            $quotationElement = [
+                'quotation' => $quotation,
+                'details' => $services,
+                'client' => $owner,
+                'car' => [
+                    'patent' => $car->patent,
+                    'brand' => $this->carHelper->getCarBrandName($car->id),
+                    'model' => $this->carHelper->getCarModelName($car->id),
+                    'year' => $car->year,
+                ]
+            ];
+
+            $element['quotations'][] = $quotationElement;
         }
 
         return $this->sendResponse($element, 'Quotations retrieved successfully');
