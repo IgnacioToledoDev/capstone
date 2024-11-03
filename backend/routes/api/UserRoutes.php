@@ -19,4 +19,5 @@ Route::prefix('/jwt/mechanic')->group(function () {
 
 Route::prefix('/jwt/client')->group(function () {
     Route::post('/register', [UserController::class, 'registerClient'])->middleware('auth:api');
+    Route::get('/information', [UserController::class, 'getUserInformation']);
 })->middleware('auth:api');

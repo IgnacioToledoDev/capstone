@@ -6,16 +6,12 @@
   <br>
 </ion-header>
 
-<ion-content>
-  <br>
-  <br>
-  <br>
-  <br>
+<ion-content class="ion-padding">
   <div class="photo-container">
-    <ion-img src="assets/image/qr.png" alt="Maintenance Image"></ion-img>
+    <qr-code [value]="value" size="300"  />
   </div>
   <br>
-  <ion-button color="tertiary" class="input-container">
+  <ion-button color="tertiary" class="input-container ion-paading">
     Generar QR
   </ion-button>
 </ion-content>

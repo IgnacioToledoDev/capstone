@@ -1,4 +1,6 @@
 ion-content {
+    --background: #0d1b2a;
+    color: white;
     background-color: #0B1121;  
     color: #ffffff;
     text-align: center;
@@ -6,6 +8,13 @@ ion-content {
 }
 
 .photo-container {
+    width: 300px;
+    height: 300px;
+    background-color: #e0e0e0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto 20px;
     margin-top: 500px;
     width: 300px; 
     height: 300px; 
@@ -34,7 +43,7 @@ ion-content {
     font-size: 1.8rem;
     text-align: center;
     margin-top: 2.5rem;
-}
+
 
 ion-img {
     width: 100%; /* Make the image fill the container */
