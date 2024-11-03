@@ -386,9 +386,62 @@ class QuotationController extends Controller
     {
         $quotation = Quotation::where(['id' => $quotationId])->first();
         $quotation->approved_by_client = true;
+        $quotation->is_active = true;
         $quotation->save();
 
         $success['quotation'] = $quotation;
         return $this->sendResponse($success, 'Quotation approved successfully');
+    }
+
+    /**
+     * @OA\Patch(
+     *     path="/api/jwt/quotations/{quotationId}/decline",
+     *     summary="Declinar/Rechazar una cotización",
+     *     description="Este endpoint permite al cliente rechazar una cotización específica utilizando su ID. Al rechazar, se actualiza el estado de la cotización para indicar que ha sido rechazar por el cliente.",
+     *     tags={"Quotations"},
+     *     security={{"bearerAuth": {}}},
+     *     @OA\Parameter(
+     *         name="quotationId",
+     *         in="path",
+     *         required=true,
+     *         description="ID de la cotización que se desea rechazar.",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Cotización rechazar con éxito."
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Cotización no encontrada.",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Cotización no encontrada.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="No autorizado. Usuario no autenticado.",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="No autenticado.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Error interno del servidor.",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Ocurrió un error al aprobar la cotización.")
+     *         )
+     *     )
+     * )
+     */
+    public function decline(Request $request, int $quotationId): JsonResponse
+    {
+        $quotation = Quotation::where(['id' => $quotationId])->first();
+        $quotation->approved_by_client = false;
+        $quotation->is_active = false;
+        $quotation->save();
+
+
+        return $this->sendResponse([], 'Quotation decline successfully');
     }
 }
