@@ -492,9 +492,16 @@ class QuotationController extends Controller
         $element = [
             'quotations' => [],
             'details' => [],
+            'client' => [
+                'data' => [],
+                'car' => []
+            ]
         ];
         foreach ($quotations as $quotation) {
             $details = QuotationDetails::whereQuotationId($quotation->id)->get();
+            $car = Car::whereId($quotation->car_id)->first();
+            $owner = User::whereId($car->owner_id)->first();
+            unset($owner->password);
             $services = [];
             foreach ($details as $detail) {
                 $service = Service::whereId($detail->service_id)->first();
@@ -504,6 +511,13 @@ class QuotationController extends Controller
                     'details' => [
                         'is_approved_by_client' => $detail->is_approved_by_client,
                         'services' => $services,
+                    ],
+                    'client' => $owner,
+                    'car' => [
+                        'patent' => $car->patent,
+                        'brand' => $this->carHelper->getCarBrandName($car->id),
+                        'model' => $this->carHelper->getCarModelName($car->id),
+                        'year' => $car->year,
                     ]
                 ];
                 $element['quotations'][] = $quotationElement;
