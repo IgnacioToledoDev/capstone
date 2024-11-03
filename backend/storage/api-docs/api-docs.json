@@ -1837,7 +1837,7 @@
                 "tags": [
                     "Quotations"
                 ],
-                "summary": "Todas la cotizacines que fueron asignadas a un mecanico",
+                "summary": "Todas la cotizaciones que fueron asignadas a un mecanico",
                 "description": "Este endpoint obtiene todas las cotizaciones que fueron asignados a un mechanico",
                 "operationId": "b9e8dfd771893c2d25d52937af415b40",
                 "parameters": [
