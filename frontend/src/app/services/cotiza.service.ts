@@ -174,6 +174,33 @@ export class CotizaService {
       return [];
     }
   }
+
+  async getQuotationById(quotationId: number): Promise<any | null> {
+    try {
+      const headers = await this.getAuthHeaders();
+  
+      if (!headers.has('Authorization')) {
+        console.error('No se pudo recuperar el token de autenticación.');
+        return null;
+      }
+  
+      const response = await this.http.get<any>(
+        `${this.API_URL}/jwt/quotations/${quotationId}`,
+        { headers }
+      ).toPromise();
+  
+      if (response.success && response.data?.quotation) {
+        return response.data.quotation; // Return the specific quotation from the response
+      } else {
+        console.error('Error en la respuesta al obtener la cotización:', response);
+        return null;
+      }
+    } catch (error) {
+      console.error('Error al obtener la cotización:', error);
+      return null;
+    }
+  }
+  
   
 
   async checkAuthenticated() {

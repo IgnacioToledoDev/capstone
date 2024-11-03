@@ -18,9 +18,9 @@
   
   <ion-card class="client-card" 
   *ngFor="let quotation of filteredQuotations" 
-  (click)="saveQuotationId(quotation.quotation.id)">
+  (click)="saveQuotationId(quotation.quotation.id, quotation.client)">
+
 <ion-card-header>
-<!-- Car and Client Information -->
 <ion-card-title>{{ quotation.client.name }} {{ quotation.client.lastname }}</ion-card-title>
 </ion-card-header>
 
