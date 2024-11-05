@@ -251,7 +251,6 @@ class QuotationController extends Controller
                 unset($defaultMechanic->password);
             } else {
                 $defaultMechanic = null;
-                hola
             }
 
 
