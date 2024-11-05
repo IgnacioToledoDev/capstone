@@ -1,0 +1,99 @@
+<ion-header>
+  <ion-icon name="arrow-back-outline" class="back-button" fill="clear" (click)="goBack()"></ion-icon>
+  <ion-title>Información Cotización</ion-title>
+</ion-header>
+
+<ion-content *ngIf="selectedQuotation">
+  <!-- Mechanic Data -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title class="title">Datos Mecánico</ion-card-title>
+    </ion-card-header>
+    <ion-card-content class="info-card">
+      <ion-list>
+        <ion-item>
+          <ion-label>Nombre: {{ selectedQuotation.mechanic.name }}</ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label>Correo: {{ selectedQuotation.mechanic.email }}</ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label>Teléfono: {{ selectedQuotation.mechanic.phone || 'No disponible' }}</ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Vehicle Data -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title class="title">Datos Vehículo</ion-card-title>
+    </ion-card-header>
+    <ion-card-content class="info-card">
+      <ion-list>
+        <ion-item>
+          <ion-label>Patente: {{ selectedQuotation.car.patent }}</ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label>Marca: {{ selectedQuotation.car.brand }}</ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label>Modelo: {{ selectedQuotation.car.model }}</ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label>Año: {{ selectedQuotation.car.year }}</ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Quotation Details -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title class="title">Detalles de la Cotización</ion-card-title>
+    </ion-card-header>
+    <ion-card-content class="info-card">
+      <ion-item>
+        <ion-label>Servicios Totales: {{ selectedQuotation.quotation.amount_services }}</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label>Precio Total: {{ selectedQuotation.quotation.total_price | currency }}</ion-label>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Services List -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title class="title">Lista de Servicios</ion-card-title>
+    </ion-card-header>
+    <ion-card-content class="info-card">
+      <ion-list>
+        <ion-item *ngFor="let service of selectedQuotation.content">
+          <ion-label>
+            <h3>{{ service.service.name }}</h3>
+            <p>Precio: {{ service.service.price | currency }}</p>
+            <p>Descripción: {{ service.service.description }}</p>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+      <ion-item>
+        <ion-label>Total servicios</ion-label>
+        <ion-note slot="end" class="color">{{ selectedQuotation.quotation.total_price | currency }}</ion-note>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
+
+<ion-footer>
+  <div class="button-container">
+    <ion-button class="custom-button" expand="block" (click)="presentAlertRe()">
+      <ion-icon slot="start" name="close-circle"></ion-icon>
+      Rechazar
+    </ion-button>
+    <ion-button class="custom-button" expand="block" (click)="presentAlert()">
+      <ion-icon slot="start" name="checkmark-circle"></ion-icon>
+      Aceptar
+    </ion-button>
+  </div>
+</ion-footer>

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertController ,NavController} from '@ionic/angular';
+import { AlertController, NavController } from '@ionic/angular';
+import { ManteciService } from 'src/app/services/manteci.service';
+import { HistoricalEntry } from 'src/app/intefaces/car';  // Importa la interfaz HistoricalEntry
 
 @Component({
   selector: 'app-historial',
@@ -8,22 +10,37 @@ import { AlertController ,NavController} from '@ionic/angular';
 })
 export class HistorialPage implements OnInit {
 
-  eventos: { nombre: string, hora: string , patente: string}[] = [
-    { nombre: 'jose herera', hora: '10:00 AM' , patente:'ABC-0834'},
-    { nombre: 'isaac bravo', hora: '12:00 PM' , patente:'AAC-8634'},
-    { nombre: 'Nacho jara', hora: '1:00 PM', patente:'AHG-6434' }
-  ];
+  eventos: HistoricalEntry[] = []; // Usa la interfaz HistoricalEntry HistoricalEntry
+  filteredEventos = this.eventos;
 
   constructor(
     private alertController: AlertController,
-    private navCtrl: NavController
+    private navCtrl: NavController,
+    private manteciService: ManteciService
   ) { }
 
   ngOnInit() {
+    this.loadMaintenanceHistory();
   }
-  
+
+  async loadMaintenanceHistory() {
+    try {
+      const response = await this.manteciService.getMaintenanceHistorical();
+      this.eventos = response; // La respuesta ya incluye los datos de `car` y `owner`
+      this.filteredEventos = [...this.eventos]; // Inicializar lista filtrada
+    } catch (error) {
+      console.error('Error loading maintenance history:', error);
+    }
+  }
+
+  onSearchChange(event: any) {
+    const searchTerm = event.target.value.toLowerCase();
+    this.filteredEventos = this.eventos.filter(evento =>
+      evento.name.toLowerCase().includes(searchTerm)
+    );
+  }
+
   goBack() {
     this.navCtrl.back();
   }
-
 }

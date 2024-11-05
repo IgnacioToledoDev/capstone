@@ -19,3 +19,30 @@ export interface CurrentUser {
   name: string;
   email: string;
 }
+export interface HistoricalEntry {
+  id: number;
+  name: string;
+  status_id: number;
+  recommendation_action: string;
+  pricing: number;
+  car_id: number;
+  mechanic_id: number;
+  start_maintenance: string;
+  end_maintenance: string;
+  car: {
+    id: number;
+    patent: string | null;
+    brand: string;
+    model: string;
+    year: number;
+    fullName: string;
+  };
+  owner: {
+    id: number;
+    name: string;
+    email: string;
+    phone: string | null;
+    username: string;
+    lastname: string;
+  };
+}

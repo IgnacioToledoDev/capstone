@@ -83,8 +83,8 @@ return new class extends Migration
         Schema::create('reminder', function (Blueprint $table) {
             $table->id();
             $table->boolean('is_sending')->default(false);
-            $table->unsignedBigInteger('contact_type');
-            $table->foreign('contact_type')->references('id')->on('contact_type');
+            $table->unsignedBigInteger('contact_type_id');
+            $table->foreign('contact_type_id')->references('id')->on('contact_type');
             $table->timestamps();
         });
 

@@ -11,9 +11,10 @@ import { CotizaService } from 'src/app/services/cotiza.service';
 export class GenerarServicioPage implements OnInit {
   user: any = {};
   car: any = {};
-  services: { id: number, name: string, price: number }[] = [];
-  filteredServices: { id: number, name: string, price: number }[] = [];
+  services: { id: number, name: string, description: string, type_id: number, price: number }[] = [];
+  filteredServices: { id: number, name: string, description: string, type_id: number, price: number }[] = [];
   selectedServices: { id: number, name: string, price: number }[] = [];
+  serviceTypes: { id: number, name: string }[] = [];
 
   constructor(
     private alertController: AlertController,
@@ -33,10 +34,14 @@ export class GenerarServicioPage implements OnInit {
     const carData = await this.storageService.get('newcar');
     if (carData) {
       this.car = carData;
+      console.log('Datos del coche almacenados temporalmente:', this.car);
     }
 
+    // Fetch services and service types
     this.services = await this.cotizaService.getCarServices();
-    this.filteredServices = [...this.services]; // Inicialmente, los servicios filtrados son todos los servicios
+    this.serviceTypes = await this.cotizaService.getServiceTypes();
+
+    this.filteredServices = [...this.services]; // Initialize with all services
   }
 
   goBack() {
@@ -55,7 +60,8 @@ export class GenerarServicioPage implements OnInit {
         },
         {
           text: 'Aceptar',
-          handler: () => {
+          handler: async () => {
+            await this.guardarCotizacion();
             this.navCtrl.navigateForward('/mecanico/cotizar');
           },
         },
@@ -82,5 +88,13 @@ export class GenerarServicioPage implements OnInit {
     this.filteredServices = this.services.filter(service => 
       service.name.toLowerCase().includes(searchTerm)
     );
+  }
+
+  filterByType(typeId: number) {
+    this.filteredServices = this.services.filter(service => service.type_id === typeId);
+  }
+
+  async guardarCotizacion() {
+    await this.storageService.set('servi_coti', this.selectedServices);
   }
 }

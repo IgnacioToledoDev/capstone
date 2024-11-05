@@ -4,6 +4,7 @@ namespace App\Http\Controllers\APIv1Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Mail\RecoveryPasswordMailable;
+use App\Models\Car;
 use App\Models\MechanicScore;
 use App\Models\User;
 use App\Helper\UserHelper;
@@ -14,6 +15,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Validator;
+use mysql_xdevapi\Exception;
 use PHPOpenSourceSaver\JWTAuth\Exceptions\JWTException;
 use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
 use OpenApi\Annotations as OA;
@@ -532,5 +534,211 @@ class UserController extends Controller
         $success['mechanicScore'] = $mechanicScore;
 
         return $this->sendResponse($success, 'Mechanic score updated successfully.');
+    }
+
+    /**
+     * @OA\Get(
+     *     path="/api/jwt/mechanic/all",
+     *     summary="Obtener todos los mecánicos",
+     *     description="Este endpoint permite obtener una lista de todos los usuarios con el rol de mecánico. El usuario debe estar autenticado para acceder a esta información.",
+     *     tags={"Mechanic"},
+     *     *     security={{
+     * *         "bearerAuth": {}
+     * *     }},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Lista de todos los mecánicos obtenida con éxito",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="success",
+     *                 type="boolean",
+     *                 example=true
+     *             ),
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="object",
+     *                 @OA\Property(
+     *                     property="mechanics",
+     *                     type="array",
+     *                     @OA\Items(
+     *                         type="object",
+     *                         @OA\Property(
+     *                             property="id",
+     *                             type="integer",
+     *                             example=1
+     *                         ),
+     *                         @OA\Property(
+     *                             property="name",
+     *                             type="string",
+     *                             example="John Doe"
+     *                         ),
+     *                         @OA\Property(
+     *                             property="email",
+     *                             type="string",
+     *                             example="johndoe@example.com"
+     *                         ),
+     *                         @OA\Property(
+     *                             property="phone",
+     *                             type="string",
+     *                             example="+123456789"
+     *                         ),
+     *                         @OA\Property(
+     *                             property="role",
+     *                             type="string",
+     *                             example="mechanic"
+     *                         )
+     *                     )
+     *                 )
+     *             ),
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="All mechanics retrieved successfully."
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Usuario no autenticado",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="success",
+     *                 type="boolean",
+     *                 example=false
+     *             ),
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="You need to sign in first."
+     *             )
+     *         )
+     *     )
+     * )
+     */
+    public function getAllMechanics(): JsonResponse
+    {
+        if (auth()->check() === false) {
+            return $this->sendError('You need to sign in first.');
+        }
+
+       $success['mechanics'] = $this->userHelper->getMechanicUsers();
+        return $this->sendResponse($success, 'All mechanics retrieved successfully.');
+    }
+
+    /**
+     * @OA\Get(
+     *     path="/api/jwt/client/information",
+     *     summary="Obtiene la información del usuario autenticado",
+     *     description="Devuelve la información del usuario autenticado y el ID del carro asociado",
+     *     tags={"Users"},
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Datos del usuario obtenidos exitosamente",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="success",
+     *                 type="boolean",
+     *                 example=true
+     *             ),
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="object",
+     *                 @OA\Property(
+     *                     property="user",
+     *                     type="object",
+     *                     @OA\Property(
+     *                         property="id",
+     *                         type="integer",
+     *                         example=1
+     *                     ),
+     *                     @OA\Property(
+     *                         property="name",
+     *                         type="string",
+     *                         example="John Doe"
+     *                     ),
+     *                     @OA\Property(
+     *                         property="email",
+     *                         type="string",
+     *                         example="john.doe@example.com"
+     *                     )
+     *                 ),
+     *                 @OA\Property(
+     *                     property="car_id",
+     *                     type="integer",
+     *                     example=5
+     *                 )
+     *             ),
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="user data retrieved successfully."
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Usuario no autenticado",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="success",
+     *                 type="boolean",
+     *                 example=false
+     *             ),
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="You need to sign in first."
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Usuario o carro no encontrado",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="success",
+     *                 type="boolean",
+     *                 example=false
+     *             ),
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="User or car not found."
+     *             )
+     *         )
+     *     )
+     * )
+     */
+    public function getUserInformation(): JsonResponse
+    {
+        try {
+            if (auth()->check() === false) {
+                return $this->sendError('You need to sign in first.');
+            }
+            $userJWT = auth()->user();
+
+            $user = User::whereId($userJWT->id)->first();
+            $car = Car::where('owner_id', $userJWT->id)->first();
+
+            if (!$user || !$car) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'User or car not found.'
+                ], 404);
+            }
+
+            $success['user'] = $user;
+            $success['car_id'] = $car->id;
+
+            return $this->sendResponse($success, 'user data retrieved successfully.');
+        } catch (\Exception $exception) {
+            return $this->sendError($exception->getMessage());
+        }
     }
 }

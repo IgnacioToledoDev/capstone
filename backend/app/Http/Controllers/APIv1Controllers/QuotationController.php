@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers\APIv1Controllers;
 
+use App\Helper\CarHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Car;
+use App\Models\Maintenance;
 use App\Models\Quotation;
 use App\Models\QuotationDetails;
 use App\Models\Service;
+use App\Models\User;
 use Doctrine\DBAL\Exception\NoActiveTransaction;
 use http\Exception\BadHeaderException;
 use http\Exception\InvalidArgumentException;
@@ -17,6 +20,11 @@ use OpenApi\Annotations as OA;
 
 class QuotationController extends Controller
 {
+    private CarHelper $carHelper;
+    public function __construct(CarHelper $carHelper)
+    {
+        $this->carHelper = $carHelper;
+    }
 
     /**
      * @OA\Post(
@@ -38,7 +46,6 @@ class QuotationController extends Controller
      *                 )
      *             ),
      *             @OA\Property(property="status", type="integer", example=true, description="Estado de la cotización (aprobada o no)"),
-     *             @OA\Property(property="approvedDateClient", type="string", format="date", example="2024-10-23", description="Fecha en la que el cliente aprobó la cotización")
      *         )
      *     ),
      *
@@ -72,12 +79,19 @@ class QuotationController extends Controller
             $carId = $request->get('carId');
             $userServices = $request->get('services');
             $approvedByClient = $request->get('status');
-            $isApprovedDateClient = $request->get('isApprovedDateClient');
+            $mechanicId = auth()->user()->id;
             if (empty($isApprovedDateClient)) {
                 $isApprovedDateClient = new Date('now');
             }
 
-            $date = $approvedByClient ? $isApprovedDateClient->format('Y-m-d') : null;
+            $mechanic = User::whereId($mechanicId)->firstOrFail();
+            unset($mechanic->password);
+            if (empty($mechanic)) {
+                throw new BadHeaderException('mechanic not found');
+            }
+
+
+            $date = now();
             $quotation = new Quotation();
             $quotation->amount_services = count($userServices);
             $quotation->approved_by_client = $approvedByClient;
@@ -85,14 +99,14 @@ class QuotationController extends Controller
             $quotation->total_price = 0;
             $quotation->car_id = $carId;
             $quotation->is_active = false;
+            $quotation->mechanic_id = $mechanic->id;
             $quotation->save();
             $quotationDetails = [];
             $totalPrice = 0;
+
             foreach ($userServices as $userService) {
                 $isApproved = $userService['isApproved'];
-                if(!$quotation->exists) {
-                    throw new InvalidArgumentException('Quotation no created');
-                }
+
 
                 $service = Service::whereId($userService['serviceId'])->first();
                 if (!$service) {
@@ -130,13 +144,6 @@ class QuotationController extends Controller
      *         name="quotationId",
      *         in="path",
      *         description="ID de la cotización",
-     *         required=true,
-     *         @OA\Schema(type="integer")
-     *     ),
-     *     @OA\Parameter(
-     *         name="carId",
-     *         in="query",
-     *         description="ID del auto relacionado con la cotización",
      *         required=true,
      *         @OA\Schema(type="integer")
      *     ),
@@ -218,13 +225,12 @@ class QuotationController extends Controller
                 throw new BadHeaderException('not user found');
             }
 
-            $carId = $request->get('carId');
-            $car = Car::whereId($carId)->first();
+            $quotation = Quotation::where(['id' => $quotationId])->first();
+            $car = Car::whereId($quotation->car_id)->first();
             if (!$car) {
                 throw new NoActiveTransaction('not found');
             }
 
-            $quotation = Quotation::where(['car_id' => $carId, 'id' => $quotationId])->first();
             $details = QuotationDetails::whereQuotationId($quotationId)->get();
             $services = [];
             $servicesNotApprovedByClient = [];
@@ -237,35 +243,286 @@ class QuotationController extends Controller
                 }
             }
 
+            if ($quotation->mechanic === null) {
+                $defaultMechanic = User::whereId($car->mechanic_id)->first();
+                unset($defaultMechanic->password);
+            } elseif ($quotation->mechanic->id !== $car->mechanic_id) {
+                $defaultMechanic = User::whereId($quotation->mechanic->id)->first();
+                unset($defaultMechanic->password);
+            } else {
+                $defaultMechanic = null;
+            }
+
+
+
             $response = [
-                'car' => $car,
+                'car' => [
+                    'patent' => $car->patent,
+                    'brand' => $this->carHelper->getCarBrandName($car->id),
+                    'model' => $this->carHelper->getCarModelName($car->id),
+                    'year' => $car->year,
+                ],
                 'quotation' => $quotation,
                 'servicesApprovedByClient' => $services,
                 'servicesNotApprovedByClient' => $servicesNotApprovedByClient,
-                'total_price' => $quotation->total_price
+                'total_price' => $quotation->total_price,
+                'defaultMechanic' => $defaultMechanic ?? null,
             ];
 
             $success['quotation'] = $response;
 
             return $this->sendResponse($success, 'Quotation retrieved successfully');
         } catch (\Throwable $th) {
-            return $this->sendError($th->getMessage(), 401);
+            return $this->sendError($th->getMessage());
         }
     }
 
     /**
-     * Update the specified resource in storage.
+     * @OA\Get(
+     *     path="/api/jwt/quotations/",
+     *     summary="Obtener todas las cotizaciones de los vehículos del usuario autenticado",
+     *     description="Este endpoint recupera todas las cotizaciones asociadas con los vehículos de propiedad del usuario autenticado. Devuelve un array de cotizaciones para cada vehículo.",
+     *     tags={"Quotations"},
+     *     security={{"bearerAuth": {}}},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Cotizaciones recuperadas con éxito.",
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="No autorizado. Usuario no autenticado.",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="No autenticado.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Error interno del servidor.",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Ocurrió un error al recuperar las cotizaciones.")
+     *         )
+     *     )
+     * )
      */
-    public function update(Request $request, QuotationController $quotation)
+    public function index(Request $request): JsonResponse
     {
-        //
+        $user = auth()->user();
+        $cars = Car::where(['owner_id' => $user->id])->get();
+        $quotations = [];
+        foreach ($cars as $car) {
+            $allQuotations = Quotation::where(['car_id' => $car->id])->get();
+            foreach ($allQuotations as $quotation) {
+                $details = QuotationDetails::whereQuotationId($quotation->id)->get();
+                $listDetails = [];
+                foreach ($details as $detail) {
+                    $service = Service::whereId($detail->service_id)->first();
+                    $listDetails[] = [
+                        'details' => $detail,
+                        'service' => $service
+                    ];
+                }
+                $mechanic = User::whereId($quotation->mechanic_id)->first();
+                unset($mechanic->password);
+                $quotations[] = [
+                    'quotation' => $quotation,
+                    'content' => $listDetails,
+                    'car' => [
+                        'patent' => $car->patent,
+                        'brand' => $this->carHelper->getCarBrandName($car->id),
+                        'model' => $this->carHelper->getCarModelName($car->id),
+                        'year' => $car->year
+                    ],
+                    'mechanic' => $mechanic ?? null
+                ];
+            }
+        }
+
+        $success['quotations'] = $quotations;
+        return $this->sendResponse($success, 'Quotation retrieved successfully');
     }
 
     /**
-     * Remove the specified resource from storage.
+     * @OA\Patch(
+     *     path="/api/jwt/quotations/{quotationId}/approve",
+     *     summary="Aprobar una cotización",
+     *     description="Este endpoint permite al cliente aprobar una cotización específica utilizando su ID. Al aprobar, se actualiza el estado de la cotización para indicar que ha sido aprobada por el cliente.",
+     *     tags={"Quotations"},
+     *     security={{"bearerAuth": {}}},
+     *     @OA\Parameter(
+     *         name="quotationId",
+     *         in="path",
+     *         required=true,
+     *         description="ID de la cotización que se desea aprobar.",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Cotización aprobada con éxito."
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Cotización no encontrada.",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Cotización no encontrada.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="No autorizado. Usuario no autenticado.",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="No autenticado.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Error interno del servidor.",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Ocurrió un error al aprobar la cotización.")
+     *         )
+     *     )
+     * )
      */
-    public function destroy(QuotationController $quotation)
+    public function approve(Request $request, int $quotationId): JsonResponse
     {
-        //
+        $quotation = Quotation::where(['id' => $quotationId])->first();
+        $quotation->approved_by_client = true;
+        $quotation->is_active = true;
+        $quotation->save();
+
+        $success['quotation'] = $quotation;
+        return $this->sendResponse($success, 'Quotation approved successfully');
+    }
+
+    /**
+     * @OA\Patch(
+     *     path="/api/jwt/quotations/{quotationId}/decline",
+     *     summary="Declinar/Rechazar una cotización",
+     *     description="Este endpoint permite al cliente rechazar una cotización específica utilizando su ID. Al rechazar, se actualiza el estado de la cotización para indicar que ha sido rechazar por el cliente.",
+     *     tags={"Quotations"},
+     *     security={{"bearerAuth": {}}},
+     *     @OA\Parameter(
+     *         name="quotationId",
+     *         in="path",
+     *         required=true,
+     *         description="ID de la cotización que se desea rechazar.",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Cotización rechazar con éxito."
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Cotización no encontrada.",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Cotización no encontrada.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="No autorizado. Usuario no autenticado.",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="No autenticado.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Error interno del servidor.",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Ocurrió un error al aprobar la cotización.")
+     *         )
+     *     )
+     * )
+     */
+    public function decline(Request $request, int $quotationId): JsonResponse
+    {
+        $quotation = Quotation::where(['id' => $quotationId])->first();
+        $quotation->approved_by_client = false;
+        $quotation->is_active = false;
+        $quotation->save();
+
+
+        return $this->sendResponse([], 'Quotation decline successfully');
+    }
+
+    /**
+     * @OA\Get(
+     *     path="/api/jwt/quotations/{mechanicId}/all",
+     *     summary="Todas la cotizaciones que fueron asignadas a un mecanico",
+     *     description="Este endpoint obtiene todas las cotizaciones que fueron asignados a un mechanico",
+     *     tags={"Quotations"},
+     *     security={{"bearerAuth": {}}},
+     *     @OA\Parameter(
+     *         name="mechanicId",
+     *         in="path",
+     *         required=true,
+     *         description="ID del mecanico que se quieren obtener las cotizaciones.",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Cotizaciones recuperadas con éxito."
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Cotizaciones no encontradas.",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Cotización no encontrada.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="No autorizado. Usuario no autenticado.",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="No autenticado.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Error interno del servidor.",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Ocurrió un error al aprobar la cotización.")
+     *         )
+     *     )
+     * )
+     */
+    public function getAllQuotationsByMechanicAssigned(Request $request, int $mechanicId): JsonResponse
+    {
+        $quotations = Quotation::where(['mechanic_id' => $mechanicId])->get();
+        $element = [
+            'quotations' => []
+        ];
+
+        foreach ($quotations as $quotation) {
+            $details = QuotationDetails::whereQuotationId($quotation->id)->get();
+            $car = Car::whereId($quotation->car_id)->first();
+            $owner = User::whereId($car->owner_id)->first();
+            unset($owner->password);
+
+            $services = [];
+            foreach ($details as $detail) {
+                $service = Service::whereId($detail->service_id)->first();
+                $services[] = [
+                    'service' => $service,
+                    'is_approved_by_client' => $detail->is_approved_by_client,
+                ];
+            }
+
+            $quotationElement = [
+                'quotation' => $quotation,
+                'details' => $services,
+                'client' => $owner,
+                'car' => [
+                    'patent' => $car->patent,
+                    'brand' => $this->carHelper->getCarBrandName($car->id),
+                    'model' => $this->carHelper->getCarModelName($car->id),
+                    'year' => $car->year,
+                ]
+            ];
+
+            $element['quotations'][] = $quotationElement;
+        }
+
+        return $this->sendResponse($element, 'Quotations retrieved successfully');
     }
 }

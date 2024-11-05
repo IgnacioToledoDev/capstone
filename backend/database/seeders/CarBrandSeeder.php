@@ -29,6 +29,15 @@ class CarBrandSeeder extends Seeder
             'name' => 'Mazda',
         ]);
 
+        /**Inicio aporte Jose.*/
+        DB::table('car_brands')->insert([
+            'name' => 'Hyundai',
+        ]);
+
+        DB::table('car_brands')->insert([
+            'name' => 'Ford',
+        ]);
+        /**Fin aporte Jose.*/
         DB::table('car_brands')->insert([
             'name' => 'Otro',
         ]);
