@@ -256,6 +256,7 @@ class QuotationController extends Controller
 
             $response = [
                 'car' => [
+                    'id' => $car->id,
                     'patent' => $car->patent,
                     'brand' => $this->carHelper->getCarBrandName($car->id),
                     'model' => $this->carHelper->getCarModelName($car->id),
