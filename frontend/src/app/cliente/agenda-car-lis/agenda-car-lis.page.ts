@@ -8,8 +8,8 @@ import { CarService } from 'src/app/services/car.service';
   styleUrls: ['./agenda-car-lis.page.scss'],
 })
 export class AgendaCarLisPage implements OnInit {
-  eventos: { marca: string, patente: string, modelo: string, year: number }[] = [];
-  filteredEventos: { marca: string, patente: string, modelo: string, year: number }[] = [];
+  carList: { marca: string, patente: string, modelo: string, year: number }[] = [];
+  CarObjects: { marca: string, patente: string, modelo: string, year: number }[] = [];
 
   constructor(
     private navCtrl: NavController,
@@ -23,13 +23,13 @@ export class AgendaCarLisPage implements OnInit {
   async loadCars() {
     try {
       const cars = await this.carService.getCars();
-      this.eventos = cars.map(car => ({
+      this.carList = cars.map(car => ({
         marca: car.brand,
-        patente: car.patent,
+        patente: this.formatPatent(car.patent),
         modelo: car.model,
         year: car.year
       }));
-      this.filteredEventos = this.eventos; // Inicializa la lista filtrada
+      this.CarObjects = this.carList; // Inicializa la lista filtrada
     } catch (error) {
       console.error('Error al cargar los coches:', error);
     }
@@ -37,10 +37,18 @@ export class AgendaCarLisPage implements OnInit {
 
   filterByPatente(event: any) {
     const query = event.target.value.toLowerCase();
-    this.filteredEventos = this.eventos.filter(car => car.patente.toLowerCase().includes(query));
+    this.CarObjects = this.carList.filter(car => car.patente.toLowerCase().includes(query));
   }
 
   goBack() {
     this.navCtrl.back();
+  }
+
+  formatPatent(patent: string | null) {
+    if (!patent) {
+      return '';
+    }
+
+    return patent.slice(0, 3) + ' ' + patent.slice(3);
   }
 }

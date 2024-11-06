@@ -1,10 +1,65 @@
 .button-container {
-    display: flex;
-  }
-  
-  .custom-button {
-    --border-radius: 0px; 
-    --color: #001f3f; 
-    width: 49%; 
+  display: flex;
+}
 
+ion-header {
+  ion-title {
+    color: #fff;
+    font-size: 24px;
   }
+
+  .back-button {
+    padding: 0px 16px;
+    height: 24px;
+  }
+}
+
+.custom-button {
+  --border-radius: 0px;
+  --color: #001f3f;
+  width: 49%;
+}
+
+ion-item {
+  --ion-item-background: #0B1121 !important;
+}
+
+.client-card {
+  background: #1E293B !important;
+  width: 100%;
+  height: auto;
+}
+
+
+ion-label {
+  p {
+    color: #fff;
+    padding: 2px;
+    font-size: 16px;
+  }
+}
+
+ion-col .container {
+  width: auto;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center
+}
+
+.container__background {
+  background: #2F80ED !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  height: 50px;
+  width: 50px;
+}
+
+.container__background ion-icon {
+  color: #fff;
+  width: 25px;
+  height: 25px;
+}
