@@ -91,11 +91,10 @@ class QuotationController extends Controller
             }
 
 
-            $date = now();
             $quotation = new Quotation();
             $quotation->amount_services = count($userServices);
             $quotation->approved_by_client = $approvedByClient;
-            $quotation->approve_date_client = $date;
+            $quotation->approve_date_client = null;
             $quotation->total_price = 0;
             $quotation->car_id = $carId;
             $quotation->is_active = false;
@@ -257,6 +256,7 @@ class QuotationController extends Controller
 
             $response = [
                 'car' => [
+                    'id' => $car->id,
                     'patent' => $car->patent,
                     'brand' => $this->carHelper->getCarBrandName($car->id),
                     'model' => $this->carHelper->getCarModelName($car->id),
@@ -386,6 +386,7 @@ class QuotationController extends Controller
     {
         $quotation = Quotation::where(['id' => $quotationId])->first();
         $quotation->approved_by_client = true;
+        $quotation->approve_date_client = now();
         $quotation->is_active = true;
         $quotation->save();
 

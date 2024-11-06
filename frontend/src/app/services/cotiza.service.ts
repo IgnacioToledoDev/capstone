@@ -149,6 +149,33 @@ export class CotizaService {
     }
   }
 
+  async declineQuotation(quotationId: number): Promise<CreateQuotationResponse | null> {
+    try {
+      const headers = await this.getAuthHeaders();
+
+      if (!headers.has('Authorization')) {
+        console.error('No se pudo recuperar el token de autenticación.');
+        return null;
+      }
+
+      const response = await this.http.patch<CreateQuotationResponse>(`${this.API_URL}/jwt/quotations/${quotationId}/decline`, 
+        {}, 
+        { headers }
+      ).toPromise();
+
+      if (response && response.success) {
+        console.log('Cotización rechazado exitosamente:', response);
+        return response;
+      } else {
+        console.error('Error al rechazado la cotización:', response);
+        return null;
+      }
+    } catch (error) {
+      console.error('Error en el servicio al rechazado la cotización:', error);
+      return null;
+    }
+  }
+
   async getQuotationsByMechanic(mechanicId: number): Promise<any[]> {
     try {
       const headers = await this.getAuthHeaders();
@@ -175,13 +202,13 @@ export class CotizaService {
     }
   }
 
-  async getQuotationById(quotationId: number): Promise<any | null> {
+  async getQuotationById(quotationId: number): Promise<any [] | null> {
     try {
       const headers = await this.getAuthHeaders();
   
       if (!headers.has('Authorization')) {
         console.error('No se pudo recuperar el token de autenticación.');
-        return null;
+        return [];
       }
   
       const response = await this.http.get<any>(
@@ -193,11 +220,11 @@ export class CotizaService {
         return response.data.quotation; // Return the specific quotation from the response
       } else {
         console.error('Error en la respuesta al obtener la cotización:', response);
-        return null;
+        return [];
       }
     } catch (error) {
       console.error('Error al obtener la cotización:', error);
-      return null;
+      return [];
     }
   }
   
