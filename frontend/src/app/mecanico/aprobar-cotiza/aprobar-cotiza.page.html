@@ -1,85 +1,74 @@
 <ion-header>
-  <!-- Botón de regreso con flecha -->
-<ion-icon name="arrow-back-outline" class="back-button" fill="clear" (click)="goBack()"></ion-icon>
-  <ion-title>Información Cotizasion </ion-title>
-  <br>
-  <br>
+  <ion-icon name="arrow-back-outline" class="back-button" fill="clear" (click)="goBack()"></ion-icon>
+  <ion-title>Información Cotización</ion-title>
 </ion-header>
 
-<ion-content>
-  <br>
-  <br>
-<ion-card>
-  <ion-card-header>
-    <ion-card-title class="title">Datos Cliente</ion-card-title>
-  </ion-card-header>
-  <ion-card-content class="info-card">
-    <ion-list>
-      <ion-item class="item">
-        <ion-label>Nombre : Pamela Chupa</ion-label>
+<ion-content *ngIf="quotation && quotation.car && quotation.defaultMechanic">
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title class="title">Datos Cliente</ion-card-title>
+    </ion-card-header>
+    <ion-card-content class="info-card">
+      <ion-list>
+        <ion-item>
+          <ion-label>Nombre: {{ user.name }} {{ user.lastname }}</ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label>Correo: {{ user.email }}</ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label>RUT: {{ user.rut }}</ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title class="title">Datos Vehículo</ion-card-title>
+    </ion-card-header>
+    <ion-card-content class="info-card">
+      <ion-list>
+        <ion-item>
+          <ion-label>Patente: {{ quotation.car.patent }}</ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label>Marca: {{ quotation.car.brand }}</ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label>Modelo: {{ quotation.car.model }}</ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label>Año: {{ quotation.car.year }}</ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title class="title">Lista de Servicios</ion-card-title>
+    </ion-card-header>
+    <ion-card-content class="info-card">
+      <ion-item *ngFor="let service of listServices">
+        <ion-label>{{ service.name }}</ion-label>
+        <ion-label  slot="end">{{ service.price | currency }}</ion-label>
       </ion-item>
       <ion-item>
-        <ion-label>Correo : pa.chupaloduoc.cl</ion-label>
+        <ion-label>Total servicios</ion-label>
+        <ion-note slot="end" class="color">{{ quotation.total_price | currency }}</ion-note>
       </ion-item>
-      <ion-item>
-        <ion-label>Numero Telefonico : +56985213213</ion-label>
-      </ion-item>
-      <ion-item>
-        <ion-label>Fecha : 29/09/2024</ion-label>
-      </ion-item>
-      <ion-item>
-        <ion-label>Hora : 15:30</ion-label>
-      </ion-item>
-    </ion-list>
-  </ion-card-content>
-</ion-card>
-<ion-card>
-  <ion-card-header>
-    <ion-card-title class="title">Datos vehículo</ion-card-title>
-  </ion-card-header>
-  <ion-card-content class="info-card">
-    <ion-list>
-      <ion-item>
-        <ion-label>Patente : KDTS82</ion-label>
-      </ion-item>
-      <ion-item>
-        <ion-label>Marca : Toyota</ion-label>
-      </ion-item>
-      <ion-item>
-        <ion-label>Modelo : Yaris</ion-label>
-      </ion-item>
-      <ion-item>
-        <ion-label>Año : 2018</ion-label>
-      </ion-item>
-    </ion-list>
-  </ion-card-content>
-</ion-card>
-<ion-card>
-  <ion-card-header>
-    <ion-card-title class="title">Lista de Servicios</ion-card-title>
-  </ion-card-header>
-  <ion-card-content class="info-card">
-    <ion-item>
-      <ion-label>Cambio de aceite 4X4</ion-label>
-    </ion-item>
-    <ion-item>
-      <ion-label>Revisión técnica auto mini</ion-label>
-    </ion-item>
-    <ion-item>
-      <ion-label>Total servicios</ion-label>
-      <ion-note slot="end" class="color">$200.000</ion-note>
-    </ion-item>
-  </ion-card-content>
-</ion-card>
+    </ion-card-content>
+  </ion-card>
 </ion-content>
 
-<ion-footer>
+<ion-footer *ngIf="quotation && quotation.car && quotation.defaultMechanic">
   <div class="button-container">
     <ion-button class="custom-button" expand="block" (click)="presentAlertre()">
       <ion-icon slot="start" name="home"></ion-icon>
       Rechazar
     </ion-button>
-    <ion-button class="custom-button" expand="block" (click)="presentAlert()" >
+    <ion-button class="custom-button" expand="block" (click)="presentAlert()">
       <ion-icon slot="start" name="person"></ion-icon>
       Aceptar
     </ion-button>

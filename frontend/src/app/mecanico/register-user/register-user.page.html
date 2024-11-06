@@ -1,5 +1,4 @@
 <ion-content class="ion-padding">
-  <!-- Botón con la flecha en la esquina superior izquierda -->
   <ion-icon
     name="arrow-back-outline" class="back-button" fill="clear" (click)="goBack()"
   ></ion-icon>
@@ -7,29 +6,48 @@
   <br>
   <h1 class="title">Registrar cliente</h1>
   <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="user-form">
+    
     <ion-label position="floating">Nombre de usuario:</ion-label>
     <ion-item class="input-item">
       <ion-input formControlName="name"></ion-input>
     </ion-item>
+    <ion-text color="danger" *ngIf="registerForm.get('name')?.hasError('required') && registerForm.get('name')?.touched" class="error-message">
+      El nombre es requerido.
+    </ion-text>
+
     <ion-label position="floating">Número de teléfono:</ion-label>
     <ion-item class="input-item">
-      <ion-input formControlName="phone"></ion-input>
+      <ion-input formControlName="phone" type="tel"></ion-input>
     </ion-item>
+    <ion-text color="danger" *ngIf="registerForm.get('phone')?.hasError('pattern') && registerForm.get('phone')?.touched" class="error-message">
+      El teléfono solo debe contener números.
+    </ion-text>
     <ion-label position="floating">Apellido de usuario:</ion-label>
     <ion-item class="input-item">
       <ion-input formControlName="lastname"></ion-input>
     </ion-item>
-    <ion-label position="floating">Correo electronico:</ion-label>
+    <ion-text color="danger" *ngIf="registerForm.get('lastname')?.hasError('required') && registerForm.get('lastname')?.touched" class="error-message">
+      El apellido es requerido.
+    </ion-text>
+
+    <ion-label position="floating">Correo electrónico:</ion-label>
     <ion-item class="input-item">
-      <ion-input formControlName="email"></ion-input>
+      <ion-input formControlName="email" type="email"></ion-input>
     </ion-item>
-    <ion-label position="floaating">Rut:</ion-label>
+    <ion-text color="danger" *ngIf="registerForm.get('email')?.hasError('email') && registerForm.get('email')?.touched" class="error-message">
+      Ingresa un correo electrónico válido.
+    </ion-text>
+
+    <ion-label position="floating">Rut:</ion-label>
     <ion-item class="input-item">
       <ion-input formControlName="rut"></ion-input>
     </ion-item>
+    <ion-text color="danger" *ngIf="registerForm.get('rut')?.hasError('pattern') && registerForm.get('rut')?.touched" class="error-message">
+      El RUT debe tener el formato correcto (ej: 12345678-9).
+    </ion-text>
+
     <ion-button expand="full" type="submit">Crear cuenta</ion-button>
   </form>
 </ion-content>
-
 <ion-text class="line1">__________________</ion-text>
   <h2 class="final">AutoMinder</h2>

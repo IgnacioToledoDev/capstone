@@ -1,103 +1,158 @@
+ion-header {
+  ion-toolbar {
+    --background: #0B1121 !important;
+    border: 0px;
+  }
+}
+
 ion-content {
-    background-color: #0B1121;
-    color: #ffffff;
-  
-    .welcome-container {
-      display: flex;
-      margin-bottom: 10px;
-      padding-top: 10px;
-      justify-content: center;
-      max-width: 320px;
-  
-      ion-avatar {
-        margin-left: 50px;
-        align-items: center;
-      }
-  
-      ion-label h2 {
-        font-size: 20px;
-        font-weight: bold;
-        margin: 0;
-      }
-  
-      ion-label p {
-        margin: 0;
-        color: #ffffff;
-        margin-left: 50px;
-      }
-    }
-  
-    .action-buttons {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 20px;
-  
-      ion-button {
-        width: 48%;
-      }
-    }
+  --background: #0B1121 !important;
+  color: #ffffff;
 
-    .text {
-      text-align: center;
-      font-size: 1.5rem;
-    }
+  ion-card {
+    background-color: #1E293B;
+  }
 
-    .text_2 {
-      text-align: center;
-      font-size: 1.4rem;
-    }
-  
-    .maintenance-info {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-  
-      ion-img {
-        width: 80px;
-        height: 80px;
-        border-radius: px;
-      }
-  
-      ion-label {
-        font-size: 14px;
-  
-        p {
-          margin: 0;
-        }
-      }
-  
-      ion-badge {
-        font-size: 12px;
-        padding: 6px;
-      }
-    }
-  
-    .service-options {
-      ion-button {
-        margin-bottom: 10px;
-      }
-    }
-  }
-  
-  ion-footer {
-    background-color: #0B1121;
-  
-    ion-tab-bar {
-      background-color: #0B1121;
-      ion-tab-button {
-        color: #ffffff;
-        ion-icon {
-          color: #ffffff;
-        }
-      }
-    }
-  }
-  .button-container {
+  .welcome-container {
     display: flex;
+    margin-bottom: 10px;
+    padding-top: 10px;
+    justify-content: center;
+    max-width: 100%;
+
+    .welcome-container__section {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      margin: 4px;
+    }
+
+    ion-avatar {
+      width: 70px;
+      height: auto;
+      margin: 0px 8px;
+    }
+
+    ion-label h2 {
+      font-size: 20px;
+      font-weight: bold;
+      margin: 0;
+      color: #F0F3FA;
+    }
+
+    ion-label p {
+      margin: 0;
+      color: #AAB2C5;
+    }
   }
-  
-  .custom-button {
-    --border-radius: 0px; 
-    --color: #0B1121; 
-    width: 49%; 
+
+  .action-buttons {
+    display: flex;
+    justify-content: space-evenly;
+    padding: 12px 0px;
+
+    ion-button {
+      width: 44%;
+    }
   }
+
+  .title {
+    font-size: 24px;
+    padding: 0px 18px;
+    color: #AAB2C5;
+    font-weight: bold;
+  }
+
+  .maintenance-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+
+    ion-img {
+      width: 170px;
+      height: auto;
+      padding: 0px 8px;
+      border-radius: 10px;
+    }
+
+    .info__container {
+      display: flex;
+      flex-direction: column;
+      max-width: 100%;
+      height: 100%;
+      padding: 4px 4px;
+    }
+
+    ion-label {
+      font-size: 14px;
+
+      p {
+        color: #c9c9c9;
+        padding: 2px;
+      }
+
+      span {
+        font-weight: bold;
+      }
+    }
+
+    ion-badge {
+      font-size: 14px;
+      padding: 12px;
+      color: #ffffff;
+      font-weight: bolder;
+    }
+
+  }
+
+  .service-options {
+    ion-button {
+      margin-bottom: 12px;
+    }
+
+    ion-button {
+      --border-radius: 4px;
+      --border: 0px
+    }
+
+    ion-button ion-img {
+      padding: 0px 2px;
+      width: auto;
+      max-height: 65%;
+      height: auto;
+      padding: 0px 8px;
+      border-radius: 4px;
+    }
+  }
+}
+
+ion-footer {
+  background-color: #0B1121;
+
+  ion-tab-bar {
+    background-color: #0B1121;
+
+    ion-tab-button {
+      color: #ffffff;
+
+      ion-icon {
+        color: #ffffff;
+      }
+    }
+  }
+}
+
+.button-container {
+  display: flex;
+}
+
+.custom-button {
+  --border-radius: 0px;
+  --color: #0B1121;
+  width: 49%;
+}

@@ -8,6 +8,15 @@ ion-content {
     position: relative; // Para posicionar la flecha de regreso
 }
 
+.error-message {
+    color: red;
+    font-size: 14px;
+    margin-top: -30px;
+
+    padding-right: 50%;
+  }
+  
+
 // Estilos para el formulario
 .user-form {
     width: 100%;
