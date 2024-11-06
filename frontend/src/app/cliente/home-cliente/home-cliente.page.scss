@@ -38,11 +38,12 @@ ion-content {
       font-size: 20px;
       font-weight: bold;
       margin: 0;
+      color: #F0F3FA;
     }
 
     ion-label p {
       margin: 0;
-      color: #ffffff;
+      color: #AAB2C5;
     }
   }
 
@@ -58,14 +59,9 @@ ion-content {
 
   .title {
     font-size: 24px;
-    padding: 0px 14px;
-    color: #BCBCBC;
+    padding: 0px 18px;
+    color: #AAB2C5;
     font-weight: bold;
-  }
-
-  .text_2 {
-    text-align: center;
-    font-size: 1.4rem;
   }
 
   .maintenance-info {
@@ -125,7 +121,9 @@ ion-content {
     }
 
     ion-button ion-img {
-      width: 170px;
+      padding: 0px 2px;
+      width: auto;
+      max-height: 65%;
       height: auto;
       padding: 0px 8px;
       border-radius: 4px;
