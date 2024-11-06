@@ -12,6 +12,7 @@ export class AprobarCotizaPage implements OnInit {
   user: any = {};
   selectedServices: { id: number, name: string, price: number }[] = [];
   quotation: any = {}; 
+  listServices: any = [];
 
   constructor(
     private alertController: AlertController,
@@ -36,16 +37,21 @@ export class AprobarCotizaPage implements OnInit {
     }
 
   }
-
-  async loadQuotatin(quotationId: number) {
-    this.quotation = await this.cotizaService.getQuotationById(quotationId);
-    console.log('Detalles de la cotización:', this.quotation);
-    console.log('Car object:', this.quotation.car.brand); // Check the car object
-}
-  async loadQuotation(quotationId: number) {
+  async loadQuotation(quotationId: number) { ////// este es la manera de recares un odjeto y agregarlo a una lista 
   try {
     this.quotation = await this.cotizaService.getQuotationById(quotationId);
-    console.log('Cotizaciones obtenidas:', this.quotation);
+    console.log('Cotizaciones obtenidas:', this.quotation.servicesApprovedByClient);
+    for (let key in this.quotation.servicesApprovedByClient) {
+      if (this.quotation.servicesApprovedByClient.hasOwnProperty(key)) {
+          const service = this.quotation.servicesApprovedByClient[key];
+          console.log(`Service ${key} Name: ${service.name}`);
+          this.listServices.push(service)
+      }
+  }
+  console.log(this.listServices)
+  
+  
+  
     console.log('Car object:', this.quotation.car.brand);
   } catch (error) {
     console.error('Error al obtener las cotizaciones:', error);

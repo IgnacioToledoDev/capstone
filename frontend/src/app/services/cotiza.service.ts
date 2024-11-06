@@ -175,7 +175,7 @@ export class CotizaService {
     }
   }
 
-  async getQuotationById(quotationId: number): Promise<any | null> {
+  async getQuotationById(quotationId: number): Promise<any [] | null> {
     try {
       const headers = await this.getAuthHeaders();
   
