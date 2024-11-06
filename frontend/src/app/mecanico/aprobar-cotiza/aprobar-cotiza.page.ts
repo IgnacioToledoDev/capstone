@@ -81,7 +81,6 @@ export class AprobarCotizaPage implements OnInit {
         {
           text: 'Aceptar',
           handler: async () => {
-            console.log('Acción aceptada');
             await this.cotizaService.approveQuotation(this.quotation.quotation.id);
             console.log('Acción aceptada');
             this.navCtrl.navigateForward('/mecanico/info-ser-cli');
@@ -109,6 +108,7 @@ export class AprobarCotizaPage implements OnInit {
         {
           text: 'Aceptar',
           handler: async () => {
+            await this.cotizaService.declineQuotation(this.quotation.quotation.id);
             console.log('Acción aceptada');
             this.navCtrl.navigateForward('/mecanico/home-mecanico');
           },
