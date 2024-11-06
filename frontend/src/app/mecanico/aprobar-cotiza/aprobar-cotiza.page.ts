@@ -10,8 +10,9 @@ import { CotizaService } from 'src/app/services/cotiza.service'; // Import the s
 })
 export class AprobarCotizaPage implements OnInit {
   user: any = {};
-  selectedServices: { id: number, name: string, price: number }[] = [];
   quotation: any = {}; 
+  listServices: any = [];
+  list: any = [];
 
   constructor(
     private alertController: AlertController,
@@ -36,16 +37,23 @@ export class AprobarCotizaPage implements OnInit {
     }
 
   }
-
-  async loadQuotatin(quotationId: number) {
-    this.quotation = await this.cotizaService.getQuotationById(quotationId);
-    console.log('Detalles de la cotización:', this.quotation);
-    console.log('Car object:', this.quotation.car.brand); // Check the car object
-}
-  async loadQuotation(quotationId: number) {
+  async loadQuotation(quotationId: number) { 
   try {
     this.quotation = await this.cotizaService.getQuotationById(quotationId);
-    console.log('Cotizaciones obtenidas:', this.quotation);
+    console.log('Cotizaciones obtenidas:', this.quotation.servicesApprovedByClient);
+    for (let key in this.quotation.servicesApprovedByClient) {
+      if (this.quotation.servicesApprovedByClient.hasOwnProperty(key)) {
+          const service = this.quotation.servicesApprovedByClient[key];
+          console.log(`Service ${key} Name: ${service.name}`);
+          this.listServices.push(service)
+          this.list.push(this.quotation)
+      }
+  }
+  console.log(this.listServices)
+  console.log('Cotizaciones obtenidas:', this.quotation); 
+  
+  
+  
     console.log('Car object:', this.quotation.car.brand);
   } catch (error) {
     console.error('Error al obtener las cotizaciones:', error);
@@ -73,9 +81,8 @@ export class AprobarCotizaPage implements OnInit {
         {
           text: 'Aceptar',
           handler: async () => {
+            await this.cotizaService.approveQuotation(this.quotation.quotation.id);
             console.log('Acción aceptada');
-            // Here you might want to approve the quotation using the service
-            // await this.cotizaService.approveQuotation(this.quotation.id);
             this.navCtrl.navigateForward('/mecanico/info-ser-cli');
           },
         },
@@ -101,6 +108,7 @@ export class AprobarCotizaPage implements OnInit {
         {
           text: 'Aceptar',
           handler: async () => {
+            await this.cotizaService.declineQuotation(this.quotation.quotation.id);
             console.log('Acción aceptada');
             this.navCtrl.navigateForward('/mecanico/home-mecanico');
           },
