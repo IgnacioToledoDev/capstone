@@ -5,7 +5,7 @@
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-title>Home Cliente</ion-title>
-    <ion-buttons slot="end"  routerLink="/cliente/reserva">
+    <ion-buttons slot="end" routerLink="/cliente/reserva">
       <ion-icon name="notifications-outline" slot="end"></ion-icon>
       <ion-badge color="success">1</ion-badge>
     </ion-buttons>
@@ -14,15 +14,13 @@
 
 <ion-content class="ion-padding">
   <ion-card class="welcome-container">
-    <div>
+    <div class="ion-padding welcome-container__section">
       <ion-avatar>
         <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
       </ion-avatar>
-      <br>
-      <ion-label>
-        <h2>Bienvenido, {{ user.name }}</h2>
-        <br>
-        <p>Cliente</p>
+      <ion-label class="ion-padding">
+        <h2>Bienvenido, {{ username }}</h2>
+        <p class="ion-padding-top">Cliente</p>
         <br>
       </ion-label>
     </div>
@@ -33,35 +31,42 @@
     <ion-button expand="block" color="tertiary" routerLink="/cliente/agenda-car-lis">Agendar hora</ion-button>
   </div>
 
+  <h3 class="title">Mantenciones en Curso:</h3>
   <ion-card routerLink="/cliente/info-mante">
-    <ion-card-header>
-      <ion-card-title class="text">Mantenciones en Curso:</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
+    <ion-card-content class="maintenance-in_course">
       <div class="maintenance-info">
         <ion-img src="assets/image/mecanica.jpg" alt="Maintenance Image"></ion-img>
-        <ion-label>
-          <p>Marca: Toyota</p>
-          <p>Modelo: Swift</p>
-          <p>Año: 2018</p>
-          <p>Patente: KDTD82</p>
-        </ion-label>
-        <ion-badge color="tertiary">En progreso</ion-badge>
+        <div class="info__container">
+          <ion-label class="ion-padding-bottom">
+            <p><span>Patente: </span>KDTD82</p>
+            <p><span>Marca: </span>Toyota</p>
+            <p><span>Modelo: </span>Swift</p>
+            <p><span>Año: </span>2018</p>
+          </ion-label>
+          <ion-badge color="success">En progreso</ion-badge>
+        </div>
       </div>
     </ion-card-content>
   </ion-card>
-  
+
 
   <!-- Elige el servicio a realizar -->
+  <h3 class="title">Elige el servicio a realizar:</h3>
   <ion-card>
-    <ion-card-header>
-      <ion-card-title class="text_2">Elige el servicio a realizar:</ion-card-title>
-    </ion-card-header>
     <ion-card-content>
       <div class="service-options">
-        <ion-button expand="block" color="light">Inspección y diagnóstico</ion-button>
-        <ion-button expand="block" color="light">Mantenimiento preventivo</ion-button>
-        <ion-button expand="block" color="light">Mantenimiento correctivo</ion-button>
+        <ion-button expand="block" color="dark">
+          <ion-img src="assets/image/mecanica.jpg" alt="Maintenance Image"></ion-img>
+          Inspección y diagnóstico
+        </ion-button>
+        <ion-button expand="block" color="light">
+          Mantenimiento preventivo
+          <ion-img src="assets/image/mecanica.jpg" alt="Maintenance Image"></ion-img>
+        </ion-button>
+        <ion-button expand="block" color="dark">
+          <ion-img src="assets/image/mecanica.jpg" alt="Maintenance Image"></ion-img>
+          Mantenimiento correctivo
+        </ion-button>
       </div>
     </ion-card-content>
   </ion-card>
@@ -77,7 +82,7 @@
       </ion-button>
       <ion-button class="custom-button" expand="block" routerLink="/mecanico/ajustes">
         <ion-icon slot="start" name="person"></ion-icon>
-        Perfil
+        Contactar
       </ion-button>
     </div>
   </ion-toolbar>
