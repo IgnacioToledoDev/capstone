@@ -37,7 +37,7 @@ export class AprobarCotizaPage implements OnInit {
     }
 
   }
-  async loadQuotation(quotationId: number) { ////// este es la manera de recares un odjeto y agregarlo a una lista 
+  async loadQuotation(quotationId: number) { 
   try {
     this.quotation = await this.cotizaService.getQuotationById(quotationId);
     console.log('Cotizaciones obtenidas:', this.quotation.servicesApprovedByClient);
@@ -50,7 +50,7 @@ export class AprobarCotizaPage implements OnInit {
       }
   }
   console.log(this.listServices)
-  console.log('Cotizaciones obtenidas:', this.quotation); /// datos gguardados 
+  console.log('Cotizaciones obtenidas:', this.quotation); 
   
   
   
@@ -82,8 +82,8 @@ export class AprobarCotizaPage implements OnInit {
           text: 'Aceptar',
           handler: async () => {
             console.log('Acción aceptada');
-            // Here you might want to approve the quotation using the service
-            // await this.cotizaService.approveQuotation(this.quotation.id);
+            await this.cotizaService.approveQuotation(this.quotation.quotation.id);
+            console.log('Acción aceptada');
             this.navCtrl.navigateForward('/mecanico/info-ser-cli');
           },
         },
