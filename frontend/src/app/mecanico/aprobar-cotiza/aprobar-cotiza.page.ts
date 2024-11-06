@@ -10,9 +10,9 @@ import { CotizaService } from 'src/app/services/cotiza.service'; // Import the s
 })
 export class AprobarCotizaPage implements OnInit {
   user: any = {};
-  selectedServices: { id: number, name: string, price: number }[] = [];
   quotation: any = {}; 
   listServices: any = [];
+  list: any = [];
 
   constructor(
     private alertController: AlertController,
@@ -46,9 +46,11 @@ export class AprobarCotizaPage implements OnInit {
           const service = this.quotation.servicesApprovedByClient[key];
           console.log(`Service ${key} Name: ${service.name}`);
           this.listServices.push(service)
+          this.list.push(this.quotation)
       }
   }
   console.log(this.listServices)
+  console.log('Cotizaciones obtenidas:', this.quotation); /// datos gguardados 
   
   
   

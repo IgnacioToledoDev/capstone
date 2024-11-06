@@ -181,7 +181,7 @@ export class CotizaService {
   
       if (!headers.has('Authorization')) {
         console.error('No se pudo recuperar el token de autenticación.');
-        return null;
+        return [];
       }
   
       const response = await this.http.get<any>(
@@ -193,11 +193,11 @@ export class CotizaService {
         return response.data.quotation; // Return the specific quotation from the response
       } else {
         console.error('Error en la respuesta al obtener la cotización:', response);
-        return null;
+        return [];
       }
     } catch (error) {
       console.error('Error al obtener la cotización:', error);
-      return null;
+      return [];
     }
   }
   
