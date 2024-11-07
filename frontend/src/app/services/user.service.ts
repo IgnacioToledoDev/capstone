@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import {UserLoginInterface, UserRegisterInterface, UserRecoveryInterface, UserResponse} from '../intefaces/user';
+import { UserLoginInterface, UserRegisterInterface, UserRecoveryInterface, UserResponse } from '../intefaces/user';
 import { environment } from 'src/environments/environment';
 import { Storage } from '@ionic/storage-angular';
 
@@ -109,7 +109,7 @@ export class UserService {
     }
 
     return new Promise((resolve, reject) => {
-      this.http.get<UserResponse>(`${this.API_URL}/jwt/client/information`, {headers})
+      this.http.get<UserResponse>(`${this.API_URL}/jwt/client/information`, { headers })
         .subscribe(
           res => {
             resolve(res)
@@ -137,5 +137,23 @@ export class UserService {
     return new HttpHeaders({
       Authorization: `Bearer ${token}`,
     });
+  }
+
+  async getMechanics() {
+    const headers = await this.getAuthHeaders();
+
+    if (!headers.has('Authorization')) {
+      throw new Error('No se pudo recuperar el token de autenticación.');
+    }
+
+    return new Promise((resolve, reject) => {
+      this.http.get(`${this.API_URL}/jwt/mechanic/all`, { headers })
+        .subscribe(
+          res => {
+            resolve(res)
+          },
+          (err) => reject(err),
+        )
+    })
   }
 }

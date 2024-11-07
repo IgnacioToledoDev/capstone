@@ -1,0 +1,74 @@
+ion-header {
+    ion-toolbar {
+        --background: #0B1121 !important;
+        border: 0px;
+    }
+}
+
+.back-button {
+    color: #ffffff; // Flecha blanca
+    border: none; // Sin borde
+    font-size: 2rem; // Tamaño de la flecha
+}
+
+.title {
+    color: #FFFFFF;
+    font-size: 1.4rem;
+}
+
+ion-content {
+    .title {
+        font-size: 24px;
+        padding: 0px 18px;
+        color: #AAB2C5;
+        font-weight: bold;
+    }
+
+    ion-card {
+        background-color: #1E293B;
+    }
+}
+
+
+.welcome-container {
+    display: flex;
+    margin-bottom: 10px;
+    padding-top: 10px;
+    justify-content: center;
+    max-width: 100%;
+
+    .welcome-container__section {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        margin: 4px;
+    }
+
+    ion-item {
+        width: 100%;
+        height: auto;
+        --background: #1E293B;
+        --color: #F0F3FA;
+        --border-width: 0px;
+        border: 0px;
+    }
+
+    ion-avatar {
+        width: 70px;
+        height: auto;
+        margin: 0px 8px;
+    }
+
+    ion-label h2 {
+        font-size: 20px;
+        font-weight: bold;
+        margin: 0;
+        color: #F0F3FA;
+    }
+
+    ion-label p {
+        margin: 0;
+        color: #AAB2C5;
+    }
+}
