@@ -396,6 +396,7 @@ class MaintenanceController extends Controller
                   return [];
                }
                $client = User::whereId($car->owner_id)->first();
+               unset($client->password);
 
                $currentClients[] = [
                    'maintenance' => $maintenance,
