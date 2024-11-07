@@ -798,7 +798,7 @@ class MaintenanceController extends Controller
             foreach ($details as $detail) {
                 $service = Service::whereId($detail->service_id)->first();
                 if (!empty($service)) {
-                    $services[$service->id] = $service->name;
+                    $services[] = $service;
                 }
             }
             $status = StatusCar::where(['id' => $maintenance->status_car_id])->first();
