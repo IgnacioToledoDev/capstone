@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController, NavController } from '@ionic/angular';
 import { Storage } from '@ionic/storage-angular';
-import { CotizaService } from 'src/app/services/cotiza.service'; // Import the service
+import { CotizaService } from 'src/app/services/cotiza.service';
+import { ManteciService } from 'src/app/services/manteci.service';
 
 @Component({
   selector: 'app-aprobar-cotiza',
@@ -12,13 +13,14 @@ export class AprobarCotizaPage implements OnInit {
   user: any = {};
   quotation: any = {}; 
   listServices: any = [];
-  list: any = [];
+  recommendationNote: string = '';
 
   constructor(
     private alertController: AlertController,
     private navCtrl: NavController,
     private storageService: Storage,
-    private cotizaService: CotizaService 
+    private cotizaService: CotizaService,
+    private manteciService: ManteciService
   ) {}
 
   async ngOnInit() {
@@ -27,7 +29,7 @@ export class AprobarCotizaPage implements OnInit {
     const quotationId = await this.storageService.get('id-cotiza');
     if (quotationId) {
       console.log('ID de cotización guardado:', quotationId);
-      await this.loadQuotation(quotationId); 
+      await this.loadQuotation(quotationId);
     }
 
     const carData = await this.storageService.get('client-data');
@@ -35,31 +37,25 @@ export class AprobarCotizaPage implements OnInit {
       this.user = carData;
       console.log('cliente guardado:', this.user);
     }
-
   }
+
   async loadQuotation(quotationId: number) { 
-  try {
-    this.quotation = await this.cotizaService.getQuotationById(quotationId);
-    console.log('Cotizaciones obtenidas:', this.quotation.servicesApprovedByClient);
-    for (let key in this.quotation.servicesApprovedByClient) {
-      if (this.quotation.servicesApprovedByClient.hasOwnProperty(key)) {
-          const service = this.quotation.servicesApprovedByClient[key];
-          console.log(`Service ${key} Name: ${service.name}`);
-          this.listServices.push(service)
-          this.list.push(this.quotation)
+    try {
+      this.quotation = await this.cotizaService.getQuotationById(quotationId);
+      console.log('Cotizaciones obtenidas:', this.quotation.servicesApprovedByClient);
+      for (let key in this.quotation.servicesApprovedByClient) {
+        if (this.quotation.servicesApprovedByClient.hasOwnProperty(key)) {
+            const service = this.quotation.servicesApprovedByClient[key];
+            console.log(`Service ${key} Name: ${service.name}`);
+            this.listServices.push(service);
+        }
       }
+      console.log(this.listServices);
+      console.log('Cotizaciones obtenidas:', this.quotation); 
+    } catch (error) {
+      console.error('Error al obtener las cotizaciones:', error);
+    }
   }
-  console.log(this.listServices)
-  console.log('Cotizaciones obtenidas:', this.quotation); 
-  
-  
-  
-    console.log('Car object:', this.quotation.car.brand);
-  } catch (error) {
-    console.error('Error al obtener las cotizaciones:', error);
-  }
-}
-
 
   goBack() {
     this.navCtrl.back();
@@ -82,14 +78,59 @@ export class AprobarCotizaPage implements OnInit {
           text: 'Aceptar',
           handler: async () => {
             await this.cotizaService.approveQuotation(this.quotation.quotation.id);
-            console.log('Acción aceptada');
-            this.navCtrl.navigateForward('/mecanico/info-ser-cli');
+            console.log('Cotización aceptada');
+            await this.createMaintenanceRecord(); // Llamamos a crear el mantenimiento
+  
+            // Alerta adicional para confirmar el valor de startNow
+            const startNowAlert = await this.alertController.create({
+              header: 'Confirmación de inicio',
+              message: `¿Iniciar ahora? ${this.quotation.startNow ? 'Sí' : 'No'}`,
+              buttons: [
+                {
+                  text: 'Cancelar',
+                  role: 'cancel',
+                  handler: () => {
+                    console.log('Acción cancelada en inicio');
+                  },
+                },
+                {
+                  text: 'Aceptar',
+                  handler: () => {
+                    console.log(`El mantenimiento se iniciará ${this.quotation.startNow ? 'inmediatamente' : 'en el futuro'}`);
+                    this.navCtrl.navigateForward('/mecanico/info-ser-cli');
+                  },
+                },
+              ],
+            });
+  
+            await startNowAlert.present();
           },
         },
       ],
     });
-
+  
     await alert.present();
+  }
+  
+
+  async createMaintenanceRecord() {
+    const maintenanceData = {
+      carId: this.quotation.car.id,
+      recommendation_action: this.recommendationNote,
+      services: this.listServices.map((service: { id: number }) => ({ id: service.id })), 
+      startNow: true
+    };
+
+    try {
+      const response = await this.manteciService.createMaintenanceRecord(maintenanceData);
+      if (response) {
+        console.log('Registro de mantenimiento creado con éxito:', response);
+      } else {
+        console.error('No se pudo crear el registro de mantenimiento.');
+      }
+    } catch (error) {
+      console.error('Error al crear el registro de mantenimiento:', error);
+    }
   }
 
   async presentAlertre() {
@@ -109,7 +150,7 @@ export class AprobarCotizaPage implements OnInit {
           text: 'Aceptar',
           handler: async () => {
             await this.cotizaService.declineQuotation(this.quotation.quotation.id);
-            console.log('Acción aceptada');
+            console.log('Cotización rechazada');
             this.navCtrl.navigateForward('/mecanico/home-mecanico');
           },
         },

@@ -113,6 +113,35 @@ export class ManteciService {
       return [];
     }
   }
+
+  async createMaintenanceRecord(maintenanceData: { carId: number; recommendation_action: string; services: { id: number }[]; startNow: boolean }): Promise<any> {
+    try {
+      const headers = await this.getAuthHeaders();
+  
+      if (!headers.has('Authorization')) {
+        console.error('No se pudo recuperar el token de autenticación.');
+        return null;
+      }
+  
+      const response = await this.http.post<any>(
+        `${this.API_URL}/jwt/maintenance/create`,
+        maintenanceData,
+        { headers }
+      ).toPromise();
+  
+      if (response.success) {
+        console.log('Registro de mantenimiento exitoso:', response);
+        return response;
+      } else {
+        console.error('Error en la respuesta del servidor:', response);
+        return null;
+      }
+    } catch (error) {
+      console.error('Error al crear el registro de mantenimiento:', error);
+      return null;
+    }
+  }
+  
   
 
   async checkAuthenticated() {
