@@ -34,6 +34,7 @@
     <p>Fecha de Aprobación: {{ quotation.quotation.approve_date_client | date }}</p>
     <p>Total de Servicios: {{ quotation.quotation.amount_services }}</p>
     <p>Precio Total: {{ quotation.quotation.total_price | currency }}</p>
+    <p>Estrado Cotización: {{ quotation.quotation.approved_by_client }}</p>
   </ion-label>
 </ion-item>
 </ion-list>
