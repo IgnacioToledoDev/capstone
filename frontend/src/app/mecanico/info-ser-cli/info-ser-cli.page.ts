@@ -45,8 +45,10 @@ export class InfoSerCliPage implements OnInit {
     const details = await this.manteciService.getMaintenanceDetails(maintenanceId);
     if (details) {
       this.maintenanceDetails = details;
-      this.serviceList = Object.values(details.services || {});
+      this.serviceList = details.services || {};
       console.log('Detalles de mantenimiento obtenidos:', this.maintenanceDetails);
+      console.log('Detalles de mantenimiento obtenidos:', this.serviceList);
+      
     } else {
       console.error('No se pudieron obtener los detalles del mantenimiento');
     }
