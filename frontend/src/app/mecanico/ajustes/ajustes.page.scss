@@ -5,12 +5,6 @@ ion-content {
   
   .profile-card {
     text-align: center;
-    ion-avatar {
-      margin: 0 auto;
-      img {
-        border-radius: 50%;
-      }
-    }
   }
 
   // Estilo del botón con la flecha de regreso
@@ -22,6 +16,13 @@ ion-content {
     padding: 0; // Sin relleno adicional
     border: none; // Sin borde
     font-size: 2rem; // Tamaño de la flecha
+}
+
+.hola {
+  align-items: start;
+  position: relative;
+  bottom: 70px;
+  right: 16px; // Ajustar la posición
 }
 
   // Estilo del título
@@ -64,5 +65,8 @@ ion-title {
     --border-radius: 0px; 
     --color: #001f3f; 
     width: 49%; 
+  }
 
+  .ion-text-capitalize{
+    text-align: center;
   }

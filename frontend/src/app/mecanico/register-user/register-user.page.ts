@@ -31,8 +31,8 @@ export class RegisterUserPage implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       name: ['', Validators.required],                  
       lastname: ['', Validators.required],                
-      rut: ['', Validators.required],                     
-      phone: ['', [Validators.required]],
+      rut: ['', [Validators.required, Validators.pattern(/^[0-9]+-[0-9kK]$/)]],  // Validación para rut con guion
+      phone: ['', [Validators.required, Validators.pattern(/^[0-9]+$/)]],         // Validación para solo números
     });
   }
 
@@ -50,23 +50,24 @@ export class RegisterUserPage implements OnInit {
 
           this.navCtrl.navigateForward('mecanico/agregar-vehiculo');
         } else {
-          await this.presentAlert('Error de registro', response.message || 'No se pudo completar el registro.');
+          await this.presentAlert('Error de registro', response.error.message || 'No se pudo completar el registro.');
         }
       } catch (error) {
         console.error('Error en el registro:', error);
 
         let errorMsg = 'Error al crear Cliente'; 
         if (error instanceof HttpErrorResponse) {
-          if (error.status === 404) {
-            errorMsg = 'Endpoint no encontrado. Verifica la URL del servidor.';
-          } else if (error.error && error.error.message) {
+          if (error.error && error.error.message) {
+            // Usa el mensaje de error específico del servidor, como "Rut invalid."
             errorMsg = error.error.message;
+          } else if (error.status === 404) {
+            errorMsg = 'Endpoint no encontrado. Verifica la URL del servidor.';
           }
         }
         this.presentAlert('Error de registro', errorMsg);
       }
     } else {
-      this.presentAlert('Formulario inválido', 'Por favor, completa todos los campos requeridos.');
+      this.presentAlert('Formulario inválido', 'Por favor, completa todos los campos requeridos correctamente.');
     }
   }
 
