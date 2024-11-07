@@ -56,6 +56,7 @@ export class InfoSerCliPage implements OnInit {
     this.navCtrl.back();
   }
 
+  // Alert to confirm starting the service and updating the maintenance status
   async presentAlert() {
     const alert = await this.alertController.create({
       header: 'Confirmación',
@@ -73,7 +74,18 @@ export class InfoSerCliPage implements OnInit {
           text: 'Aceptar',
           handler: async () => {
             console.log('Acción aceptada');
-            this.navCtrl.navigateForward('/mecanico/seguimiento');
+
+            // Update the maintenance status to the next step
+            if (this.maintenanceId !== null) {
+              const updateResponse = await this.manteciService.updateMaintenanceStatusToNext(this.maintenanceId);
+              if (updateResponse) {
+                console.log('Estado de mantenimiento actualizado');
+                // Navigate to the next page if status update is successful
+                this.navCtrl.navigateForward('/mecanico/seguimiento');
+              } else {
+                console.error('Error al actualizar el estado de mantenimiento');
+              }
+            }
           },
         },
       ],

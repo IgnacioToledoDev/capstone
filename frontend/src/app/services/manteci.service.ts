@@ -1,4 +1,3 @@
-
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
@@ -173,6 +172,37 @@ export class ManteciService {
     }
   }
   
+  async updateMaintenanceStatusToNext(maintenanceId: number): Promise<any> {
+    try {
+      const headers = await this.getAuthHeaders();
+  
+      if (!headers.has('Authorization')) {
+        console.error('No se pudo recuperar el token de autenticación.');
+        return null;
+      }
+  
+      // Prepare the request body (add any necessary parameters if needed)
+      const body = {}; // You can add any parameters if required for the status update.
+  
+      const response = await this.http.post<any>(
+        `${this.API_URL}/jwt/maintenance/${maintenanceId}/status/next`,
+        body,
+        { headers }
+      ).toPromise();
+  
+      if (response.success) {
+        console.log('Estado de mantenimiento actualizado con éxito:', response);
+        return response;
+      } else {
+        console.error('Error en la respuesta del servidor:', response);
+        return null;
+      }
+    } catch (error) {
+      console.error('Error al actualizar el estado de mantenimiento:', error);
+      return null;
+    }
+  }
+
   
 
   async checkAuthenticated() {
