@@ -10,20 +10,21 @@
   <br>
   <br>
   <ion-card class="profile-card">
+    <br>
+    <br>
     <ion-card-header>
       <ion-avatar>
-        <br>
-        <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+        <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" class="hola"/>
       </ion-avatar>
-      <ion-card-title class="ion-text-capitalize">Bienvenido, {{ user.name }}</ion-card-title>
-      <br>
       <ion-card-subtitle>
         {{ user.roles === 'MECHANIC_USER' ? 'Mecánico' : 'Cliente' }}
       </ion-card-subtitle>
+      <br>
+      <ion-card-title class="ion-text-capitalize">Bienvenido, {{ user.name }}</ion-card-title>
     </ion-card-header>
-    <br>
   </ion-card>
-  
+  <p></p>
+  <p></p>
   <h1 class="title">Configuraciones Básicas</h1>
   <ion-card>
   <ion-list class="settings-list">
