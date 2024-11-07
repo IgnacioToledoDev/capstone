@@ -131,6 +131,12 @@ export class ManteciService {
   
       if (response.success) {
         console.log('Registro de mantenimiento exitoso:', response);
+        
+        // Store the maintenance ID in Ionic Storage
+        const maintenanceId = response.data.maintenance.id;
+        await this.storageService.set('idmantesion', maintenanceId);
+        console.log('ID de mantenimiento guardado en Storage:', maintenanceId);
+        
         return response;
       } else {
         console.error('Error en la respuesta del servidor:', response);
@@ -138,6 +144,31 @@ export class ManteciService {
       }
     } catch (error) {
       console.error('Error al crear el registro de mantenimiento:', error);
+      return null;
+    }
+  }
+  
+
+  async getMaintenanceDetails(maintenanceId: number): Promise<any> {
+    try {
+      const headers = await this.getAuthHeaders();
+  
+      if (!headers.has('Authorization')) {
+        console.error('No se pudo recuperar el token de autenticación.');
+        return null;
+      }
+  
+      const response = await this.http.get<any>(`${this.API_URL}/jwt/maintenanceDetails/${maintenanceId}`, { headers }).toPromise();
+  
+      if (response.success && response.data) {
+        console.log('Detalles de mantenimiento:', response);
+        return response.data;
+      } else {
+        console.error('Respuesta no válida al obtener detalles de mantenimiento:', response);
+        return null;
+      }
+    } catch (error) {
+      console.error('Error al obtener detalles de mantenimiento:', error);
       return null;
     }
   }
