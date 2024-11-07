@@ -9,18 +9,20 @@ import { UserService } from 'src/app/services/user.service';
 export class AgendarPage implements OnInit {
   isModalOpen: boolean = false;
   mechanics: any[] = [];
+  mechanicSelected: any;
+  isMechanicSelected: boolean = false;
 
   constructor(private userService: UserService) { }
 
   ngOnInit() {
     this.userService.getMechanics().then((response: any) => {
-      const mechanicsData = response.data.mechanics; // Ajusta el acceso según la estructura de tu objeto
+      const mechanicsData = response.data.mechanics;
       this.mechanics = Object.keys(mechanicsData).map(key => ({
         id: Number(key),
         name: mechanicsData[key]
       }));
 
-      console.log('mecanicos', this.mechanics); // Debería mostrar el arreglo correctamente estructurado
+      console.log('mecanicos', this.mechanics);
     }).catch(error => {
       console.error('Error al obtener los mecánicos:', error);
     });
@@ -30,4 +32,10 @@ export class AgendarPage implements OnInit {
     this.isModalOpen = isOpen;
   }
 
+  selectMechanic(mechanic: any) {
+    this.mechanicSelected = mechanic;
+    this.isMechanicSelected = true;
+    this.setOpen(false);
+    console.log('Mecánico seleccionado:', this.mechanicSelected);
+  }
 }

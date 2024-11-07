@@ -6,29 +6,46 @@
 </ion-header>
 
 <ion-content class="ion-padding-vertical">
-  <!-- // todo i need to mechanic to selecte -->
-  <!-- when enter a i need a button to open modal and when selected a mechanic will be view the card -->
-  <h3 class="title">Mantenciones en Curso:</h3>
+  <h3 class="title">Seleciona a un mecánico:</h3>
   <ion-card class="welcome-container">
     <div class="ion-padding welcome-container__section">
       <ion-list>
-        <ion-item lines="none" class="ion-text-center ion-justify-content-center" (click)="setOpen(true)">
+        <!-- todo is pending the correct view of h3 and button -->
+        <ion-item *ngIf="!isMechanicSelected" lines="none" class="ion-text-center ion-justify-content-center"
+          (click)="setOpen(true)">
           <div class="no_mechanic_selected">
-            <ion-button expand="block" fill="clear">Seleccionar mecanico</ion-button>
+            <ion-button expand="block" fill="clear">Seleccionar mecánico</ion-button>
             <ion-label class="ion-padding ion-text-wrap ion-text-center">
-              <h3>No hay mecanico selecionado</h3>
+              <h3>No hay mecánico seleccionado</h3>
             </ion-label>
+          </div>
+        </ion-item>
+        <!-- todo is pending the data information of mechanic here -->
+        <ion-item *ngIf="isMechanicSelected" lines="none" class="ion-text-center ion-justify-content-center">
+          <div class="mechanic_selected">
+            <ion-label class="ion-padding ion-text-wrap ion-text-center">
+              <h3>Mecánico seleccionado: {{ mechanicSelected.name }}</h3>
+              <p>Detalles adicionales aquí...</p>
+            </ion-label>
+            <ion-button expand="block" fill="clear" (click)="setOpen(true)">Cambiar mecánico</ion-button>
           </div>
         </ion-item>
       </ion-list>
     </div>
   </ion-card>
-
-
-  <!-- // todo i need to car selected
-
-  // todo i need the list of services to selecte
-  // todo i need the list of hours to selecte -->
+  <!-- this is the card to data of the carSelected -->
+  <h3 class="title">Datos del vehículo:</h3>
+  <ion-card class="welcome-container">
+    <div class="ion-padding welcome-container__section">
+      <ion-label class="ion-padding">
+        <h2>auto</h2>
+        <p class="ion-padding-top">Cliente</p>
+        <br>
+      </ion-label>
+    </div>
+  </ion-card>
+  <!-- todo i need the list of services to selecte -->
+  <!-- todo i need the list of hours to selecte -->
   <!-- this is the modal -->
   <ion-modal [isOpen]="isModalOpen">
     <ng-template>
@@ -42,7 +59,7 @@
       </ion-header>
       <ion-content class="ion-padding">
         <ion-list>
-          <ion-item lines="none" *ngFor="let mechanic of mechanics">
+          <ion-item lines="none" *ngFor="let mechanic of mechanics" (click)="selectMechanic(mechanic)">
             <p>{{ mechanic.name }}</p>
           </ion-item>
         </ion-list>
