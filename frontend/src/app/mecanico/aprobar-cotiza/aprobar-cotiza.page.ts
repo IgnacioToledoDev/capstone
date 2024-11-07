@@ -64,7 +64,7 @@ export class AprobarCotizaPage implements OnInit {
   async presentAlert() {
     const alert = await this.alertController.create({
       header: 'Confirmación',
-      message: '¿estás seguro de querer aceptar la cotización?',
+      message: '¿Estás seguro de querer aceptar la cotización?',
       backdropDismiss: true,
       buttons: [
         {
@@ -79,30 +79,54 @@ export class AprobarCotizaPage implements OnInit {
           handler: async () => {
             await this.cotizaService.approveQuotation(this.quotation.quotation.id);
             console.log('Cotización aceptada');
-            await this.createMaintenanceRecord(); // Llamamos a crear el mantenimiento
-  
-            // Alerta adicional para confirmar el valor de startNow
+            await this.createMaintenanceRecordaproba(); // Crear el registro de mantenimiento
+    
             const startNowAlert = await this.alertController.create({
               header: 'Confirmación de inicio',
-              message: `¿Iniciar ahora? ${this.quotation.startNow ? 'Sí' : 'No'}`,
+              message: `¿Iniciar ahora? `,
               buttons: [
                 {
                   text: 'Cancelar',
                   role: 'cancel',
-                  handler: () => {
+                  handler: async () => {
                     console.log('Acción cancelada en inicio');
+                    await this.createMaintenanceRecordarechasa(); // Llamar a la función de rechazo si se cancela
+  
+                    // Mostrar alerta de mantenimiento creado correctamente si no es inicio inmediato
+                    if (!this.quotation.startNow) {
+                      const createdAlert = await this.alertController.create({
+                        header: 'Mantenimiento Creado',
+                        message: 'El registro de mantenimiento ha sido creado correctamente.',
+                        buttons: [
+                          {
+                            text: 'Aceptar',
+                            handler: () => {
+                              console.log('Redirigiendo a home-mecanico...');
+                              this.navCtrl.navigateForward('/mecanico/home-mecanico'); // Redirigir a home-mecanico
+                            },
+                          },
+                        ],
+                      });
+                      await createdAlert.present(); // Presentar la alerta
+                    }
                   },
                 },
                 {
                   text: 'Aceptar',
-                  handler: () => {
+                  handler: async () => {
                     console.log(`El mantenimiento se iniciará ${this.quotation.startNow ? 'inmediatamente' : 'en el futuro'}`);
+    
+                    // Crear el registro de mantenimiento si se inicia inmediatamente
+                    if (this.quotation.startNow) {
+                      await this.createMaintenanceRecordaproba();
+                    }
+                    
                     this.navCtrl.navigateForward('/mecanico/info-ser-cli');
                   },
                 },
               ],
             });
-  
+    
             await startNowAlert.present();
           },
         },
@@ -112,13 +136,35 @@ export class AprobarCotizaPage implements OnInit {
     await alert.present();
   }
   
+  
+  
 
-  async createMaintenanceRecord() {
+  async createMaintenanceRecordaproba() {
     const maintenanceData = {
       carId: this.quotation.car.id,
       recommendation_action: this.recommendationNote,
       services: this.listServices.map((service: { id: number }) => ({ id: service.id })), 
       startNow: true
+    };
+
+    try {
+      const response = await this.manteciService.createMaintenanceRecord(maintenanceData);
+      if (response) {
+        console.log('Registro de mantenimiento creado con éxito:', response);
+      } else {
+        console.error('No se pudo crear el registro de mantenimiento.');
+      }
+    } catch (error) {
+      console.error('Error al crear el registro de mantenimiento:', error);
+    }
+  }
+
+  async createMaintenanceRecordarechasa() {
+    const maintenanceData = {
+      carId: this.quotation.car.id,
+      recommendation_action: this.recommendationNote,
+      services: this.listServices.map((service: { id: number }) => ({ id: service.id })), 
+      startNow: false
     };
 
     try {
