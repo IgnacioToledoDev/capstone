@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-icon name="arrow-back-outline" class="back-button" fill="clear"></ion-icon>
+    <ion-icon name="arrow-back-outline" class="back-button" fill="clear" (click)="goBack()"></ion-icon>
     <ion-title class="title">Agendar Hora</ion-title>
   </ion-toolbar>
 </ion-header>
@@ -38,8 +38,12 @@
   <ion-card class="welcome-container">
     <div class="ion-padding welcome-container__section">
       <ion-label class="ion-padding">
-        <h2>auto</h2>
-        <p class="ion-padding-top">Cliente</p>
+        <ion-label>
+          <h3>{{ carSelected?.marca }}</h3>
+          <p>{{ carSelected?.patente }}</p>
+          <p>{{ carSelected?.modelo }}</p>
+          <p>{{ carSelected?.year }}</p>
+        </ion-label>
       </ion-label>
     </div>
   </ion-card>

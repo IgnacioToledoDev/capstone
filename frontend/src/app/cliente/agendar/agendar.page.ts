@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/services/user.service';
+import { NavController } from '@ionic/angular';
+import { StorageService } from 'src/app/services/storage.service';
+import { carViewInterface } from 'src/app/intefaces/car';
+
 
 @Component({
   selector: 'app-agendar',
@@ -11,21 +15,40 @@ export class AgendarPage implements OnInit {
   mechanics: any[] = [];
   mechanicSelected: any;
   isMechanicSelected: boolean = false;
+  carSelected!: carViewInterface;
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService, private navCtrl: NavController, private storageService: StorageService) { }
 
-  ngOnInit() {
-    this.userService.getMechanics().then((response: any) => {
-      const mechanicsData = response.data.mechanics;
-      this.mechanics = Object.keys(mechanicsData).map(key => ({
-        id: Number(key),
-        name: mechanicsData[key]
-      }));
+  async ngOnInit() {
+    try {
+      await this.storageService.init();
 
-      console.log('mecanicos', this.mechanics);
-    }).catch(error => {
-      console.error('Error al obtener los mecánicos:', error);
-    });
+      this.userService.getMechanics().then((response: any) => {
+        const mechanicsData = response.data.mechanics;
+        this.mechanics = Object.keys(mechanicsData).map(key => ({
+          id: Number(key),
+          name: mechanicsData[key]
+        }));
+      }).catch(error => {
+        console.error('Error al obtener los mecánicos:', error);
+      });
+
+      const carSelected = await this.storageService.get('carSelected');
+
+      if (carSelected) {
+        if (!carSelected.patente) {
+          carSelected.patente = 'Sin patente';
+        }
+
+        this.carSelected = carSelected;
+        console.log('Carro seleccionado:', this.carSelected);
+      } else {
+        console.log('No hay carro seleccionado en el almacenamiento.');
+      }
+
+    } catch (error) {
+      console.error('Error al cargar los datos:', error);
+    }
   }
 
   setOpen(isOpen: boolean) {
@@ -37,5 +60,9 @@ export class AgendarPage implements OnInit {
     this.isMechanicSelected = true;
     this.setOpen(false);
     console.log('Mecánico seleccionado:', this.mechanicSelected);
+  }
+
+  goBack() {
+    this.navCtrl.back();
   }
 }

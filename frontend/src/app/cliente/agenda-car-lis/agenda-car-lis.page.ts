@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { CarService } from 'src/app/services/car.service';
+import { StorageService } from 'src/app/services/storage.service';
 
 @Component({
   selector: 'app-agenda-car-lis',
@@ -13,7 +14,8 @@ export class AgendaCarLisPage implements OnInit {
 
   constructor(
     private navCtrl: NavController,
-    private carService: CarService
+    private carService: CarService,
+    private storageService: StorageService
   ) { }
 
   async ngOnInit() {
@@ -50,5 +52,12 @@ export class AgendaCarLisPage implements OnInit {
     }
 
     return patent.slice(0, 3) + ' ' + patent.slice(3);
+  }
+
+
+  selectCar(car: any) {
+    this.storageService.set('carSelected', car);
+    console.log('Carro seleccionado:', car);
+    this.navCtrl.navigateForward('/cliente/agendar');
   }
 }
