@@ -49,7 +49,7 @@
 
   .dark-card {
     background-color: #1E293B; /* Gris oscuro */
-    color: white; /* Asegurarse de que el texto sea blanco para buen contraste */
+    color: #ffffff; /* Asegurarse de que el texto sea blanco para buen contraste */
     border-radius: 8px; /* Bordes redondeados */
   }
   
@@ -58,10 +58,10 @@
   }
   
   .dark-card ion-label {
-    color: white; /* Texto de los labels en blanco */
+    color: #ffffff; /* Texto de los labels en blanco */
   }
   
   .dark-card ion-button {
     --background: #3B82F6; /* Color de fondo azul para los botones */
-    color: white; /* Color del texto de los botones */
+    color: #ffffff; /* Color del texto de los botones */
   }
