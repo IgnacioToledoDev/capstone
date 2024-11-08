@@ -6,7 +6,7 @@
   <br>
 </ion-header>
 
-<ion-content>
+<ion-content (click)="presentAlert()">
   <br>
   <br>
   <ion-card class="client-card">
@@ -18,7 +18,7 @@
                 <img src="assets/images/inicio.jpg">
               </ion-label>
               <div class="text-content">
-                <h2>Iniciado</h2>
+                <h2>Comenzando</h2>
                 <ion-button color="primary">
                   Actual
                 </ion-button>
@@ -69,9 +69,8 @@
 </ion-content>
 <ion-footer>
   <ion-toolbar>
-    <div>
     <ion-button class="input-button" (click)="presentAlert()">Finalizar estado</ion-button>
-    </div>
+    <h2 class="pad" *ngIf="maintenanceStatus">{{ maintenanceStatus.status }}</h2>
     <h6 class="pad">Al finalizar el estado va a cambiar a “Listo para entrega”</h6>
   </ion-toolbar>
 </ion-footer>

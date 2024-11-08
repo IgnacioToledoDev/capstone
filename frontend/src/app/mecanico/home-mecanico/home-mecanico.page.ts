@@ -10,7 +10,6 @@ import { Router } from '@angular/router';
   styleUrls: ['./home-mecanico.page.scss'],
 })
 export class HomeMecanicoPage implements OnInit {
-  eventos: { nombre: string; hora: string; patente: string }[] = [];
   token: string | null = null;
   user: any = {};
   calendar: any[] = [];
@@ -43,6 +42,6 @@ export class HomeMecanicoPage implements OnInit {
 
   async saveMaintenanceIdAndNavigate(maintenanceId: number) {
     await this.storage.set('idmantesion', maintenanceId);
-    this.router.navigate(['/mecanico/info-ser-cli']); // Change to your target route
+    this.router.navigate(['/mecanico/info-ser-cli']); 
   }
 }

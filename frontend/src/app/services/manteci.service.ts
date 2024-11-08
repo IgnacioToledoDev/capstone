@@ -194,9 +194,7 @@ export class ManteciService {
         console.error('No se pudo recuperar el token de autenticación.');
         return null;
       }
-  
-      // Prepare the request body (add any necessary parameters if needed)
-      const body = {}; // You can add any parameters if required for the status update.
+      const body = {}; 
   
       const response = await this.http.post<any>(
         `${this.API_URL}/jwt/maintenance/${maintenanceId}/status/next`,
@@ -217,7 +215,31 @@ export class ManteciService {
     }
   }
 
+  async getMaintenanceStatus(maintenanceId: number): Promise<any> {
+    try {
+      const headers = await this.getAuthHeaders();
   
+      if (!headers.has('Authorization')) {
+        console.error('No se pudo recuperar el token de autenticación.');
+        return null;
+      }
+  
+      const response = await this.http
+        .get<any>(`${this.API_URL}/jwt/maintenance/${maintenanceId}/status`, { headers })
+        .toPromise();
+  
+      if (response.success && response.data) {
+        console.log('Estado de mantenimiento:', response);
+        return response.data.status;
+      } else {
+        console.error('Respuesta no válida al obtener el estado de mantenimiento:', response);
+        return null;
+      }
+    } catch (error) {
+      console.error('Error al obtener el estado de mantenimiento:', error);
+      return null;
+    }
+  }
 
   async checkAuthenticated() {
     const token = await this.storageService.get('datos');
