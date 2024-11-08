@@ -12,29 +12,24 @@ export class HomeMecanicoPage implements OnInit {
   token: string | null = null;
   user: any = {};
   calendar: any[] = [];
-  currentUser: any = {};
+  currentUser: any = {};  // User object to store the current client
+  currentList: any[] = [];  // To store the current maintenance records list
 
   constructor(private userService: UserService, private manteciService: ManteciService) {}
 
   async ngOnInit() {
     const sessionData = await this.userService.getUserSession();
-    console.log(sessionData);
-
     if (sessionData) {
       this.token = sessionData.token;
       this.user = sessionData.user;
-
-      console.log('Token:', this.token);
-      console.log('User Info:', this.user);
-    } else {
-      console.log('No se encontraron datos de sesión.'); sessionData
     }
-
 
     const data = await this.manteciService.getMaintenanceCalendar();
     if (data) {
       this.calendar = data.calendar;
-      this.currentUser = data.current[0]; 
+      this.currentList = data.current; // Store the current maintenance records
+      this.currentUser = this.currentList[0] ? this.currentList[0].client : null; // Example for the first client
+      console.log(data)
     } else {
       console.error('No se pudo obtener el calendario de mantenimiento.');
     }
