@@ -1,4 +1,3 @@
-
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
@@ -113,6 +112,97 @@ export class ManteciService {
       return [];
     }
   }
+
+  async createMaintenanceRecord(maintenanceData: { carId: number; recommendation_action: string; services: { id: number }[]; startNow: boolean }): Promise<any> {
+    try {
+      const headers = await this.getAuthHeaders();
+  
+      if (!headers.has('Authorization')) {
+        console.error('No se pudo recuperar el token de autenticación.');
+        return null;
+      }
+  
+      const response = await this.http.post<any>(
+        `${this.API_URL}/jwt/maintenance/create`,
+        maintenanceData,
+        { headers }
+      ).toPromise();
+  
+      if (response.success) {
+        console.log('Registro de mantenimiento exitoso:', response);
+        
+        // Store the maintenance ID in Ionic Storage
+        const maintenanceId = response.data.maintenance.id;
+        await this.storageService.set('idmantesion', maintenanceId);
+        console.log('ID de mantenimiento guardado en Storage:', maintenanceId);
+        
+        return response;
+      } else {
+        console.error('Error en la respuesta del servidor:', response);
+        return null;
+      }
+    } catch (error) {
+      console.error('Error al crear el registro de mantenimiento:', error);
+      return null;
+    }
+  }
+  
+
+  async getMaintenanceDetails(maintenanceId: number): Promise<any> {
+    try {
+      const headers = await this.getAuthHeaders();
+  
+      if (!headers.has('Authorization')) {
+        console.error('No se pudo recuperar el token de autenticación.');
+        return null;
+      }
+  
+      const response = await this.http.get<any>(`${this.API_URL}/jwt/maintenanceDetails/${maintenanceId}`, { headers }).toPromise();
+  
+      if (response.success && response.data) {
+        console.log('Detalles de mantenimiento:', response);
+        return response.data;
+      } else {
+        console.error('Respuesta no válida al obtener detalles de mantenimiento:', response);
+        return null;
+      }
+    } catch (error) {
+      console.error('Error al obtener detalles de mantenimiento:', error);
+      return null;
+    }
+  }
+  
+  async updateMaintenanceStatusToNext(maintenanceId: number): Promise<any> {
+    try {
+      const headers = await this.getAuthHeaders();
+  
+      if (!headers.has('Authorization')) {
+        console.error('No se pudo recuperar el token de autenticación.');
+        return null;
+      }
+  
+      // Prepare the request body (add any necessary parameters if needed)
+      const body = {}; // You can add any parameters if required for the status update.
+  
+      const response = await this.http.post<any>(
+        `${this.API_URL}/jwt/maintenance/${maintenanceId}/status/next`,
+        body,
+        { headers }
+      ).toPromise();
+  
+      if (response.success) {
+        console.log('Estado de mantenimiento actualizado con éxito:', response);
+        return response;
+      } else {
+        console.error('Error en la respuesta del servidor:', response);
+        return null;
+      }
+    } catch (error) {
+      console.error('Error al actualizar el estado de mantenimiento:', error);
+      return null;
+    }
+  }
+
   
 
   async checkAuthenticated() {

@@ -114,16 +114,28 @@ class MaintenanceController extends Controller
 
             $calendar = Maintenance::whereMechanicId($user->id)
                 ->whereDate('start_maintenance', now()->toDateString())
+                ->whereIn('status_id', [StatusCar::STATUS_INACTIVE ,StatusCar::STATUS_STARTED, StatusCar::STATUS_PROGRESS])
                 ->get();
 
             $current = $this->getCurrentClient($user);
+
+            if (!empty($current)) {
+                $index = 0;
+                foreach ($calendar as $item) {
+                    $currentMaintenance = $current[0]['maintenance'];
+                    if ($currentMaintenance->id === $item->id) {
+                        unset($calendar[$index]);
+                    }
+                    $index++;
+                }
+            }
 
             $success['calendar'] = $calendar;
             $success['current'] = $current;
 
             return $this->sendResponse($success, 'Calendar retrieved successfully.');
         } catch (\Exception $exception) {
-            return $this->sendError($exception->getMessage());
+            return $this->sendError($exception->getMessage(), $exception->getLine());
         }
     }
 
@@ -280,14 +292,16 @@ class MaintenanceController extends Controller
 
         $starNow = $request->input('startNow');
         $starNowDate = null;
+        $status = StatusCar::STATUS_INACTIVE;
         if ($starNow === true) {
             $starNowDate = now();
+            $status = StatusCar::STATUS_STARTED;
         }
 
         $maintenance = new Maintenance();
         $maintenance->name = $this->generateName($carId);
         $maintenance->recommendation_action = $notes ?? null;
-        $maintenance->status_id = StatusCar::STATUS_INACTIVE;
+        $maintenance->status_id = $status;
         $maintenance->car_id = $carId;
         $maintenance->mechanic_id = $mechanic->id;
         $maintenance->pricing = 0;
@@ -359,31 +373,48 @@ class MaintenanceController extends Controller
     }
 
     /**
-     * @param $user
+     * @param User $user
      * @return array
      */
-    private function getCurrentClient($user): array
+    private function getCurrentClient(User $user): array
     {
-        if (!$user instanceof User) {
-            throw new InvalidArgumentException('user not valid');
-        }
-        $currentMaintenances = Maintenance::whereMechanicId($user->id)
+        $currentMaintenances = Maintenance::where('mechanic_id', $user->id)
             ->whereDate('start_maintenance', now()->toDateString())
-            ->whereTime('start_maintenance', now()->format('H:i'))
+            ->whereIn('status_id', [StatusCar::STATUS_STARTED, StatusCar::STATUS_PROGRESS])
             ->get();
 
-        $current = [];
+        $currentClients = [];
+
         foreach ($currentMaintenances as $maintenance) {
             if ($maintenance->start_maintenance) {
-                $car = Car::whereId($maintenance->car_id);
-                $currentClient = User::whereId($car->owner_id);
-                if ($currentClient) {
-                    $current[] = $currentClient;
-                }
+               if (is_null($maintenance->car_id)) {
+                  return [];
+               }
+
+               $car = Car::whereId($maintenance->car_id)->first();
+               if (is_null($car)) {
+                  return [];
+               }
+               $client = User::whereId($car->owner_id)->first();
+               unset($client->password);
+
+               $currentClients[] = [
+                   'maintenance' => $maintenance,
+                   'client' => $client,
+                   'car' => [
+                       'id' => $car->id,
+                       'brand' => $this->carHelper->getCarBrandName($car->id),
+                       'model' => $this->carHelper->getCarModelName($car->id),
+                       'year' => $car->year,
+                       'patent' => $car->patent,
+                   ]
+               ];
             }
         }
-        return $current;
+
+        return $currentClients;
     }
+
 
     /**
      * @OA\Get(
@@ -798,7 +829,7 @@ class MaintenanceController extends Controller
             foreach ($details as $detail) {
                 $service = Service::whereId($detail->service_id)->first();
                 if (!empty($service)) {
-                    $services[$service->id] = $service->name;
+                    $services[] = $service;
                 }
             }
             $status = StatusCar::where(['id' => $maintenance->status_car_id])->first();

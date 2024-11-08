@@ -60,6 +60,21 @@
       </ion-item>
     </ion-card-content>
   </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Notas</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item class="input-item">
+        <ion-textarea 
+          placeholder="Escribe tus comentarios ..."
+          [(ngModel)]="recommendationNote">
+        </ion-textarea>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+  
 </ion-content>
 
 <ion-footer *ngIf="quotation && quotation.car && quotation.defaultMechanic">
