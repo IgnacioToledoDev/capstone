@@ -22,13 +22,13 @@ export class SeguimientoPage implements OnInit {
   }
 
   eventosinicio: { title: string, image: string ,buttonTitle?: string}[] = [
-    { title: 'Iniciado', image:'assets/images/inicio.jpg',buttonTitle: 'Actual' },
+    { title: 'Iniciado', image:'assets/image/inicio.jpg',buttonTitle: 'Actual' },
   ];
   eventosprogreso: { title: string, image: string ,buttonTitle?: string}[] = [
-    { title: 'En progreso', image:'assets/images/inicio.jpg',buttonTitle: 'Próximo...' },
+    { title: 'En progreso', image:'assets/image/desarrollo.jpg',buttonTitle: 'Próximo...' },
   ];
   eventosListo: { title: string, image: string ,buttonTitle?: string}[] = [
-    { title: 'Listo para entrega', image:'assets/images/inicio.jpg',buttonTitle: 'Próximo...' },
+    { title: 'Listo para entrega', image:'assets/image/fin.jpg',buttonTitle: 'Próximo...' },
   ];
 
 
