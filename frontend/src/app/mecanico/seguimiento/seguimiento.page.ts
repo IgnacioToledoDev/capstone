@@ -1,11 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController ,NavController} from '@ionic/angular';
 
-interface Status {
-  title: string;
-  image: string;
-  buttonTitle?: string;
-}
 @Component({
   selector: 'app-seguimiento',
   templateUrl: './seguimiento.page.html',
@@ -36,6 +31,7 @@ export class SeguimientoPage implements OnInit {
     console.log( evento.title);
 
   }
+
   presentAlert(){
     console.log('Acción Finalizar');
   }

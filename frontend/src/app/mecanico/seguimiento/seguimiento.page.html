@@ -11,16 +11,16 @@
   <br>
   <ion-card class="client-card">
     <ion-card-content>
-        <ion-item *ngFor="let evento of eventosinicio">
+        <ion-item >
           <ion-card-content>
             <div class="card-content">
               <ion-label>
-                <img [src]="evento.image">
+                <img src="assets/images/inicio.jpg">
               </ion-label>
               <div class="text-content">
-                <h2>{{ evento.title }}</h2>
-                <ion-button *ngIf="evento.buttonTitle" color="primary" (click)="onButtonClick(evento)">
-                  {{ evento.buttonTitle }}
+                <h2>Iniciado</h2>
+                <ion-button color="primary">
+                  Actual
                 </ion-button>
               </div>
             </div>
@@ -30,17 +30,17 @@
   </ion-card>
   <ion-card class="client-card">
     <ion-card-content>
-        <ion-item *ngFor="let evento of eventosprogreso">
+        <ion-item >
           <ion-card-content>
             <div class="card-contenta">
               <div class="text-contenta">
-                <h2>{{ evento.title }}</h2>
-                <ion-button *ngIf="evento.buttonTitle" color="primary" (click)="onButtonClick(evento)">
-                  {{ evento.buttonTitle }}
+                <h2>En progreso</h2>
+                <ion-button color="primary">
+                  Actual
                 </ion-button>
               </div>
               <ion-label>
-                <img [src]="evento.image">
+                <img src="assets/images/inicio.jpg">
               </ion-label>
             </div>
           </ion-card-content>
@@ -49,16 +49,16 @@
   </ion-card>
   <ion-card class="client-card">
     <ion-card-content>
-        <ion-item *ngFor="let evento of eventosListo">
+        <ion-item >
           <ion-card-content>
             <div class="card-content">
               <ion-label>
-                <img [src]="evento.image">
+                <img src="assets/images/inicio.jpg">
               </ion-label>
               <div class="text-content">
-                <h2>{{ evento.title }}</h2>
-                <ion-button *ngIf="evento.buttonTitle" color="primary" (click)="onButtonClick(evento)">
-                  {{ evento.buttonTitle }}
+                <h2>Listo para entrega</h2>
+                <ion-button color="primary">
+                  Actual
                 </ion-button>
               </div>
             </div>
