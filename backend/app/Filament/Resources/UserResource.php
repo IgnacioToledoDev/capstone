@@ -57,12 +57,11 @@ class UserResource extends Resource
                         new ValidateRut(),
                     ])
                     ->helperText('Ingrese rut sin puntos y con guion'),
-                Forms\Components\TextInput::make('password')
-                    ->label('Contraseña')
+                Password::make('password')
                     ->required()
-                    ->password()
-                    ->hiddenOn(['edit'])
-                    ->visibleOn(['create'])
+                    ->label('Contraseña')
+                    ->visible(fn () => auth()->user()->hasRole([User::SUPER_ADMIN,
+                        User::COMPANY_ADMIN]))
                     ->placeholder('Contraseña del usuario'),
                 Forms\Components\Select::make('roles')
                     ->relationship('roles', 'name', function ($query) {
@@ -71,10 +70,9 @@ class UserResource extends Resource
                     ->label('Roles')
                     ->required()
                     ->placeholder(Constants::SELECT_OPTION),
-                Password::make('password')
-                    ->label('Contraseña')
-                    ->visible(fn () => auth()->user()->hasRole([User::SUPER_ADMIN,
-                        User::COMPANY_ADMIN]))
+                Forms\Components\TextInput::make('phone')
+                    ->label('Telefono')
+                    ->numeric()
             ]);
     }
 

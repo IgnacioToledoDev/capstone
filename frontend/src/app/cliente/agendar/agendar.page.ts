@@ -25,10 +25,9 @@ export class AgendarPage implements OnInit {
 
       this.userService.getMechanics().then((response: any) => {
         const mechanicsData = response.data.mechanics;
-        this.mechanics = Object.keys(mechanicsData).map(key => ({
-          id: Number(key),
-          name: mechanicsData[key]
-        }));
+        mechanicsData.forEach((mechanic: any) => {
+          this.mechanics.push(mechanic);
+        })
       }).catch(error => {
         console.error('Error al obtener los mecánicos:', error);
       });
@@ -64,5 +63,9 @@ export class AgendarPage implements OnInit {
 
   goBack() {
     this.navCtrl.back();
+  }
+
+  ionViewDidLeave() {
+    this.storageService.remove('carSelected');
   }
 }

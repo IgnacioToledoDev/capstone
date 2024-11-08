@@ -1,15 +1,15 @@
 <ion-header>
   <ion-toolbar>
-    <ion-icon name="arrow-back-outline" class="back-button" fill="clear" (click)="goBack()"></ion-icon>
+    <ion-icon name="arrow-back-outline" class="back-button" (click)="goBack()"></ion-icon>
     <ion-title class="title">Agendar Hora</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding-vertical">
   <h3 class="title">Seleciona a un mecánico:</h3>
-  <ion-card class="welcome-container">
+  <ion-card class="welcome-container ion-justify-content-center">
     <div class="ion-padding welcome-container__section">
-      <ion-list>
+      <ion-list lines="none">
         <!-- todo is pending the correct view of h3 and button -->
         <ion-item *ngIf="!isMechanicSelected" lines="none" class="ion-text-center ion-justify-content-center"
           (click)="setOpen(true)">
@@ -21,13 +21,18 @@
           </div>
         </ion-item>
         <!-- todo is pending the data information of mechanic here -->
-        <ion-item *ngIf="isMechanicSelected" lines="none" class="ion-text-center ion-justify-content-center">
+        <ion-item *ngIf="isMechanicSelected" lines="none" class="ion-justify-content-center">
           <div class="mechanic_selected">
-            <ion-label class="ion-padding ion-text-wrap ion-text-center">
-              <h3>Mecánico seleccionado: {{ mechanicSelected.name }}</h3>
-              <p>Detalles adicionales aquí...</p>
+            <ion-label class="ion-text-wrap ">
+              <ion-label class="mechanic__data">
+                <p>Nombre: {{ mechanicSelected.name }} {{mechanicSelected.lastname}}</p>
+                <p>Correo: {{ mechanicSelected.email }}</p>
+                <p>Telefono: {{ mechanicSelected.phone }}</p>
+              </ion-label>
             </ion-label>
-            <ion-button expand="block" fill="clear" (click)="setOpen(true)">Cambiar mecánico</ion-button>
+            <ion-item class="ion-padding-top">
+              <ion-button expand="block" fill="clear" (click)="setOpen(true)">Cambiar mecánico</ion-button>
+            </ion-item>
           </div>
         </ion-item>
       </ion-list>
@@ -35,20 +40,20 @@
   </ion-card>
   <!-- this is the card to data of the carSelected -->
   <h3 class="title">Datos del vehículo:</h3>
-  <ion-card class="welcome-container">
-    <div class="ion-padding welcome-container__section">
-      <ion-label class="ion-padding">
-        <ion-label>
-          <h3>{{ carSelected?.marca }}</h3>
-          <p>{{ carSelected?.patente }}</p>
-          <p>{{ carSelected?.modelo }}</p>
-          <p>{{ carSelected?.year }}</p>
+  <ion-card class="car-container welcome-container">
+    <div class="ion-padding car-container__section">
+      <ion-label>
+        <ion-label class="mechanic__data">
+          <p><span class="mechanic__data_title">Patente:</span> {{ carSelected?.patente }}</p>
+          <p><span class="mechanic__data_title">Marca:</span> {{ carSelected?.marca }}</p>
+          <p><span class="mechanic__data_title">Modelo:</span> {{ carSelected?.modelo }}</p>
+          <p><span class="mechanic__data_title">Año:</span> {{ carSelected?.year }}</p>
         </ion-label>
       </ion-label>
     </div>
   </ion-card>
-  <!-- todo i need the list of services to selecte -->
-  <!-- todo i need the list of hours to selecte -->
+  <!-- todo i need the list of services to select -->
+  <!-- todo i need the list of hours to select -->
   <!-- this is the modal -->
   <ion-modal [isOpen]="isModalOpen">
     <ng-template>
@@ -63,7 +68,7 @@
       <ion-content class="ion-padding">
         <ion-list>
           <ion-item lines="none" *ngFor="let mechanic of mechanics" (click)="selectMechanic(mechanic)">
-            <p>{{ mechanic.name }}</p>
+            <p>{{ mechanic.name }} {{ mechanic.lastname }}</p>
           </ion-item>
         </ion-list>
       </ion-content>
