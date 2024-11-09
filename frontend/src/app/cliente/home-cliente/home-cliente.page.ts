@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/services/user.service';
-import { NavController, AlertController } from '@ionic/angular';
+import { NavController } from '@ionic/angular';
+import { ManteciService } from 'src/app/services/manteci.service';  // Import your maintenance service
 
 @Component({
   selector: 'app-home-cliente',
@@ -17,8 +18,13 @@ export class HomeClientePage implements OnInit {
   username: string = '';
   token: string | null = null;
   user: any = {};
+  maintenanceData: any = {}; // Store the fetched maintenance data
 
-  constructor(private userService: UserService, private navCtrl: NavController,) { }
+  constructor(
+    private userService: UserService,
+    private maintenanceService: ManteciService,  // Inject the MaintenanceService
+    private navCtrl: NavController
+  ) { }
 
   async ngOnInit() {
     const sessionData = await this.userService.getUserSession();
@@ -27,11 +33,27 @@ export class HomeClientePage implements OnInit {
       this.token = sessionData.token;
       this.user = sessionData.user;
       this.username = this.capitalizeFirstLetter(this.user.name);
-
       console.log('Token:', this.token);
       console.log('User Info:', this.user);
+
+      // Fetch maintenance data for the user
+      await this.getMaintenanceInCourse();
     } else {
       console.log('No se encontraron datos de sesión.');
+    }
+  }
+
+  async getMaintenanceInCourse() {
+    try {
+      const response = await this.maintenanceService.getMaintenanceInCourse(); // Call the service
+      if (response) {
+        this.maintenanceData = response;
+        console.log('Maintenance Data:', this.maintenanceData);
+      } else {
+        console.error('No maintenance data found.');
+      }
+    } catch (error) {
+      console.error('Error fetching maintenance data:', error);
     }
   }
 
@@ -42,5 +64,4 @@ export class HomeClientePage implements OnInit {
   capitalizeFirstLetter(val: string) {
     return String(val).charAt(0).toUpperCase() + String(val).slice(1);
   }
-
 }

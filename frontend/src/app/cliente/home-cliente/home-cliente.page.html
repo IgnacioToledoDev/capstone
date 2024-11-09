@@ -32,23 +32,24 @@
   </div>
 
   <h3 class="title">Mantenciones en Curso:</h3>
-  <ion-card routerLink="/cliente/info-mante">
+
+  <ion-card *ngIf="maintenanceData && maintenanceData.car">
     <ion-card-content class="maintenance-in_course">
       <div class="maintenance-info">
         <ion-img src="assets/image/mecanica.jpg" alt="Maintenance Image"></ion-img>
         <div class="info__container">
           <ion-label class="ion-padding-bottom">
-            <p><span>Patente: </span>KDTD82</p>
-            <p><span>Marca: </span>Toyota</p>
-            <p><span>Modelo: </span>Swift</p>
-            <p><span>Año: </span>2018</p>
+            <p><span>Patente: </span>{{ maintenanceData.car.patent }}</p>
+            <p><span>Marca: </span>{{ maintenanceData.car.brand }}</p>
+            <p><span>Modelo: </span>{{ maintenanceData.car.model }}</p>
+            <p><span>Año: </span>{{ maintenanceData.car.year }}</p>
           </ion-label>
-          <ion-badge color="success">En progreso</ion-badge>
+          <ion-badge color="success">{{ maintenanceData.status }}</ion-badge>
         </div>
       </div>
     </ion-card-content>
   </ion-card>
-
+  
 
   <!-- Elige el servicio a realizar -->
   <h3 class="title">Elige el servicio a realizar:</h3>
@@ -71,6 +72,7 @@
     </ion-card-content>
   </ion-card>
 </ion-content>
+
 
 <!-- Menu y contacto -->
 <ion-footer>
