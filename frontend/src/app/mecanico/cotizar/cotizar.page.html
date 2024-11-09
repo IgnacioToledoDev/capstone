@@ -4,6 +4,9 @@
 </ion-header>
 
 <ion-content>
+  <br>
+  <br>
+  <br>
   <ion-card>
     <ion-card-header>
       <ion-card-title>Datos Cliente</ion-card-title>
@@ -57,7 +60,7 @@
       </ion-item>
       <ion-item>
         <ion-label>Total servicios</ion-label>
-        <ion-note slot="end"  class="button-color">${{ calculateTotal() }}</ion-note>
+        <ion-note slot="end" class="button-color">${{ calculateTotal() }}</ion-note>
       </ion-item> 
     </ion-card-content>
   </ion-card>
@@ -70,7 +73,7 @@
       <ion-item *ngFor="let deletedService of deletedServices">
         <ion-label>{{ deletedService.name }}</ion-label>
         <ion-label slot="end">{{ deletedService.price }}</ion-label>
-        <ion-button slot="end" class="button-color" class="button-color" (click)="restoreService(deletedService)">Agregar</ion-button>
+        <ion-button slot="end" class="button-color" (click)="restoreService(deletedService)">Agregar</ion-button>
       </ion-item>
     </ion-card-content>
   </ion-card>

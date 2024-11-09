@@ -12,6 +12,7 @@
   <!-- Comenzando Card -->
   <ion-card class="client-card" [ngClass]="{'active-card': maintenanceStatus?.status === 'Comenzando'}">
     <ion-card-content>
+<<<<<<< HEAD
       <ion-item>
         <ion-card-content>
           <div class="card-content">
@@ -24,6 +25,20 @@
                 Actual
               </ion-button>
               <ion-icon name="checkmark-circle" color="success" *ngIf="maintenanceStatus?.status !== 'Comenzando'"></ion-icon>
+=======
+        <ion-item >
+          <ion-card-content>
+            <div class="card-content">
+              <ion-label>
+                <img src="assets/image/inicio.jpg">
+              </ion-label>
+              <div class="text-content">
+                <h2>Comenzando</h2>
+                <ion-button color="primary">
+                  Actual
+                </ion-button>
+              </div>
+>>>>>>> 1f45643e1672af5a6edee4742db9c15547160d5a
             </div>
           </div>
         </ion-card-content>
@@ -34,6 +49,7 @@
   <!-- En progreso Card -->
   <ion-card class="client-card" [ngClass]="{'active-card': maintenanceStatus?.status === 'En progreso'}">
     <ion-card-content>
+<<<<<<< HEAD
       <ion-item>
         <ion-card-content>
           <div class="card-contenta">
@@ -43,6 +59,20 @@
                 Actual
               </ion-button>
               <ion-icon name="checkmark-circle" color="success" *ngIf="maintenanceStatus?.status !== 'En progreso' && maintenanceStatus?.status !== 'Comenzando'"></ion-icon>
+=======
+        <ion-item >
+          <ion-card-content>
+            <div class="card-contenta">
+              <div class="text-contenta">
+                <h2>En progreso</h2>
+                <ion-button color="primary">
+                  Actual
+                </ion-button>
+              </div>
+              <ion-label>
+                <img src="assets/image/desarrollo.jpg">
+              </ion-label>
+>>>>>>> 1f45643e1672af5a6edee4742db9c15547160d5a
             </div>
             <ion-label>
               <img src="assets/images/inicio.jpg">
@@ -56,6 +86,7 @@
   <!-- Listo para entrega Card -->
   <ion-card class="client-card" [ngClass]="{'active-card': maintenanceStatus?.status === 'Finalizado'}">
     <ion-card-content>
+<<<<<<< HEAD
       <ion-item>
         <ion-card-content>
           <div class="card-content">
@@ -68,6 +99,20 @@
                 Actual
               </ion-button>
               <ion-icon name="checkmark-circle" color="success" *ngIf="maintenanceStatus?.status === 'Finalizado'"></ion-icon>
+=======
+        <ion-item >
+          <ion-card-content>
+            <div class="card-content">
+              <ion-label>
+                <img src="assets/image/fin.jpg">
+              </ion-label>
+              <div class="text-content">
+                <h2>Listo para entrega</h2>
+                <ion-button color="primary">
+                  Actual
+                </ion-button>
+              </div>
+>>>>>>> 1f45643e1672af5a6edee4742db9c15547160d5a
             </div>
           </div>
         </ion-card-content>
