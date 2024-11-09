@@ -3,6 +3,7 @@ import { UserService } from 'src/app/services/user.service';
 import { NavController } from '@ionic/angular';
 import { StorageService } from 'src/app/services/storage.service';
 import { carViewInterface } from 'src/app/intefaces/car';
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 
 @Component({
@@ -21,8 +22,22 @@ export class AgendarPage implements OnInit {
     const utcDay = date.getUTCDay();
     return utcDay !== 0;
   };
+  scheduleObject = {
+    'mechanicId': null,
+    'carId': this.carSelected, // todo pending recovery the id of the car
+    'typeOfService': null,
+    'scheduleDate': null,
+  }
+  formGroup!: FormGroup;
+  isValid: boolean = false;
 
-  constructor(private userService: UserService, private navCtrl: NavController, private storageService: StorageService) { }
+  constructor(
+    private userService: UserService,
+    private navCtrl: NavController,
+    private storageService: StorageService,
+    private fb: FormBuilder
+  ) {
+  }
 
   async ngOnInit() {
     try {
@@ -46,6 +61,12 @@ export class AgendarPage implements OnInit {
     } catch (error) {
       console.error('Error al cargar los datos:', error);
     }
+
+    this.formGroup = this.fb.group({
+      mechanicId: [null, Validators.required],
+      typeOfServicesId: [null, Validators.required],
+      scheduleDate: [null, Validators.required]
+    });
   }
 
   setOpen(isOpen: boolean) {
@@ -64,5 +85,14 @@ export class AgendarPage implements OnInit {
 
   ionViewDidLeave() {
     this.storageService.remove('carSelected');
+  }
+
+  onSubmit(): void {
+    if(this.formGroup.valid) {
+      this.isValid = true;
+      const { mechanicId, typeOfServicesId, scheduleDate  } = this.formGroup.value;
+      const carId = this.carSelected.id;
+      console.log(mechanicId, carId, typeOfServicesId, scheduleDate );
+    }
   }
 }
