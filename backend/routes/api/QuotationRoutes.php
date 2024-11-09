@@ -10,4 +10,5 @@ Route::prefix('/jwt/quotations')->middleware('auth:api')->group(function () {
     Route::patch('/{quotationId}/approve', [QuotationController::class, 'approve']);
     Route::patch('/{quotationId}/decline', [QuotationController::class, 'decline']);
     Route::get('/{mechanicId}/all', [QuotationController::class, 'getAllQuotationsByMechanicAssigned']);
+    Route::get('/{userId}/all', [QuotationController::class, 'getQuotationByUserId']);
 });
