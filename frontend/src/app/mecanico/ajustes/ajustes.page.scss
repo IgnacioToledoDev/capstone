@@ -1,6 +1,6 @@
 ion-content {
     background: #0B1121;
-    color: white;
+    color: #ffffff;
   }
   
   .profile-card {
@@ -50,7 +50,7 @@ ion-avatar {
       background-color: #142d4c;
       margin: 18px;
       border-radius: 10px;
-      color: white;
+      color: #ffffff;
   }
   
   .logout-button {
@@ -58,7 +58,7 @@ ion-avatar {
   }
   
   ion-tab-bar {
-    background-color: #001f3f;
+    background-color: #0B1121;
     ion-tab-button {
       --color-selected: #007aff;
     }
@@ -69,8 +69,9 @@ ion-avatar {
   
   .custom-button {
     --border-radius: 0px; 
-    --color: #001f3f; 
+    --color: #0B1121; 
     width: 49%; 
+    --color: #ffffff;
   }
 
   .ion-text-capitalize{
