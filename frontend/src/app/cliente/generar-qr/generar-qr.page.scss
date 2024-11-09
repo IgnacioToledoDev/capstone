@@ -15,24 +15,18 @@ ion-content {
     justify-content: center;
     align-items: center;
     margin: 0 auto 20px;
-    margin-top: 500px;
-    width: 300px;
-    height: 300px;
-    background-color: #ffffff;
+    margin-top: 150px;
     border-radius: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 0 auto 20px;
 }
 
 // Estilo del botón con la flecha de regreso
 .back-button {
     position: absolute;
-    top: 30px; // Ajustar la posición
-    left: 10px; // Ajustar la posición
     color: #ffffff; // Flecha blanca
-    padding: 0; // Sin relleno adicional
+    padding: 20px 10px;
     border: none; // Sin borde
     font-size: 2rem; // Tamaño de la flecha
 }

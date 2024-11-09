@@ -30,7 +30,7 @@ export class GenerarQrPage implements OnInit {
       .catch(error => {
         console.error('Error al obtener la información del cliente:', error);
       });
-  }
+  } 
   goBack() {
     this.navCtrl.back();
   }

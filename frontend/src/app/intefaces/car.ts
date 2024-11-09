@@ -1,9 +1,9 @@
 export interface NewCarInterface {
-  brand_id: number;      
-  model_id: number;        
-  patent: string; 
-  owner_id: number;      
-  year: number;       
+  brand_id: number;
+  model_id: number;
+  patent: string;
+  owner_id: number;
+  year: number;
 }
 
 export interface CalendarEntry {
@@ -45,4 +45,11 @@ export interface HistoricalEntry {
     username: string;
     lastname: string;
   };
+}
+
+export interface carViewInterface {
+  marca: string;
+  modelo: string;
+  year: number;
+  patente: string | undefined;
 }

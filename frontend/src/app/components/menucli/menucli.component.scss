@@ -1,6 +1,11 @@
 ion-menu {
-    background-color: #ffffff;
-    background-color: #0B1121; 
+    background-color: #0B1121;
+
+    ion-list {
+        ion-item {
+            --ion-item-background: #0B1121 !important;
+        }
+    }
 }
 
 ion-title {
@@ -10,10 +15,10 @@ ion-title {
     margin-bottom: 1rem;
 }
 
-.item{
+.item {
     --color: #ffffff;
 }
 
-ion-icon{
+ion-icon {
     color: #3246F2
 }
