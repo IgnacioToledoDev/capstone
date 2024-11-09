@@ -241,6 +241,35 @@ export class ManteciService {
     }
   }
 
+  async getMaintenanceInCourse(): Promise<any> {
+    try {
+      // Get the authentication headers
+      const headers = await this.getAuthHeaders();
+
+      // Check if the Authorization header is available
+      if (!headers.has('Authorization')) {
+        console.error('No se pudo recuperar el token de autenticación.');
+        return null;
+      }
+
+      // Make the GET request to fetch maintenance records in course
+      const response = await this.http
+        .get<any>(`${this.API_URL}/jwt/maintenance/inCourse`, { headers })
+        .toPromise();
+
+      if (response.success && response.data) {
+        console.log('Mantenimientos en curso:', response);
+        return response.data;
+      } else {
+        console.error('Respuesta no válida al obtener mantenimientos en curso:', response);
+        return null;
+      }
+    } catch (error) {
+      console.error('Error al obtener los mantenimientos en curso:', error);
+      return null;
+    }
+  }
+
   async checkAuthenticated() {
     const token = await this.storageService.get('datos');
     this.isAuthenticated = token !== null;
