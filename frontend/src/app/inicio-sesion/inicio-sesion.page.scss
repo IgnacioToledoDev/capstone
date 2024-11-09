@@ -1,6 +1,6 @@
 // Estilos generales para el contenido
 ion-content {
-  background-color: #0d1117; // Fondo oscuro
+  background-color: #0B1121; // Fondo oscuro
   height: 100vh;
   display: flex;
   justify-content: center;
@@ -26,20 +26,18 @@ ion-content {
 .title {
   color: #ffffff;
   font-size: 2.5rem;
-  text-decoration-line: underline;
   text-align: center;
   margin-top: 2rem;
   margin-bottom: 4rem;
 }
 
-.line1 {
-  text-align: center;
-  color: #3032A3;
+ion-label{
+  font-size: 1.8rem;
 }
 
-.line2 {
+.line1 {
   text-align: center;
-  top: 2px;
+  color: #6772DA;
 }
 
 // Estilo del título
@@ -74,25 +72,6 @@ ion-content {
     margin: 1rem auto; // Centrar el botón horizontalmente
     display: block;
     width: 70%; // Ancho completo del contenedor (formulario)
-
-  // Estilos del botón de Google
-  .google-btn {
-  color: #000000; // Texto negro
-  font-size: 1rem;
-  border-radius: 5px;
-  padding: 10px;
-  margin: 1rem auto; // Centrar el botón
-  display: block;
-  justify-content: center;
-  align-items: center;
-  width: 350px; // Ancho del botón
-  }
-
-  img.google-icon {
-    width: 20px;
-    height: 20px;
-    margin-right: 8px;
-  }
   }
 
   ion-text {
@@ -101,7 +80,7 @@ ion-content {
     margin-top: 10px;
 
     a {
-      color: lighten(#0000FF, 10%); // Color del enlace ligeramente más claro
+      color: lighten(#3246F2, 10%); // Color del enlace ligeramente más claro
       text-decoration: none;
       font-size: 0.9rem;
     }
