@@ -946,4 +946,103 @@ class MaintenanceController extends Controller
 
         return $this->sendResponse($success['maintenanceInCourse'], 'maintenance in course founded successfully.');
     }
+
+    /**
+     * @OA\Get(
+     *     path="/api/jwt/maintenance/{userId}/all",
+     *     summary="Obtener mantenciones por ID de usuario",
+     *     description="Este endpoint obtiene todas las mantenciones de los vehículos asociados a un usuario específico.",
+     *     tags={"Maintenances"},
+     *     security={{"bearerAuth": {}}},
+     *     @OA\Parameter(
+     *         name="userId",
+     *         in="path",
+     *         required=true,
+     *         description="ID del usuario para obtener sus mantenciones",
+     *         @OA\Schema(
+     *             type="integer",
+     *             example=1
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Mantenciones obtenidas exitosamente",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="success",
+     *                 type="boolean",
+     *                 example=true
+     *             ),
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="object",
+     *                 @OA\Property(
+     *                     property="maintenances",
+     *                     type="array",
+     *                     @OA\Items(
+     *                         type="object",
+     *                         @OA\Property(property="id", type="integer", example=101),
+     *                         @OA\Property(property="car_id", type="integer", example=5),
+     *                         @OA\Property(property="start_date", type="string", format="date", example="2024-11-07"),
+     *                         @OA\Property(property="end_date", type="string", format="date", example="2024-11-10"),
+     *                         @OA\Property(property="status", type="string", example="completed"),
+     *                         @OA\Property(property="description", type="string", example="Cambio de aceite y filtro"),
+     *                         @OA\Property(property="created_at", type="string", format="date-time", example="2024-11-01T14:30:00Z"),
+     *                         @OA\Property(property="updated_at", type="string", format="date-time", example="2024-11-05T18:00:00Z")
+     *                     )
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Usuario o vehículos no encontrados",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="success",
+     *                 type="boolean",
+     *                 example=false
+     *             ),
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="Usuario o vehículos no encontrados"
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Error interno del servidor",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="success",
+     *                 type="boolean",
+     *                 example=false
+     *             ),
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="Ocurrió un error al obtener las mantenciones"
+     *             )
+     *         )
+     *     )
+     * )
+     */
+    public function getMaintenancesByUserId(int $userId): JsonResponse
+    {
+        $user = User::whereId($userId)->first();
+        $cars = Car::whereOwnerId($user->id)->get();
+        $maintenancesArr = [];
+        foreach ($cars as $car) {
+            $maintenances = Maintenance::whereCarId($car->id)->get();
+            foreach ($maintenances as $maintenance) {
+                $maintenancesArr[] = $maintenance;
+            }
+        }
+        $success['maintenances'] = $maintenancesArr;
+        return $this->sendResponse($success, 'maintenances found.');
+    }
 }
