@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/services/user.service';
 import { NavController } from '@ionic/angular';
-import { ManteciService } from 'src/app/services/manteci.service';  // Import your maintenance service
+import { ManteciService } from 'src/app/services/manteci.service'; 
+import { Storage } from '@ionic/storage-angular';
 
 @Component({
   selector: 'app-home-cliente',
@@ -19,11 +20,13 @@ export class HomeClientePage implements OnInit {
   token: string | null = null;
   user: any = {};
   maintenanceData: any = {}; // Store the fetched maintenance data
+  noMaintenanceInCourse: boolean = false; // Variable to handle the no maintenance case
 
   constructor(
     private userService: UserService,
     private maintenanceService: ManteciService,  // Inject the MaintenanceService
-    private navCtrl: NavController
+    private navCtrl: NavController,
+    private storage: Storage  // Inject Storage
   ) { }
 
   async ngOnInit() {
@@ -46,14 +49,24 @@ export class HomeClientePage implements OnInit {
   async getMaintenanceInCourse() {
     try {
       const response = await this.maintenanceService.getMaintenanceInCourse(); // Call the service
-      if (response) {
+      if (response && response.maintenance) {
         this.maintenanceData = response;
         console.log('Maintenance Data:', this.maintenanceData);
+
+        // Save the maintenance ID in Ionic Storage
+        const maintenanceId = this.maintenanceData.maintenance.id;
+        await this.storage.set('maintenanceIdcli', maintenanceId);
+        console.log('Maintenance ID stored in Ionic Storage:', maintenanceId);
+
+        // Hide the "No maintenance in course" message
+        this.noMaintenanceInCourse = false;
       } else {
         console.error('No maintenance data found.');
+        this.noMaintenanceInCourse = true; // Show the "no maintenance" message
       }
     } catch (error) {
       console.error('Error fetching maintenance data:', error);
+      this.noMaintenanceInCourse = true; // Show the "no maintenance" message
     }
   }
 
