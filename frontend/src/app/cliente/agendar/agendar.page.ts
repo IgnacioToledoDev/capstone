@@ -16,13 +16,17 @@ export class AgendarPage implements OnInit {
   mechanicSelected: any;
   isMechanicSelected: boolean = false;
   carSelected!: carViewInterface;
+  isWeekday = (dateString: string) => {
+    const date = new Date(dateString);
+    const utcDay = date.getUTCDay();
+    return utcDay !== 0;
+  };
 
   constructor(private userService: UserService, private navCtrl: NavController, private storageService: StorageService) { }
 
   async ngOnInit() {
     try {
       await this.storageService.init();
-
       this.userService.getMechanics().then((response: any) => {
         const mechanicsData = response.data.mechanics;
         mechanicsData.forEach((mechanic: any) => {
@@ -31,20 +35,14 @@ export class AgendarPage implements OnInit {
       }).catch(error => {
         console.error('Error al obtener los mecánicos:', error);
       });
-
       const carSelected = await this.storageService.get('carSelected');
-
       if (carSelected) {
         if (!carSelected.patente) {
           carSelected.patente = 'Sin patente';
         }
 
         this.carSelected = carSelected;
-        console.log('Carro seleccionado:', this.carSelected);
-      } else {
-        console.log('No hay carro seleccionado en el almacenamiento.');
       }
-
     } catch (error) {
       console.error('Error al cargar los datos:', error);
     }
@@ -58,7 +56,6 @@ export class AgendarPage implements OnInit {
     this.mechanicSelected = mechanic;
     this.isMechanicSelected = true;
     this.setOpen(false);
-    console.log('Mecánico seleccionado:', this.mechanicSelected);
   }
 
   goBack() {
