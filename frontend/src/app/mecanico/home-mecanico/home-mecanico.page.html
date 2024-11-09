@@ -34,7 +34,6 @@
       <ion-list *ngIf="currentList.length > 0; else noCurrentMaintenance">
         <ion-item *ngFor="let record of currentList" (click)="saveMaintenanceIdAndNavigate(record.maintenance.id)">
           <ion-label>
-            <h2>id mantecion: {{ record.maintenance.id }}</h2>
             <h2>Cliente: {{ record.client.name }} {{ record.client.lastname }}</h2>
             <p>Vehículo: {{ record.car.patent }}</p>
             <p>Fechas de inicio: {{ record.maintenance.start_maintenance | date: 'dd/MM/yyyy'}}</p>
