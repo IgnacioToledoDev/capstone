@@ -14,7 +14,7 @@
     <br>
     <ion-card-header>
       <ion-avatar>
-        <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" class="hola"/>
+        <img alt="Silhouette of a person's head" src="assets/icon/mecanico.png" class="hola"/>
       </ion-avatar>
       <ion-card-subtitle>
         {{ user.roles === 'MECHANIC_USER' ? 'Mecánico' : 'Cliente' }}
@@ -31,11 +31,6 @@
     <ion-item button routerLink="/mecanico/lista-car">
       <ion-icon slot="start" name="car-outline" ></ion-icon>
       <ion-label>Autos</ion-label>
-    </ion-item>
-
-    <ion-item button>
-      <ion-icon slot="start" name="notifications-outline"></ion-icon>
-      <ion-label>Notificaciones</ion-label>
     </ion-item>
 
     <ion-item button>

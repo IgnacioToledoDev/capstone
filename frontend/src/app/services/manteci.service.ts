@@ -18,7 +18,7 @@ export class ManteciService {
     storageService.create();
   }
 
-  async getMaintenanceCalendar(): Promise<{ calendar: CalendarEntry[], current: CurrentUser[] }> {
+  async getMaintenanceCalendar(): Promise<{ calendar: CalendarEntry[], current: any[] }> {
     try {
       const headers = await this.getAuthHeaders();
   
@@ -28,28 +28,40 @@ export class ManteciService {
       }
   
       const response = await this.http.get<any>(`${this.API_URL}/jwt/maintenance/calendar`, { headers }).toPromise();
-      console.log('Registro car exitoso:', response);
   
-      if (response.success && response.data) {
-        const calendar = response.data.calendar.map((entry: any) => ({
+      // Log the full response for debugging
+      console.log('API Response:', response);
+  
+      if (response && response.success && response.data) {
+        // Convert calendarData to an array if it is an object with numeric keys
+        const calendarData = response.data.calendar;
+        console.log('Calendar Data (before transformation):', calendarData);
+        
+        const calendarArray = Array.isArray(calendarData)
+          ? calendarData
+          : Object.values(calendarData);  // Convert object to array if needed
+        
+        const calendar = calendarArray.map((entry: any) => ({
           id: entry.id,
           car_id: entry.car_id,
           start_maintenance: entry.start_maintenance,
-          end_maintenance: entry.end_maintenance,  
+          end_maintenance: entry.end_maintenance,
           mechanic_id: entry.mechanic_id,
-          description: entry.name,  
-          pricing: entry.pricing,  
-          recommendation_action: entry.recommendation_action,  
-          status_id: entry.status_id, 
-          created_at: entry.created_at,  
-          updated_at: entry.updated_at   
+          description: entry.name,
+          pricing: entry.pricing,
+          recommendation_action: entry.recommendation_action,
+          status_id: entry.status_id,
+          created_at: entry.created_at,
+          updated_at: entry.updated_at
         }));
   
-        const current = response.data.current.map((user: any) => ({
-          id: user.id,
-          name: user.name,
-          email: user.email
-        }));
+        // Log the transformed calendar array
+        console.log('Transformed Calendar:', calendar);
+  
+        const current = Array.isArray(response.data.current) ? response.data.current : [];
+  
+        // Log the current data
+        console.log('Current Data:', current);
   
         return { calendar, current };
       } else {
@@ -61,6 +73,8 @@ export class ManteciService {
       return { calendar: [], current: [] };
     }
   }
+  
+  
   
 
   async getMaintenanceHistorical(): Promise<HistoricalEntry[]> {
@@ -180,9 +194,7 @@ export class ManteciService {
         console.error('No se pudo recuperar el token de autenticación.');
         return null;
       }
-  
-      // Prepare the request body (add any necessary parameters if needed)
-      const body = {}; // You can add any parameters if required for the status update.
+      const body = {}; 
   
       const response = await this.http.post<any>(
         `${this.API_URL}/jwt/maintenance/${maintenanceId}/status/next`,
@@ -203,7 +215,31 @@ export class ManteciService {
     }
   }
 
+  async getMaintenanceStatus(maintenanceId: number): Promise<any> {
+    try {
+      const headers = await this.getAuthHeaders();
   
+      if (!headers.has('Authorization')) {
+        console.error('No se pudo recuperar el token de autenticación.');
+        return null;
+      }
+  
+      const response = await this.http
+        .get<any>(`${this.API_URL}/jwt/maintenance/${maintenanceId}/status`, { headers })
+        .toPromise();
+  
+      if (response.success && response.data) {
+        console.log('Estado de mantenimiento:', response);
+        return response.data.status;
+      } else {
+        console.error('Respuesta no válida al obtener el estado de mantenimiento:', response);
+        return null;
+      }
+    } catch (error) {
+      console.error('Error al obtener el estado de mantenimiento:', error);
+      return null;
+    }
+  }
 
   async checkAuthenticated() {
     const token = await this.storageService.get('datos');

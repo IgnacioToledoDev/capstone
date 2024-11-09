@@ -5,6 +5,7 @@ ion-content {
   
   .profile-card {
     text-align: center;
+    margin-left: 5px;
   }
 
   // Estilo del botón con la flecha de regreso
@@ -21,7 +22,7 @@ ion-content {
 .hola {
   align-items: start;
   position: relative;
-  bottom: 70px;
+  bottom: 75px;
   right: 16px; // Ajustar la posición
 }
 
@@ -31,6 +32,11 @@ ion-title {
     font-size: 1.8rem;
     text-align: center;
     margin-top: 2.5rem;
+}
+
+ion-avatar {
+  width: 25%;
+  height: 25%;
 }
 
   .title {
@@ -69,4 +75,5 @@ ion-title {
 
   .ion-text-capitalize{
     text-align: center;
+    left: 20px; // Ajustar la posición
   }

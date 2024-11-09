@@ -84,3 +84,16 @@
     align-items: center;
     --color: #FFFF;
 }
+.client-card {
+  transition: background-color 0.3s ease;
+}
+
+.active-card {
+  background-color: #0099ff; /* Light blue for active status */
+}
+
+ion-icon[name="checkmark-circle"] {
+  font-size: 20px;
+  color: green;
+  margin-left: 8px;
+}
