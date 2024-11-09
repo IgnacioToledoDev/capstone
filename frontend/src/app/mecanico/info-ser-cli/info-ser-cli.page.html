@@ -73,7 +73,20 @@
       </ion-list>
     </ion-card-content>
   </ion-card>
-</ion-content>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Nota de la mantención</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item>
+        <ion-label class="maintenance-note">
+          {{ maintenanceDetails?.maintenance?.recommendation_action || 'Sin nota disponible' }}
+        </ion-label>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+  
 
 <ion-footer>
   <ion-button expand="full" (click)="presentAlert()">Iniciar</ion-button>

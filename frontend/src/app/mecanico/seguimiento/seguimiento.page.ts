@@ -50,7 +50,7 @@ export class SeguimientoPage implements OnInit {
   async presentAlert() {
     const alert = await this.alertController.create({
       header: 'Confirmación',
-      message: '¿estás seguro de querer finalizar el Estado?',
+      message: '¿Estás seguro de querer finalizar el estado?',
       backdropDismiss: true,
       buttons: [
         {
@@ -71,49 +71,34 @@ export class SeguimientoPage implements OnInit {
   
                 if (updateResponse) {
                   console.log('Estado de mantenimiento actualizado');
-  
-                  // Reload the maintenance status after update
+                  
+                  // Reload the maintenance status after the update
                   await this.loadMaintenanceStatus();
   
-                  // Check if the updated status is 'Finalizado'
+                  // Verify that all cycles are completed before redirecting
                   if (this.maintenanceStatus.status === 'Finalizado') {
-                    console.log('Mantenimiento finalizado, redirigiendo...');
-                    
-                    // Show confirmation alert that the service is finalized
                     const successAlert = await this.alertController.create({
                       header: 'Servicio Finalizado',
-                      message: 'El servicio ha sido finalizado exitosamente.',
-                      buttons: ['OK'],
+                      message: 'La cotización ha pasado por todos los ciclos y ha sido finalizada exitosamente.',
+                      buttons: [
+                        {
+                          text: 'OK',
+                          handler: () => {
+                            // Redirect to the home-mecanico page
+                            this.navCtrl.navigateForward('/mecanico/home-mecanico');
+                          }
+                        }
+                      ],
                     });
   
                     await successAlert.present();
-  
-                    // Redirect to home-mecanico page after confirmation
-                    this.navCtrl.navigateForward('/mecanico/home-mecanico'); // Redirect to home-mecanico page
-                  } 
-                  // Handle error state
-                  else if (this.maintenanceStatus.status === 'Error') {
-                    console.log('Error en el mantenimiento, redirigiendo...');
-                    
-                    // Show alert indicating error and redirection to client home
-                    const errorAlert = await this.alertController.create({
-                      header: 'Error',
-                      message: 'El mantenimiento ha sido finalizado con un error.',
-                      buttons: ['OK'],
-                    });
-  
-                    await errorAlert.present();
-  
-                    // Redirect to home-cliente
-                    this.navCtrl.navigateForward('/cliente/home-cliente'); // Redirect to home-cliente page
                   }
                 } else {
                   console.error('Error al actualizar el estado de mantenimiento');
                 }
               } catch (error) {
                 console.error('Error en la actualización del estado de mantenimiento:', error);
-                
-                // Show alert when there is an error in the update process
+  
                 const errorAlert = await this.alertController.create({
                   header: 'Error',
                   message: 'Hubo un problema al actualizar el estado del mantenimiento.',
@@ -131,5 +116,5 @@ export class SeguimientoPage implements OnInit {
     await alert.present();
   }
   
-  
+
 }
