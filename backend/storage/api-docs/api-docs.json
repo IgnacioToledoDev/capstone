@@ -3077,6 +3077,147 @@
                     }
                 ]
             }
+        },
+        "/api/jwt/client/{rut}/find": {
+            "get": {
+                "tags": [
+                    "Clients"
+                ],
+                "summary": "Obtener usuario por RUT",
+                "description": "Este endpoint permite obtener la información de un usuario a partir de su RUT.",
+                "operationId": "f07f9f72892d9db24af5e7549fec06cb",
+                "parameters": [
+                    {
+                        "name": "rut",
+                        "in": "path",
+                        "description": "RUT del usuario para obtener su información",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "12345678-9"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Usuario obtenido exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "user": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "name": {
+                                                            "type": "string",
+                                                            "example": "Juan Pérez"
+                                                        },
+                                                        "email": {
+                                                            "type": "string",
+                                                            "example": "juan.perez@example.com"
+                                                        },
+                                                        "rut": {
+                                                            "type": "string",
+                                                            "example": "12345678-9"
+                                                        },
+                                                        "created_at": {
+                                                            "type": "string",
+                                                            "format": "date-time",
+                                                            "example": "2023-10-01T12:34:56Z"
+                                                        },
+                                                        "updated_at": {
+                                                            "type": "string",
+                                                            "format": "date-time",
+                                                            "example": "2023-10-01T12:34:56Z"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "RUT inválido",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Rut invalid."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Usuario no encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Usuario no encontrado"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno del servidor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Ocurrió un error al obtener el usuario"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
         }
     },
     "components": {
