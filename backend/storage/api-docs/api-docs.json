@@ -361,6 +361,144 @@
                 ]
             }
         },
+        "/api/jwt/cars/{userId}/all": {
+            "get": {
+                "tags": [
+                    "Cars"
+                ],
+                "summary": "Obtener vehículos por ID de usuario",
+                "description": "Este endpoint obtiene todos los vehículos asociados a un usuario específico.",
+                "operationId": "f69d2be3d4904e7d85b37f1de7250873",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "description": "ID del usuario para obtener sus vehículos",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Vehículos obtenidos exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "cars": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "patent": {
+                                                                "type": "string",
+                                                                "example": "ABC123"
+                                                            },
+                                                            "brand": {
+                                                                "type": "string",
+                                                                "example": "Toyota"
+                                                            },
+                                                            "model": {
+                                                                "type": "string",
+                                                                "example": "Corolla"
+                                                            },
+                                                            "year": {
+                                                                "type": "integer",
+                                                                "example": 2020
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "JWT Token no encontrado o inválido",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "JWT Token no found o is not valid"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Usuario no encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Usuario no encontrado"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno del servidor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Ocurrió un error al obtener los vehículos"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/jwt/cars/models/all": {
             "get": {
                 "tags": [
@@ -2172,14 +2310,14 @@
                 ]
             }
         },
-        "/api/jwt/quotations/{userId}/all": {
+        "/api/jwt/quotations/{userId}/allQuotations": {
             "get": {
                 "tags": [
                     "Quotations"
                 ],
                 "summary": "Obtener todas las cotizaciones de un usuario",
                 "description": "Este endpoint obtiene todas las cotizaciones asociadas al usuario especificado por su ID.",
-                "operationId": "0ba23904ed89c3324a9d79d7d06e6f9b",
+                "operationId": "906af03c913495b8aae9d36e198df33d",
                 "parameters": [
                     {
                         "name": "userId",
