@@ -2,8 +2,8 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\UserResource\Pages;
-use App\Filament\Resources\UserResource\RelationManagers;
+use App\Filament\Resources\EmployeesResource\Pages;
+use App\Filament\Resources\EmployeesResource\RelationManagers;
 use App\Models\User;
 use App\Rules\ValidateRut;
 use App\Utils\Constants;
@@ -13,29 +13,26 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Rawilk\FilamentPasswordInput\Password;
 
-
-class UserResource extends Resource
+class EmployeesResource extends Resource
 {
     protected static ?string $model = User::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-user';
+    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    protected static ?string $navigationLabel = 'Usuarios';
+    protected static ?string $navigationLabel = 'Empleados';
 
-    protected static ?string $modelLabel = 'Usuario';
+    protected static ?string $modelLabel = 'Empleado';
 
     protected static ?string $navigationGroup = 'Administración';
-
-    protected static ?int $navigationSort = -1;
 
     public static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery()->whereHas('roles', function ($query) {
-            $query->whereIn('name', [User::CLIENT]);
+            $query->whereIn('name', [User::MECHANIC, User::COMPANY_ADMIN]);
         });
-
     }
 
     public static function form(Form $form): Form
@@ -46,7 +43,7 @@ class UserResource extends Resource
                     ->label('Nombre del usuario')
                     ->required()
                     ->placeholder('Nombre del usuario'),
-                    Forms\Components\TextInput::make('name')
+                Forms\Components\TextInput::make('name')
                     ->label('Nombre')
                     ->placeholder('Nombre'),
                 Forms\Components\TextInput::make('lastname')
@@ -107,14 +104,16 @@ class UserResource extends Resource
                 Tables\Columns\TextColumn::make('email')
                     ->label('Correo electrónico')
                     ->searchable()
-                    ->sortable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('roles.name')
+                    ->label('Rol')
+                    ->searchable()
             ])
             ->filters([
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make()->label('Editar'),
-                Tables\Actions\DeleteAction::make()->label('Borrar'),
+                Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -133,9 +132,9 @@ class UserResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListUsers::route('/'),
-            'create' => Pages\CreateUser::route('/create'),
-            'edit' => Pages\EditUser::route('/{record}/edit'),
+            'index' => Pages\ListEmployees::route('/'),
+            'create' => Pages\CreateEmployees::route('/create'),
+            'edit' => Pages\EditEmployees::route('/{record}/edit'),
         ];
     }
 }
