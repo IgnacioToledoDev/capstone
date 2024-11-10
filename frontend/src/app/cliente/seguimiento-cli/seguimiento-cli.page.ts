@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertController ,NavController} from '@ionic/angular';
-interface Status {
-  title: string;
-  image: string;
-  buttonTitle?: string;
-}
+import { AlertController, NavController } from '@ionic/angular';
+import { Storage } from '@ionic/storage-angular';
+import { ManteciService } from 'src/app/services/manteci.service';
+
 @Component({
   selector: 'app-seguimiento-cli',
   templateUrl: './seguimiento-cli.page.html',
@@ -12,31 +10,44 @@ interface Status {
 })
 export class SeguimientoCliPage implements OnInit {
 
-  constructor(private navCtrl: NavController) { }
+  maintenanceId: number | null = null;
+  maintenanceStatus: any = null;
 
-  ngOnInit() {
+  constructor(
+    private alertController: AlertController,
+    private navCtrl: NavController,
+    private storageService: Storage,
+    private manteciService: ManteciService
+  ) {}
+
+  async ngOnInit() {
+    await this.storageService.create();
+
+    const storedMaintenanceId = await this.storageService.get('maintenanceIdcli');
+    if (storedMaintenanceId) {
+      this.maintenanceId = storedMaintenanceId;
+      console.log('ID de mantenimiento recuperado:', this.maintenanceId);
+      await this.loadMaintenanceStatus();
+    } else {
+      console.log('No se encontró un ID de mantenimiento en Storage');
+    }
   }
+
+  async loadMaintenanceStatus() {
+    if (this.maintenanceId !== null) {
+      try {
+        this.maintenanceStatus = await this.manteciService.getMaintenanceStatus(this.maintenanceId);
+        console.log('Estado de mantenimiento:', this.maintenanceStatus.status);
+      } catch (error) {
+        console.error('Error al cargar el estado de mantenimiento:', error);
+        this.maintenanceStatus = { status: 'Error loading status' };
+      }
+    }
+  }
+
   goBack() {
     this.navCtrl.back();
   }
 
-  eventosinicio: { title: string, image: string ,buttonTitle?: string}[] = [
-    { title: 'Iniciado', image:'assets/images/inicio.jpg',buttonTitle: 'Actual' },
-  ];
-  eventosprogreso: { title: string, image: string ,buttonTitle?: string}[] = [
-    { title: 'En progreso', image:'assets/images/inicio.jpg',buttonTitle: 'Próximo...' },
-  ];
-  eventosListo: { title: string, image: string ,buttonTitle?: string}[] = [
-    { title: 'Listo para entrega', image:'assets/images/inicio.jpg',buttonTitle: 'Próximo...' },
-  ];
 
-
-  onButtonClick(evento: Status) {
-    console.log( evento.title);
-
-  }
-  presentAlert(){
-    this.navCtrl.navigateForward('/cliente/calificar');
-    console.log('Acción Finalizar');
-  }
 }

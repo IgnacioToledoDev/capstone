@@ -1,4 +1,5 @@
 <app-menucli></app-menucli>
+
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
@@ -32,23 +33,34 @@
   </div>
 
   <h3 class="title">Mantenciones en Curso:</h3>
-  <ion-card routerLink="/cliente/info-mante">
+
+  <!-- Show maintenance data if it exists, otherwise show no maintenance message -->
+  <ion-card *ngIf="maintenanceData && maintenanceData.car" routerLink="/cliente/info-mante">
     <ion-card-content class="maintenance-in_course">
       <div class="maintenance-info">
         <ion-img src="assets/image/mecanica.jpg" alt="Maintenance Image"></ion-img>
         <div class="info__container">
           <ion-label class="ion-padding-bottom">
-            <p><span>Patente: </span>KDTD82</p>
-            <p><span>Marca: </span>Toyota</p>
-            <p><span>Modelo: </span>Swift</p>
-            <p><span>Año: </span>2018</p>
+            <p><span>Mantenimientos id: </span>{{ maintenanceData.maintenance.id }}</p>
+            <p><span>Patente: </span>{{ maintenanceData.car.patent }}</p>
+            <p><span>Marca: </span>{{ maintenanceData.car.brand }}</p>
+            <p><span>Modelo: </span>{{ maintenanceData.car.model }}</p>
+            <p><span>Año: </span>{{ maintenanceData.car.year }}</p>
           </ion-label>
-          <ion-badge color="success">En progreso</ion-badge>
+          <ion-badge color="success">{{ maintenanceData.status }}</ion-badge>
         </div>
       </div>
     </ion-card-content>
   </ion-card>
 
+  <!-- Show a message if no maintenance is found -->
+  <ion-card *ngIf="noMaintenanceInCourse">
+    <ion-card-content>
+      <ion-label class="ion-padding-bottom">
+        <p>No hay mantenimientos en curso.</p>
+      </ion-label>
+    </ion-card-content>
+  </ion-card>
 
   <!-- Elige el servicio a realizar -->
   <h3 class="title">Elige el servicio a realizar:</h3>
@@ -72,7 +84,6 @@
   </ion-card>
 </ion-content>
 
-<!-- Menu y contacto -->
 <ion-footer>
   <ion-toolbar>
     <div class="button-container">

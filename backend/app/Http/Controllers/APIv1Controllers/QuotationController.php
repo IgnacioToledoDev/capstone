@@ -489,41 +489,148 @@ class QuotationController extends Controller
      */
     public function getAllQuotationsByMechanicAssigned(Request $request, int $mechanicId): JsonResponse
     {
-        $quotations = Quotation::where(['mechanic_id' => $mechanicId])->get();
+        $quotations = Quotation::where(['mechanic_id' => $mechanicId, 'is_active' => false])->get();
         $element = [
             'quotations' => []
         ];
-
         foreach ($quotations as $quotation) {
-            $details = QuotationDetails::whereQuotationId($quotation->id)->get();
-            $car = Car::whereId($quotation->car_id)->first();
-            $owner = User::whereId($car->owner_id)->first();
-            unset($owner->password);
-
-            $services = [];
-            foreach ($details as $detail) {
-                $service = Service::whereId($detail->service_id)->first();
-                $services[] = [
-                    'service' => $service,
-                    'is_approved_by_client' => $detail->is_approved_by_client,
-                ];
-            }
-
-            $quotationElement = [
-                'quotation' => $quotation,
-                'details' => $services,
-                'client' => $owner,
-                'car' => [
-                    'patent' => $car->patent,
-                    'brand' => $this->carHelper->getCarBrandName($car->id),
-                    'model' => $this->carHelper->getCarModelName($car->id),
-                    'year' => $car->year,
-                ]
-            ];
+            $quotationElement = $this->getDetailOfMaintenance($quotation);
 
             $element['quotations'][] = $quotationElement;
         }
 
         return $this->sendResponse($element, 'Quotations retrieved successfully');
+    }
+
+    /**
+     * @OA\Get(
+     *     path="/api/jwt/quotations/{userId}/allQuotations",
+     *     summary="Obtener todas las cotizaciones de un usuario",
+     *     description="Este endpoint obtiene todas las cotizaciones asociadas al usuario especificado por su ID.",
+     *     tags={"Quotations"},
+     *     security={{"bearerAuth": {}}},
+     *     @OA\Parameter(
+     *         name="userId",
+     *         in="path",
+     *         required=true,
+     *         description="ID del usuario para obtener sus cotizaciones",
+     *         @OA\Schema(
+     *             type="integer",
+     *             example=1
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Cotizaciones obtenidas exitosamente",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="success",
+     *                 type="boolean",
+     *                 example=true
+     *             ),
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="object",
+     *                 @OA\Property(
+     *                     property="quotations",
+     *                     type="array",
+     *                     @OA\Items(
+     *                         type="object",
+     *                         @OA\Property(property="id", type="integer", example=123),
+     *                         @OA\Property(property="car_id", type="integer", example=1),
+     *                         @OA\Property(property="amount", type="number", format="float", example=250.5),
+     *                         @OA\Property(property="status", type="string", example="pending"),
+     *                         @OA\Property(property="created_at", type="string", format="date-time", example="2023-10-01T12:34:56Z"),
+     *                         @OA\Property(property="updated_at", type="string", format="date-time", example="2023-10-01T12:34:56Z")
+     *                     )
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Usuario o carro no encontrado",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="success",
+     *                 type="boolean",
+     *                 example=false
+     *             ),
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="Usuario o carro no encontrado"
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Error interno del servidor",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="success",
+     *                 type="boolean",
+     *                 example=false
+     *             ),
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="Ocurrió un error al obtener las cotizaciones"
+     *             )
+     *         )
+     *     )
+     * )
+     */
+    public function getQuotationByUserId(int $userId): JsonResponse
+    {
+        $user = User::whereId($userId)->first();
+        $cars = Car::where(['owner_id' => $user->id])->get();
+        foreach ($cars as $car) {
+            $quotations = Quotation::where('car_id', $car->id)->get();
+            foreach ($quotations as $quotation) {
+                $quotationElement = $this->getDetailOfMaintenance($quotation);
+                $element[] = $quotationElement;
+            }
+        }
+        $success['quotations'] = $element ?? [];
+
+        return $this->sendResponse($success, 'Quotations retrieved nacho');
+    }
+
+    /**
+     * @param mixed $quotation
+     * @return array
+     */
+    public function getDetailOfMaintenance(mixed $quotation): array
+    {
+        $details = QuotationDetails::whereQuotationId($quotation->id)->get();
+        $car = Car::whereId($quotation->car_id)->first();
+        $owner = User::whereId($car->owner_id)->first();
+        unset($owner->password);
+
+        $services = [];
+        foreach ($details as $detail) {
+            $service = Service::whereId($detail->service_id)->first();
+            $services[] = [
+                'service' => $service,
+                'is_approved_by_client' => $detail->is_approved_by_client,
+            ];
+        }
+
+        return [
+            'quotation' => $quotation,
+            'details' => $services,
+            'client' => $owner,
+            'car' => [
+                'id' => $car->id,
+                'patent' => $car->patent,
+                'brand' => $this->carHelper->getCarBrandName($car->id),
+                'model' => $this->carHelper->getCarModelName($car->id),
+                'year' => $car->year,
+            ]
+        ];
     }
 }

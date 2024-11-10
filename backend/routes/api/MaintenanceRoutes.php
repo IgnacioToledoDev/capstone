@@ -14,6 +14,7 @@ Route::prefix('/jwt/maintenance')->middleware('auth:api')->group(function () {
     Route::get('/{maintenanceId}/status', [MaintenanceController::class, 'getStatus']);
     Route::post('/{maintenanceId}/status/next', [MaintenanceController::class, 'changeStatus']);
     Route::get('/inCourse/', [MaintenanceController::class, 'getMaintenanceInCourse']);
+    Route::get('/{userId}/all', [MaintenanceController::class, 'getMaintenancesByUserId']);
 });
 
 Route::prefix('/jwt/maintenanceDetails')->middleware('auth:api')->group(function () {

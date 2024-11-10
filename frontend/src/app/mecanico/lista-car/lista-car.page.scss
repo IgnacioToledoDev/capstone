@@ -4,15 +4,16 @@
 
 .custom-button {
   --border-radius: 0px;
-  /* Esquinas cuadradas */
   --color: #001f3f;
   width: 49%;
-
+  display: flex;
 }
 
 // Estilo del botón con la flecha de regreso
 .back-button {
   position: absolute;
+  top: 30px;  // Ajustar la posición
+  left: 10px; // Ajustar la posición
   color: #ffffff; // Flecha blanca
   padding: 0; // Sin relleno adicional
   border: none; // Sin borde
@@ -21,7 +22,7 @@
 
 .title {
   color: #FFFFFF;
-  font-size: 2rem;
+  font-size: 1.5rem;
   margin-top: 2.5rem;
   margin-bottom: 1rem;
 }
@@ -30,5 +31,5 @@
   --background: #FFFFFF; // Fondo gris claro para el input
   border-radius: 8px; // Bordes redondeados
   margin-bottom: 1.5rem; // Espacio entre campos de entrada
-  --color: black; // Texto negro para los inputs
+  --color: #0B1121; // Texto negro para los inputs
 }

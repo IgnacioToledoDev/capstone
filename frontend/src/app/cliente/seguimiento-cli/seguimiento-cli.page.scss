@@ -1,101 +1,99 @@
-ion-content {
-  background-color: #0B1121;  
-  color: #ffffff;
-}
-
-
 .client-card {
-    background-color: #0B1121;
-    
-    ion-card-header {
-      ion-card-title {
-        color: #ffffff;
-        font-size: 1.2rem;
-      }
+  background-color: #1E293B;
+  
+  ion-card-header {
+    ion-card-title {
+      color: #ffffff;
+      font-size: 1.2rem;
     }
-  
-    ion-card-content {
-      .card-content {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-      }
-      .card-contenta {
-        display: flex;
-        justify-content: space-between;
-      }
-  
-      .text-content {
-        margin-left: 2rem;
-        flex: 1;
-  
-        h2 {
-          color: #ffffff;
-          font-size: 1.5rem;
-        }
-        
-      }
-      .text-contenta {
-        margin-right: 2rem;
-        flex: 1;
-  
-        h2 {
-          color: #ffffff;
-          font-size: 1.5rem;
-        }
-        
+  }
+
+  ion-card-content {
+    .card-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .card-contenta {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .text-content {
+      margin-left: 2rem;
+      flex: 1;
+
+      h2 {
+        color: #ffffff;
+        font-size: 1.5rem;
       }
       
-      img {
-        width: 120px; 
-        height: 100px; 
-        object-fit: cover; 
-      }
     }
-  }
+    .text-contenta {
+      margin-right: 2rem;
+      flex: 1;
 
-      // Estilo del botón con la flecha de regreso
-      .back-button {
-        position: absolute;
-        top: 30px;  // Ajustar la posición
-        left: 10px; // Ajustar la posición
-        color: #ffffff; // Flecha blanca
-        padding: 0; // Sin relleno adicional
-        border: none; // Sin borde
-        font-size: 2rem; // Tamaño de la flecha
+      h2 {
+        color: #ffffff;
+        font-size: 1.5rem;
+      }
+      
     }
     
-      // Estilo del título
-    ion-title {
-        color: #ffffff;
-        font-size: 1.8rem;
-        text-align: center;
-        margin-top: 2.5rem;
+    img {
+      width: 120px; 
+      height: 100px; 
+      object-fit: cover; 
     }
-  
-  ion-item {
-    --background: #0B1121;
   }
-  
-  .button-container {
-    display: flex;
-  }
-
-  .input-button{
-    width: 60%;
-    margin: 1rem auto;
-    display: flex;
-    align-items: center;
-    --color: #FFFF;
 }
-  
-  .custom-button {
-    --border-radius: 0px;
-    --color: #0B1121;
-    width: 49%;
-  }
-  .pad{
-    margin: 2 auto; 
+
+  // Estilo del botón con la flecha de regreso
+  .back-button {
+    position: absolute;
+    top: 30px;  // Ajustar la posición
+    left: 10px; // Ajustar la posición
+    color: #ffffff; // Flecha blanca
+    padding: 0; // Sin relleno adicional
+    border: none; // Sin borde
+    font-size: 2rem; // Tamaño de la flecha
+}
+
+  // Estilo del título
+ion-title {
+    color: #ffffff;
+    font-size: 1.8rem;
     text-align: center;
-    font-size: 0.8rem;
-  }
+    margin-top: 2.5rem;
+}
+
+ion-item {
+  --background: #1E293B;
+}
+
+.pad{
+  margin: 2 auto; 
+  text-align: center;
+  font-size: 1rem;
+}
+
+.input-button{
+  width: 60%;
+  margin: 1rem auto;
+  display: flex;
+  align-items: center;
+  --color: #FFFF;
+}
+.client-card {
+transition: background-color 0.3s ease;
+}
+
+.active-card {
+background-color: #0099ff; /* Light blue for active status */
+}
+
+ion-icon[name="checkmark-circle"] {
+font-size: 20px;
+color: green;
+margin-left: 8px;
+}

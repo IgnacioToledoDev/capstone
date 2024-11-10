@@ -1,16 +1,11 @@
 ion-content {
     background: #0B1121;
-    color: white;
+    color: #ffffff;
   }
   
   .profile-card {
     text-align: center;
-    ion-avatar {
-      margin: 0 auto;
-      img {
-        border-radius: 50%;
-      }
-    }
+    margin-left: 5px;
   }
 
   // Estilo del botón con la flecha de regreso
@@ -24,12 +19,24 @@ ion-content {
     font-size: 2rem; // Tamaño de la flecha
 }
 
+.hola {
+  align-items: start;
+  position: relative;
+  bottom: 75px;
+  right: 16px; // Ajustar la posición
+}
+
   // Estilo del título
 ion-title {
     color: #ffffff;
     font-size: 1.8rem;
     text-align: center;
     margin-top: 2.5rem;
+}
+
+ion-avatar {
+  width: 25%;
+  height: 25%;
 }
 
   .title {
@@ -43,7 +50,7 @@ ion-title {
       background-color: #142d4c;
       margin: 18px;
       border-radius: 10px;
-      color: white;
+      color: #ffffff;
   }
   
   .logout-button {
@@ -51,7 +58,7 @@ ion-title {
   }
   
   ion-tab-bar {
-    background-color: #001f3f;
+    background-color: #0B1121;
     ion-tab-button {
       --color-selected: #007aff;
     }
@@ -62,7 +69,12 @@ ion-title {
   
   .custom-button {
     --border-radius: 0px; 
-    --color: #001f3f; 
+    --color: #0B1121; 
     width: 49%; 
+    --color: #ffffff;
+  }
 
+  .ion-text-capitalize{
+    text-align: center;
+    left: 20px; // Ajustar la posición
   }
