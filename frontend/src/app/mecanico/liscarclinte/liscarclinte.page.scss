@@ -1,0 +1,10 @@
+.button-container {
+    display: flex;
+}
+
+.custom-button {
+    --border-radius: 0px; /* Square corners */
+    width: 100%;
+    height: 1%;
+    --color: #ffffff;
+}

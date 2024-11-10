@@ -141,6 +141,11 @@ const routes: Routes = [
     path: 'mecanico/mantesnclien',
     loadChildren: () => import('./mecanico/mantesnclien/mantesnclien.module').then( m => m.MantesnclienPageModule)
   },
+  {
+    path: 'mecanico/liscarclinte',
+    loadChildren: () => import('./mecanico/liscarclinte/liscarclinte.module').then( m => m.LiscarclintePageModule)
+  },
+
 
 
 
