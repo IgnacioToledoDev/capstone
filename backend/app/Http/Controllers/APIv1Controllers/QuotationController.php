@@ -493,33 +493,8 @@ class QuotationController extends Controller
         $element = [
             'quotations' => []
         ];
-
         foreach ($quotations as $quotation) {
-            $details = QuotationDetails::whereQuotationId($quotation->id)->get();
-            $car = Car::whereId($quotation->car_id)->first();
-            $owner = User::whereId($car->owner_id)->first();
-            unset($owner->password);
-
-            $services = [];
-            foreach ($details as $detail) {
-                $service = Service::whereId($detail->service_id)->first();
-                $services[] = [
-                    'service' => $service,
-                    'is_approved_by_client' => $detail->is_approved_by_client,
-                ];
-            }
-
-            $quotationElement = [
-                'quotation' => $quotation,
-                'details' => $services,
-                'client' => $owner,
-                'car' => [
-                    'patent' => $car->patent,
-                    'brand' => $this->carHelper->getCarBrandName($car->id),
-                    'model' => $this->carHelper->getCarModelName($car->id),
-                    'year' => $car->year,
-                ]
-            ];
+            $quotationElement = $this->getDetailOfMaintenance($quotation);
 
             $element['quotations'][] = $quotationElement;
         }
@@ -529,7 +504,7 @@ class QuotationController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/jwt/quotations/{userId}/all",
+     *     path="/api/jwt/quotations/{userId}/allQuotations",
      *     summary="Obtener todas las cotizaciones de un usuario",
      *     description="Este endpoint obtiene todas las cotizaciones asociadas al usuario especificado por su ID.",
      *     tags={"Quotations"},
@@ -612,42 +587,49 @@ class QuotationController extends Controller
     public function getQuotationByUserId(int $userId): JsonResponse
     {
         $user = User::whereId($userId)->first();
-        $cars = Car::whereOwnerId($user->id)->get();
+        $cars = Car::where(['owner_id' => $user->id])->get();
         foreach ($cars as $car) {
             $quotations = Quotation::where('car_id', $car->id)->get();
             foreach ($quotations as $quotation) {
-                $details = QuotationDetails::whereQuotationId($quotation->id)->get();
-                $car = Car::whereId($quotation->car_id)->first();
-                $owner = User::whereId($car->owner_id)->first();
-                unset($owner->password);
-
-                $services = [];
-                foreach ($details as $detail) {
-                    $service = Service::whereId($detail->service_id)->first();
-                    $services[] = [
-                        'service' => $service,
-                        'is_approved_by_client' => $detail->is_approved_by_client,
-                    ];
-                }
-
-                $quotationElement = [
-                    'quotation' => $quotation,
-                    'details' => $services,
-                    'client' => $owner,
-                    'car' => [
-                        'patent' => $car->patent,
-                        'brand' => $this->carHelper->getCarBrandName($car->id),
-                        'model' => $this->carHelper->getCarModelName($car->id),
-                        'year' => $car->year,
-                    ]
-                ];
-
-                $element['quotations'][] = $quotationElement;
+                $quotationElement = $this->getDetailOfMaintenance($quotation);
+                $element[] = $quotationElement;
             }
         }
         $success['quotations'] = $element ?? [];
 
+        return $this->sendResponse($success, 'Quotations retrieved nacho');
+    }
 
-        return $this->sendResponse($success, 'Quotations retrieved successfully');
+    /**
+     * @param mixed $quotation
+     * @return array
+     */
+    public function getDetailOfMaintenance(mixed $quotation): array
+    {
+        $details = QuotationDetails::whereQuotationId($quotation->id)->get();
+        $car = Car::whereId($quotation->car_id)->first();
+        $owner = User::whereId($car->owner_id)->first();
+        unset($owner->password);
+
+        $services = [];
+        foreach ($details as $detail) {
+            $service = Service::whereId($detail->service_id)->first();
+            $services[] = [
+                'service' => $service,
+                'is_approved_by_client' => $detail->is_approved_by_client,
+            ];
+        }
+
+        return [
+            'quotation' => $quotation,
+            'details' => $services,
+            'client' => $owner,
+            'car' => [
+                'patent' => $car->patent,
+                'brand' => $this->carHelper->getCarBrandName($car->id),
+                'model' => $this->carHelper->getCarModelName($car->id),
+                'year' => $car->year,
+            ]
+        ];
     }
 }
