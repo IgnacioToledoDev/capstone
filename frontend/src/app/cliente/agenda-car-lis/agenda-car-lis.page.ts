@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { CarService } from 'src/app/services/car.service';
+import { StorageService } from 'src/app/services/storage.service';
 
 @Component({
   selector: 'app-agenda-car-lis',
@@ -8,12 +9,13 @@ import { CarService } from 'src/app/services/car.service';
   styleUrls: ['./agenda-car-lis.page.scss'],
 })
 export class AgendaCarLisPage implements OnInit {
-  eventos: { marca: string, patente: string, modelo: string, year: number }[] = [];
-  filteredEventos: { marca: string, patente: string, modelo: string, year: number }[] = [];
+  carList: { marca: string, patente: string, modelo: string, year: number }[] = [];
+  CarObjects: { marca: string, patente: string, modelo: string, year: number }[] = [];
 
   constructor(
     private navCtrl: NavController,
-    private carService: CarService
+    private carService: CarService,
+    private storageService: StorageService
   ) { }
 
   async ngOnInit() {
@@ -23,13 +25,14 @@ export class AgendaCarLisPage implements OnInit {
   async loadCars() {
     try {
       const cars = await this.carService.getCars();
-      this.eventos = cars.map(car => ({
+      this.carList = cars.map(car => ({
+        id: car.id,
         marca: car.brand,
-        patente: car.patent,
+        patente: this.formatPatent(car.patent),
         modelo: car.model,
         year: car.year
       }));
-      this.filteredEventos = this.eventos; // Inicializa la lista filtrada
+      this.CarObjects = this.carList; // Inicializa la lista filtrada
     } catch (error) {
       console.error('Error al cargar los coches:', error);
     }
@@ -37,10 +40,25 @@ export class AgendaCarLisPage implements OnInit {
 
   filterByPatente(event: any) {
     const query = event.target.value.toLowerCase();
-    this.filteredEventos = this.eventos.filter(car => car.patente.toLowerCase().includes(query));
+    this.CarObjects = this.carList.filter(car => car.patente.toLowerCase().includes(query));
   }
 
   goBack() {
     this.navCtrl.back();
+  }
+
+  formatPatent(patent: string | null) {
+    if (!patent) {
+      return '';
+    }
+
+    return patent.slice(0, 3) + ' ' + patent.slice(3);
+  }
+
+
+  selectCar(car: any) {
+    this.storageService.set('carSelected', car);
+    console.log('Carro seleccionado:', car);
+    this.navCtrl.navigateForward('/cliente/agendar');
   }
 }
