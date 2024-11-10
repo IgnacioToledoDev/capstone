@@ -1,8 +1,10 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders ,HttpErrorResponse} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Storage } from '@ionic/storage-angular';
 import { CalendarEntry , CurrentUser , HistoricalEntry  } from '../intefaces/car';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -243,30 +245,45 @@ export class ManteciService {
 
   async getMaintenanceInCourse(): Promise<any> {
     try {
-      // Get the authentication headers
+      // Obtener los encabezados de autenticación
       const headers = await this.getAuthHeaders();
 
-      // Check if the Authorization header is available
+      // Verificar si el encabezado de Authorization está disponible
       if (!headers.has('Authorization')) {
-        console.error('No se pudo recuperar el token de autenticación.');
+        console.log('No se pudo recuperar el token de autenticación.');
         return null;
       }
 
-      // Make the GET request to fetch maintenance records in course
+      // Realizar la solicitud GET para obtener los registros de mantenimiento en curso
       const response = await this.http
         .get<any>(`${this.API_URL}/jwt/maintenance/inCourse`, { headers })
+        .pipe(catchError(this.handleError)) // Agregar manejo de errores
         .toPromise();
 
-      if (response.success && response.data) {
+      if (response && response.success && response.data) {
         console.log('Mantenimientos en curso:', response);
         return response.data;
       } else {
-        console.error('Respuesta no válida al obtener mantenimientos en curso:', response);
+        console.log('Respuesta no válida al obtener mantenimientos en curso:', response);
         return null;
       }
     } catch (error) {
-      console.error('Error al obtener los mantenimientos en curso:', error);
+      console.log('Error al obtener los mantenimientos en curso:', error); // Usar console.log en lugar de console.error
       return null;
+    }
+  }
+
+  private handleError(error: HttpErrorResponse) {
+    // No mostrar errores en rojo, solo como logs
+    if (error.status === 404) {
+      console.log('No se encontraron mantenimientos en curso (404)'); // Usar console.log en lugar de console.error
+      return throwError('No se encontraron mantenimientos en curso');
+    } else if (error.status === 500) {
+      console.log('Error en el servidor (500)'); // Usar console.log en lugar de console.error
+      return throwError('Error interno del servidor');
+    } else {
+      console.log(`Error desconocido: ${error.message}`); // Usar console.log en lugar de console.error
+      return throwError('Error desconocido');
     }
   }
 

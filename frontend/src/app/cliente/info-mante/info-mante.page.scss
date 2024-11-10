@@ -36,3 +36,12 @@ ion-card-title{
     max-width: 400px; 
     width: 100%;
 }
+.button-container {
+    display: flex;
+  }
+  
+  .custom-button {
+    --border-radius: 0px;
+    --color: #0B1121;
+    width: 49%;
+  }
