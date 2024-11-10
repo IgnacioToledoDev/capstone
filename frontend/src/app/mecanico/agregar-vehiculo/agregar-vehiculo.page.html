@@ -33,8 +33,12 @@
   </ion-item>
   <ion-item class="input-item">
     <ion-label position="floating" class="label">Patente:</ion-label>
-    <ion-input formControlName="patente"></ion-input>
-  </ion-item>
+    <ion-input
+      formControlName="patente"
+      (ionInput)="onPatenteInput($event)"
+      maxlength="6"
+    ></ion-input>
+  </ion-item>  
   <br>
   <ion-button type="submit" >Agregar Vehículo</ion-button> 
   </form>
