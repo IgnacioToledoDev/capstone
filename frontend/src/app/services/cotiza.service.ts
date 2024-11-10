@@ -227,12 +227,6 @@ export class CotizaService {
       return [];
     }
   }
-<<<<<<< HEAD
-
-  
-  
-=======
->>>>>>> 77dba61737d451de84a68e1c840b483401fda127
 
   async checkAuthenticated() {
     const token = await this.storageService.get('datos');

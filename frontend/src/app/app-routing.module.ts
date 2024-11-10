@@ -148,7 +148,7 @@ const routes: Routes = [
   {
     path: 'cliente/agendar',
     loadChildren: () => import('./cliente/agendar/agendar.module').then(m => m.AgendarPageModule)
-  },
+  }
 ];
 
 @NgModule({
