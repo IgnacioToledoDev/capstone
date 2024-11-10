@@ -91,6 +91,17 @@
   </ion-card>
   
 
+
 <ion-footer>
-  <ion-button expand="full" (click)="presentAlert()">Iniciar</ion-button>
+  <ion-toolbar>
+    <div class="button-container">
+      <ion-button class="custom-button" expand="block" routerLink="/cliente/home-cliente">
+        <ion-icon slot="start" name="home"></ion-icon>
+        Inicio
+      </ion-button>
+      <ion-button class="custom-button" expand="block" routerLink="/cliente/seguimiento-cli">
+        Seguimiento
+      </ion-button>
+    </div>
+  </ion-toolbar>
 </ion-footer>

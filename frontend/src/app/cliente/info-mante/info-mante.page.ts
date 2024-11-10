@@ -58,31 +58,4 @@ export class InfoMantePage implements OnInit {
     this.navCtrl.back();
   }
 
-  // Alert to confirm starting the service without updating the maintenance status
-  async presentAlert() {
-    const alert = await this.alertController.create({
-      header: 'Confirmación',
-      message: '¿estás seguro de querer iniciar el servicio?',
-      backdropDismiss: true, 
-      buttons: [
-        {
-          text: 'Cancelar',
-          role: 'cancel',
-          handler: () => {
-            console.log('Acción cancelada');
-          },
-        },
-        {
-          text: 'Aceptar',
-          handler: async () => {
-            console.log('Acción aceptada');
-            // Navigate to the next page without updating the status
-            this.navCtrl.navigateForward('/cliente/seguimiento-cli');
-          },
-        },
-      ],
-    });
-
-    await alert.present();
-  }
 }
