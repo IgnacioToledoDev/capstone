@@ -114,7 +114,7 @@ class MaintenanceController extends Controller
 
             $calendar = Maintenance::whereMechanicId($user->id)
                 ->whereDate('start_maintenance', now()->toDateString())
-                ->whereIn('status_id', [StatusCar::STATUS_INACTIVE ,StatusCar::STATUS_STARTED, StatusCar::STATUS_PROGRESS])
+                ->whereIn('status_id', [StatusCar::STATUS_INACTIVE])
                 ->get();
 
             $current = $this->getCurrentClient($user);
