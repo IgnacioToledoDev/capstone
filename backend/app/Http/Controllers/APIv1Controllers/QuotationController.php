@@ -625,6 +625,7 @@ class QuotationController extends Controller
             'details' => $services,
             'client' => $owner,
             'car' => [
+                'id' => $car->id,
                 'patent' => $car->patent,
                 'brand' => $this->carHelper->getCarBrandName($car->id),
                 'model' => $this->carHelper->getCarModelName($car->id),
