@@ -137,6 +137,11 @@ const routes: Routes = [
     path: 'mecanico/qrinfo',
     loadChildren: () => import('./mecanico/qrinfo/qrinfo.module').then( m => m.QrinfoPageModule)
   },
+  {
+    path: 'mecanico/mantesnclien',
+    loadChildren: () => import('./mecanico/mantesnclien/mantesnclien.module').then( m => m.MantesnclienPageModule)
+  },
+
 
 
 
