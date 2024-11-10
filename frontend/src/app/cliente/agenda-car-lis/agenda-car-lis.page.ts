@@ -26,6 +26,7 @@ export class AgendaCarLisPage implements OnInit {
     try {
       const cars = await this.carService.getCars();
       this.carList = cars.map(car => ({
+        id: car.id,
         marca: car.brand,
         patente: this.formatPatent(car.patent),
         modelo: car.model,
