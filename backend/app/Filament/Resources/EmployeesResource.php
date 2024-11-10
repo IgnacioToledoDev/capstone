@@ -20,7 +20,7 @@ class EmployeesResource extends Resource
 {
     protected static ?string $model = User::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-s-user-group';
 
     protected static ?string $navigationLabel = 'Empleados';
 
@@ -65,6 +65,7 @@ class EmployeesResource extends Resource
                 Password::make('password')
                     ->required()
                     ->label('Contraseña')
+                    ->default('')
                     ->visible(fn () => auth()->user()->hasRole([User::SUPER_ADMIN,
                         User::COMPANY_ADMIN]))
                     ->placeholder('Contraseña del usuario'),
@@ -113,13 +114,9 @@ class EmployeesResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()->label('Editar'),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
-            ]);
+            ->bulkActions([]);
     }
 
     public static function getRelations(): array

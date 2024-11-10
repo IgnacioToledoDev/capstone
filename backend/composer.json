@@ -7,6 +7,7 @@
     "require": {
         "php": "^8.2",
         "blade-ui-kit/blade-heroicons": "^2.4",
+        "codeat3/blade-elusive-icons": "^1.4",
         "codeat3/blade-google-material-design-icons": "^1.19",
         "darkaonline/l5-swagger": "^8.6",
         "filament/filament": "^3.2",
