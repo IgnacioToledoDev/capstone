@@ -489,7 +489,7 @@ class QuotationController extends Controller
      */
     public function getAllQuotationsByMechanicAssigned(Request $request, int $mechanicId): JsonResponse
     {
-        $quotations = Quotation::where(['mechanic_id' => $mechanicId, 'is_approved_by_client' => false])->get();
+        $quotations = Quotation::where(['mechanic_id' => $mechanicId, 'approved_by_client' => false])->get();
         $element = [
             'quotations' => []
         ];
