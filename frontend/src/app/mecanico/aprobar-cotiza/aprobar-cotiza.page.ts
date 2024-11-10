@@ -79,7 +79,7 @@ export class AprobarCotizaPage implements OnInit {
           handler: async () => {
             await this.cotizaService.approveQuotation(this.quotation.quotation.id);
             console.log('Cotización aceptada');
-            await this.createMaintenanceRecordaproba(); // Crear el registro de mantenimiento
+// Crear el registro de mantenimiento
     
             const startNowAlert = await this.alertController.create({
               header: 'Confirmación de inicio',
@@ -170,7 +170,7 @@ export class AprobarCotizaPage implements OnInit {
     try {
       const response = await this.manteciService.createMaintenanceRecord(maintenanceData);
       if (response) {
-        console.log('Registro de mantenimiento creado con éxito:', response);
+        console.log('falso:', response);
       } else {
         console.error('No se pudo crear el registro de mantenimiento.');
       }

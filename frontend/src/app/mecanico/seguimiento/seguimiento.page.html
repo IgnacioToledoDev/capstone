@@ -5,12 +5,12 @@
   <br>
 </ion-header>
 
-<ion-content (click)="presentAlert()">
+<ion-content >
   <br>
   <br>
   
   <!-- Comenzando Card -->
-  <ion-card class="client-card" [ngClass]="{'active-card': maintenanceStatus?.status === 'Comenzando'}">
+  <ion-card (click)="presentAlert()" class="client-card" [ngClass]="{'active-card': maintenanceStatus?.status === 'Comenzando'}">
     <ion-card-content>
       <ion-item>
         <ion-card-content>
@@ -32,7 +32,7 @@
   </ion-card>
 
   <!-- En progreso Card -->
-  <ion-card class="client-card" [ngClass]="{'active-card': maintenanceStatus?.status === 'En progreso'}">
+  <ion-card (click)="presentAlert()" class="client-card" [ngClass]="{'active-card': maintenanceStatus?.status === 'En progreso'}">
     <ion-card-content>
       <ion-item>
         <ion-card-content>
@@ -54,7 +54,7 @@
   </ion-card>
 
   <!-- Listo para entrega Card -->
-  <ion-card class="client-card" [ngClass]="{'active-card': maintenanceStatus?.status === 'Finalizado'}">
+  <ion-card  (click)="presentAlert()" class="client-card" [ngClass]="{'active-card': maintenanceStatus?.status === 'Finalizado'}">
     <ion-card-content>
       <ion-item>
         <ion-card-content>
@@ -76,10 +76,19 @@
   </ion-card>
 </ion-content>
 
+
+
 <ion-footer>
-  <ion-toolbar>
-    <ion-button class="input-button" (click)="presentAlert()">Finalizar estado</ion-button>
+  <div class="button-container">
+    <ion-button class="custom-button" expand="block" routerLink="/mecanico/home-mecanico">
+      <ion-icon slot="start" name="home"></ion-icon>
+      Inicio
+    </ion-button>
+    <ion-button class="custom-button" expand="block" (click)="presentAlert()">
+      Finalizar estado
+    </ion-button>
     <h2 class="pad" *ngIf="maintenanceStatus">{{ maintenanceStatus.status }}</h2>
     <h6 class="pad">Al finalizar el estado va a cambiar a “Listo para entrega”</h6>
-  </ion-toolbar>
+  </div>
 </ion-footer>
+
