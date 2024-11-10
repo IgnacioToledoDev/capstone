@@ -133,6 +133,11 @@ const routes: Routes = [
     path: 'cliente/agenda-car-lis',
     loadChildren: () => import('./cliente/agenda-car-lis/agenda-car-lis.module').then( m => m.AgendaCarLisPageModule)
   },
+  {
+    path: 'mecanico/qrinfo',
+    loadChildren: () => import('./mecanico/qrinfo/qrinfo.module').then( m => m.QrinfoPageModule)
+  },
+
 
 
 
