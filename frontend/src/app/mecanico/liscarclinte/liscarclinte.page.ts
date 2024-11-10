@@ -9,8 +9,8 @@ import { Storage } from '@ionic/storage-angular';
   styleUrls: ['./liscarclinte.page.scss'],
 })
 export class LiscarclintePage implements OnInit {
-  cars: { marca: string, patente: string, modelo: string, year: number }[] = [];
-  filteredCars: { marca: string, patente: string, modelo: string, year: number }[] = [];
+  cars: { brand: string, patent: string, model: string, year: number }[] = [];
+  filteredCars: { brand: string, patent: string, model: string, year: number }[] = [];
 
   constructor(
     private navCtrl: NavController,
@@ -32,9 +32,9 @@ export class LiscarclintePage implements OnInit {
         // Llamar al servicio usando el userId obtenido
         const cars = await this.carService.getUserCars(userId);
         this.cars = cars.map((car: any) => ({
-          marca: car.brand,
-          patente: car.patent,
-          modelo: car.model,
+          brand: car.brand,
+          patent: car.patent,
+          model: car.model,
           year: car.year
         }));
         this.filteredCars = this.cars;
@@ -48,7 +48,7 @@ export class LiscarclintePage implements OnInit {
 
   filterByPatente(event: any) {
     const query = event.target.value.toLowerCase();
-    this.filteredCars = this.cars.filter(car => car.patente.toLowerCase().includes(query));
+    this.filteredCars = this.cars.filter(car => car.patent.toLowerCase().includes(query));
   }
 
   // Función para seleccionar el coche, guardarlo en el almacenamiento y redirigir
