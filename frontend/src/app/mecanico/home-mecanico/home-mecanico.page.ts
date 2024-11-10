@@ -29,7 +29,9 @@ export class HomeMecanicoPage implements OnInit {
       this.token = sessionData.token;
       this.user = sessionData.user;
     }
+  }
 
+  async ionViewWillEnter() {
     const data = await this.manteciService.getMaintenanceCalendar();
     if (data) {
       this.calendar = data.calendar;
@@ -42,6 +44,6 @@ export class HomeMecanicoPage implements OnInit {
 
   async saveMaintenanceIdAndNavigate(maintenanceId: number) {
     await this.storage.set('idmantesion', maintenanceId);
-    this.router.navigate(['/mecanico/info-ser-cli']); 
+    this.router.navigate(['/mecanico/info-ser-cli']);
   }
 }
