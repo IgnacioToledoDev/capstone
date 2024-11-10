@@ -292,4 +292,125 @@ class CarController extends Controller
 
         return $year;
     }
+
+    /**
+     * @OA\Get(
+     *     path="/api/jwt/cars/{userId}/all",
+     *     summary="Obtener vehículos por ID de usuario",
+     *     description="Este endpoint obtiene todos los vehículos asociados a un usuario específico.",
+     *     tags={"Cars"},
+     *     security={{"bearerAuth": {}}},
+     *     @OA\Parameter(
+     *         name="userId",
+     *         in="path",
+     *         required=true,
+     *         description="ID del usuario para obtener sus vehículos",
+     *         @OA\Schema(
+     *             type="integer",
+     *             example=1
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Vehículos obtenidos exitosamente",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="success",
+     *                 type="boolean",
+     *                 example=true
+     *             ),
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="object",
+     *                 @OA\Property(
+     *                     property="cars",
+     *                     type="array",
+     *                     @OA\Items(
+     *                         type="object",
+     *                         @OA\Property(property="id", type="integer", example=1),
+     *                         @OA\Property(property="patent", type="string", example="ABC123"),
+     *                         @OA\Property(property="brand", type="string", example="Toyota"),
+     *                         @OA\Property(property="model", type="string", example="Corolla"),
+     *                         @OA\Property(property="year", type="integer", example=2020)
+     *                     )
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="JWT Token no encontrado o inválido",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="success",
+     *                 type="boolean",
+     *                 example=false
+     *             ),
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="JWT Token no found o is not valid"
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Usuario no encontrado",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="success",
+     *                 type="boolean",
+     *                 example=false
+     *             ),
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="Usuario no encontrado"
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Error interno del servidor",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="success",
+     *                 type="boolean",
+     *                 example=false
+     *             ),
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="Ocurrió un error al obtener los vehículos"
+     *             )
+     *         )
+     *     )
+     * )
+     */
+    public function getCarsByUserId(int $userId): JsonResponse
+    {
+        if (!auth()->check()) {
+            return $this->sendError('JWT Token no found o is not valid');
+        }
+        $carsList = [];
+
+        $cars = Car::whereOwnerId($userId)->get();
+        foreach ($cars as $car) {
+            $carObj = [
+                'id' => $car->id,
+                'patent' => $car->patent,
+                'brand' => $this->carHelper->getCarBrandName($car->id),
+                'model' => $this->carHelper->getCarModelName($car->id),
+                'year' => $car->year,
+            ];
+            $carsList[] = $carObj;
+        }
+
+        $success['cars'] = $carsList;
+        return $this->sendResponse($success, 'Cars retrieved successfully.');
+    }
 }
