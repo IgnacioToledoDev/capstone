@@ -48,7 +48,7 @@ export interface HistoricalEntry {
 }
 
 export interface carViewInterface {
-  id: number|null|undefined;
+  id: number;
   marca: string;
   modelo: string;
   year: number;

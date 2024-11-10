@@ -1487,6 +1487,140 @@
                 ]
             }
         },
+        "/api/jwt/maintenance/{userId}/all": {
+            "get": {
+                "tags": [
+                    "Maintenances"
+                ],
+                "summary": "Obtener mantenciones por ID de usuario",
+                "description": "Este endpoint obtiene todas las mantenciones de los vehículos asociados a un usuario específico.",
+                "operationId": "1ef1d8bac0e7243608af28ffabb7d9d4",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "description": "ID del usuario para obtener sus mantenciones",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Mantenciones obtenidas exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "maintenances": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 101
+                                                            },
+                                                            "car_id": {
+                                                                "type": "integer",
+                                                                "example": 5
+                                                            },
+                                                            "start_date": {
+                                                                "type": "string",
+                                                                "format": "date",
+                                                                "example": "2024-11-07"
+                                                            },
+                                                            "end_date": {
+                                                                "type": "string",
+                                                                "format": "date",
+                                                                "example": "2024-11-10"
+                                                            },
+                                                            "status": {
+                                                                "type": "string",
+                                                                "example": "completed"
+                                                            },
+                                                            "description": {
+                                                                "type": "string",
+                                                                "example": "Cambio de aceite y filtro"
+                                                            },
+                                                            "created_at": {
+                                                                "type": "string",
+                                                                "format": "date-time",
+                                                                "example": "2024-11-01T14:30:00Z"
+                                                            },
+                                                            "updated_at": {
+                                                                "type": "string",
+                                                                "format": "date-time",
+                                                                "example": "2024-11-05T18:00:00Z"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Usuario o vehículos no encontrados",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Usuario o vehículos no encontrados"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno del servidor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Ocurrió un error al obtener las mantenciones"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/jwt/quotations/create": {
             "post": {
                 "tags": [
@@ -2023,6 +2157,131 @@
                                         "message": {
                                             "type": "string",
                                             "example": "Ocurrió un error al aprobar la cotización."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/jwt/quotations/{userId}/all": {
+            "get": {
+                "tags": [
+                    "Quotations"
+                ],
+                "summary": "Obtener todas las cotizaciones de un usuario",
+                "description": "Este endpoint obtiene todas las cotizaciones asociadas al usuario especificado por su ID.",
+                "operationId": "0ba23904ed89c3324a9d79d7d06e6f9b",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "description": "ID del usuario para obtener sus cotizaciones",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Cotizaciones obtenidas exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "quotations": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 123
+                                                            },
+                                                            "car_id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "amount": {
+                                                                "type": "number",
+                                                                "format": "float",
+                                                                "example": 250.5
+                                                            },
+                                                            "status": {
+                                                                "type": "string",
+                                                                "example": "pending"
+                                                            },
+                                                            "created_at": {
+                                                                "type": "string",
+                                                                "format": "date-time",
+                                                                "example": "2023-10-01T12:34:56Z"
+                                                            },
+                                                            "updated_at": {
+                                                                "type": "string",
+                                                                "format": "date-time",
+                                                                "example": "2023-10-01T12:34:56Z"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Usuario o carro no encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Usuario o carro no encontrado"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno del servidor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Ocurrió un error al obtener las cotizaciones"
                                         }
                                     },
                                     "type": "object"
@@ -2938,6 +3197,147 @@
                                         "message": {
                                             "type": "string",
                                             "example": "User or car not found."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/jwt/client/{rut}/find": {
+            "get": {
+                "tags": [
+                    "Clients"
+                ],
+                "summary": "Obtener usuario por RUT",
+                "description": "Este endpoint permite obtener la información de un usuario a partir de su RUT.",
+                "operationId": "f07f9f72892d9db24af5e7549fec06cb",
+                "parameters": [
+                    {
+                        "name": "rut",
+                        "in": "path",
+                        "description": "RUT del usuario para obtener su información",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "12345678-9"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Usuario obtenido exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "user": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "name": {
+                                                            "type": "string",
+                                                            "example": "Juan Pérez"
+                                                        },
+                                                        "email": {
+                                                            "type": "string",
+                                                            "example": "juan.perez@example.com"
+                                                        },
+                                                        "rut": {
+                                                            "type": "string",
+                                                            "example": "12345678-9"
+                                                        },
+                                                        "created_at": {
+                                                            "type": "string",
+                                                            "format": "date-time",
+                                                            "example": "2023-10-01T12:34:56Z"
+                                                        },
+                                                        "updated_at": {
+                                                            "type": "string",
+                                                            "format": "date-time",
+                                                            "example": "2023-10-01T12:34:56Z"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "RUT inválido",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Rut invalid."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Usuario no encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Usuario no encontrado"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno del servidor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Ocurrió un error al obtener el usuario"
                                         }
                                     },
                                     "type": "object"
