@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Storage } from '@ionic/storage-angular';
-import { CreateQuotationRequest , CreateQuotationResponse } from '../intefaces/catiza'; 
+import { CreateQuotationRequest , CreateQuotationResponse } from '../intefaces/catiza';
 
 
 @Injectable({
@@ -76,24 +76,24 @@ export class CotizaService {
     }
   }
 
-  async createQuotation(data: CreateQuotationRequest): Promise<CreateQuotationResponse | null | undefined> { 
+  async createQuotation(data: CreateQuotationRequest): Promise<CreateQuotationResponse | null | undefined> {
     try {
       const headers = await this.getAuthHeaders();
-  
+
       if (!headers.has('Authorization')) {
         console.error('No se pudo recuperar el token de autenticación.');
         return null;
       }
-  
+
       const response = await this.http.post<CreateQuotationResponse>(`${this.API_URL}/jwt/quotations/create`, data, { headers }).toPromise();
       console.log('Datos de quotations:', response);
-  
+
       if (response && response.success) {
         console.log('Cotización creada exitosamente:', response);
 
         await this.storageService.set('Quotation', response);
         console.log('Cotización guardada en el Storage:', response);
-  
+
         return response;
       } else {
         console.error('Error al crear la cotización:', response);
@@ -109,7 +109,7 @@ export class CotizaService {
     try {
       const headers = await this.getAuthHeaders();
       const response = await this.http.get<any>(`${this.API_URL}/jwt/quotations/`, { headers }).toPromise();
-  
+
       if (response.success && response.data?.quotations) {
         return response.data.quotations; // Adjust this based on the actual response structure
       } else {
@@ -131,8 +131,8 @@ export class CotizaService {
         return null;
       }
 
-      const response = await this.http.patch<CreateQuotationResponse>(`${this.API_URL}/jwt/quotations/${quotationId}/approve`, 
-        {}, 
+      const response = await this.http.patch<CreateQuotationResponse>(`${this.API_URL}/jwt/quotations/${quotationId}/approve`,
+        {},
         { headers }
       ).toPromise();
 
@@ -158,8 +158,8 @@ export class CotizaService {
         return null;
       }
 
-      const response = await this.http.patch<CreateQuotationResponse>(`${this.API_URL}/jwt/quotations/${quotationId}/decline`, 
-        {}, 
+      const response = await this.http.patch<CreateQuotationResponse>(`${this.API_URL}/jwt/quotations/${quotationId}/decline`,
+        {},
         { headers }
       ).toPromise();
 
@@ -205,17 +205,17 @@ export class CotizaService {
   async getQuotationById(quotationId: number): Promise<any [] | null> {
     try {
       const headers = await this.getAuthHeaders();
-  
+
       if (!headers.has('Authorization')) {
         console.error('No se pudo recuperar el token de autenticación.');
         return [];
       }
-  
+
       const response = await this.http.get<any>(
         `${this.API_URL}/jwt/quotations/${quotationId}`,
         { headers }
       ).toPromise();
-  
+
       if (response.success && response.data?.quotation) {
         return response.data.quotation; // Return the specific quotation from the response
       } else {
@@ -227,9 +227,12 @@ export class CotizaService {
       return [];
     }
   }
+<<<<<<< HEAD
 
   
   
+=======
+>>>>>>> 77dba61737d451de84a68e1c840b483401fda127
 
   async checkAuthenticated() {
     const token = await this.storageService.get('datos');

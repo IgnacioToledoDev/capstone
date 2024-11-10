@@ -623,7 +623,16 @@ class UserController extends Controller
             return $this->sendError('You need to sign in first.');
         }
 
-       $success['mechanics'] = $this->userHelper->getMechanicUsers();
+        $users = User::all();
+
+        foreach ($users as $user) {
+            $userRole = $user->getRoleNames();
+            if ($userRole[0] === User::MECHANIC) {
+                $mechanics[] = $user;
+            }
+        }
+
+       $success['mechanics'] = $mechanics ?? [];
         return $this->sendResponse($success, 'All mechanics retrieved successfully.');
     }
 

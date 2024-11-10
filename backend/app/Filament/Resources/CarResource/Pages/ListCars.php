@@ -10,10 +10,13 @@ class ListCars extends ListRecords
 {
     protected static string $resource = CarResource::class;
 
+    protected static ?string $title = 'Listado';
+
+
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            Actions\CreateAction::make()->label('Agregar auto'),
         ];
     }
 }

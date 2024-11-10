@@ -1,0 +1,128 @@
+::ng-deep .badge {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  z-index: 999;
+  padding: 14px 15px;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: row;
+  background-color: #2dd55b !important;
+}
+
+::ng-deep .badge ion-icon {
+  width: 24px;
+  height: 24px;
+}
+
+ion-header {
+    ion-toolbar {
+        --background: #0B1121 !important;
+        border: 0;
+    }
+}
+
+.back-button {
+    color: #ffffff; // Flecha blanca
+    border: none; // Sin borde
+    font-size: 2rem; // Tamaño de la flecha
+}
+
+ion-content {
+    .title {
+        font-size: 24px;
+        padding: 0 18px;
+        color: #AAB2C5;
+        font-weight: bold;
+    }
+
+    ion-card {
+        background-color: #1E293B;
+    }
+}
+
+.welcome-container {
+    display: flex;
+    margin-bottom: 10px;
+    padding-top: 10px;
+    max-width: 100%;
+
+    .welcome-container__section {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        margin: 4px;
+    }
+
+  .welcome-container__section {
+    display: flex;
+    flex-direction: row;
+    margin: 4px;
+  }
+
+    ion-item {
+        width: 100%;
+        height: auto;
+        --background: #1E293B;
+        --color: #F0F3FA;
+        --border-width: 0px;
+        border: 0;
+    }
+
+    ion-avatar {
+        width: 70px;
+        height: auto;
+        margin: 0 8px;
+    }
+
+    ion-label h2 {
+        font-size: 20px;
+        font-weight: bold;
+        margin: 0;
+        color: #F0F3FA;
+    }
+
+    ion-label p {
+        margin: 0;
+        color: #AAB2C5;
+    }
+
+    .mechanic__data p{
+      font-size: 16px;
+      color: #F0F3FA;
+      margin-top: 8px;
+    }
+
+  .mechanic__data_title {
+    font-weight: bold;
+  }
+
+  .service-options {
+    ion-button {
+      margin-bottom: 12px;
+    }
+
+    ion-button {
+      --border-radius: 4px;
+      --border: 0px
+    }
+
+    ion-button ion-img {
+      width: auto;
+      max-height: 65%;
+      height: auto;
+      padding: 0 8px;
+      border-radius: 4px;
+    }
+  }
+
+  .badge {
+    position: absolute;
+    right: 0;
+    z-index: 999;
+    padding: 14px 15px;
+    display: flex;
+    align-items: flex-start;
+    flex-direction: row;
+  }
+}

@@ -2310,14 +2310,14 @@
                 ]
             }
         },
-        "/api/jwt/quotations/{userId}/all": {
+        "/api/jwt/quotations/{userId}/allQuotations": {
             "get": {
                 "tags": [
                     "Quotations"
                 ],
                 "summary": "Obtener todas las cotizaciones de un usuario",
                 "description": "Este endpoint obtiene todas las cotizaciones asociadas al usuario especificado por su ID.",
-                "operationId": "0ba23904ed89c3324a9d79d7d06e6f9b",
+                "operationId": "906af03c913495b8aae9d36e198df33d",
                 "parameters": [
                     {
                         "name": "userId",

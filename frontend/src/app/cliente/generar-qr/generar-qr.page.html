@@ -1,19 +1,12 @@
 <ion-header>
-  <!-- Botón de regreso con flecha -->
-<ion-icon name="arrow-back-outline" slot="start" class="back-button" fill="clear" (click)="goBack()"></ion-icon>
-  <ion-title class="title ion-padding">Generar QR</ion-title>
-  <br>
-  <br>
+  <ion-icon name="arrow-back-outline" slot="start" class="back-button" fill="clear" (click)="goBack()"></ion-icon>
+  <ion-title class="title">Generar QR</ion-title>
 </ion-header>
 
-<ion-content class="ion-padding">
+<ion-content class="ion-padding-top">
   <div class="photo-container">
-    <qr-code [value]="value" size="300"  />
+    <qr-code [value]="value" size="300" />
   </div>
-  <br>
-  <ion-button color="tertiary" class="input-container ion-paading">
-    Generar QR
-  </ion-button>
 </ion-content>
 
 <ion-footer>

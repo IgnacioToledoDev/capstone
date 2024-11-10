@@ -10,10 +10,14 @@ class ListMaintenances extends ListRecords
 {
     protected static string $resource = MaintenanceResource::class;
 
+    protected static ?string $title = 'Listado';
+
+
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            Actions\CreateAction::make()->label('Crear mantenimiento'
+            ),
         ];
     }
 }
