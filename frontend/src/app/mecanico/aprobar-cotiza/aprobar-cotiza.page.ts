@@ -79,7 +79,7 @@ export class AprobarCotizaPage implements OnInit {
           handler: async () => {
             await this.cotizaService.approveQuotation(this.quotation.quotation.id);
             console.log('Cotización aceptada');
-// Crear el registro de mantenimiento
+             // Crear el registro de mantenimiento
     
             const startNowAlert = await this.alertController.create({
               header: 'Confirmación de inicio',
@@ -115,11 +115,7 @@ export class AprobarCotizaPage implements OnInit {
                   text: 'Aceptar',
                   handler: async () => {
                     console.log(`El mantenimiento se iniciará ${this.quotation.startNow ? 'inmediatamente' : 'en el futuro'}`);
-    
-                    // Crear el registro de mantenimiento si se inicia inmediatamente
-                    if (this.quotation.startNow) {
-                      await this.createMaintenanceRecordaproba();
-                    }
+                    await this.createMaintenanceRecordaproba();
                     
                     this.navCtrl.navigateForward('/mecanico/info-ser-cli');
                   },
@@ -170,7 +166,7 @@ export class AprobarCotizaPage implements OnInit {
     try {
       const response = await this.manteciService.createMaintenanceRecord(maintenanceData);
       if (response) {
-        console.log('falso:', response);
+        console.log('Registro de mantenimiento creado con éxito:', response);
       } else {
         console.error('No se pudo crear el registro de mantenimiento.');
       }
@@ -195,7 +191,7 @@ export class AprobarCotizaPage implements OnInit {
         {
           text: 'Aceptar',
           handler: async () => {
-            await this.cotizaService.approveQuotation(this.quotation.quotation.id);
+            await this.cotizaService.declineQuotation(this.quotation.quotation.id);
             console.log('Cotización rechazada');
             this.navCtrl.navigateForward('/mecanico/home-mecanico');
           },
