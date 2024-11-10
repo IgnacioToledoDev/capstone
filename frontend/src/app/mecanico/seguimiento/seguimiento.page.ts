@@ -64,7 +64,6 @@ export class SeguimientoPage implements OnInit {
           text: 'Aceptar',
           handler: async () => {
             console.log('Acción aceptada');
-  
             if (this.maintenanceId !== null) {
               try {
                 const updateResponse = await this.manteciService.updateMaintenanceStatusToNext(this.maintenanceId);
@@ -75,7 +74,7 @@ export class SeguimientoPage implements OnInit {
                   // Reload the maintenance status after the update
                   await this.loadMaintenanceStatus();
   
-                  // Verify that all cycles are completed before redirecting
+                  // Check if the maintenance status is 'Finalizado' before redirecting
                   if (this.maintenanceStatus.status === 'Finalizado') {
                     const successAlert = await this.alertController.create({
                       header: 'Servicio Finalizado',
@@ -84,14 +83,15 @@ export class SeguimientoPage implements OnInit {
                         {
                           text: 'OK',
                           handler: () => {
-                            // Redirect to the home-mecanico page
                             this.navCtrl.navigateForward('/mecanico/home-mecanico');
                           }
                         }
                       ],
                     });
-  
                     await successAlert.present();
+                  } else {
+                    // Redirect to home-mecanico if not 'Finalizado'
+                    this.navCtrl.navigateForward('/mecanico/home-mecanico');
                   }
                 } else {
                   console.error('Error al actualizar el estado de mantenimiento');
@@ -115,6 +115,7 @@ export class SeguimientoPage implements OnInit {
   
     await alert.present();
   }
+  
   
 
 }
