@@ -10,6 +10,9 @@ class ListStatusCars extends ListRecords
 {
     protected static string $resource = StatusCarResource::class;
 
+    protected static ?string $title = 'Listado';
+
+
     protected function getHeaderActions(): array
     {
         return [

@@ -10,10 +10,13 @@ class ListEmployees extends ListRecords
 {
     protected static string $resource = EmployeesResource::class;
 
+    protected static ?string $title = 'Listado';
+
+
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            Actions\CreateAction::make()->label('Crear Empleado'),
         ];
     }
 }

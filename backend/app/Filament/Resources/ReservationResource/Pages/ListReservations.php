@@ -10,6 +10,8 @@ class ListReservations extends ListRecords
 {
     protected static string $resource = ReservationResource::class;
 
+    protected static ?string $title = 'Listado';
+
     protected function getHeaderActions(): array
     {
         return [
