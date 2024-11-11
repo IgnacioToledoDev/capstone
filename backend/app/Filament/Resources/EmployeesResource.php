@@ -31,7 +31,7 @@ class EmployeesResource extends Resource
     public static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery()->whereHas('roles', function ($query) {
-            $query->whereIn('name', [User::MECHANIC, User::COMPANY_ADMIN]);
+            $query->whereIn('name', [User::MECHANIC, User::COMPANY_ADMIN, User::SUPER_ADMIN]);
         });
     }
 
