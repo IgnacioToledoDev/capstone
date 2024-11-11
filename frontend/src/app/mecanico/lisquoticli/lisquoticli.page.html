@@ -1,13 +1,85 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>lisquoticli</ion-title>
-  </ion-toolbar>
+<ion-header>
+  <!-- Back button with arrow icon -->
+  <ion-icon name="arrow-back-outline" class="back-button" fill="clear" (click)="goBack()"></ion-icon>
+  <ion-title class="title">Cotizaciones</ion-title>
+  <br>
+  <br>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">lisquoticli</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <br>
+  <br>
+  <br>
+  <ion-searchbar 
+    class="input-item" 
+    placeholder="Buscar Cotización..." 
+    (ionInput)="filterQuotations($event)">
+  </ion-searchbar>
+  
+  <ion-card class="client-card" 
+  *ngFor="let quotation of filteredQuotations" 
+  (click)="saveQuotationId(quotation.quotation.id, quotation.client)">
+
+<ion-card-header>
+<ion-card-title>{{ quotation.client.name }} {{ quotation.client.lastname }}</ion-card-title>
+</ion-card-header>
+
+<ion-card-content>
+  <ion-list>
+    <ion-item>
+      <ion-label>
+        <h3>Resumen de Cotización</h3>
+        <p>RUT Cliente: {{ quotation.client.rut }}</p>
+        <p>Patente: {{ quotation.car.patent }}</p>
+
+        <!-- Fecha de Aprobación con condición -->
+        <p>Fecha de Aprobación: 
+          <span *ngIf="quotation.quotation.approve_date_client; else noDate">
+            {{ quotation.quotation.approve_date_client | date }}
+          </span>
+          <ng-template #noDate>
+            <ion-icon name="help-outline" color="medium"></ion-icon>
+          </ng-template>
+        </p>
+
+        <p>Total de Servicios: {{ quotation.quotation.amount_services }}</p>
+        <p>Precio Total: {{ quotation.quotation.total_price | currency }}</p>
+        
+        <!-- Estado Cotización con iconos -->
+        <p>Estado Cotización:
+          <!-- Mostrar "En espera" si la fecha es null y el estado es 0 -->
+          <ion-icon *ngIf="quotation.quotation.approve_date_client === null && quotation.quotation.approved_by_client === 0" name="time-outline" color="medium"></ion-icon>
+          <span *ngIf="quotation.quotation.approve_date_client === null && quotation.quotation.approved_by_client === 0">...En espera</span>
+        
+          <!-- Mostrar "Rechazado" si el estado es 0 y no se cumple la condición anterior -->
+          <ion-icon *ngIf="quotation.quotation.approve_date_client !== null && quotation.quotation.approved_by_client === 0" name="close-outline" color="danger"></ion-icon>
+          <span *ngIf="quotation.quotation.approve_date_client !== null && quotation.quotation.approved_by_client === 0">Rechazado</span>
+        
+          <!-- Mostrar "Aprobado" si el estado es 1 -->
+          <ion-icon *ngIf="quotation.quotation.approved_by_client === 1" name="checkmark-outline" color="success"></ion-icon>
+          <span *ngIf="quotation.quotation.approved_by_client === 1">Aprobado</span>
+        </p>
+        
+        
+        
+        
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</ion-card-content>
+</ion-card>
+
 </ion-content>
+
+<ion-footer>
+  <div class="button-container">
+    <ion-button class="custom-button" expand="block" routerLink="/mecanico/home-mecanico">
+      <ion-icon slot="start" name="home"></ion-icon>
+      Inicio
+    </ion-button>
+    <ion-button class="custom-button" expand="block" routerLink="/mecanico/register-user">
+      <ion-icon slot="start" name="person"></ion-icon>
+      Agregar Perfil
+    </ion-button>
+  </div>
+</ion-footer>

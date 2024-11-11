@@ -241,6 +241,7 @@ export class CotizaService {
         `${this.API_URL}/jwt/quotations/${userId}/allQuotations`, // URL con el userId
         { headers }
       ).toPromise();
+      
   
       if (response.success && response.data?.quotations) {
         return response.data.quotations; // Retorna las cotizaciones obtenidas
