@@ -18,7 +18,7 @@ export class CarService {
     storageService.create();
   }
 
-  // Método para obtener las marcas de coches
+  // Método para obtener las marcas de coches GET/api/jwt/brands/
   async getCarBrands(): Promise<{ id: number, name: string }[]> {
     try {
       const headers = await this.getAuthHeaders();
@@ -27,7 +27,7 @@ export class CarService {
         console.error('No se pudo recuperar el token de autenticación.');
         return [];
       }
-      const response = await this.http.get<any>(`${this.API_URL}/jwt/cars/brands/all`, { headers }).toPromise();
+      const response = await this.http.get<any>(`${this.API_URL}/jwt/brands/`, { headers }).toPromise();
 
       if (response.success && response.data?.brands) {
         const brands = response.data.brands.map((brand: { id: number, name: string }) => ({

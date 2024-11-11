@@ -9,8 +9,8 @@ import { Storage } from '@ionic/storage-angular';
   styleUrls: ['./liscarclinte.page.scss'],
 })
 export class LiscarclintePage implements OnInit {
-  cars: { brand: string, patent: string, model: string, year: number }[] = [];
-  filteredCars: { brand: string, patent: string, model: string, year: number }[] = [];
+  cars: { brand: string,id: number, patent: string, model: string, year: number }[] = [];
+  filteredCars: { brand: string, id: number,patent: string, model: string, year: number }[] = [];
 
   constructor(
     private navCtrl: NavController,
@@ -33,6 +33,7 @@ export class LiscarclintePage implements OnInit {
         const cars = await this.carService.getUserCars(userId);
         this.cars = cars.map((car: any) => ({
           brand: car.brand,
+          id: car.id,
           patent: car.patent,
           model: car.model,
           year: car.year

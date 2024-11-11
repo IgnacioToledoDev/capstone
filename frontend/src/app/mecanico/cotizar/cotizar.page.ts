@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AlertController, NavController } from '@ionic/angular';
 import { Storage } from '@ionic/storage-angular';
 import { CotizaService } from 'src/app/services/cotiza.service';
-import { CreateQuotationRequest } from 'src/app/intefaces/catiza'; 
+import { CreateQuotationRequest } from 'src/app/intefaces/catiza';
 
 @Component({
   selector: 'app-cotizar',
@@ -33,7 +33,7 @@ export class CotizarPage implements OnInit {
     const carData = await this.storageService.get('newcar');
     if (carData) {
       this.car = carData;
-      console.log('Modelos de coches cargados:', this.car);
+      console.log('auto cargados:', this.car.id);
     }
 
     const storedServices = await this.storageService.get('servi_coti');
@@ -90,7 +90,6 @@ export class CotizarPage implements OnInit {
     await alert.present();
   }
 
-
   async createQuotation() {
     const quotationData: CreateQuotationRequest = {
       carId: this.car.id,
@@ -105,6 +104,9 @@ export class CotizarPage implements OnInit {
     const response = await this.cotizaService.createQuotation(quotationData);
 
     if (response && response.success) {
+      // Guardar la ID de la cotización en el storage
+      await this.storageService.set('id-cotiza', response.data?.quotation.id);
+
       await this.presentConfirmationAlert();
       this.navCtrl.navigateForward('/mecanico/home-mecanico');
     } else {
@@ -131,6 +133,9 @@ export class CotizarPage implements OnInit {
     const response = await this.cotizaService.createQuotation(quotationData);
 
     if (response && response.success) {
+      // Guardar la ID de la cotización en el storage
+      await this.storageService.set('id-cotiza', response.data?.quotation.id);
+
       await this.presentConfirmationAlert();
       this.navCtrl.navigateForward('/mecanico/aprobar-cotiza');
     } else {
