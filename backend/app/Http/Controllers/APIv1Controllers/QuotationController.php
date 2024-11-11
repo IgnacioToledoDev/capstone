@@ -607,17 +607,19 @@ class QuotationController extends Controller
     public function getDetailOfMaintenance(mixed $quotation): array
     {
         $details = QuotationDetails::whereQuotationId($quotation->id)->get();
-        $car = Car::whereId($quotation->car_id)->first();
-        $owner = User::whereId($car->owner_id)->first();
-        unset($owner->password);
+        $cars = Car::whereId($quotation->car_id)->get();
+        foreach ($cars as $car) {
+            $owner = User::whereId($car->owner_id)->first();
+            unset($owner->password);
 
-        $services = [];
-        foreach ($details as $detail) {
-            $service = Service::whereId($detail->service_id)->first();
-            $services[] = [
-                'service' => $service,
-                'is_approved_by_client' => $detail->is_approved_by_client,
-            ];
+            $services = [];
+            foreach ($details as $detail) {
+                $service = Service::whereId($detail->service_id)->first();
+                $services[] = [
+                    'service' => $service,
+                    'is_approved_by_client' => $detail->is_approved_by_client,
+                ];
+            }
         }
 
         return [
