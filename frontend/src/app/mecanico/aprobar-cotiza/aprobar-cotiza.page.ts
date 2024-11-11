@@ -32,7 +32,7 @@ export class AprobarCotizaPage implements OnInit {
       await this.loadQuotation(quotationId);
     }
 
-    const carData = await this.storageService.get('client-data');
+    const carData = await this.storageService.get('newuser');
     if (carData) {
       this.user = carData;
       console.log('cliente guardado:', this.user);

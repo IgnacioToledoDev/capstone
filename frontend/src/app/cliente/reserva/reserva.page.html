@@ -15,6 +15,19 @@
           <p>Patente Vehículo: {{ quotation.car.patent }}</p>
           <p>Servicios Totales: {{ quotation.quotation.amount_services }}</p>
           <p>Precio Total: {{ quotation.quotation.total_price | currency }}</p>
+          <p>Estado Cotización:
+            <!-- Mostrar "En espera" si la fecha es null y el estado es 0 -->
+            <ion-icon *ngIf="quotation.quotation.approve_date_client === null && quotation.quotation.approved_by_client === 0" name="time-outline" color="medium"></ion-icon>
+            <span *ngIf="quotation.quotation.approve_date_client === null && quotation.quotation.approved_by_client === 0">...En espera</span>
+          
+            <!-- Mostrar "Rechazado" si el estado es 0 y no se cumple la condición anterior -->
+            <ion-icon *ngIf="quotation.quotation.approve_date_client !== null && quotation.quotation.approved_by_client === 0" name="close-outline" color="danger"></ion-icon>
+            <span *ngIf="quotation.quotation.approve_date_client !== null && quotation.quotation.approved_by_client === 0">Rechazado</span>
+          
+            <!-- Mostrar "Aprobado" si el estado es 1 -->
+            <ion-icon *ngIf="quotation.quotation.approved_by_client === 1" name="checkmark-outline" color="success"></ion-icon>
+            <span *ngIf="quotation.quotation.approved_by_client === 1">Aprobado</span>
+          </p>
         </ion-label>
       </ion-item>
     </ion-card-content>

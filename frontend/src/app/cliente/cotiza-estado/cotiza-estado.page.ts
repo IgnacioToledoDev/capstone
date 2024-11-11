@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AlertController, NavController } from '@ionic/angular';
 import { Storage } from '@ionic/storage-angular';
 import { Quotation } from 'src/app/intefaces/catiza'; 
+import { CotizaService } from 'src/app/services/cotiza.service';
 
 @Component({
   selector: 'app-cotiza-estado',
@@ -9,13 +10,13 @@ import { Quotation } from 'src/app/intefaces/catiza';
   styleUrls: ['./cotiza-estado.page.scss'],
 })
 export class CotizaEstadoPage implements OnInit {
-
-  selectedQuotation: Quotation | null = null;
+  selectedQuotation: any = {}; 
 
   constructor(
     private alertController: AlertController,
     private navCtrl: NavController,
-    private storage: Storage
+    private storage: Storage,
+    private cotizaService: CotizaService,
   ) {
     this.initStorage();
   }
@@ -30,7 +31,7 @@ export class CotizaEstadoPage implements OnInit {
 
   async loadSelectedQuotation() {
     this.selectedQuotation = await this.storage.get('selectedQuotation');
-    console.log('Loaded quotation:', this.selectedQuotation);
+    console.log('Loaded quotation:', this.selectedQuotation?.quotation.id);
   }
 
   goBack() {
@@ -53,8 +54,9 @@ export class CotizaEstadoPage implements OnInit {
         {
           text: 'Aceptar',
           handler: async () => {
+            await this.cotizaService.approveQuotation(this.selectedQuotation?.quotation.id);
             console.log('Acción aceptada');
-            this.navCtrl.navigateForward('/mecanico/info-ser-cli');
+            this.navCtrl.navigateForward('/cliente/home-cliente');
           },
         },
       ],
@@ -79,8 +81,9 @@ export class CotizaEstadoPage implements OnInit {
         {
           text: 'Aceptar',
           handler: async () => {
+            await this.cotizaService.declineQuotation(this.selectedQuotation.quotation.id);
             console.log('Acción aceptada');
-            this.navCtrl.navigateForward('/mecanico/home-mecanico');
+            this.navCtrl.navigateForward('/cliente/home-cliente');
           },
         },
       ],
