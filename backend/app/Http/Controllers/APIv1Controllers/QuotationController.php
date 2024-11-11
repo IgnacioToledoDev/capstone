@@ -620,19 +620,20 @@ class QuotationController extends Controller
                     'is_approved_by_client' => $detail->is_approved_by_client,
                 ];
             }
+            $elements = [
+                'quotation' => $quotation,
+                'details' => $services,
+                'client' => $owner,
+                'car' => [
+                    'id' => $car->id,
+                    'patent' => $car->patent,
+                    'brand' => $this->carHelper->getCarBrandName($car->id),
+                    'model' => $this->carHelper->getCarModelName($car->id),
+                    'year' => $car->year,
+                ]
+            ];
         }
 
-        return [
-            'quotation' => $quotation,
-            'details' => $services,
-            'client' => $owner,
-            'car' => [
-                'id' => $car->id,
-                'patent' => $car->patent,
-                'brand' => $this->carHelper->getCarBrandName($car->id),
-                'model' => $this->carHelper->getCarModelName($car->id),
-                'year' => $car->year,
-            ]
-        ];
+        return $elements ?? [];
     }
 }
