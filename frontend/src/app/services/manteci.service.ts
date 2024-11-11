@@ -273,6 +273,38 @@ export class ManteciService {
     }
   }
 
+
+  async getAllMaintenanceByUser(userId: number): Promise<any> {
+    try {
+      // Obtener los encabezados de autenticación
+      const headers = await this.getAuthHeaders();
+
+      // Verificar si el encabezado de Authorization está disponible
+      if (!headers.has('Authorization')) {
+        console.log('No se pudo recuperar el token de autenticación.');
+        return null;
+      }
+
+      // Realizar la solicitud GET para obtener todos los mantenimientos del usuario
+      const response = await this.http
+        .get<any>(`${this.API_URL}/jwt/maintenance/${userId}/all`, { headers })
+        .pipe(catchError(this.handleError)) // Manejo de errores
+        .toPromise();
+
+      if (response && response.success && response.data) {
+        console.log('Mantenimientos del usuario:', response.data);
+        return response.data; // Devuelve los datos de mantenimientos
+      } else {
+        console.log('Respuesta no válida al obtener mantenimientos del usuario:', response);
+        return null;
+      }
+    } catch (error) {
+      console.log('Error al obtener los mantenimientos del usuario:', error);
+      return null;
+    }
+  }
+  
+
   private handleError(error: HttpErrorResponse) {
     // No mostrar errores en rojo, solo como logs
     if (error.status === 404) {
@@ -286,6 +318,7 @@ export class ManteciService {
       return throwError('Error desconocido');
     }
   }
+  
 
   async checkAuthenticated() {
     const token = await this.storageService.get('datos');

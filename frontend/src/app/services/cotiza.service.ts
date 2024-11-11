@@ -228,6 +228,34 @@ export class CotizaService {
     }
   }
 
+  async getAllQuotationsByUser(userId: number): Promise<any[]> {
+    try {
+      const headers = await this.getAuthHeaders();
+  
+      if (!headers.has('Authorization')) {
+        console.error('No se pudo recuperar el token de autenticación.');
+        return [];
+      }
+  
+      const response = await this.http.get<any>(
+        `${this.API_URL}/jwt/quotations/${userId}/allQuotations`, // URL con el userId
+        { headers }
+      ).toPromise();
+      
+  
+      if (response.success && response.data?.quotations) {
+        return response.data.quotations; // Retorna las cotizaciones obtenidas
+      } else {
+        console.error('Error en la respuesta al obtener las cotizaciones del usuario:', response);
+        return [];
+      }
+    } catch (error) {
+      console.error('Error al obtener las cotizaciones del usuario:', error);
+      return [];
+    }
+  }
+  
+
   async checkAuthenticated() {
     const token = await this.storageService.get('datos');
     this.isAuthenticated = token !== null;
