@@ -133,24 +133,26 @@ const routes: Routes = [
     path: 'cliente/agenda-car-lis',
     loadChildren: () => import('./cliente/agenda-car-lis/agenda-car-lis.module').then( m => m.AgendaCarLisPageModule)
   },
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  {
+    path: 'mecanico/qrinfo',
+    loadChildren: () => import('./mecanico/qrinfo/qrinfo.module').then( m => m.QrinfoPageModule)
+  },
+  {
+    path: 'mecanico/mantesnclien',
+    loadChildren: () => import('./mecanico/mantesnclien/mantesnclien.module').then( m => m.MantesnclienPageModule)
+  },
+  {
+    path: 'mecanico/liscarclinte',
+    loadChildren: () => import('./mecanico/liscarclinte/liscarclinte.module').then( m => m.LiscarclintePageModule)
+  },
+  {
+    path: 'cliente/agendar',
+    loadChildren: () => import('./cliente/agendar/agendar.module').then(m => m.AgendarPageModule)
+  },
+  {
+    path: 'mecanico/lisquoticli',
+    loadChildren: () => import('./mecanico/lisquoticli/lisquoticli.module').then( m => m.LisquoticliPageModule)
+  }
 
 ];
 

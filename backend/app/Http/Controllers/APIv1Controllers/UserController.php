@@ -623,7 +623,16 @@ class UserController extends Controller
             return $this->sendError('You need to sign in first.');
         }
 
-       $success['mechanics'] = $this->userHelper->getMechanicUsers();
+        $users = User::all();
+
+        foreach ($users as $user) {
+            $userRole = $user->getRoleNames();
+            if ($userRole[0] === User::MECHANIC) {
+                $mechanics[] = $user;
+            }
+        }
+
+       $success['mechanics'] = $mechanics ?? [];
         return $this->sendResponse($success, 'All mechanics retrieved successfully.');
     }
 
@@ -740,5 +749,115 @@ class UserController extends Controller
         } catch (\Exception $exception) {
             return $this->sendError($exception->getMessage());
         }
+    }
+
+    /**
+     * @OA\Get(
+     *     path="/api/jwt/client/{rut}/find",
+     *     summary="Obtener usuario por RUT",
+     *     description="Este endpoint permite obtener la información de un usuario a partir de su RUT.",
+     *     tags={"Clients"},
+     *     security={{"bearerAuth": {}}},
+     *     @OA\Parameter(
+     *         name="rut",
+     *         in="path",
+     *         required=true,
+     *         description="RUT del usuario para obtener su información",
+     *         @OA\Schema(
+     *             type="string",
+     *             example="12345678-9"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Usuario obtenido exitosamente",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="success",
+     *                 type="boolean",
+     *                 example=true
+     *             ),
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="object",
+     *                 @OA\Property(
+     *                     property="user",
+     *                     type="object",
+     *                     @OA\Property(property="id", type="integer", example=1),
+     *                     @OA\Property(property="name", type="string", example="Juan Pérez"),
+     *                     @OA\Property(property="email", type="string", example="juan.perez@example.com"),
+     *                     @OA\Property(property="rut", type="string", example="12345678-9"),
+     *                     @OA\Property(property="created_at", type="string", format="date-time", example="2023-10-01T12:34:56Z"),
+     *                     @OA\Property(property="updated_at", type="string", format="date-time", example="2023-10-01T12:34:56Z")
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="RUT inválido",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="success",
+     *                 type="boolean",
+     *                 example=false
+     *             ),
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="Rut invalid."
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Usuario no encontrado",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="success",
+     *                 type="boolean",
+     *                 example=false
+     *             ),
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="Usuario no encontrado"
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Error interno del servidor",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="success",
+     *                 type="boolean",
+     *                 example=false
+     *             ),
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="Ocurrió un error al obtener el usuario"
+     *             )
+     *         )
+     *     )
+     * )
+     */
+    public function getUserByRut(string $rut): JsonResponse
+    {
+        $isRutValid = $this->userHelper->validateRut($rut);
+
+        if (!$isRutValid) {
+            return $this->sendError('Rut invalid.');
+        }
+
+        $user = User::whereRut($rut)->first();
+        $success['user'] = $user;
+
+        return $this->sendResponse($success, 'user retrieved successfully.');
     }
 }

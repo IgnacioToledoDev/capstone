@@ -1,0 +1,43 @@
+<ion-header>
+  <ion-icon name="arrow-back-outline" slot="start" class="back-button" (click)="goBack()" fill="clear"></ion-icon>
+  <ion-title>Escanear QR</ion-title>
+  <br><br>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-card class="client-card">
+    <ion-card-header>
+      <ion-card-title>Cliente actual</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <div class="client-info">
+        <ion-avatar class="avatar">
+          <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+        </ion-avatar>
+        <div class="client-details">
+          <!-- Mostrar los datos del usuario cargados -->
+          <h2>{{ userData?.user.name || 'Nombre no disponible' }} {{ userData?.user.lastname || 'Apellido no disponible' }}</h2>
+          <p>{{ userData?.user.email || 'Correo no disponible' }}</p>
+          <p>{{ userData?.user.rut || 'RUT no disponible' }}</p>
+        </div>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-button expand="block" color="primary" class="action-button" routerLink="/mecanico/mantesnclien">Menciones del cliente</ion-button>
+  <ion-button expand="block" color="primary" class="action-button" routerLink="/mecanico/lisquoticli" >Cotizaciones</ion-button>
+  <ion-button expand="block" color="primary" class="action-button" routerLink="/mecanico/liscarclinte" >Crear Mantención </ion-button>
+</ion-content>
+
+<ion-footer>
+  <div class="button-container">
+    <ion-button class="custom-button" expand="block" routerLink="/mecanico/home-mecanico">
+      <ion-icon slot="start" name="home"></ion-icon>
+      Inicio
+    </ion-button>
+    <ion-button class="custom-button" expand="block" routerLink="/mecanico/register-user">
+      <ion-icon slot="start" name="person"></ion-icon>
+      Agregar Perfil
+    </ion-button>
+  </div>
+</ion-footer>

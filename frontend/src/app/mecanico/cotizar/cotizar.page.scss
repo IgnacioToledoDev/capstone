@@ -21,21 +21,13 @@ ion-title {
     --color: #ffffff;
 }
 
-.input-item{
-    --background: #FFFFFF; // Fondo gris claro para el input
-    color: black; // Texto negro para los inputs
-    max-width: 400px; 
-    width: 100%;
-}
-
 .button-container {
   display: flex;
 }
 
 .custom-button {
   --border-radius: 0px; /* Esquinas cuadradas */
-  --color: #001f3f; 
+  --color: #0B1121; 
   width: 49%; 
-
+  --color: #ffffff;
 }
-

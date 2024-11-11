@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NavController, AlertController } from '@ionic/angular';
 import { CarService } from 'src/app/services/car.service';
 import { Storage } from '@ionic/storage-angular';  
-import { HttpErrorResponse } from '@angular/common/http';  
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-agregar-vehiculo',
@@ -28,7 +28,7 @@ export class AgregarVehiculoPage implements OnInit {
       brand: ['', Validators.required], 
       model: [{ value: '', disabled: true }, Validators.required], 
       year: ['', Validators.required],  
-      patente: ['', Validators.required], 
+      patente: ['', [Validators.required, Validators.pattern('^[A-Z]{4}[0-9]{2}$')]], 
     });
   }
 
@@ -77,6 +77,12 @@ export class AgregarVehiculoPage implements OnInit {
     }
   }
 
+  onPatenteInput(event: any) {
+    const input = event.target as HTMLInputElement;
+    input.value = input.value.toUpperCase();
+    this.vehicleForm.controls['patente'].setValue(input.value.toUpperCase(), { emitEvent: false });
+  }
+
   goBack() {
     this.navCtrl.back();
   }
@@ -111,21 +117,16 @@ export class AgregarVehiculoPage implements OnInit {
         console.log('Registro exitoso:', response);
   
         if (response.success === true) {
-          // Retrieve the existing 'newcar' data from storage
           const currentCarData = await this.storageService.get('newcar') || {};
-  
-          // Find the brand and model names
           const carBrandName = this.carBrands.find(b => b.id === brand)?.name || 'Unknown brand';
           const carModelName = this.models.find(m => m.id === model)?.name || 'Unknown model';
   
-          // Update only the brand and model names in 'newcar' without altering other data
           const updatedCarData = {
-            ...currentCarData, // Keep existing data
+            ...currentCarData,
             brand: carBrandName,
             model: carModelName,
           };
   
-          // Save the updated data back to Storage
           await this.storageService.set('newcar', updatedCarData);
   
           this.showAlert();
@@ -151,7 +152,6 @@ export class AgregarVehiculoPage implements OnInit {
       this.presentAlert('Formulario inválido', 'Por favor, completa todos los campos requeridos.');
     }
   }
-  
 
   async presentAlert(header: string, message: string) {
     const alert = await this.alertController.create({

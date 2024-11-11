@@ -12,6 +12,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 use Rawilk\FilamentPasswordInput\Password;
 
 
@@ -21,14 +22,21 @@ class UserResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-user';
 
-    protected static ?string $navigationLabel = 'Usuarios';
+    protected static ?string $navigationLabel = 'Clientes';
 
-    protected static ?string $modelLabel = 'Usuario';
+    protected static ?string $modelLabel = 'Cliente';
 
     protected static ?string $navigationGroup = 'Administración';
 
     protected static ?int $navigationSort = -1;
 
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()->whereHas('roles', function ($query) {
+            $query->whereIn('name', [User::CLIENT]);
+        });
+
+    }
 
     public static function form(Form $form): Form
     {
@@ -57,12 +65,11 @@ class UserResource extends Resource
                         new ValidateRut(),
                     ])
                     ->helperText('Ingrese rut sin puntos y con guion'),
-                Forms\Components\TextInput::make('password')
-                    ->label('Contraseña')
+                Password::make('password')
                     ->required()
-                    ->password()
-                    ->hiddenOn(['edit'])
-                    ->visibleOn(['create'])
+                    ->label('Contraseña')
+                    ->visible(fn () => auth()->user()->hasRole([User::SUPER_ADMIN,
+                        User::COMPANY_ADMIN]))
                     ->placeholder('Contraseña del usuario'),
                 Forms\Components\Select::make('roles')
                     ->relationship('roles', 'name', function ($query) {
@@ -71,10 +78,9 @@ class UserResource extends Resource
                     ->label('Roles')
                     ->required()
                     ->placeholder(Constants::SELECT_OPTION),
-                Password::make('password')
-                    ->label('Contraseña')
-                    ->visible(fn () => auth()->user()->hasRole([User::SUPER_ADMIN,
-                        User::COMPANY_ADMIN]))
+                Forms\Components\TextInput::make('phone')
+                    ->label('Telefono')
+                    ->numeric()
             ]);
     }
 
@@ -101,17 +107,14 @@ class UserResource extends Resource
                 Tables\Columns\TextColumn::make('email')
                     ->label('Correo electrónico')
                     ->searchable()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('roles.name')
-                    ->label('Rol')
-                    ->searchable()
+                    ->sortable()
             ])
             ->filters([
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\EditAction::make()->label('Editar'),
+                Tables\Actions\DeleteAction::make()->label('Borrar'),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

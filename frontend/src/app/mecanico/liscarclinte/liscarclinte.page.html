@@ -1,0 +1,39 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button (click)="goBack()" text="Volver"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Lista de vehículos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-searchbar placeholder="Buscar vehículos por patente..." (ionInput)="filterByPatente($event)"></ion-searchbar>
+  
+  <ion-card>
+    <ion-card-content>
+      <ion-list>
+        <ion-item *ngFor="let car of filteredCars" (click)="selectCar(car)">
+          <ion-label>
+            <h2>{{ car.patent }}</h2>
+            <p>{{ car.brand }}</p>
+            <p>{{ car.model }} - Año: {{ car.year }}</p>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
+
+<ion-footer>
+  <div class="button-container">
+    <ion-button class="custom-button" expand="block" routerLink="/mecanico/home-mecanico">
+      <ion-icon slot="start" name="home"></ion-icon>
+      Inicio
+    </ion-button>
+    <ion-button class="custom-button" expand="block" routerLink="/mecanico/register-user">
+      <ion-icon slot="start" name="person"></ion-icon>
+      Agregar Perfil
+    </ion-button>
+  </div>
+</ion-footer>

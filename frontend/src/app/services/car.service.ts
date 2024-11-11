@@ -18,7 +18,7 @@ export class CarService {
     storageService.create();
   }
 
-  // Método para obtener las marcas de coches
+  // Método para obtener las marcas de coches GET/api/jwt/brands/
   async getCarBrands(): Promise<{ id: number, name: string }[]> {
     try {
       const headers = await this.getAuthHeaders();
@@ -27,7 +27,7 @@ export class CarService {
         console.error('No se pudo recuperar el token de autenticación.');
         return [];
       }
-      const response = await this.http.get<any>(`${this.API_URL}/jwt/cars/brands/all`, { headers }).toPromise();
+      const response = await this.http.get<any>(`${this.API_URL}/jwt/brands/`, { headers }).toPromise();
 
       if (response.success && response.data?.brands) {
         const brands = response.data.brands.map((brand: { id: number, name: string }) => ({
@@ -136,6 +136,29 @@ export class CarService {
     } catch (error) {
       console.error('Error al obtener los coches:', error);
       return [];
+    }
+  }
+  async getUserCars(userId: number): Promise<any> {
+    try {
+      const headers = await this.getAuthHeaders();
+  
+      if (!headers.has('Authorization')) {
+        console.error('No se pudo recuperar el token de autenticación.');
+        return null;
+      }
+  
+      const response = await this.http.get<any>(`${this.API_URL}/jwt/cars/${userId}/all`, { headers }).toPromise();
+      console.log('Registro car exitoso:', response);
+      if (response.success) {
+
+        return response.data.cars;
+      } else {
+        console.error('Respuesta no válida al obtener los coches del usuario:', response);
+        return null;
+      }
+    } catch (error) {
+      console.error('Error al obtener los coches del usuario:', error);
+      return null;
     }
   }
   

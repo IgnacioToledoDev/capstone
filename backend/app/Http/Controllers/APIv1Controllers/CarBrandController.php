@@ -12,7 +12,7 @@ class CarBrandController extends Controller
 {
     /**
      * @OA\Get(
-     *     path="/api/jwt/cars/brands/all",
+     *     path="/api/jwt/brands/",
      *     summary="Obtener todas las marcas de autos",
      *     description="Este endpoint permite obtener una lista de todas las marcas de autos. Requiere autenticación JWT.",
      *     tags={"Car Brands"},

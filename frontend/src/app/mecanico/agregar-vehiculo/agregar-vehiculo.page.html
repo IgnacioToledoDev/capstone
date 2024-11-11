@@ -5,11 +5,11 @@
 ></ion-icon>
 <br>
 <br>
-<h1 class="title">Agregar vehículo</h1>
+<h1 class="title">Agregar Vehículo</h1>
 <form (ngSubmit)="onSubmit()" [formGroup]="vehicleForm" class="car-form">
   <ion-item class="input-item">
     <ion-label position="floting" class="label">Marca:</ion-label>
-    <ion-select formControlName="brand" (ionChange)="onBrandChange($event.detail.value)">
+    <ion-select formControlName="brand" (ionChange)="onBrandChange($event.detail.value)" slot="end">
       <ion-select-option *ngFor="let brand of carBrands" [value]="brand.id"> 
         {{ brand.name }} 
       </ion-select-option>
@@ -18,7 +18,7 @@
     <p></p>
   <ion-item class="input-item">
     <ion-label position="floting" class="label">Modelo:</ion-label>
-    <ion-select formControlName="model">
+    <ion-select formControlName="model" slot="end">
       <ion-select-option *ngFor="let model of models" [value]="model.id">
         {{ model.name }}
       </ion-select-option>
@@ -27,16 +27,20 @@
     <p></p>
   <ion-item class="input-item">
     <ion-label position="floting" class="label">Año:</ion-label>
-    <ion-select formControlName="year">
+    <ion-select formControlName="year" slot="end">
       <ion-select-option *ngFor="let year of years" [value]="year">{{ year }}</ion-select-option>
     </ion-select>
   </ion-item>
   <ion-item class="input-item">
-    <ion-label position="floating" class="label">Patente</ion-label>
-    <ion-input formControlName="patente"></ion-input>
-  </ion-item>
+    <ion-label position="floating" class="label">Patente:</ion-label>
+    <ion-input
+      formControlName="patente"
+      (ionInput)="onPatenteInput($event)"
+      maxlength="6"
+    ></ion-input>
+  </ion-item>  
   <br>
-  <ion-button type="submit" >Agregar vehículo</ion-button> 
+  <ion-button type="submit" >Agregar Vehículo</ion-button> 
   </form>
 </ion-content>
 

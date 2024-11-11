@@ -1,77 +1,92 @@
 <ion-header>
-  <!-- Botón de regreso con flecha -->
-<ion-icon name="arrow-back-outline" class="back-button" fill="clear" (click)="goBack()"></ion-icon>
+  <ion-icon name="arrow-back-outline" class="back-button" fill="clear" (click)="goBack()"></ion-icon>
   <ion-title>Seguimiento</ion-title>
   <br>
   <br>
 </ion-header>
 
-<ion-content>
+<ion-content >
   <br>
   <br>
-  <ion-card class="client-card">
+  
+  <!-- Comenzando Card -->
+  <ion-card (click)="presentAlert()" class="client-card" [ngClass]="{'active-card': maintenanceStatus?.status === 'Comenzando'}">
     <ion-card-content>
-        <ion-item *ngFor="let evento of eventosinicio">
-          <ion-card-content>
-            <div class="card-content">
-              <ion-label>
-                <img [src]="evento.image">
-              </ion-label>
-              <div class="text-content">
-                <h2>{{ evento.title }}</h2>
-                <ion-button *ngIf="evento.buttonTitle" color="primary" (click)="onButtonClick(evento)">
-                  {{ evento.buttonTitle }}
-                </ion-button>
-              </div>
+      <ion-item>
+        <ion-card-content>
+          <div class="card-content">
+            <ion-label>
+              <img src="assets/image/inicio.jpg">
+            </ion-label>
+            <div class="text-content">
+              <h2>Comenzando</h2>
+              <ion-button color="primary" *ngIf="maintenanceStatus?.status === 'Comenzando'">
+                Actual
+              </ion-button>
+              <ion-icon name="checkmark-circle" color="success" *ngIf="maintenanceStatus?.status !== 'Comenzando'"></ion-icon>
             </div>
-          </ion-card-content>
-        </ion-item>
+          </div>
+        </ion-card-content>
+      </ion-item>
     </ion-card-content>
   </ion-card>
-  <ion-card class="client-card">
+
+  <!-- En progreso Card -->
+  <ion-card (click)="presentAlert()" class="client-card" [ngClass]="{'active-card': maintenanceStatus?.status === 'En progreso'}">
     <ion-card-content>
-        <ion-item *ngFor="let evento of eventosprogreso">
-          <ion-card-content>
-            <div class="card-contenta">
-              <div class="text-contenta">
-                <h2>{{ evento.title }}</h2>
-                <ion-button *ngIf="evento.buttonTitle" color="primary" (click)="onButtonClick(evento)">
-                  {{ evento.buttonTitle }}
-                </ion-button>
-              </div>
-              <ion-label>
-                <img [src]="evento.image">
-              </ion-label>
+      <ion-item>
+        <ion-card-content>
+          <div class="card-contenta">
+            <div class="text-contenta">
+              <h2>En progreso</h2>
+              <ion-button color="primary" *ngIf="maintenanceStatus?.status === 'En progreso'">
+                Actual
+              </ion-button>
+              <ion-icon name="checkmark-circle" color="success" *ngIf="maintenanceStatus?.status !== 'En progreso' && maintenanceStatus?.status !== 'Comenzando'"></ion-icon>
             </div>
-          </ion-card-content>
-        </ion-item>
+            <ion-label>
+              <img src="assets/image/desarrollo.jpg">
+            </ion-label>
+          </div>
+        </ion-card-content>
+      </ion-item>
     </ion-card-content>
   </ion-card>
-  <ion-card class="client-card">
+
+  <!-- Listo para entrega Card -->
+  <ion-card  (click)="presentAlert()" class="client-card" [ngClass]="{'active-card': maintenanceStatus?.status === 'Finalizado'}">
     <ion-card-content>
-        <ion-item *ngFor="let evento of eventosListo">
-          <ion-card-content>
-            <div class="card-content">
-              <ion-label>
-                <img [src]="evento.image">
-              </ion-label>
-              <div class="text-content">
-                <h2>{{ evento.title }}</h2>
-                <ion-button *ngIf="evento.buttonTitle" color="primary" (click)="onButtonClick(evento)">
-                  {{ evento.buttonTitle }}
-                </ion-button>
-              </div>
+      <ion-item>
+        <ion-card-content>
+          <div class="card-content">
+            <ion-label>
+              <img src="assets/image/fin.jpg">
+            </ion-label>
+            <div class="text-content">
+              <h2>Listo para entrega</h2>
+              <ion-button color="primary" *ngIf="maintenanceStatus?.status === 'Finalizado'">
+                Actual
+              </ion-button>
+              <ion-icon name="checkmark-circle" color="success" *ngIf="maintenanceStatus?.status === 'Finalizado'"></ion-icon>
             </div>
-          </ion-card-content>
-        </ion-item>
+          </div>
+        </ion-card-content>
+      </ion-item>
     </ion-card-content>
   </ion-card>
 </ion-content>
+
 <ion-footer>
-  <ion-toolbar>
-    <div>
-    <ion-button class="input-button" (click)="presentAlert()">Finalizar estado</ion-button>
-    </div>
-    <h6 class="pad">Al finalizar el estado va a cambiar a “Listo para entrega”</h6>
-  </ion-toolbar>
+  <div class="button-container">
+    <ion-button class="custom-button" expand="block" routerLink="/mecanico/home-mecanico">
+      <ion-icon slot="start" name="home"></ion-icon>
+      Inicio
+    </ion-button>
+    <ion-button class="custom-button" expand="block" (click)="presentAlert()">
+      Finalizar estado
+    </ion-button>
+  </div>
+  <h2 class="pad" *ngIf="maintenanceStatus">{{ maintenanceStatus.status }}</h2>
+  <h6 class="pad">Al finalizar el estado va a cambiar a “Listo para entrega”</h6>
 </ion-footer>
+

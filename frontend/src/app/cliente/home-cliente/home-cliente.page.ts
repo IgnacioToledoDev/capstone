@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/services/user.service';
-import { NavController, AlertController } from '@ionic/angular';
+import { NavController } from '@ionic/angular';
+import { ManteciService } from 'src/app/services/manteci.service'; 
+import { Storage } from '@ionic/storage-angular';
 
 @Component({
   selector: 'app-home-cliente',
@@ -9,32 +11,70 @@ import { NavController, AlertController } from '@ionic/angular';
 })
 export class HomeClientePage implements OnInit {
 
-  eventos: { nombre: string, hora: string , patente: string}[] = [
-    { nombre: 'jose herera', hora: '10:00 AM' , patente:'ABC-0834'},
-    { nombre: 'isaac bravo', hora: '12:00 PM' , patente:'AAC-8634'},
-    { nombre: 'Nacho jara', hora: '1:00 PM', patente:'AHG-6434' }
+  eventos: { nombre: string, hora: string, patente: string }[] = [
+    { nombre: 'jose herera', hora: '10:00 AM', patente: 'ABC-0834' },
+    { nombre: 'isaac bravo', hora: '12:00 PM', patente: 'AAC-8634' },
+    { nombre: 'Nacho jara', hora: '1:00 PM', patente: 'AHG-6434' }
   ];
-  
-  token: string | null = null;  
-  user: any = {};              
+  username: string = '';
+  token: string | null = null;
+  user: any = {};
+  maintenanceData: any = {}; // Store the fetched maintenance data
+  noMaintenanceInCourse: boolean = false; // Variable to handle the no maintenance case
 
-  constructor(private userService: UserService,private navCtrl: NavController, ) {}
+  constructor(
+    private userService: UserService,
+    private maintenanceService: ManteciService,  // Inject the MaintenanceService
+    private navCtrl: NavController,
+    private storage: Storage  // Inject Storage
+  ) { }
 
   async ngOnInit() {
     const sessionData = await this.userService.getUserSession();
 
     if (sessionData) {
-      this.token = sessionData.token;  
-      this.user = sessionData.user;    
-
+      this.token = sessionData.token;
+      this.user = sessionData.user;
+      this.username = this.capitalizeFirstLetter(this.user.name);
       console.log('Token:', this.token);
       console.log('User Info:', this.user);
+
+      // Fetch maintenance data for the user
+      await this.getMaintenanceInCourse();
     } else {
       console.log('No se encontraron datos de sesión.');
     }
   }
+
+  async getMaintenanceInCourse() {
+    try {
+      const response = await this.maintenanceService.getMaintenanceInCourse(); // Call the service
+      if (response && response.maintenance) {
+        this.maintenanceData = response;
+        console.log('Maintenance Data:', this.maintenanceData);
+
+        // Save the maintenance ID in Ionic Storage
+        const maintenanceId = this.maintenanceData.maintenance.id;
+        await this.storage.set('maintenanceIdcli', maintenanceId);
+        console.log('Maintenance ID stored in Ionic Storage:', maintenanceId);
+
+        // Hide the "No maintenance in course" message
+        this.noMaintenanceInCourse = false;
+      } else {
+        console.error('No maintenance data found.');
+        this.noMaintenanceInCourse = true; // Show the "no maintenance" message
+      }
+    } catch (error) {
+      console.error('Error fetching maintenance data:', error);
+      this.noMaintenanceInCourse = true; // Show the "no maintenance" message
+    }
+  }
+
   goBack() {
     this.navCtrl.back();
   }
 
+  capitalizeFirstLetter(val: string) {
+    return String(val).charAt(0).toUpperCase() + String(val).slice(1);
+  }
 }

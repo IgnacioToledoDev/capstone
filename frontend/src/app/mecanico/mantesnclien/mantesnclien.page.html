@@ -1,0 +1,48 @@
+<ion-header>
+  <ion-icon name="arrow-back-outline" class="back-button" fill="clear" (click)="goBack()"></ion-icon>
+  <ion-title class="title">Mantenimientos del Usuario</ion-title>
+  <br><br>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-searchbar (ionInput)="filterMaintenances($event)" placeholder="Buscar mantenimiento..." showClearButton="focus"></ion-searchbar>
+
+  <ion-card 
+    class="maintenance-card" 
+    *ngFor="let maintenance of filteredMaintenances">
+
+    <ion-card-content>
+      <ion-list>
+        <ion-item>
+          <ion-label>
+            <h3>{{ maintenance.name || 'Mantenimiento sin título' }}</h3>
+
+            <p>Estado: 
+              <ion-icon [name]="getStatusLabel(maintenance.status_id).icon" [color]="getStatusLabel(maintenance.status_id).color"></ion-icon> 
+              {{ getStatusLabel(maintenance.status_id).label }}
+            </p>
+
+            <!-- Botón para navegar solo si el estado no es finalizado -->
+            <ion-button 
+              [disabled]="maintenance.status_id === 4" 
+              (click)="saveMaintenanceIdAndNavigate(maintenance.id, maintenance.status_id)">
+              Ir a detalles
+            </ion-button>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>
+
+<ion-footer>
+  <div class="button-container">
+    <ion-button class="custom-button" expand="block" routerLink="/mecanico/home-mecanico">
+      <ion-icon slot="start" name="home"></ion-icon> Inicio
+    </ion-button>
+    <ion-button class="custom-button" expand="block" routerLink="/mecanico/register-user">
+      <ion-icon slot="start" name="person"></ion-icon> Agregar Perfil
+    </ion-button>
+  </div>
+</ion-footer>

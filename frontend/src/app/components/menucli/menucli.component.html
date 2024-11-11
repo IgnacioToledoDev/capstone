@@ -7,12 +7,12 @@
     <br>
     <br>
     <br>
-    <ion-list>
+    <ion-list lines="none" class="ion-margin-vertical">
       <ion-item class="item" routerLink="/mecanico/home-mecanico">
         <ion-icon name="home" slot="start"></ion-icon>
         <ion-label>Inicio</ion-label>
       </ion-item>
-      <ion-item (click)="generar_qr()"> 
+      <ion-item (click)="generar_qr()">
         <ion-icon name="qr-code-outline" slot="start"></ion-icon>
         <ion-label>Generar QR</ion-label>
       </ion-item>
@@ -23,7 +23,7 @@
     </ion-list>
   </ion-content>
   <ion-footer>
-    <ion-list>
+    <ion-list lines="none">
       <ion-item (click)="ajustes()">
         <ion-icon name="settings-outline" slot="start"></ion-icon>
         <ion-label>Configuraciones</ion-label>

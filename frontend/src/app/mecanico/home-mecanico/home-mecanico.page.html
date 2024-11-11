@@ -1,58 +1,57 @@
 <app-menu></app-menu>
-<app-ocr></app-ocr>
 
 <ion-header>
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-    <ion-title>Home</ion-title>
+  <ion-buttons slot="start">
+    <ion-menu-button></ion-menu-button>
+  </ion-buttons>
+  <ion-title>Home</ion-title>
 </ion-header>
 
 <ion-content [fullscreen]="true">
   <br>
+  <!-- Client Information Card -->
   <ion-card class="client-card">
     <ion-card-content>
       <div class="card-content">
         <ion-avatar>
-          <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+          <img alt="Silhouette of a person's head" src="assets/icon/mecanico.png"/>
         </ion-avatar>
         <div class="text-content">
-          <h2 >Bienvenido, {{ user.name }} </h2>
-          <p>Mecanico </p>
-          <a href="/mecanico/agregar-vehiculo">home-mecanico</a>
+          <h2>Bienvenido, {{ user.name }}</h2>
+          <p>Mecánico</p>
         </div>
       </div>
     </ion-card-content>
   </ion-card>
 
-
-  <ion-card class="client-card"  >
+  <!-- Current Client Information -->
+  <ion-card class="client-card">
     <ion-card-header>
-      <ion-card-title>Cliente Actual</ion-card-title>
+      <ion-card-title>Mantenimientos Actuales</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <ng-container *ngIf="currentUser; else noClient">
-        <div class="card-content" routerLink="/mecanico/info-ser-cli">
-          <ion-avatar>
-            <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
-          </ion-avatar>
-          <div class="text-content">
-            <h2>{{ currentUser.name }}</h2>
-            <p>{{ currentUser.email }}</p>
-          </div>
-        </div>
-      </ng-container>
+      <ion-list *ngIf="currentList.length > 0; else noCurrentMaintenance">
+        <ion-item *ngFor="let record of currentList" (click)="saveMaintenanceIdAndNavigate(record.maintenance.id)">
+          <ion-label>
+            <h2>Cliente: {{ record.client.name }} {{ record.client.lastname }}</h2>
+            <p>Vehículo: {{ record.car.patent }}</p>
+            <p>Fechas de inicio: {{ record.maintenance.start_maintenance | date: 'dd/MM/yyyy'}}</p>
+            <p>Hora de inicio: {{ record.maintenance.start_maintenance | date: 'HH:mm' }}</p>
+          </ion-label>
+        </ion-item>
+      </ion-list>
 
-      <ng-template #noClient>
+      <ng-template #noCurrentMaintenance>
         <ion-card>
           <ion-card-content>
-            <p class="no-client-msg">No hay cliente asignado actualmente</p>
+            <p class="no-current-maintenance-msg">No hay mantenimientos actuales</p>
           </ion-card-content>
         </ion-card>
       </ng-template>
     </ion-card-content>
   </ion-card>
 
+  <!-- Maintenance Calendar for Today -->
   <ion-card class="client-card">
     <ion-card-header>
       <ion-card-title>Agenda de Hoy</ion-card-title>
@@ -61,16 +60,14 @@
       <ion-list *ngIf="calendar.length > 0; else noMaintenance">
         <ion-item *ngFor="let entry of calendar">
           <ion-label>
-            <ion-card-subtitle>Patente: {{ entry.car_id }}</ion-card-subtitle>
             <h2>Servicio: {{ entry.description }}</h2>
             <p>Hora: {{ entry.start_maintenance | date: 'shortTime' }}</p>
-            <p>Finalización: {{ entry.end_maintenance | date: 'shortTime' }}</p> 
-            <p>Precio: {{ entry.pricing | currency:'$':'symbol':'1.0-0' }}</p> 
-            <p>Recomendación: {{ entry.recommendation_action }}</p> 
+            <p>Precio: {{ entry.pricing | currency:'$':'symbol':'1.0-0' }}</p>
+            <p>Recomendación: {{ entry.recommendation_action }}</p>
           </ion-label>
         </ion-item>
       </ion-list>
-  
+
       <ng-template #noMaintenance>
         <ion-card>
           <ion-card-content>
@@ -80,22 +77,23 @@
       </ng-template>
     </ion-card-content>
   </ion-card>
-  
+
 </ion-content>
 
+<!-- Footer Navigation -->
 <ion-footer>
-    <div class="button-container">
-      <ion-button class="custom-button" expand="block">
-        <ion-icon slot="start" name="home"></ion-icon>
-        Inicio
-      </ion-button>
-      <ion-button class="custom-button" expand="block" routerLink="/mecanico/lista-cotiza">
-        <ion-icon slot="start" name="person"></ion-icon>
-        Cotizasiones
-      </ion-button>
-      <ion-button class="custom-button" expand="block" routerLink="/mecanico/register-user">
-        <ion-icon slot="start" name="person"></ion-icon>
-        + Perfil
-      </ion-button>
-    </div>
+  <div class="button-container">
+    <ion-button class="custom-button" expand="block">
+      <ion-icon slot="start" name="home"></ion-icon>
+      Inicio
+    </ion-button>
+    <ion-button class="custom-button" expand="block" routerLink="/mecanico/lista-cotiza">
+      <ion-icon slot="start" name="person"></ion-icon>
+      Cotizaciones
+    </ion-button>
+    <ion-button class="custom-button" expand="block" routerLink="/mecanico/register-user">
+      <ion-icon slot="start" name="person"></ion-icon>
+      + Perfil
+    </ion-button>
+  </div>
 </ion-footer>
