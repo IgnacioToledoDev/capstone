@@ -3,8 +3,7 @@ import { UserService } from 'src/app/services/user.service';
 import { NavController } from '@ionic/angular';
 import { StorageService } from 'src/app/services/storage.service';
 import { carViewInterface } from 'src/app/intefaces/car';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-agendar',
@@ -23,11 +22,11 @@ export class AgendarPage implements OnInit {
     return utcDay !== 0;
   };
   scheduleObject = {
-    'mechanicId': null,
-    'carId': this.carSelected, // todo pending recovery the id of the car
-    'typeOfService': null,
-    'scheduleDate': null,
-  }
+    mechanicId: null,
+    carId: null,
+    typeOfService: null,
+    scheduleDate: null,
+  };
   formGroup!: FormGroup;
   isValid: boolean = false;
 
@@ -35,21 +34,29 @@ export class AgendarPage implements OnInit {
     private userService: UserService,
     private navCtrl: NavController,
     private storageService: StorageService,
-    private fb: FormBuilder
-  ) {
-  }
+    private fb: FormBuilder,
+  ) {}
 
   async ngOnInit() {
+    this.formGroup = this.fb.group({
+      mechanicId: [null, Validators.required],
+      typeOfServiceId: [null, Validators.required],
+      schedule: [null, Validators.required],
+    });
+
     try {
       await this.storageService.init();
-      this.userService.getMechanics().then((response: any) => {
-        const mechanicsData = response.data.mechanics;
-        mechanicsData.forEach((mechanic: any) => {
-          this.mechanics.push(mechanic);
+      this.userService
+        .getMechanics()
+        .then((response: any) => {
+          const mechanicsData = response.data.mechanics;
+          mechanicsData.forEach((mechanic: any) => {
+            this.mechanics.push(mechanic);
+          });
         })
-      }).catch(error => {
-        console.error('Error al obtener los mecánicos:', error);
-      });
+        .catch((error) => {
+          console.error('Error al obtener los mecánicos:', error);
+        });
       const carSelected = await this.storageService.get('carSelected');
       if (carSelected) {
         if (!carSelected.patente) {
@@ -61,12 +68,6 @@ export class AgendarPage implements OnInit {
     } catch (error) {
       console.error('Error al cargar los datos:', error);
     }
-
-    this.formGroup = this.fb.group({
-      mechanicId: [null, Validators.required],
-      typeOfServicesId: [null, Validators.required],
-      scheduleDate: [null, Validators.required]
-    });
   }
 
   setOpen(isOpen: boolean) {
@@ -88,11 +89,12 @@ export class AgendarPage implements OnInit {
   }
 
   onSubmit(): void {
-    if(this.formGroup.valid) {
+    if (this.formGroup.valid) {
       this.isValid = true;
-      const { mechanicId, typeOfServicesId, scheduleDate  } = this.formGroup.value;
+      const { mechanicId, typeOfServicesId, scheduleDate } =
+        this.formGroup.value;
       const carId = this.carSelected.id;
-      console.log(mechanicId, carId, typeOfServicesId, scheduleDate );
+      console.log(mechanicId, carId, typeOfServicesId, scheduleDate);
     }
   }
 }

@@ -1,39 +1,60 @@
 <ion-header>
   <ion-toolbar>
-    <ion-icon name="arrow-back-outline" class="back-button" (click)="goBack()"></ion-icon>
+    <ion-icon
+      name="arrow-back-outline"
+      class="back-button"
+      (click)="goBack()"
+    ></ion-icon>
     <ion-title class="title">Agendar Cita</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding-vertical">
-  <form (ngSubmit)="onSubmit()" [formGroup]="formGroup" ]>
+  <form (ngSubmit)="onSubmit()" [formGroup]="formGroup">
     <h3 class="title" *ngIf="!isMechanicSelected">Seleciona a un mecánico:</h3>
     <h3 class="title" *ngIf="isMechanicSelected">Datos del mecánico:</h3>
     <ion-card class="welcome-container ion-justify-content-center">
       <div class="ion-padding welcome-container__section">
         <ion-list lines="none">
-          <!-- todo is pending the correct view of h3 and button -->
-          <ion-item *ngIf="!isMechanicSelected" lines="none" class="ion-text-center ion-justify-content-center"
-                    (click)="setOpen(true)">
+          <ion-item
+            *ngIf="!isMechanicSelected"
+            lines="none"
+            class="ion-text-center ion-justify-content-center"
+            (click)="setOpen(true)"
+          >
             <div class="no_mechanic_selected">
               <ion-label class="ion-padding ion-text-wrap ion-text-center">
                 <h3>No hay mecánico seleccionado</h3>
               </ion-label>
-              <ion-button expand="block" fill="clear">Seleccionar mecánico</ion-button>
+              <ion-button expand="block" fill="clear"
+                >Seleccionar mecánico</ion-button
+              >
             </div>
           </ion-item>
-          <!-- todo is pending the data information of mechanic here -->
-          <ion-item *ngIf="isMechanicSelected" lines="none" class="ion-justify-content-center" formControlName="mechanicId">
+          <ion-item
+            *ngIf="isMechanicSelected"
+            lines="none"
+            class="ion-justify-content-center"
+          >
+            <ion-input
+              class="ion-hide"
+              value="{{ this.mechanicSelected.id ?? ''}}"
+            ></ion-input>
             <div class="car-container welcome-container">
-              <ion-label class="ion-text-wrap ">
+              <ion-label class="ion-text-wrap">
                 <ion-label class="mechanic__data">
-                  <p>Nombre: {{ mechanicSelected.name }} {{mechanicSelected.lastname}}</p>
+                  <p>
+                    Nombre: {{ mechanicSelected.name }}
+                    {{mechanicSelected.lastname}}
+                  </p>
                   <p>Correo: {{ mechanicSelected.email }}</p>
                   <p>Telefono: {{ mechanicSelected.phone }}</p>
                 </ion-label>
               </ion-label>
               <ion-item class="ion-padding-start">
-                <ion-button expand="block" fill="clear" (click)="setOpen(true)">Cambiar mecánico</ion-button>
+                <ion-button expand="block" fill="clear" (click)="setOpen(true)"
+                  >Cambiar mecánico</ion-button
+                >
               </ion-item>
             </div>
           </ion-item>
@@ -46,10 +67,22 @@
       <div class="ion-padding car-container__section">
         <ion-label>
           <ion-label class="mechanic__data">
-            <p><span class="mechanic__data_title">Patente:</span> {{ carSelected?.patente }}</p>
-            <p><span class="mechanic__data_title">Marca:</span> {{ carSelected?.marca }}</p>
-            <p><span class="mechanic__data_title">Modelo:</span> {{ carSelected?.modelo }}</p>
-            <p><span class="mechanic__data_title">Año:</span> {{ carSelected?.year }}</p>
+            <p>
+              <span class="mechanic__data_title">Patente:</span> {{
+              carSelected?.patente }}
+            </p>
+            <p>
+              <span class="mechanic__data_title">Marca:</span> {{
+              carSelected?.marca }}
+            </p>
+            <p>
+              <span class="mechanic__data_title">Modelo:</span> {{
+              carSelected?.modelo }}
+            </p>
+            <p>
+              <span class="mechanic__data_title">Año:</span> {{
+              carSelected?.year }}
+            </p>
           </ion-label>
         </ion-label>
       </div>
@@ -57,21 +90,32 @@
     <h3 class="title">Tipo de servicio:</h3>
     <!-- todo i need the list of services to select -->
     <ion-card>
-      <ion-card-content formControlName="typeOfServiceId">
+      <ion-card-content>
+        <!-- todo pending change this to input that get the correct id -->
         <div class="service-options">
           <ion-badge class="badge">
             <ion-icon name="checkmark-outline"></ion-icon>
           </ion-badge>
+          <ion-input formControlName="typeOfServiceId" class="ion-hide" value=""></ion-input>
           <ion-button expand="block" color="dark" class="ion-padding-bottom">
-            <ion-img src="assets/image/mecanica.jpg" alt="Maintenance Image"></ion-img>
+            <ion-img
+              src="assets/image/mecanica.jpg"
+              alt="Maintenance Image"
+            ></ion-img>
             Inspección y diagnóstico
           </ion-button>
           <ion-button expand="block" color="light" class="ion-padding-bottom">
             Mantenimiento preventivo
-            <ion-img src="assets/image/mecanica.jpg" alt="Maintenance Image"></ion-img>
+            <ion-img
+              src="assets/image/mecanica.jpg"
+              alt="Maintenance Image"
+            ></ion-img>
           </ion-button>
           <ion-button expand="block" color="dark">
-            <ion-img src="assets/image/mecanica.jpg" alt="Maintenance Image"></ion-img>
+            <ion-img
+              src="assets/image/mecanica.jpg"
+              alt="Maintenance Image"
+            ></ion-img>
             Mantenimiento correctivo
           </ion-button>
         </div>
@@ -79,8 +123,18 @@
     </ion-card>
     <!-- todo i need the list of hours to select -->
     <h3 class="title">Horario recomendado:</h3>
-    <ion-item class="ion-justify-content-center ion-align-items-center ion-padding">
-      <ion-datetime formControlName="schedule" [isDateEnabled]="isWeekday" locale="es-CL" minuteValues="0,15,30,45" hourValues="8,9,10,11,12,13,14,15,16,17,18" hourCycle="h24" class="ion-datetime-button-overlay"></ion-datetime>
+    <ion-item
+      class="ion-justify-content-center ion-align-items-center ion-padding"
+    >
+      <ion-datetime
+        formControlName="schedule"
+        [isDateEnabled]="isWeekday"
+        locale="es-CL"
+        minuteValues="0,15,30,45"
+        hourValues="8,9,10,11,12,13,14,15,16,17,18"
+        hourCycle="h24"
+        class="ion-datetime-button-overlay"
+      ></ion-datetime>
     </ion-item>
     <!-- this is the modal -->
     <ion-modal [isOpen]="isModalOpen">
@@ -93,10 +147,14 @@
             </ion-buttons>
           </ion-toolbar>
         </ion-header>
-        <ion-content class="ion-padding">
+        <ion-content class="imn-padding">
           <ion-list>
             <!-- todo change the ion item to ion-select and pending send id of the mehcnaic -->
-            <ion-item lines="none" *ngFor="let mechanic of mechanics" (click)="selectMechanic(mechanic)">
+            <ion-item
+              lines="none"
+              *ngFor="let mechanic of mechanics"
+              (click)="selectMechanic(mechanic)"
+            >
               <p>{{ mechanic.name }} {{ mechanic.lastname }}</p>
             </ion-item>
           </ion-list>
@@ -106,5 +164,5 @@
   </form>
 </ion-content>
 <ion-footer>
-  <ion-button expand="full" [disabled]="!formGroup.valid" type="submit">Agendar</ion-button>
+  <ion-button expand="full" type="submit" [disabled]="!formGroup.valid">Agendar</ion-button>
 </ion-footer>
