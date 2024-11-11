@@ -52,16 +52,19 @@ export class MantesnclienPage implements OnInit {
     this.navCtrl.back();
   }
 
-  // Reemplazada la función con la nueva funcionalidad
-  async saveMaintenanceIdAndNavigate(maintenanceId: number) {
-    await this.storageService.set('idmantesion', maintenanceId); // Guardar el ID de mantenimiento
-    this.router.navigate(['/mecanico/info-ser-cli']); // Navegar a la página deseada
+  // Modificación en el método para verificar el estado antes de navegar
+  async saveMaintenanceIdAndNavigate(maintenanceId: number, statusId: number) {
+    // Verificar que el estado no sea "Finalizado" (statusId === 4)
+    if (statusId !== 4) {
+      await this.storageService.set('idmantesion', maintenanceId); // Guardar el ID de mantenimiento
+      this.router.navigate(['/mecanico/info-ser-cli']); // Navegar a la página deseada
+    }
   }
 
   formatDate(dateString: string): { date: string, time: string } {
     const dateObj = new Date(dateString);
-    const date = dateObj.toLocaleDateString();  // Formatea la fecha (MM/DD/YYYY)
-    const time = dateObj.toLocaleTimeString();  // Formatea la hora (HH:MM:SS)
+    const date = dateObj.toLocaleDateString(); 
+    const time = dateObj.toLocaleTimeString();  
     return { date, time };
   }
 

@@ -148,7 +148,12 @@ const routes: Routes = [
   {
     path: 'cliente/agendar',
     loadChildren: () => import('./cliente/agendar/agendar.module').then(m => m.AgendarPageModule)
+  },
+  {
+    path: 'mecanico/lisquoticli',
+    loadChildren: () => import('./mecanico/lisquoticli/lisquoticli.module').then( m => m.LisquoticliPageModule)
   }
+
 ];
 
 @NgModule({
