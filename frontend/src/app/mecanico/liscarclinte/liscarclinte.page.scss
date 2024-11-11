@@ -8,3 +8,29 @@
     height: 1%;
     --color: #ffffff;
 }
+
+// Estilo del botón con la flecha de regreso
+.back-button {
+    position: absolute;
+    top: 30px;  // Ajustar la posición
+    left: 10px; // Ajustar la posición
+    color: #ffffff; // Flecha blanca
+    padding: 0; // Sin relleno adicional
+    border: none; // Sin borde
+    font-size: 2rem; // Tamaño de la flecha
+}
+
+ion-title {
+    color: #ffffff;
+    font-size: 1.5rem;
+    text-align: center;
+    margin-top: 2.5rem;
+}
+
+.input-item {
+    --background: #FFFFFF; // Fondo gris claro para el input
+    border-radius: 8px; // Bordes redondeados
+    margin-bottom: 1.5rem; // Espacio entre campos de entrada
+    margin-top: 1.5rem;
+    --color: #0B1121; // Texto negro para los inputs
+}
