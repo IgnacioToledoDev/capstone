@@ -272,11 +272,15 @@ class CarController extends Controller
         }
 
         $car = Car::wherePatent($patent)->first();
-        if (!$car) {
-            return $this->sendError('Car not found');
+        $owner = User::whereId($car->owner_id)->first();
+        if (!$car && !$owner) {
+            return $this->sendError('Car or client not found');
         }
 
-        $success['car'] = $car;
+        $success['car'] = [
+            'car' => $car,
+            'owner' => $owner,
+        ];
 
         return $this->sendResponse($success, 'Car retrieved successfully.');
     }
