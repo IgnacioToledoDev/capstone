@@ -71,7 +71,7 @@
         </ion-item>
         <ion-item>
           <ion-label>Total servicios</ion-label>
-          <ion-note slot="end">${{ maintenanceDetails?.maintenance?.pricing }}</ion-note>
+          <ion-note slot="end" class="color">${{ maintenanceDetails?.maintenance?.pricing }}</ion-note>
         </ion-item>
       </ion-list>
     </ion-card-content>
@@ -82,8 +82,8 @@
       <ion-card-title>Nota de la mantención</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <ion-item>
-        <ion-label class="maintenance-note">
+      <ion-item class="maintenance-note">
+        <ion-label>
           {{ maintenanceDetails?.maintenance?.recommendation_action || 'Sin nota disponible' }}
         </ion-label>
       </ion-item>
