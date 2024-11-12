@@ -13,9 +13,9 @@ export class EscanearQrPage implements OnInit {
   rut: string = '';  // Variable para almacenar el RUT ingresado
 
   constructor(
-    private alertController: AlertController, // para más adelante
+    private alertController: AlertController,
     private navCtrl: NavController,
-    private storageService: Storage, // para más adelante
+    private storageService: Storage,
     private userService: SeguimientoService // Servicio para obtener los datos del usuario
   ) {}
 
@@ -24,9 +24,33 @@ export class EscanearQrPage implements OnInit {
     this.storageService.create();
   }
 
+  // Función para validar el RUT
+  validateRUT(rut: string): boolean {
+    rut = rut.replace(/\s+/g, ''); // Eliminar espacios en blanco
+    const rutPattern = /^\d{7,8}-[0-9kK]{1}$/; // Expresión regular para el formato general del RUT
+    if (!rutPattern.test(rut)) {
+      return false; // Si el RUT no cumple con el patrón
+    }
+
+    const body = rut.slice(0, -2); // Parte numérica del RUT
+    const verifier = rut.slice(-1).toUpperCase(); // Dígito verificador
+
+    let sum = 0;
+    let factor = 2;
+    for (let i = body.length - 1; i >= 0; i--) {
+      sum += parseInt(body.charAt(i)) * factor;
+      factor = factor === 7 ? 2 : factor + 1;
+    }
+
+    const mod = sum % 11;
+    const calculatedVerifier = mod === 1 ? 'K' : (11 - mod).toString();
+
+    return verifier === calculatedVerifier; // Comparar el dígito verificador
+  }
+
   // Función que se ejecuta cuando el usuario confirma el RUT
   async submitRUT() {
-    if (this.rut) {
+    if (this.rut && this.validateRUT(this.rut)) {
       // Llamar al servicio para obtener los datos del usuario por el RUT
       const usuario = await this.userService.getUserByRut(this.rut);
       if (usuario) {
