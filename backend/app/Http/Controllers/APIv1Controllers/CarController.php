@@ -279,7 +279,7 @@ class CarController extends Controller
 
         $success['car'] = [
             'car' => $car,
-            'owner' => $owner,
+            'user' => $owner,
         ];
 
         return $this->sendResponse($success, 'Car retrieved successfully.');
