@@ -727,7 +727,7 @@ class MaintenanceController extends Controller
         $actualStatus = $maintenance->status_id;
 
         if ($actualStatus < StatusCar::STATUS_FINISHED) {
-            if($actualStatus <= StatusCar::STATUS_STARTED) {
+            if(!isset($maintenance->start_maintenance)) {
                 $maintenance->start_maintenance = now();
             }
             $newStatus = $actualStatus + 1;
@@ -927,7 +927,6 @@ class MaintenanceController extends Controller
 
         $maintenanceInCourse = Maintenance::whereIn('car_id', $carIds)
             ->where('status_id', [StatusCar::STATUS_STARTED, StatusCar::STATUS_PROGRESS])
-            ->where('start_maintenance', '<', now())
             ->first();
 
         if (!$maintenanceInCourse) {
