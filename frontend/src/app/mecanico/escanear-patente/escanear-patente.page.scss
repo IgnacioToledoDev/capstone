@@ -1,12 +1,12 @@
 ion-content {
     background: #0B1121;  
-    color: white;
+    color: #ffffff;
     text-align: center;
     padding: 16px;
   }
 
   // Estilo del botón con la flecha de regreso
-ion-icon {
+.back-button {
   position: absolute;
   top: 30px;  // Ajustar la posición
   left: 10px; // Ajustar la posición
@@ -42,6 +42,7 @@ ion-label {
     --border-radius: 0px; /* Esquinas cuadradas */
     width: 100%;
     height: 1%;
+    --color: #ffffff;
   }
 
   .input-container {

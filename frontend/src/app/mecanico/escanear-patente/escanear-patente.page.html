@@ -1,6 +1,6 @@
 <ion-header>
   <!-- Botón de regreso con flecha -->
-<ion-icon name="arrow-back-outline" slot="star" class="back-button" (click)="goBack()" fill="clear"></ion-icon>
+  <ion-icon name="arrow-back-outline" slot="star" class="back-button" (click)="goBack()" fill="clear"></ion-icon>
   <ion-title>Escanear Patente</ion-title>
   <br>
   <br>
@@ -11,32 +11,28 @@
   <br>
   <br>
   <!-- Open Camera Button -->
-  <div class="button-container">
-    <ion-button expand="block" color="tertiary">
-      Abrir cámara
-    </ion-button>
-  </div>
 
   <!-- License Plate Input -->
   <br>
   <br>
   <br>
+
+  <!-- Send License Plate Button -->
+  <br>
+  <br>
+  <br>
+  <app-ocr></app-ocr>
+
   <div class="input-container">
     <ion-label position="floating">Ingresar Patente</ion-label>
     <br>
     <br>
     <br>
-    <ion-input type="text" placeholder="Ingresar patente"></ion-input>
+    <ion-input type="text" placeholder="Ingresar patente" [(ngModel)]="patent"></ion-input>
   </div>
-
-  <!-- Send Email Button -->
-  <br>
-  <br>
-  <br>
-  <app-ocr></app-ocr>
   <div class="button-container">
-    <ion-button expand="block" color="tertiary">
-      Enviar Patente
+    <ion-button expand="block" color="tertiary" (click)="searchCarByPatent()">
+      Buscar Patente
     </ion-button>
   </div>
 </ion-content>

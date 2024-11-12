@@ -28,6 +28,7 @@ export class HistorialPage implements OnInit {
       const response = await this.manteciService.getMaintenanceHistorical();
       this.eventos = response; // La respuesta ya incluye los datos de `car` y `owner`
       this.filteredEventos = [...this.eventos]; // Inicializar lista filtrada
+      console.log(this.filteredEventos)
     } catch (error) {
       console.error('Error loading maintenance history:', error);
     }

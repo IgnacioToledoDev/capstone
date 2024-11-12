@@ -4,6 +4,9 @@ import { NavController } from '@ionic/angular';
 import { StorageService } from 'src/app/services/storage.service';
 import { carViewInterface } from 'src/app/intefaces/car';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {CotizaService} from "../../services/cotiza.service";
+import {ReservationService} from "../../services/reservation.service";
+import {ReservationInterface} from "../../intefaces/reservation";
 
 @Component({
   selector: 'app-agendar',
@@ -13,6 +16,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class AgendarPage implements OnInit {
   isModalOpen: boolean = false;
   mechanics: any[] = [];
+  typesServices: { id: number, name: string }[] = [];
   mechanicSelected: any;
   isMechanicSelected: boolean = false;
   carSelected!: carViewInterface;
@@ -35,14 +39,18 @@ export class AgendarPage implements OnInit {
     private navCtrl: NavController,
     private storageService: StorageService,
     private fb: FormBuilder,
+    private servicesService: CotizaService,
+    private reservationService: ReservationService
   ) {}
 
   async ngOnInit() {
     this.formGroup = this.fb.group({
-      mechanicId: [null, Validators.required],
-      typeOfServiceId: [null, Validators.required],
-      schedule: [null, Validators.required],
+      mechanicId: ['', Validators.required],
+      typeOfServiceId: ['', Validators.required],
+      schedule: ['', Validators.required],
     });
+
+    this.typesServices = await this.servicesService.getServiceTypes();
 
     try {
       await this.storageService.init();
@@ -70,14 +78,9 @@ export class AgendarPage implements OnInit {
     }
   }
 
-  setOpen(isOpen: boolean) {
-    this.isModalOpen = isOpen;
-  }
-
   selectMechanic(mechanic: any) {
     this.mechanicSelected = mechanic;
     this.isMechanicSelected = true;
-    this.setOpen(false);
   }
 
   goBack() {
@@ -90,11 +93,33 @@ export class AgendarPage implements OnInit {
 
   onSubmit(): void {
     if (this.formGroup.valid) {
+      console.log('click');
       this.isValid = true;
-      const { mechanicId, typeOfServicesId, scheduleDate } =
-        this.formGroup.value;
+
+      const { mechanicId, typeOfServiceId, schedule } = this.formGroup.value;
       const carId = this.carSelected.id;
-      console.log(mechanicId, carId, typeOfServicesId, scheduleDate);
+      const reservationDate: string = schedule;
+
+      // Crear la reserva usando los valores obtenidos del formulario
+      this.reservationService
+        .createReservation({
+          mechanicId,
+          carId,
+          typeOfServiceId: parseInt(typeOfServiceId, 10), // Asegúrate de convertir a número
+          reservationDate
+        } as ReservationInterface)
+        .then((res) => {
+          if (res) {
+            alert('Reserva creada con éxito');
+          } else {
+            alert('Hubo un error al crear la reserva');
+          }
+        })
+        .catch((error) => {
+          console.error('Error al crear la reserva:', error);
+          alert('Ocurrió un error al procesar la reserva.');
+        });
     }
   }
+
 }

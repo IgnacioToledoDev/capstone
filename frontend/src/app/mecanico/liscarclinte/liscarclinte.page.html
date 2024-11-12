@@ -1,15 +1,14 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-back-button (click)="goBack()" text="Volver"></ion-back-button>
-    </ion-buttons>
-    <ion-title>Lista de vehículos</ion-title>
-  </ion-toolbar>
+  <ion-icon name="arrow-back-outline" slot="start" class="back-button" (click)="goBack()" fill="clear"></ion-icon>
+  <ion-title>Lista de vehículos</ion-title>
+  <br>
+  <br>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-searchbar placeholder="Buscar vehículos por patente..." (ionInput)="filterByPatente($event)"></ion-searchbar>
-  
+  <br>
+  <br>
+  <ion-searchbar placeholder="Buscar vehículos por patente..." class="input-item" (ionInput)="filterByPatente($event)"></ion-searchbar>
   <ion-card>
     <ion-card-content>
       <ion-list>

@@ -113,7 +113,6 @@ class MaintenanceController extends Controller
             }
 
             $calendar = Maintenance::whereMechanicId($user->id)
-                ->whereDate('start_maintenance', now()->toDateString())
                 ->whereIn('status_id', [StatusCar::STATUS_INACTIVE])
                 ->get();
 
@@ -727,7 +726,7 @@ class MaintenanceController extends Controller
         $actualStatus = $maintenance->status_id;
 
         if ($actualStatus < StatusCar::STATUS_FINISHED) {
-            if($actualStatus <= StatusCar::STATUS_STARTED) {
+            if(!isset($maintenance->start_maintenance)) {
                 $maintenance->start_maintenance = now();
             }
             $newStatus = $actualStatus + 1;
@@ -919,11 +918,14 @@ class MaintenanceController extends Controller
     {
         $user = auth()->user();
 
-        $cars = Car::whereOwnerId($user->id)->pluck('id');
+        $cars = Car::whereOwnerId($user->id)->get();
+        $carIds = [];
+        foreach ($cars as $carId) {
+            $carIds[] = $carId->id;
+        }
 
-        $maintenanceInCourse = Maintenance::whereIn('car_id', $cars)
+        $maintenanceInCourse = Maintenance::whereIn('car_id', $carIds)
             ->where('status_id', [StatusCar::STATUS_STARTED, StatusCar::STATUS_PROGRESS])
-            ->where('start_maintenance', '<', now())
             ->first();
 
         if (!$maintenanceInCourse) {
@@ -1044,5 +1046,97 @@ class MaintenanceController extends Controller
         }
         $success['maintenances'] = $maintenancesArr;
         return $this->sendResponse($success, 'maintenances found.');
+    }
+
+    /**
+     * @OA\Get(
+     *     path="/api/jwt/maintenance/{userId}/historical",
+     *     summary="Obtener mantenimientos por ID de usuario",
+     *     description="Este endpoint obtiene todos los mantenimientos asociados a los vehículos de un usuario específico.",
+     *     tags={"Maintenances"},
+     *     security={{"bearerAuth": {}}},
+     *     @OA\Parameter(
+     *         name="userId",
+     *         in="path",
+     *         required=true,
+     *         description="ID del usuario propietario de los vehículos",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Mantenimientos encontrados",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="success",
+     *                 type="boolean",
+     *                 example=true
+     *             ),
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="maintenances found."
+     *             ),
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Usuario no encontrado",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=false),
+     *             @OA\Property(property="message", type="string", example="User not found.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="No autenticado",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=false),
+     *             @OA\Property(property="message", type="string", example="JWT Token no found o is not valid")
+     *         )
+     *     )
+     * )
+     */
+    public function getHistoricalMaintenanceByUserId(int $userId): JsonResponse
+    {
+        $user = User::whereId($userId)->first();
+        $cars = Car::whereOwnerId($user->id)->get();
+        $maintenancesArr = [];
+
+        foreach ($cars as $car) {
+            $maintenances = Maintenance::whereCarId($car->id)->get();
+
+            foreach ($maintenances as $maintenance) {
+                $mechanic = User::whereId($maintenance->mechanic_id)->first();
+
+                $detailsArr = [];
+                $details = MaintenanceDetails::whereMaintenanceId($maintenance->id)->get();
+                foreach ($details as $detail) {
+                    $service = Service::whereId($detail->service_id)->first();
+                    $detailsArr[] = [
+                        'details' => $detail,
+                        'service' => $service
+                    ];
+                }
+
+                // Agregamos la entrada de mantenimiento única
+                $response = [
+                    'maintenance' => $maintenance,
+                    'car' => [
+                        'id' => $car->id,
+                        'patent' => $car->patent,
+                        'brand' => $this->carHelper->getCarBrandName($car->id),
+                        'model' => $this->carHelper->getCarModelName($car->id),
+                        'year' => $car->year
+                    ],
+                    'mechanic' => $mechanic,
+                    'details' => $detailsArr, // Añadimos todos los detalles agrupados
+                ];
+                $maintenancesArr[] = $response;
+            }
+        }
+
+        $success['maintenances'] = $maintenancesArr;
+
+        return $this->sendResponse($success, 'Maintenances found.');
     }
 }

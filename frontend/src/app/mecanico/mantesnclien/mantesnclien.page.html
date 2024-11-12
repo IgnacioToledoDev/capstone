@@ -1,11 +1,11 @@
 <ion-header>
   <ion-icon name="arrow-back-outline" class="back-button" fill="clear" (click)="goBack()"></ion-icon>
-  <ion-title class="title">Mantenimientos del Usuario</ion-title>
+  <ion-title class="title">Mantenimientos Usuario</ion-title>
   <br><br>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-searchbar (ionInput)="filterMaintenances($event)" placeholder="Buscar mantenimiento..." showClearButton="focus"></ion-searchbar>
+  <ion-searchbar (ionInput)="filterMaintenances($event)" class="input-item" placeholder="Buscar mantenimiento..." showClearButton="focus"></ion-searchbar>
 
   <ion-card 
     class="maintenance-card" 

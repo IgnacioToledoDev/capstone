@@ -1,33 +1,33 @@
 <ion-header>
-  <!-- Botón de regreso con flecha -->
-<ion-icon name="arrow-back-outline" class="back-button" fill="clear" (click)="goBack()"></ion-icon>
+  <ion-icon name="arrow-back-outline" class="back-button" fill="clear" (click)="goBack()"></ion-icon>
   <ion-title class="title_1">Historial</ion-title>
-  <br>
-  <br>
+  <br><br>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <br>
-  <br>
+  <br><br>
   <ion-card>
     <ion-card-header>
       <ion-card-title>Lista de Mantenciones</ion-card-title>
     </ion-card-header>
-    <ion-searchbar class="input-item" placeholder="Buscar Mantención..."></ion-searchbar>
+    <ion-searchbar class="input-item" placeholder="Buscar Mantención..." (ionInput)="filterMaintenance($event)"></ion-searchbar>
     <ion-card-content class="info-card">
       <ion-list>
-        <ion-item *ngFor="let evento of eventos" routerLink="/mecanico/info-car">
+        <ion-item *ngFor="let maintenance of filteredMaintenances" (click)="saveMaintenanceToStorage(maintenance)">
           <ion-label>
-            <ion-card-subtitle>{{ evento.patente }}</ion-card-subtitle>
-            <h2>{{ evento.nombre }}</h2>
-            <p>{{ evento.hora }}</p>
-            <p>{{ evento.estado }}</p>
+            <h2>{{ maintenance.car.brand }} {{ maintenance.car.model }} ({{ maintenance.car.year }})</h2>
+            <ion-card-subtitle>{{ maintenance.car.patent }}</ion-card-subtitle>
+            <p>Precio: {{ maintenance.maintenance?.pricing | currency }}</p>
+            <p>Mecánico: {{ maintenance.mechanic?.name }}</p>
+            <p>Estado: {{ maintenance.maintenance?.status_id === 3 ? 'Finalizado' : 'En Proceso' }}</p>
+            <p>Fecha de Inicio: {{ maintenance.maintenance?.start_maintenance | date: 'short' }}</p>
           </ion-label>
         </ion-item>
       </ion-list>
     </ion-card-content>
   </ion-card>
 </ion-content>
+
 <ion-footer>
   <div class="button-container">
     <ion-button class="custom-button" expand="block" routerLink="/cliente/home-cliente">

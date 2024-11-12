@@ -26,10 +26,21 @@
           <ion-label>Numero Telefónico : {{ maintenanceDetails?.owner?.phone }}</ion-label>
         </ion-item>
         <ion-item>
-          <ion-label>Fecha : {{ maintenanceDetails?.maintenance?.start_maintenance | date: 'dd/MM/yyyy' }}</ion-label>
+          <ion-label>Fecha : 
+            <ng-container *ngIf="maintenanceDetails?.maintenance?.start_maintenance; else noStartDate">
+              {{ maintenanceDetails?.maintenance?.start_maintenance | date: 'dd/MM/yyyy' }}
+            </ng-container>
+            <ng-template #noStartDate>Mantenimiento no iniciado</ng-template>
+          </ion-label>
         </ion-item>
+        
         <ion-item>
-          <ion-label>Hora : {{ maintenanceDetails?.maintenance?.start_maintenance | date: 'HH:mm' }}</ion-label>
+          <ion-label>Hora : 
+            <ng-container *ngIf="maintenanceDetails?.maintenance?.start_maintenance; else noStartTime">
+              {{ maintenanceDetails?.maintenance?.start_maintenance | date: 'HH:mm' }}
+            </ng-container>
+            <ng-template #noStartTime>Mantenimiento no iniciado</ng-template>
+          </ion-label>
         </ion-item>
       </ion-list>
     </ion-card-content>

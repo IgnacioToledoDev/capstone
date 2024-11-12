@@ -303,6 +303,35 @@ export class ManteciService {
       return null;
     }
   }
+  async getMaintenanceHistoryByUserId(userId: number): Promise<any> {
+    try {
+      // Obtener los encabezados de autenticación
+      const headers = await this.getAuthHeaders();
+  
+      // Verificar si el encabezado de Authorization está disponible
+      if (!headers.has('Authorization')) {
+        console.log('No se pudo recuperar el token de autenticación.');
+        return null;
+      }
+  
+      // Realizar la solicitud GET para obtener los mantenimientos históricos del usuario
+      const response = await this.http
+        .get<any>(`${this.API_URL}/jwt/maintenance/${userId}/historical`, { headers })
+        .pipe(catchError(this.handleError)) // Manejo de errores
+        .toPromise();
+  
+      if (response && response.success && response.data) {
+        console.log('Mantenimientos históricos del usuario:', response.data);
+        return response.data; // Devuelve los datos de mantenimientos históricos
+      } else {
+        console.log('Respuesta no válida al obtener mantenimientos históricos del usuario:', response);
+        return null;
+      }
+    } catch (error) {
+      console.log('Error al obtener los mantenimientos históricos del usuario:', error);
+      return null;
+    }
+  }
   
 
   private handleError(error: HttpErrorResponse) {

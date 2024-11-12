@@ -1,15 +1,11 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-button fill="clear" (click)="goBack()">
-        <ion-icon name="arrow-back-outline"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-    <ion-title>Historial</ion-title>
-  </ion-toolbar>
+  <ion-icon name="arrow-back-outline" slot="start" class="back-button" (click)="goBack()" fill="clear"></ion-icon>
+  <ion-title>Historial</ion-title>
 </ion-header>
 
 <ion-content [fullscreen]="true">
+  <br>
+  <br>
   <ion-searchbar
     class="input-item"
     placeholder="Buscar Servicios..."
@@ -22,10 +18,9 @@
         <ion-item *ngFor="let evento of filteredEventos" routerLink="/mecanico/home-mecanico">
           <ion-label>
             <h2>Servicio: {{ evento.name }}</h2>
-            <p>Nombre clinte: {{ evento.owner.name }} {{ evento.owner.lastname }}</p>
-            <p>Email clinte: {{ evento.owner.email }}</p>
-            <p>Fin: {{ evento.end_maintenance | date: 'short' }}</p>
-            <p>vehículo: {{ evento.car.fullName }}</p>
+            <p>Nombre cliente: {{ evento.owner.name }} {{ evento.owner.lastname }}</p>
+            <p>Email cliente: {{ evento.owner.email }}</p>
+            <p>Vehículo: {{ evento.car.fullName }}</p>
           </ion-label>
         </ion-item>
       </ion-list>
