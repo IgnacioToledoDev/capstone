@@ -927,7 +927,6 @@ class MaintenanceController extends Controller
 
         $maintenanceInCourse = Maintenance::whereIn('car_id', $carIds)
             ->where('status_id', [StatusCar::STATUS_STARTED, StatusCar::STATUS_PROGRESS])
-            ->where('start_maintenance', '<', now())
             ->first();
 
         if (!$maintenanceInCourse) {
