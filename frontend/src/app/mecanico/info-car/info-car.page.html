@@ -1,7 +1,7 @@
 <ion-header>
-  <!-- Botón de regreso con flecha -->
-<ion-icon name="arrow-back-outline" class="back-button" fill="clear" (click)="goBack()"></ion-icon>
-  <ion-title>Información Vehículo</ion-title>
+  <!-- Back button -->
+  <ion-icon name="arrow-back-outline" class="back-button" fill="clear" (click)="goBack()"></ion-icon>
+  <ion-title>Información Mantención</ion-title>
   <br>
   <br>
 </ion-header>
@@ -9,80 +9,96 @@
 <ion-content>
   <br>
   <br>
-<ion-card>
-  <ion-card-header>
-    <ion-card-title class="title">Datos Cliente</ion-card-title>
-  </ion-card-header>
-  <ion-card-content class="info-card">
-    <ion-list>
-      <ion-item class="item">
-        <ion-label>Nombre : Pamela Chupa</ion-label>
-      </ion-item>
-      <ion-item>
-        <ion-label>Correo : pa.chupaloduoc.cl</ion-label>
-      </ion-item>
-      <ion-item>
-        <ion-label>Numero Telefonico : +56985213213</ion-label>
-      </ion-item>
-      <ion-item>
-        <ion-label>Fecha : 29/09/2024</ion-label>
-      </ion-item>
-      <ion-item>
-        <ion-label>Hora : 15:30</ion-label>
-      </ion-item>
-    </ion-list>
-  </ion-card-content>
-</ion-card>
-<ion-card>
-  <ion-card-header>
-    <ion-card-title class="title">Datos vehículo</ion-card-title>
-  </ion-card-header>
-  <ion-card-content class="info-card">
-    <ion-list>
-      <ion-item>
-        <ion-label>Patente : KDTS82</ion-label>
-      </ion-item>
-      <ion-item>
-        <ion-label>Marca : Toyota</ion-label>
-      </ion-item>
-      <ion-item>
-        <ion-label>Modelo : Yaris</ion-label>
-      </ion-item>
-      <ion-item>
-        <ion-label>Año : 2018</ion-label>
-      </ion-item>
-    </ion-list>
-  </ion-card-content>
-</ion-card>
-<ion-card>
-  <ion-card-header>
-    <ion-card-title class="title">Lista de Servicios</ion-card-title>
-  </ion-card-header>
+  <!-- Customer Data -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title class="title">Datos Cliente</ion-card-title>
+    </ion-card-header>
+    <ion-card-content class="info-card">
+      <ion-list>
+        <ion-item class="item">
+          <ion-label>Nombre : {{ maintenanceDetails?.owner?.name }}</ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label>Correo : {{ maintenanceDetails?.owner?.email }}</ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label>Numero Telefónico : {{ maintenanceDetails?.owner?.phone }}</ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label>Fecha : {{ maintenanceDetails?.maintenance?.start_maintenance | date: 'dd/MM/yyyy' }}</ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label>Hora : {{ maintenanceDetails?.maintenance?.start_maintenance | date: 'HH:mm' }}</ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
 
-  <ion-card-content class="info-card">
-    <ion-list>
-      <ion-item *ngFor="let evento of eventos" routerLink="/mecanico/info-car">
-        <ion-label>
-          <ion-card-subtitle>{{ evento.patente }}</ion-card-subtitle>
-          <h2>{{ evento.nombre }}</h2>
-          <p>{{ evento.hora }}</p>
-          <p>{{ evento.estado }}</p>
+  <!-- Vehicle Data -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title class="title">Datos Vehículo</ion-card-title>
+    </ion-card-header>
+    <ion-card-content class="info-card">
+      <ion-list>
+        <ion-item>
+          <ion-label>Patente : {{ maintenanceDetails?.car?.patent }}</ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label>Marca : {{ maintenanceDetails?.car?.brand }}</ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label>Modelo : {{ maintenanceDetails?.car?.model }}</ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label>Año : {{ maintenanceDetails?.car?.year }}</ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Services Data -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title class="title">Lista de Servicios</ion-card-title>
+    </ion-card-header>
+    <ion-card-content class="info-card">
+      <ion-list>
+        <ion-item *ngFor="let service of maintenanceDetails?.services">
+          <ion-label>{{ service.name }}</ion-label>
+          <ion-label slot="end">{{ service.price }}</ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label>Total servicios</ion-label>
+          <ion-note slot="end">${{ maintenanceDetails?.maintenance?.pricing }}</ion-note>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Nota de la mantención</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item>
+        <ion-label class="maintenance-note">
+          {{ maintenanceDetails?.maintenance?.recommendation_action || 'Sin nota disponible' }}
         </ion-label>
       </ion-item>
-    </ion-list>
-  </ion-card-content>
-</ion-card>
+    </ion-card-content>
+  </ion-card>
+  
 
-</ion-content>
+
 <ion-footer>
-  <div class="button-container">
-    <ion-button class="custom-button" expand="block" (click)="goBack()">
-      <ion-icon slot="start" name="home"></ion-icon>
-      Inicio
-    </ion-button>
-    <ion-button class="custom-button" expand="block" routerLink="/mecanico/ajustes">
-      <ion-icon slot="start" name="person"></ion-icon>
-      Perfil
-    </ion-button>
-  </div>
+  <ion-toolbar>
+    <div class="button-container">
+      <ion-button class="custom-button"  routerLink="/cliente/home-cliente">
+        <ion-icon slot="start" name="home"></ion-icon>
+        Inicio
+      </ion-button>
+    </div>
+  </ion-toolbar>
 </ion-footer>
