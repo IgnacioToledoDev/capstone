@@ -72,8 +72,27 @@ export class GenerarServicioPage implements OnInit {
   }
 
   addService(service: { id: number, name: string, price: number }) {
-    this.selectedServices.push(service);
+    // Verificar si el servicio ya está en la lista de servicios seleccionados
+    const exists = this.selectedServices.some(s => s.id === service.id);
+  
+    if (!exists) {
+      // Si no está, agregarlo
+      this.selectedServices.push(service);
+    } else {
+      // Mostrar un mensaje o hacer algo si el servicio ya está agregado
+      this.presentAlertServiceExists();
+    }
   }
+  
+  async presentAlertServiceExists() {
+    const alert = await this.alertController.create({
+      header: 'Servicio Duplicado',
+      message: 'Este servicio ya ha sido agregado a la lista.',
+      buttons: ['Aceptar'],
+    });
+    await alert.present();
+  }
+  
 
   removeService(service: { id: number, name: string, price: number }) {
     this.selectedServices = this.selectedServices.filter(s => s.id !== service.id);

@@ -58,7 +58,6 @@ export class RegisterUserPage implements OnInit {
         let errorMsg = 'Error al crear Cliente'; 
         if (error instanceof HttpErrorResponse) {
           if (error.error && error.error.message) {
-            // Usa el mensaje de error específico del servidor, como "Rut invalid."
             errorMsg = error.error.message;
           } else if (error.status === 404) {
             errorMsg = 'Endpoint no encontrado. Verifica la URL del servidor.';
