@@ -161,6 +161,29 @@ export class CarService {
       return null;
     }
   }
+  async getCarByPatent(patent: string): Promise<any> {
+    try {
+      const headers = await this.getAuthHeaders();
+  
+      if (!headers.has('Authorization')) {
+        console.error('No se pudo recuperar el token de autenticación.');
+        return null;
+      }
+  
+      const response = await this.http.get<any>(`${this.API_URL}/jwt/cars/${patent}`, { headers }).toPromise();
+      console.log('Registro car exitoso:', response);
+  
+      if (response.success) {
+        return response.data.car; // Devuelve la información del coche y del propietario
+      } else {
+        console.error('Respuesta no válida al obtener el coche:', response);
+        return null;
+      }
+    } catch (error) {
+      console.error('Error al obtener el coche:', error);
+      return null;
+    }
+  }
   
 
 

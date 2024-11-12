@@ -6,10 +6,6 @@
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-title>Home Cliente</ion-title>
-    <ion-buttons slot="end" routerLink="/cliente/reserva">
-      <ion-icon name="notifications-outline" slot="end"></ion-icon>
-      <ion-badge color="success">1</ion-badge>
-    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -87,14 +83,14 @@
 <ion-footer>
   <ion-toolbar>
     <div class="button-container">
-      <ion-button class="custom-button ion-text-wrap" expand="block" routerLink="/cliente/home-cliente">
-        <ion-icon slot="start" name="home"></ion-icon>
-        Inicio
-      </ion-button>
       <ion-button class="custom-button ion-text-wrap" expand="block" routerLink="/mecanico/ajustes">
         <ion-icon slot="start" name="person"></ion-icon>
         Contactar
       </ion-button>
+      <ion-button class="custom-button ion-text-wrap" expand="block" routerLink="/cliente/reserva">
+        <ion-icon slot="start" name="book"></ion-icon>
+        Cotizaciones
+      </ion-button>      
     </div>
   </ion-toolbar>
 </ion-footer>
