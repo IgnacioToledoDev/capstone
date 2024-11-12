@@ -919,9 +919,13 @@ class MaintenanceController extends Controller
     {
         $user = auth()->user();
 
-        $cars = Car::whereOwnerId($user->id)->pluck('id');
+        $cars = Car::whereOwnerId($user->id)->get();
+        $carIds = [];
+        foreach ($cars as $carId) {
+            $carIds[] = $carId->id;
+        }
 
-        $maintenanceInCourse = Maintenance::whereIn('car_id', $cars)
+        $maintenanceInCourse = Maintenance::whereIn('car_id', $carIds)
             ->where('status_id', [StatusCar::STATUS_STARTED, StatusCar::STATUS_PROGRESS])
             ->where('start_maintenance', '<', now())
             ->first();
