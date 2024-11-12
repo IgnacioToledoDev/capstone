@@ -1103,34 +1103,42 @@ class MaintenanceController extends Controller
         $user = User::whereId($userId)->first();
         $cars = Car::whereOwnerId($user->id)->get();
         $maintenancesArr = [];
+
         foreach ($cars as $car) {
             $maintenances = Maintenance::whereCarId($car->id)->get();
+
             foreach ($maintenances as $maintenance) {
                 $mechanic = User::whereId($maintenance->mechanic_id)->first();
+
+                $detailsArr = [];
                 $details = MaintenanceDetails::whereMaintenanceId($maintenance->id)->get();
                 foreach ($details as $detail) {
-                    $services = Service::whereId($detail->service_id)->first();
-                    $response = [
-                        'maintenance' => $maintenance,
-                        'car' => [
-                            'id' => $car->id,
-                            'patent' => $car->patent,
-                            'brand' => $this->carHelper->getCarBrandName($car->id),
-                            'model' => $this->carHelper->getCarModelName($car->id),
-                            'year' => $car->year
-                        ],
-                        'mechanic' => $mechanic,
-                        'details' => [
-                            'details' => $detail,
-                            'services' => $services
-                        ],
+                    $service = Service::whereId($detail->service_id)->first();
+                    $detailsArr[] = [
+                        'details' => $detail,
+                        'service' => $service
                     ];
-                    $maintenancesArr[] = $response;
                 }
+
+                // Agregamos la entrada de mantenimiento única
+                $response = [
+                    'maintenance' => $maintenance,
+                    'car' => [
+                        'id' => $car->id,
+                        'patent' => $car->patent,
+                        'brand' => $this->carHelper->getCarBrandName($car->id),
+                        'model' => $this->carHelper->getCarModelName($car->id),
+                        'year' => $car->year
+                    ],
+                    'mechanic' => $mechanic,
+                    'details' => $detailsArr, // Añadimos todos los detalles agrupados
+                ];
+                $maintenancesArr[] = $response;
             }
         }
+
         $success['maintenances'] = $maintenancesArr;
 
-        return $this->sendResponse($success, 'maintenances found.');
+        return $this->sendResponse($success, 'Maintenances found.');
     }
 }
