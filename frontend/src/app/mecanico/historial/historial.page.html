@@ -1,15 +1,11 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-button fill="clear" (click)="goBack()">
-        <ion-icon name="arrow-back-outline"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-    <ion-title>Historial</ion-title>
-  </ion-toolbar>
+  <ion-icon name="arrow-back-outline" slot="start" class="back-button" (click)="goBack()" fill="clear"></ion-icon>
+  <ion-title>Historial</ion-title>
 </ion-header>
 
 <ion-content [fullscreen]="true">
+  <br>
+  <br>
   <ion-searchbar
     class="input-item"
     placeholder="Buscar Servicios..."
