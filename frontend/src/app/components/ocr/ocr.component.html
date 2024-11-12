@@ -3,11 +3,11 @@
   <input type="file" (change)="onFileSelected($event)" class="file-input" />
   
   <!-- Botón para reconocer el texto en la imagen seleccionada -->
-  <button (click)="recognizeText()" class="recognize-button">Reconocer Texto</button>
+  <button (click)="recognizeText()" class="recognize-button">Reconocer Patente</button>
 </div>
 
 <!-- Mostrar el texto reconocido si existe -->
 <div *ngIf="recognizedText" class="recognized-text-container">
-  <h3>Texto Reconocido:</h3>
+  <h3>Patente Reconocido:</h3>
   <p>{{ recognizedText }}</p>
 </div>
