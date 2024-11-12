@@ -5,6 +5,7 @@
   .custom-button {
     --border-radius: 0px; /* Esquinas cuadradas */
     width: 49%;
+    --color: #ffffff; 
   }
   
   .back-button {
@@ -18,10 +19,17 @@
   }
   
   .title {
-
-    font-size: 2rem;
+    font-size: 1.1rem;
     margin-top: 2.5rem;
     margin-bottom: 1rem;
+  }
+
+  .input-item {
+    --background: #FFFFFF; // Fondo gris claro para el input
+    border-radius: 8px; // Bordes redondeados
+    margin-top: 3rem;
+    margin-bottom: 1.5rem; // Espacio entre campos de entrada
+    --color: black; // Texto negro para los inputs
   }
   
   .input-item {
