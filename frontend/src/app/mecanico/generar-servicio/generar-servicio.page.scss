@@ -65,3 +65,18 @@
     --background: #3B82F6; /* Color de fondo azul para los botones */
     color: #ffffff; /* Color del texto de los botones */
   }
+  .pagination-button {
+  margin: 10px;
+  width: 45%;
+  justify-content: space-between;
+  padding: 15px 0;
+}
+
+ion-button[disabled] {
+  opacity: 0.5;
+}
+
+ion-buttonsa {
+  display: flex;
+
+}

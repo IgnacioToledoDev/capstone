@@ -4,9 +4,8 @@
 </ion-header>
 
 <ion-content>
-  <br>
-  <br>
-  <br>
+  <br><br><br>
+
   <ion-card>
     <ion-card-header class="dark-card">
       <ion-card-title>Datos vehículo</ion-card-title>
@@ -30,6 +29,7 @@
   </ion-card>
 
   <ion-searchbar class="input-item" placeholder="Buscar Servicios..." (ionInput)="filterServices($event)"></ion-searchbar>
+
   <ion-buttons>
     <ion-button class="xd" (click)="filterByType(1)">Servicios</ion-button>
     <ion-button class="xd" (click)="filterByType(2)">Reparaciones</ion-button>
@@ -39,7 +39,7 @@
   <ion-card>
     <ion-list>
       <ion-card-content class="dark-card">
-        <ng-container *ngFor="let service of filteredServices">
+        <ng-container *ngFor="let service of pagedServices[currentPage]">
           <ion-item>
             <ion-label>{{ service.name }}</ion-label>
             <ion-label>{{ service.price }}</ion-label>
@@ -49,6 +49,29 @@
       </ion-card-content>
     </ion-list>
   </ion-card>
+
+  <ion-buttons>
+    <ion-button
+      [disabled]="currentPage === 0"
+      (click)="currentPage = currentPage - 1"
+      color="primary"
+      fill="outline"
+      class="pagination-button">
+      <ion-icon slot="start" name="arrow-back-outline"></ion-icon>
+      Anterior
+    </ion-button>
+  
+    <ion-button
+      [disabled]="currentPage === pagedServices.length - 1"
+      (click)="currentPage = currentPage + 1"
+      color="primary"
+      fill="outline"
+      class="pagination-button">
+      Siguiente
+      <ion-icon slot="end" name="arrow-forward-outline"></ion-icon>
+    </ion-button>
+  </ion-buttons>
+  
 
   <ion-card>
     <ion-card-header class="dark-card">
