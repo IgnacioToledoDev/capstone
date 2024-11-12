@@ -1,5 +1,11 @@
 ion-menu {
-  --background: #f4f5f8;
+  background-color: #0B1121;
+
+  ion-list {
+      ion-item {
+          --ion-item-background: #0B1121 !important;
+      }
+  }
 }
 
 ion-title {
