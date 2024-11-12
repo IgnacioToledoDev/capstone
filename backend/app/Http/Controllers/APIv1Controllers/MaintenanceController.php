@@ -1045,4 +1045,88 @@ class MaintenanceController extends Controller
         $success['maintenances'] = $maintenancesArr;
         return $this->sendResponse($success, 'maintenances found.');
     }
+
+    /**
+     * @OA\Get(
+     *     path="/api/jwt/maintenance/{userId}/historical",
+     *     summary="Obtener mantenimientos por ID de usuario",
+     *     description="Este endpoint obtiene todos los mantenimientos asociados a los vehículos de un usuario específico.",
+     *     tags={"Maintenances"},
+     *     security={{"bearerAuth": {}}},
+     *     @OA\Parameter(
+     *         name="userId",
+     *         in="path",
+     *         required=true,
+     *         description="ID del usuario propietario de los vehículos",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Mantenimientos encontrados",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="success",
+     *                 type="boolean",
+     *                 example=true
+     *             ),
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="maintenances found."
+     *             ),
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Usuario no encontrado",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=false),
+     *             @OA\Property(property="message", type="string", example="User not found.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="No autenticado",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=false),
+     *             @OA\Property(property="message", type="string", example="JWT Token no found o is not valid")
+     *         )
+     *     )
+     * )
+     */
+    public function getHistoricalMaintenanceByUserId(int $userId): JsonResponse
+    {
+        $user = User::whereId($userId)->first();
+        $cars = Car::whereOwnerId($user->id)->get();
+        $maintenancesArr = [];
+        foreach ($cars as $car) {
+            $maintenances = Maintenance::whereCarId($car->id)->get();
+            foreach ($maintenances as $maintenance) {
+                $mechanic = User::whereId($maintenance->mechanic_id)->first();
+                $details = MaintenanceDetails::whereMaintenanceId($maintenance->id)->get();
+                foreach ($details as $detail) {
+                    $services = Service::whereId($detail->service_id)->first();
+                    $response = [
+                        'maintenance' => $maintenance,
+                        'car' => [
+                            'id' => $car->id,
+                            'patent' => $car->patent,
+                            'brand' => $this->carHelper->getCarBrandName($car->id),
+                            'model' => $this->carHelper->getCarModelName($car->id),
+                            'year' => $car->year
+                        ],
+                        'mechanic' => $mechanic,
+                        'details' => [
+                            'details' => $detail,
+                            'services' => $services
+                        ],
+                    ];
+                    $maintenancesArr[] = $response;
+                }
+            }
+        }
+        $success['maintenances'] = $maintenancesArr;
+
+        return $this->sendResponse($success, 'maintenances found.');
+    }
 }
