@@ -727,7 +727,7 @@ class MaintenanceController extends Controller
         $actualStatus = $maintenance->status_id;
 
         if ($actualStatus < StatusCar::STATUS_FINISHED) {
-            if($actualStatus <= StatusCar::STATUS_STARTED) {
+            if(!isset($maintenance->start_maintenance)) {
                 $maintenance->start_maintenance = now();
             }
             $newStatus = $actualStatus + 1;
