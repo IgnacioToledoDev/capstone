@@ -1,15 +1,12 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-icon
-      name="arrow-back-outline"
-      class="back-button"
-      (click)="goBack()"
-    ></ion-icon>
-    <ion-title class="title">Agendar Cita</ion-title>
-  </ion-toolbar>
+  <ion-icon name="arrow-back-outline" class="back-button" fill="clear" (click)="goBack()"></ion-icon>
+  <ion-title class="title">Agendar Cita</ion-title>
 </ion-header>
 
 <ion-content class="ion-padding-vertical">
+  <br>
+  <br>
+  <br>
   <form (ngSubmit)="onSubmit()" [formGroup]="formGroup">
     <h3 class="title">Seleciona a un mecánico:</h3>
     <ion-card class="welcome-container">
