@@ -387,7 +387,6 @@ class QuotationController extends Controller
         $quotation = Quotation::where(['id' => $quotationId])->first();
         $quotation->approved_by_client = true;
         $quotation->approve_date_client = now();
-        $quotation->is_active = true;
         $quotation->save();
 
         $success['quotation'] = $quotation;
@@ -635,5 +634,15 @@ class QuotationController extends Controller
         }
 
         return $elements ?? [];
+    }
+
+    public function activeQuotation(int $quotationId): JsonResponse
+    {
+        $quotation = Quotation::where(['id' => $quotationId])->first();
+        $quotation->is_active = true;
+        $quotation->save();
+
+        $success['quotation'] = $quotation;
+        return $this->sendResponse($success, 'Quotation approved successfully');
     }
 }
