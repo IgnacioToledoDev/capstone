@@ -14,6 +14,13 @@ ion-content {
     font-size: 2rem; // Tamaño de la flecha
 }
 
+ion-title {
+    color: #ffffff;
+    font-size: 18px;
+    text-align: center;
+    margin-top: 2.5rem;
+}
+
 ion-card-title{
     color: #BCBCBC;
 }
@@ -21,7 +28,7 @@ ion-card-title{
 .title {
     color: #FFFFFF;
     font-size: 1.6rem;
-    margin-top: 2.5rem;
+    margin-top: 0.5rem;
     margin-bottom: 1rem;
     text-align: center;
 }
@@ -38,10 +45,17 @@ ion-card-title{
 }
 .button-container {
     display: flex;
-  }
-  
-  .custom-button {
+}
+
+.custom-button {
     --border-radius: 0px;
-    --color: #0B1121;
+    --color: #ffffff;;
     width: 49%;
-  }
+}
+
+.maintenance-note {
+    --background: #FFFFFF; // Fondo gris claro para el input
+    color: #0B1121; // Texto negro para los inputs
+    max-width: 460px; 
+    width: 100%;
+}
