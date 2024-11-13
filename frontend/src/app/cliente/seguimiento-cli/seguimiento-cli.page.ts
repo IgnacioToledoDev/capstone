@@ -49,5 +49,12 @@ export class SeguimientoCliPage implements OnInit {
     this.navCtrl.back();
   }
 
-
+  goToHomeCliente() {
+    if (this.maintenanceStatus?.status === 'Finalizado') {
+      this.navCtrl.navigateRoot('/cliente/calificar');
+    } else {
+      console.log("El estado no está finalizado aún.");
+      this.navCtrl.navigateRoot('/cliente/home-cliente');
+    }
+  }
 }
