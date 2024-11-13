@@ -48,11 +48,20 @@ export class InfoMantePage implements OnInit {
       this.maintenanceDetails = details;
       this.serviceList = details.services || {};
       console.log('Detalles de mantenimiento obtenidos:', this.maintenanceDetails);
-      console.log('Detalles de mantenimiento obtenidos:', this.serviceList);
+  
+      // Almacenar el ID del mecánico en Storage si está disponible
+      const mechanicId = this.maintenanceDetails?.maintenance?.mechanic_id;
+      if (mechanicId) {
+        await this.storageService.set('mechanicId', mechanicId);
+        console.log('ID de mecánico guardado en Storage:', mechanicId);
+      } else {
+        console.log('No se encontró un ID de mecánico en los detalles de mantenimiento');
+      }
     } else {
       console.error('No se pudieron obtener los detalles del mantenimiento');
     }
   }
+  
 
   goBack() {
     this.navCtrl.back();
