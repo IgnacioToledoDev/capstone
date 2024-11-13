@@ -60,10 +60,9 @@
       <ion-list *ngIf="calendar.length > 0; else noMaintenance">
         <ion-item *ngFor="let entry of calendar">
           <ion-label>
-            <h2>Servicio: {{ entry.description }}</h2>
+            <h2>{{ entry.description }}</h2>
             <p>Hora: {{ entry.start_maintenance | date: 'shortTime' }}</p>
             <p>Precio: {{ entry.pricing | currency:'$':'symbol':'1.0-0' }}</p>
-            <p>Recomendación: {{ entry.recommendation_action }}</p>
           </ion-label>
         </ion-item>
       </ion-list>
