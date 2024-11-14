@@ -74,8 +74,7 @@ export class ManteHistoPage implements OnInit {
 
   // Función para volver a la página anterior
   goBack() {
-    // Lógica para regresar a la página anterior
-    history.back();
+    this.navCtrl.back();
   }
 
   // Función para guardar los datos de la mantención seleccionada en Storage
