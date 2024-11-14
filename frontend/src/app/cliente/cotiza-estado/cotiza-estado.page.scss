@@ -4,7 +4,22 @@
   
   .custom-button {
     --border-radius: 0px; 
-    --color: #001f3f; 
+    --color: #ffffff; 
     width: 49%; 
+  }
 
+  ion-title {
+    color: #ffffff;
+    font-size: 1.1rem;
+    text-align: center;
+    margin-top: 3.2rem;
+  }
+
+  .back-button {
+    color: #ffffff; // Flecha blanca
+    border: none; // Sin borde
+    font-size: 2rem; // Tamaño de la flecha
+    top: 30px;  // Ajustar la posición
+    left: 10px; // Ajustar la posición
+    position: absolute;
   }
