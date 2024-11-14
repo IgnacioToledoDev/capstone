@@ -16,7 +16,7 @@ export class GenerarServicioPage implements OnInit {
   selectedServices: { id: number, name: string, price: number }[] = [];
   serviceTypes: { id: number, name: string }[] = [];
 
-  // Variables para la paginación
+
   pageSize: number = 7;
   currentPage: number = 0;
   pagedServices: { id: number, name: string, description: string, type_id: number, price: number }[][] = [];
