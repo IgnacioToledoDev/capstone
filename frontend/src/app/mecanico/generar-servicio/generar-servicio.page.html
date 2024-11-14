@@ -91,5 +91,7 @@
     </ion-card-content>
   </ion-card>
 
-  <ion-button expand="full" (click)="presentAlert()">Confirmar</ion-button>
+  <ion-button expand="full" (click)="presentAlert()" [disabled]="selectedServices.length === 0">
+    Confirmar
+  </ion-button>
 </ion-content>
