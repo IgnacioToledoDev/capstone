@@ -67,6 +67,12 @@ export class MenuComponent implements OnInit {
 
     this.navCtrl.navigateRoot('/mecanico/escanear-qr');
   }
+
+  async info_cliente() {
+    console.log('info_cliente');
+
+    this.navCtrl.navigateRoot('/mecanico/qrinfo');
+  }
   async ajustes() {
     console.log('ajustes');
     this.navCtrl.navigateRoot('/mecanico/ajustes');
