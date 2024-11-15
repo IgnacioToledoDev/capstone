@@ -52,8 +52,13 @@ export class MenuComponent implements OnInit {
     await alert.present();
   }
 
+  async resevalis() {
+    console.log('resevalis'); 
+
+    this.navCtrl.navigateRoot('/mecanico/lis-reservas');
+  }
   async historial() {
-    console.log('Historial');
+    console.log('Historial'); 
 
     this.navCtrl.navigateRoot('/mecanico/historial');
   }
