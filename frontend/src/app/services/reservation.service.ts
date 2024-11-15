@@ -66,6 +66,31 @@ export class ReservationService {
     }
   }
 
+  // Aprobar una reserva
+  async approveReservation(reservationId: number): Promise<boolean> {
+    const headers = await this.getAuthHeaders();
+
+    // If headers are missing the authorization token, return false
+    if (!headers.has('Authorization')) {
+      console.error('No se pudo recuperar el token de autenticación.');
+      return false;
+    }
+
+    try {
+      // Send PATCH request to approve the reservation without the body
+      const response: any = await this.http
+        .patch(`${this.API_URL}/jwt/reservation/${reservationId}/approve`, {}, { headers })
+        .toPromise();
+
+      // Return true if the response contains success, false otherwise
+      console.log('Reservas obtenidas:', response.data);
+      return !!response.success;
+    } catch (error) {
+      console.error('Error al aprobar la reserva:', error);
+      return false;
+    }
+  }
+
   // Verificar si el usuario está autenticado
   async checkAuthenticated(): Promise<boolean> {
     const token = await this.storageService.get('datos');
