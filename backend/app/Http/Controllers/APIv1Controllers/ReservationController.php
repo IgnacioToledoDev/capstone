@@ -374,7 +374,7 @@ class ReservationController extends Controller
 
     /**
      * @OA\Patch(
-     *     path="/api/jwt/reservations/{reservationId}/decline",
+     *     path="/api/jwt/reservation/{reservationId}/decline",
      *     summary="Decline a reservation",
      *     description="Marks a reservation as declined by the mechanic and provides related car and client information.",
      *     operationId="declinedReservation",

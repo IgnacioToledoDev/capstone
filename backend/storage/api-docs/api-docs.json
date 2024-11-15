@@ -2905,7 +2905,7 @@
                 ]
             }
         },
-        "/api/jwt/reservations/{reservationId}/decline": {
+        "/api/jwt/reservation/{reservationId}/decline": {
             "patch": {
                 "tags": [
                     "Reservations"
