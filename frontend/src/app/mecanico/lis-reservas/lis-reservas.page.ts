@@ -14,7 +14,7 @@ export class LisReservasPage implements OnInit {
 
   constructor(
     private reservationService: ReservationService,
-    private storage: Storage ,
+    private storage: Storage,
     private navCtrl: NavController,
   ) {}
 
@@ -62,12 +62,14 @@ export class LisReservasPage implements OnInit {
   }
 
   // Guardar el ID de la cotización (si es necesario)
-  saveQuotationId(quotationId: number, clientName: string) {
-    console.log(`ID de la cotización: ${quotationId}, Cliente: ${clientName}`);
-    // Aquí puedes guardar el ID en el almacenamiento o navegar
+  async saveQuotationId(reservation: any) {
+    console.log(`Reserva seleccionada:`, reservation);
+    await this.storage.set('selectedReservation', reservation); // Guardar toda la reserva en Storage mecanico/approreserva
+    console.log('Reserva guardada en Storage:', reservation);
+    this.navCtrl.navigateForward('/mecanico/approreserva');
   }
-
   
+
   goBack() {
     this.navCtrl.back();
   }

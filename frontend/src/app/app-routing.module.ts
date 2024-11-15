@@ -156,7 +156,12 @@ const routes: Routes = [
   {
     path: 'mecanico/lis-reservas',
     loadChildren: () => import('./mecanico/lis-reservas/lis-reservas.module').then( m => m.LisReservasPageModule)
+  },
+  {
+    path: 'mecanico/approreserva',
+    loadChildren: () => import('./mecanico/approreserva/approreserva.module').then( m => m.ApproreservaPageModule)
   }
+
 
 
 ];

@@ -16,7 +16,7 @@
   <ion-card 
     class="client-card" 
     *ngFor="let reservation of filteredReservations" 
-    (click)="saveQuotationId(reservation.reservation.id, reservation.client.name)">
+    (click)="saveQuotationId(reservation)">
     <ion-card-header>
       <ion-card-title>{{ reservation.client.name }} {{ reservation.client.lastname }}</ion-card-title>
     </ion-card-header>
