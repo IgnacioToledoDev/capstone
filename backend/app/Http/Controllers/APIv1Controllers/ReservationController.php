@@ -350,6 +350,9 @@ class ReservationController extends Controller
             $car = Car::whereId($reservation->car_id)->first();
             $client = User::whereId($car->owner_id)->first();
             unset($client->password);
+            if ($reservation->is_approved_by_mechanic === false) {
+                return $this->sendError([], 'Cannot approve reservation');
+            }
             $reservation->is_approved_by_mechanic = true;
             $reservation->save();
             $success['response'] = [
@@ -379,6 +382,7 @@ class ReservationController extends Controller
      *     description="Marks a reservation as declined by the mechanic and provides related car and client information.",
      *     operationId="declinedReservation",
      *     tags={"Reservations"},
+     *     security={{"bearerAuth":{}}},
      *     @OA\Parameter(
      *         name="reservationId",
      *         in="path",
@@ -526,6 +530,10 @@ class ReservationController extends Controller
             $reservation = Reservation::find($reservationId);
             if (!$reservation) {
                 throw new ModelNotFoundException();
+            }
+
+            if ($reservation->is_approved_by_mechanic === true) {
+                return $this->sendError([], 'Cannot decline reservation');
             }
 
             $reservation->is_approved_by_mechanic = false;
