@@ -4,7 +4,9 @@
   <ion-title class="title">Lista de Cotizaciones</ion-title>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" class="content-padding">
+  <br><br>
+  <br><br>
   <ion-card class="client-card" *ngFor="let quotation of quotations" (click)="saveQuotation(quotation)">
     <ion-card-content>
       <!-- Car Details -->
