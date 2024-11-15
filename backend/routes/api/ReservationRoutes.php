@@ -7,4 +7,5 @@ Route::prefix('/jwt/reservation')->middleware('auth:api')->group(function () {
     Route::post('/create', [ReservationController::class, 'createReservation']);
     Route::get('/{mechanicId}/reservations', [ReservationController::class, 'getAllReservation']);
     Route::patch('/{reservationId}/approve', [ReservationController::class, 'approvedReservation']);
+    Route::patch('/{reservationId}/decline', [ReservationController::class, 'declinedReservation']);
 });
