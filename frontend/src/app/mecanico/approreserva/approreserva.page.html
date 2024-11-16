@@ -89,9 +89,11 @@
 <ion-footer *ngIf="reservation">
   <div class="button-container">
     <ion-button class="custom-button" expand="block" (click)="declineReservation()">
+      <ion-icon slot="start" name="close-circle"></ion-icon>
       Rechazar
     </ion-button>
-    <ion-button class="custom-button" expand="block"  (click)="approveReservation()" >
+    <ion-button class="custom-button" expand="block"  (click)="approveReservation()">
+      <ion-icon slot="start" name="checkmark-circle"></ion-icon>
       Aprobar
     </ion-button>
   </div>
