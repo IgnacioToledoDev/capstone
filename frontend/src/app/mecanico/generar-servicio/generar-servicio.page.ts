@@ -62,7 +62,7 @@ export class GenerarServicioPage implements OnInit {
   }
 
   goBack() {
-    this.navCtrl.back();
+    this.navCtrl.navigateForward('/mecanico/home-mecanico');
   }
 
   async presentAlert() {

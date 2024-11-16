@@ -16,10 +16,6 @@ const routes: Routes = [
     redirectTo: 'bienvenidos',
     pathMatch: 'full'
   },
-  {
-    path: 'home',
-    loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
-  },
 
   {
     path: 'bienvenidos',
