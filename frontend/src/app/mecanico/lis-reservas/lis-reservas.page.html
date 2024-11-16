@@ -35,14 +35,17 @@
             <!-- Estado de Aprobación -->
             <p>Estado Aprobación Mecánico:
               <!-- Mostrar "En espera" si no ha sido aprobado -->
-              <ion-icon *ngIf="reservation.reservation.is_approved_by_mechanic === 0" name="time-outline" color="medium"></ion-icon>
-              <span *ngIf="reservation.reservation.is_approved_by_mechanic === 0">En espera</span>
+              <ion-icon *ngIf="reservation.reservation.is_approved_by_mechanic === null" name="time-outline" color="medium"></ion-icon>
+              <span *ngIf="reservation.reservation.is_approved_by_mechanic === null">En espera</span>
 
               <!-- Mostrar "Aprobado" si ha sido aprobado -->
               <ion-icon *ngIf="reservation.reservation.is_approved_by_mechanic === 1" name="checkmark-outline" color="success"></ion-icon>
               <span *ngIf="reservation.reservation.is_approved_by_mechanic === 1">Aprobado</span>
-            </p>
 
+              <ion-icon *ngIf="reservation.reservation.is_approved_by_mechanic === 0" name="close-outline" color="danger"></ion-icon>
+              <span *ngIf="reservation.reservation.is_approved_by_mechanic === 0">Rechazado</span>
+              
+            </p>
             <!-- Recordatorio -->
             <p *ngIf="reservation.reservation.has_reminder === 1">Recordatorio activado</p>
           </ion-label>

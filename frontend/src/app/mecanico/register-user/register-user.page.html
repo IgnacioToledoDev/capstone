@@ -25,11 +25,17 @@
 
     <ion-label position="floating">Número de teléfono:</ion-label>
     <ion-item class="input-item">
-      <ion-input formControlName="phone" type="tel"></ion-input>
+      <ion-input
+        formControlName="phone"
+        type="tel"
+        maxlength="9" 
+        (ionInput)="validatePhoneLength($event)">
+      </ion-input>
     </ion-item>
     <ion-text color="danger" *ngIf="registerForm.get('phone')?.hasError('pattern') && registerForm.get('phone')?.touched" class="error-message">
-      El teléfono solo debe contener números.
+      El teléfono debe contener almenos 9 dígitos numéricos.
     </ion-text>
+    
 
     <ion-label position="floating">Correo electrónico:</ion-label>
     <ion-item class="input-item">

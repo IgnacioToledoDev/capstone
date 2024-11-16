@@ -60,6 +60,26 @@ export class ApproreservaPage implements OnInit {
       this.showAlert('Error', 'Hubo un error al aprobar la reserva.');
     }
   }
+  async declineReservation() {
+    if (!this.reservation) {
+      console.log('No reservation data found');
+      return;
+    }
+
+    const reservationId = this.reservation.reservation.id; // Get the reservation ID
+    try {
+      const success = await this.approvalService.declineReservation(reservationId); // Call the approve method from the service
+      if (success) {
+        this.showAlert('Reserva aprobada', 'La reserva ha sido aprobada exitosamente.');
+        this.navCtrl.back(); // Navigate back after approval
+      } else {
+        this.showAlert('Error', 'Hubo un problema al aprobar la reserva.');
+      }
+    } catch (error) {
+      console.error('Error al aprobar la reserva:', error);
+      this.showAlert('Error', 'Hubo un error al aprobar la reserva.');
+    }
+  }
 
   // Method to show an alert message
   async showAlert(header: string, message: string) {
