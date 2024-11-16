@@ -1,3 +1,8 @@
+ion-content {
+  background-color: #0B1121;
+  color: #ffffff;
+}
+
 .button-container {
     display: flex;
   }
@@ -14,6 +19,14 @@
     text-align: center;
     margin-top: 3.2rem;
   }
+
+  .title {
+    color: #FFFFFF;
+    font-size: 1.6rem;
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+    text-align: center;
+}
 
   .back-button {
     color: #ffffff; // Flecha blanca
