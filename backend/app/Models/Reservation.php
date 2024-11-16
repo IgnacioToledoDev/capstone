@@ -29,7 +29,8 @@ class Reservation extends Model
         'date_reservation',
         'is_approved_by_mechanic',
         'has_reminder',
-        'reminder_id'
+        'reminder_id',
+        'mechanic_id'
     ];
 
     public function car(): BelongsTo
@@ -40,5 +41,10 @@ class Reservation extends Model
     public function reminder(): BelongsTo
     {
         return $this->belongsTo(Reminder::class, 'reminder_id');
+    }
+
+    public function mechanic(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'mechanic_id');
     }
 }

@@ -60,7 +60,7 @@ ion-content {
   .title {
     font-size: 24px;
     padding: 0px 18px;
-    color: #AAB2C5;
+    color: #ffffff;
     font-weight: bold;
   }
 
@@ -160,9 +160,22 @@ ion-toolbar {
 
 .custom-button {
   --border-radius: 0px;
-  --color: #0B1121;
+  --color: #ffffff;;
   --padding: 0px 0px;
   --border-width: 0px;
   width: 100%;
   height: auto;
+}
+
+ion-menu-button{
+  --color:#ffffff;
+  font-size: 3rem;
+}
+
+// Estilo del título
+ion-title {
+color: #ffffff;
+font-size: 1.5rem;
+text-align: center;
+margin-top: 2rem;
 }

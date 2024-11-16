@@ -1,52 +1,30 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-icon
-      name="arrow-back-outline"
-      class="back-button"
-      (click)="goBack()"
-    ></ion-icon>
-    <ion-title class="title">Agendar Cita</ion-title>
-  </ion-toolbar>
+  <ion-icon name="arrow-back-outline" class="back-button" fill="clear" (click)="goBack()"></ion-icon>
+  <ion-title class="title">Agendar Cita</ion-title>
 </ion-header>
 
 <ion-content class="ion-padding-vertical">
+  <br>
+  <br>
+  <br>
   <form (ngSubmit)="onSubmit()" [formGroup]="formGroup">
     <h3 class="title">Seleciona a un mecánico:</h3>
-    <ion-card class="welcome-container">
-      <div class="ion-padding welcome-container__section">
-        <ion-list lines="none">
-          <ion-item
-            lines="none"
-          >
-            <div class="no_mechanic_selected">
-              <ion-item lines="none">
-                <ion-select label="Mecanico" label-placement="stacked" formControlName="mechanicId">
-                  <ion-select-option *ngFor="let item of mechanics" value="{{item.id}}">{{item.name}} {{item.lastname}}</ion-select-option>
-                </ion-select>
-              </ion-item>
-            </div>
-          </ion-item>
-          <ion-item
-            *ngIf="isMechanicSelected"
-            lines="none"
-            class="ion-justify-content-center"
-          >
+    <ion-card >
+      <ion-list lines="none">
+        <ion-item>
+          <ion-select label="Mecánico" label-placement="stacked" formControlName="mechanicId">
+            <ion-select-option *ngFor="let item of mechanics" value="{{item.id}}">{{item.name}} {{item.lastname}}</ion-select-option>
+          </ion-select>
+        </ion-item>
 
-            <div class="car-container welcome-container">
-              <ion-label class="ion-text-wrap">
-                <ion-label class="mechanic__data">
-                  <p>
-                    Nombre: {{ mechanicSelected.name }}
-                    {{mechanicSelected.lastname}}
-                  </p>
-                  <p>Correo: {{ mechanicSelected.email }}</p>
-                  <p>Telefono: {{ mechanicSelected.phone }}</p>
-                </ion-label>
-              </ion-label>
-            </div>
-          </ion-item>
-        </ion-list>
-      </div>
+        <ion-item *ngIf="isMechanicSelected" lines="none" >
+          <ion-label class="mechanic-details">
+            <p><strong>Nombre:</strong> {{ mechanicSelected.name }} {{ mechanicSelected.lastname }}</p>
+            <p><strong>Correo:</strong> {{ mechanicSelected.email }}</p>
+            <p><strong>Teléfono:</strong> {{ mechanicSelected.phone }}</p>
+          </ion-label>
+        </ion-item>
+      </ion-list>
     </ion-card>
     <!-- this is the card to data of the carSelected -->
     <h3 class="title">Datos del vehículo:</h3>
@@ -76,21 +54,19 @@
     </ion-card>
     <h3 class="title">Tipo de servicio:</h3>
     <ion-card>
-      <ion-card-content>
-        <div class="service-options">
-          <ion-item>
-            <ion-select label="Tipos de servicios" label-placement="stacked" formControlName="typeOfServiceId">
-              <ion-select-option *ngFor="let item of typesServices" value="{{item.id}}">{{item.name}}</ion-select-option>
-            </ion-select>
-          </ion-item>
-        </div>
-      </ion-card-content>
+
+        <ion-item>
+          <ion-select label="Tipos de servicios" label-placement="stacked" formControlName="typeOfServiceId">
+            <ion-select-option *ngFor="let item of typesServices" value="{{item.id}}">{{item.name}}</ion-select-option>
+          </ion-select>
+        </ion-item>  
+
     </ion-card>
     <h3 class="title">Horario recomendado:</h3>
     <ion-item
       class="ion-justify-content-center ion-align-items-center ion-padding"
     >
-      <ion-datetime
+      <ion-datetime class="ion-justify-content-center ion-align-items-center ion-padding"
         formControlName="schedule"
         [isDateEnabled]="isWeekday"
         locale="es-CL"

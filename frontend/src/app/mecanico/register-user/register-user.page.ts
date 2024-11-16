@@ -32,10 +32,15 @@ export class RegisterUserPage implements OnInit {
       name: ['', Validators.required],                  
       lastname: ['', Validators.required],                
       rut: ['', [Validators.required, Validators.pattern(/^[0-9]+-[0-9kK]$/)]],  // Validación para rut con guion
-      phone: ['', [Validators.required, Validators.pattern(/^[0-9]+$/)]],         // Validación para solo números
+      phone: ['', [
+        Validators.required,
+        Validators.pattern(/^[0-9]{9}$/), // Solo 9 dígitos numéricos
+        Validators.minLength(9),
+        Validators.maxLength(9)
+      ]], // Validación para solo 9 dígitos numéricos
     });
   }
-
+  
   async onSubmit() {
     if (this.registerForm.valid) {
       const { email, name, lastname, rut, phone } = this.registerForm.value; 
@@ -69,6 +74,13 @@ export class RegisterUserPage implements OnInit {
       this.presentAlert('Formulario inválido', 'Por favor, completa todos los campos requeridos correctamente.');
     }
   }
+  validatePhoneLength(event: any) {
+    const input = event.target as HTMLInputElement;
+    if (input.value.length > 9) {
+      input.value = input.value.slice(0, 9); // Limita a 9 caracteres
+    }
+  }
+  
 
   async presentAlert(header: string, message: string) {
     const alert = await this.alertController.create({

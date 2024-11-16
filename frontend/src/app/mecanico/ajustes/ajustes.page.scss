@@ -5,7 +5,12 @@ ion-content {
   
   .profile-card {
     text-align: center;
-    margin-left: 5px;
+    ion-avatar {
+      margin: 0 auto;
+      img {
+        border-radius: 50%;
+      }
+    }
   }
 
   // Estilo del botón con la flecha de regreso
@@ -65,6 +70,7 @@ ion-avatar {
   }
   .button-container {
     display: flex;
+    width: 788px;
   }
   
   .custom-button {
@@ -72,9 +78,4 @@ ion-avatar {
     --color: #0B1121; 
     width: 49%; 
     --color: #ffffff;
-  }
-
-  .ion-text-capitalize{
-    text-align: center;
-    left: 20px; // Ajustar la posición
   }

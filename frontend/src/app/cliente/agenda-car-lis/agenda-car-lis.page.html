@@ -1,6 +1,6 @@
 <ion-header class="ion-justify-content-center ion-text-no-wrap ion-padding-vertical">
   <ion-icon name="arrow-back-outline" class="back-button" fill="clear" (click)="goBack()"></ion-icon>
-  <ion-title class="title">Lista de vehículos</ion-title>
+  <ion-title class="title">Lista de Vehículos</ion-title>
 </ion-header>
 
 <ion-content [fullscreen]="true" class="ion-padding-top">
@@ -23,8 +23,10 @@
               </ion-col>
               <ion-col size="auto">
                 <ion-label class="text-no-wrap">
-                  <p>{{ car.patente || 'No tiene patente registrada'}}</p>
-                  <p>{{ car.marca }} {{ car.modelo }} Año {{ car.year }}</p>
+                  <p>Patente: {{ car.patente || 'No tiene patente registrada'}}</p>
+                  <p>Marca: {{ car.marca }}</p>
+                  <p>Modelo: {{ car.modelo }}</p>
+                  <p>Año: {{ car.year }}</p>
                 </ion-label>
               </ion-col>
             </ion-row>
@@ -42,8 +44,8 @@
       Inicio
     </ion-button>
     <ion-button class="custom-button" expand="block" routerLink="/mecanico/ajustes">
-      <ion-icon slot="start" name="person"></ion-icon>
-      Perfil
+      <ion-icon slot="start" name="settings"></ion-icon>
+      Ajustes
     </ion-button>
   </div>
 </ion-footer>

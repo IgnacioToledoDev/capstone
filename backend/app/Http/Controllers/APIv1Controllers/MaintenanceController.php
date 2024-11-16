@@ -17,6 +17,7 @@ use App\Models\Service;
 use App\Models\StatusCar;
 use App\Models\TypeService;
 use App\Models\User;
+use Carbon\Carbon;
 use http\Exception\BadHeaderException;
 use http\Exception\InvalidArgumentException;
 use Illuminate\Http\JsonResponse;
@@ -113,6 +114,8 @@ class MaintenanceController extends Controller
             }
 
             $calendar = Maintenance::whereMechanicId($user->id)
+                ->whereDate('start_maintenance', Carbon::today()) // Solo registros de hoy
+                ->whereTime('start_maintenance', '<', Carbon::now()->format('H:i:s')) // Hora menor a la actual
                 ->whereIn('status_id', [StatusCar::STATUS_INACTIVE])
                 ->get();
 

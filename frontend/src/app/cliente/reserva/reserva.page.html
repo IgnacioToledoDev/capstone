@@ -4,7 +4,9 @@
   <ion-title class="title">Lista de Cotizaciones</ion-title>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" class="content-padding">
+  <br><br>
+  <br><br>
   <ion-card class="client-card" *ngFor="let quotation of quotations" (click)="saveQuotation(quotation)">
     <ion-card-content>
       <!-- Car Details -->
@@ -41,8 +43,8 @@
       Inicio
     </ion-button>
     <ion-button class="custom-button" expand="block" routerLink="/mecanico/ajustes">
-      <ion-icon slot="start" name="person"></ion-icon>
-      Perfil
+      <ion-icon slot="start" name="settings"></ion-icon>
+      Ajustes
     </ion-button>
   </div>
 </ion-footer>

@@ -10,29 +10,32 @@
   background-color: #2dd55b !important;
 }
 
+ion-title {
+  color: #ffffff;
+  font-size: 1.6rem;
+  text-align: center;
+  margin-top: 3rem;
+}
+
 ::ng-deep .badge ion-icon {
   width: 24px;
   height: 24px;
-}
-
-ion-header {
-  ion-toolbar {
-    --background: #0b1121 !important;
-    border: 0;
-  }
 }
 
 .back-button {
   color: #ffffff; // Flecha blanca
   border: none; // Sin borde
   font-size: 2rem; // Tamaño de la flecha
+  top: 30px;  // Ajustar la posición
+  left: 10px; // Ajustar la posición
+  position: absolute;
 }
 
 ion-content {
   .title {
     font-size: 24px;
     padding: 0 18px;
-    color: #aab2c5;
+    color: #ffffff;
     font-weight: bold;
   }
 
@@ -63,7 +66,7 @@ ion-content {
   ion-item {
     width: 100%;
     height: auto;
-    --background: #1e293b;
+    --background: #ffffff;
     --color: #f0f3fa;
     --border-width: 0px;
     border: 0;

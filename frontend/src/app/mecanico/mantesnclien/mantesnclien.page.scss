@@ -12,7 +12,6 @@
     position: absolute;
     top: 30px;
     left: 10px;
-
     padding: 0;
     border: none;
     font-size: 2rem;
@@ -32,23 +31,20 @@
     --color: black; // Texto negro para los inputs
   }
   
-  .input-item {
-    --background: #ffffff; /* Fondo blanco para el input */
-    border-radius: 8px;
-    margin-bottom: 1.5rem;
-    --color: black; /* Texto negro para los inputs */
-  }
-  
   .maintenance-card {
     margin-bottom: 1.5rem;
   }
+
+  .color {
+    --color: #FFFFFF;
+  }
   
   ion-card-header {
-    background-color: #000000;
+    background-color: #0B1121;
   }
   
   ion-card-title {
     font-size: 1.2rem;
-    color: #333;
+    color: #0B1121;
   }
   

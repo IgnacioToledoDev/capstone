@@ -82,10 +82,12 @@
 
 <ion-footer>
   <div class="button-container">
-    <ion-button class="custom-button" expand="block" (click)="presentAlert()" > 
+    <ion-button class="custom-button" expand="block" (click)="presentAlert()">
+      <ion-icon slot="start" name="send"></ion-icon>
       Enviar
     </ion-button>
     <ion-button class="custom-button" expand="block" (click)="presentAlertNega()">
+      <ion-icon slot="start" name="checkmark-circle"></ion-icon>
       Aprobar
     </ion-button>
   </div>

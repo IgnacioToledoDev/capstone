@@ -1,15 +1,14 @@
 <app-menucli></app-menucli>
 
 <ion-header>
-  <ion-toolbar>
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>Home Cliente</ion-title>
-  </ion-toolbar>
+    <ion-title>Home</ion-title>
 </ion-header>
 
 <ion-content>
+  <br>
   <ion-card class="welcome-container">
     <div class="ion-padding welcome-container__section">
       <ion-avatar>
@@ -37,7 +36,6 @@
         <ion-img src="assets/image/mecanica.jpg" alt="Maintenance Image"></ion-img>
         <div class="info__container">
           <ion-label class="ion-padding-bottom">
-            <p><span>Mantenimientos id: </span>{{ maintenanceData.maintenance.id }}</p>
             <p><span>Patente: </span>{{ maintenanceData.car.patent }}</p>
             <p><span>Marca: </span>{{ maintenanceData.car.brand }}</p>
             <p><span>Modelo: </span>{{ maintenanceData.car.model }}</p>
@@ -84,8 +82,8 @@
   <ion-toolbar>
     <div class="button-container">
       <ion-button class="custom-button ion-text-wrap" expand="block" routerLink="/mecanico/ajustes">
-        <ion-icon slot="start" name="person"></ion-icon>
-        Contactar
+        <ion-icon slot="start" name="settings"></ion-icon>
+        Ajustes
       </ion-button>
       <ion-button class="custom-button ion-text-wrap" expand="block" routerLink="/cliente/reserva">
         <ion-icon slot="start" name="book"></ion-icon>

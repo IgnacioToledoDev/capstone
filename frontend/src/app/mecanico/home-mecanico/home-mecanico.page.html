@@ -14,7 +14,7 @@
     <ion-card-content>
       <div class="card-content">
         <ion-avatar>
-          <img alt="Silhouette of a person's head" src="assets/icon/mecanico.png"/>
+          <img alt="Silhouette of a person's head" src="assets/icon/mecanico_2.png"/>
         </ion-avatar>
         <div class="text-content">
           <h2>Bienvenido, {{ user.name }}</h2>
@@ -60,10 +60,9 @@
       <ion-list *ngIf="calendar.length > 0; else noMaintenance">
         <ion-item *ngFor="let entry of calendar">
           <ion-label>
-            <h2>Servicio: {{ entry.description }}</h2>
+            <h2>{{ entry.description }}</h2>
             <p>Hora: {{ entry.start_maintenance | date: 'shortTime' }}</p>
             <p>Precio: {{ entry.pricing | currency:'$':'symbol':'1.0-0' }}</p>
-            <p>Recomendación: {{ entry.recommendation_action }}</p>
           </ion-label>
         </ion-item>
       </ion-list>
@@ -83,17 +82,13 @@
 <!-- Footer Navigation -->
 <ion-footer>
   <div class="button-container">
-    <ion-button class="custom-button" expand="block">
-      <ion-icon slot="start" name="home"></ion-icon>
-      Inicio
-    </ion-button>
     <ion-button class="custom-button" expand="block" routerLink="/mecanico/lista-cotiza">
-      <ion-icon slot="start" name="person"></ion-icon>
+      <ion-icon slot="start" name="book"></ion-icon>
       Cotizaciones
     </ion-button>
     <ion-button class="custom-button" expand="block" routerLink="/mecanico/register-user">
       <ion-icon slot="start" name="person"></ion-icon>
-      + Perfil
+      Agregar Cliente
     </ion-button>
   </div>
 </ion-footer>

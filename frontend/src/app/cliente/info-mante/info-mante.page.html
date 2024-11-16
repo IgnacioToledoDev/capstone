@@ -79,11 +79,11 @@
 
   <ion-card>
     <ion-card-header>
-      <ion-card-title>Nota de la mantención</ion-card-title>
+      <ion-card-title class="title">Nota de la mantención</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <ion-item>
-        <ion-label class="maintenance-note">
+      <ion-item class="maintenance-note">
+        <ion-label>
           {{ maintenanceDetails?.maintenance?.recommendation_action || 'Sin nota disponible' }}
         </ion-label>
       </ion-item>
@@ -100,6 +100,7 @@
         Inicio
       </ion-button>
       <ion-button class="custom-button" expand="block" routerLink="/cliente/seguimiento-cli">
+        <ion-icon slot="start" name="alert"></ion-icon>
         Seguimiento
       </ion-button>
     </div>

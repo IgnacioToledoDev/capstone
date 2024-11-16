@@ -82,7 +82,7 @@ export class CotizaEstadoPage implements OnInit {
           text: 'Aceptar',
           handler: async () => {
             await this.cotizaService.declineQuotation(this.selectedQuotation.quotation.id);
-            console.log('Acción aceptada');
+            console.log('Acción aceptada ');
             this.navCtrl.navigateForward('/cliente/home-cliente');
           },
         },

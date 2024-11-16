@@ -5,7 +5,7 @@ import {environment} from "../../environments/environment";
 import {ReservationInterface} from "../intefaces/reservation";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ReservationService {
   private API_URL = environment.API_URL_DEV;
@@ -13,10 +13,32 @@ export class ReservationService {
 
   constructor(
     private http: HttpClient,
-    private storageService: StorageService,
-  ) { }
+    private storageService: StorageService
+  ) {}
 
-  async createReservation(reservation: ReservationInterface) {
+  // Crear una reserva
+  async createReservation(reservation: ReservationInterface): Promise<boolean> {
+    const headers = await this.getAuthHeaders();
+
+    if (!headers.has('Authorization')) {
+      console.error('No se pudo recuperar el token de autenticación.');
+      return false;
+    }
+
+    try {
+      const response: any = await this.http
+        .post(`${this.API_URL}/jwt/reservation/create`, reservation, { headers })
+        .toPromise();
+
+      return !!response.success;
+    } catch (error) {
+      console.error('Error al crear la reserva:', error);
+      return false;
+    }
+  }
+
+  // Obtener todas las reservas por mecánico
+  async getReservationsByMechanicId(mechanicId: number): Promise<any[]> {
     const headers = await this.getAuthHeaders();
 
     if (!headers.has('Authorization')) {
@@ -24,20 +46,85 @@ export class ReservationService {
       return [];
     }
 
-    const response: any = await this.http.post(`${this.API_URL}/jwt/reservation/create`, reservation, {headers}).toPromise();
+    try {
+      const response: any = await this.http
+        .get<any>(`${this.API_URL}/jwt/reservation/${mechanicId}/reservations`, {
+          headers,
+        })
+        .toPromise();
 
-    return !!response.success;
+      if (response && response.success && response.data) {
+        console.log('Reservas obtenidas:', response.data);
+        return response.data.reservations;
+      } else {
+        console.error('Respuesta no válida:', response);
+        return [];
+      }
+    } catch (error) {
+      console.error('Error al obtener las reservas:', error);
+      return [];
+    }
   }
 
-  async checkAuthenticated() {
+  // Aprobar una reserva
+  async approveReservation(reservationId: number): Promise<boolean> {
+    const headers = await this.getAuthHeaders();
+
+    // If headers are missing the authorization token, return false
+    if (!headers.has('Authorization')) {
+      console.error('No se pudo recuperar el token de autenticación.');
+      return false;
+    }
+
+    try {
+      // Send PATCH request to approve the reservation without the body
+      const response: any = await this.http
+        .patch(`${this.API_URL}/jwt/reservation/${reservationId}/approve`, {}, { headers })
+        .toPromise();
+
+      // Return true if the response contains success, false otherwise
+      console.log('Reservas obtenidas:', response.data);
+      return !!response.success;
+    } catch (error) {
+      console.error('Error al aprobar la reserva:', error);
+      return false;
+    }
+  }
+
+  async declineReservation(reservationId: number): Promise<boolean> {
+    const headers = await this.getAuthHeaders();
+
+    if (!headers.has('Authorization')) {
+      console.error('No se pudo recuperar el token de autenticación.');
+      return false;
+    }
+
+    try {
+      // Send PATCH request to approve the reservation without the body
+      const response: any = await this.http
+        .patch(`${this.API_URL}/jwt/reservation/${reservationId}/decline`, {}, { headers })
+        .toPromise();
+
+      // Return true if the response contains success, false otherwise
+      console.log('Reservas obtenidas:', response.data);
+      return !!response.success;
+    } catch (error) {
+      console.error('Error al aprobar la reserva:', error);
+      return false;
+    }
+  }
+
+  // Verificar si el usuario está autenticado
+  async checkAuthenticated(): Promise<boolean> {
     const token = await this.storageService.get('datos');
     this.isAuthenticated = token !== null;
-    this.storageService.set('isAuthenticated', this.isAuthenticated);
+    await this.storageService.set('isAuthenticated', this.isAuthenticated);
 
     return this.isAuthenticated;
   }
 
-  public async getAuthHeaders() {
+  // Obtener los encabezados de autenticación
+  private async getAuthHeaders(): Promise<HttpHeaders> {
     const sessionData = await this.storageService.get('datos');
     const token = sessionData ? sessionData.token : null;
 

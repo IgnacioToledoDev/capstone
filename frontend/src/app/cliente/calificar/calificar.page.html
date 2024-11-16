@@ -20,10 +20,8 @@
                  (click)="rate(i + 1)"></ion-icon>
     </div>
 
-    <ion-item>
       <ion-label position="stacked" class="text">Notas:</ion-label>
       <ion-textarea [(ngModel)]="comment" class="input-item" placeholder="Escribe tu comentario aquí..."></ion-textarea>
-    </ion-item>
     <ion-button color="tertiary" (click)="submitRating()">Enviar Calificación</ion-button>
   </div>
 </ion-content>
@@ -36,8 +34,8 @@
         Inicio
       </ion-button>
       <ion-button class="custom-button" expand="block" routerLink="/mecanico/ajustes">
-        <ion-icon slot="start" name="person"></ion-icon>
-        Perfil
+        <ion-icon slot="start" name="settings"></ion-icon>
+        Ajustes
       </ion-button>
     </div>
   </ion-toolbar>

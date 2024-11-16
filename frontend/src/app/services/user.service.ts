@@ -156,4 +156,39 @@ export class UserService {
         )
     })
   }
+
+
+  async setMechanicScore(mechanicId: number, score: number, comment: string): Promise<any> {
+    try {
+      const headers = await this.getAuthHeaders();
+  
+      if (!headers.has('Authorization')) {
+        console.error('No se pudo recuperar el token de autenticación.');
+        return null;
+      }
+  
+      const body = {
+        score: score,
+        comment: comment,
+      };
+  
+      const response = await this.http.post<any>(
+        `${this.API_URL}/jwt/mechanic/${mechanicId}/setScore`,
+        body,
+        { headers }
+      ).toPromise();
+  
+      if (response && response.success) {
+        console.log('Calificación enviada con éxito:', response);
+        return response;
+      } else {
+        console.error('Error en la respuesta del servidor al enviar la calificación:', response);
+        return null;
+      }
+    } catch (error) {
+      console.error('Error al enviar la calificación del mecánico:', error);
+      return null;
+    }
+  }
+  
 }

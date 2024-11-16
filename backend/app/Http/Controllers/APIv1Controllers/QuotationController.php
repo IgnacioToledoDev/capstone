@@ -387,7 +387,6 @@ class QuotationController extends Controller
         $quotation = Quotation::where(['id' => $quotationId])->first();
         $quotation->approved_by_client = true;
         $quotation->approve_date_client = now();
-        $quotation->is_active = true;
         $quotation->save();
 
         $success['quotation'] = $quotation;
@@ -635,5 +634,99 @@ class QuotationController extends Controller
         }
 
         return $elements ?? [];
+    }
+
+    /**
+     * @OA\Patch(
+     *     path="/api/jwt/quotations/{quotationId}/mechanic/active",
+     *     summary="Activate a quotation",
+     *     description="Activates a quotation by setting `is_active` to true.",
+     *     operationId="activateQuotation",
+     *     tags={"Quotations"},
+     *     @OA\Parameter(
+     *         name="quotationId",
+     *         in="path",
+     *         description="ID of the quotation to activate",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer",
+     *             example=1
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Quotation approved successfully",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="success",
+     *                 type="boolean",
+     *                 example=true
+     *             ),
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="Quotation approved successfully"
+     *             ),
+     *             @OA\Property(
+     *                 property="quotation",
+     *                 type="object",
+     *                 @OA\Property(
+     *                     property="id",
+     *                     type="integer",
+     *                     example=1
+     *                 ),
+     *                 @OA\Property(
+     *                     property="is_active",
+     *                     type="boolean",
+     *                     example=true
+     *                 ),
+     *                 @OA\Property(
+     *                     property="created_at",
+     *                     type="string",
+     *                     format="date-time",
+     *                     example="2024-11-14T10:00:00Z"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="updated_at",
+     *                     type="string",
+     *                     format="date-time",
+     *                     example="2024-11-14T10:05:00Z"
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Quotation not found",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="success",
+     *                 type="boolean",
+     *                 example=false
+     *             ),
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="Quotation not found"
+     *             )
+     *         )
+     *     )
+     * )
+     */
+    public function activeQuotation(int $quotationId): JsonResponse
+    {
+        $quotation = Quotation::find($quotationId);
+
+        if (!$quotation) {
+            return $this->sendError('Quotation not found', 404);
+        }
+
+        $quotation->is_active = true;
+        $quotation->save();
+
+        $success['quotation'] = $quotation;
+        return $this->sendResponse($success, 'Quotation approved successfully');
     }
 }

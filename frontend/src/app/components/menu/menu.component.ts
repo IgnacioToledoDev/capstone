@@ -52,8 +52,13 @@ export class MenuComponent implements OnInit {
     await alert.present();
   }
 
+  async resevalis() {
+    console.log('resevalis'); 
+
+    this.navCtrl.navigateRoot('/mecanico/lis-reservas');
+  }
   async historial() {
-    console.log('Historial');
+    console.log('Historial'); 
 
     this.navCtrl.navigateRoot('/mecanico/historial');
   }
@@ -66,6 +71,12 @@ export class MenuComponent implements OnInit {
     console.log('escanear_qr');
 
     this.navCtrl.navigateRoot('/mecanico/escanear-qr');
+  }
+
+  async info_cliente() {
+    console.log('info_cliente');
+
+    this.navCtrl.navigateRoot('/mecanico/qrinfo');
   }
   async ajustes() {
     console.log('ajustes');
