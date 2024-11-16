@@ -48,7 +48,7 @@ export class ListaCotizaPage implements OnInit {
   // Save Quotation ID and Client Data to Storage
   async saveQuotationId(id: number, clientData: any) {
     await this.storageService.set('id-cotiza', id);
-    await this.storageService.set('client-data', clientData); // Save client data
+    await this.storageService.set('newuser', clientData); // Save client data
     console.log('ID de cotización guardado:', id);
     console.log('Datos del cliente guardados:', clientData);
     

@@ -8,20 +8,20 @@
   <br>
   <br>
   <br>
-  <ion-card *ngIf="user && user.user">
+  <ion-card *ngIf="user ">
     <ion-card-header>
       <ion-card-title class="title">Datos Cliente</ion-card-title>
     </ion-card-header>
     <ion-card-content class="info-card">
       <ion-list>
         <ion-item>
-          <ion-label>Nombre: {{ user.user.name }} {{ user.user.lastname }}</ion-label>
+          <ion-label>Nombre: {{ user.name }} {{ user.lastname }}</ion-label>
         </ion-item>
         <ion-item>
-          <ion-label>Correo: {{ user.user.email }}</ion-label>
+          <ion-label>Correo: {{ user.email }}</ion-label>
         </ion-item>
         <ion-item>
-          <ion-label>RUT: {{ user.user.rut }}</ion-label>
+          <ion-label>RUT: {{ user.rut }}</ion-label>
         </ion-item>
       </ion-list>
     </ion-card-content>

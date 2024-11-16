@@ -111,6 +111,7 @@ export class AgendarPage implements OnInit {
         .then((res) => {
           if (res) {
             alert('Reserva creada con éxito');
+            this.navCtrl.navigateForward('/cliente/home-cliente');
           } else {
             alert('Hubo un error al crear la reserva');
           }
