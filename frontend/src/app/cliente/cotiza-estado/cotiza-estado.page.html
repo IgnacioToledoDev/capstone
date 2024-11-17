@@ -70,7 +70,7 @@
     <ion-card-content class="info-card">
       <ion-list>
         <ion-item *ngFor="let service of selectedQuotation?.content || []">
-          <ion-label>
+          <ion-label class="client-details">
             <h3>{{ service?.service?.name || 'No disponible' }}</h3>
             <p>Precio: {{ service?.service?.price | currency }}</p>
             <p>Descripción: {{ service?.service?.description || 'No disponible' }}</p>
