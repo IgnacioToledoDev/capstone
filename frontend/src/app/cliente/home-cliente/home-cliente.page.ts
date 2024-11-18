@@ -11,11 +11,6 @@ import { Storage } from '@ionic/storage-angular';
 })
 export class HomeClientePage implements OnInit {
 
-  eventos: { nombre: string, hora: string, patente: string }[] = [
-    { nombre: 'jose herera', hora: '10:00 AM', patente: 'ABC-0834' },
-    { nombre: 'isaac bravo', hora: '12:00 PM', patente: 'AAC-8634' },
-    { nombre: 'Nacho jara', hora: '1:00 PM', patente: 'AHG-6434' }
-  ];
   username: string = '';
   token: string | null = null;
   user: any = {};
