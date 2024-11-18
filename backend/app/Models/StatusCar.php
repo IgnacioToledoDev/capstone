@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property string $status
@@ -39,6 +39,7 @@ class StatusCar extends Model
     const STATUS_STARTED= 2;
     const STATUS_PROGRESS = 3;
     const STATUS_FINISHED = 4;
+    const STATUS_READY = 5;
 
     protected $fillable = [
         'id',

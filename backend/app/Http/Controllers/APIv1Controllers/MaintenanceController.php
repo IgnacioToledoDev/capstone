@@ -113,6 +113,10 @@ class MaintenanceController extends Controller
                 return $this->sendError('user not found');
             }
 
+            $originalCalendar = Maintenance::whereMechanicId($user->id)
+                ->whereIn('status_id', [StatusCar::STATUS_INACTIVE])
+                ->get();
+
             $calendar = Maintenance::whereMechanicId($user->id)
                 ->whereDate('start_maintenance', Carbon::today()) // Solo registros de hoy
                 ->whereTime('start_maintenance', '<', Carbon::now()->format('H:i:s')) // Hora menor a la actual
@@ -132,7 +136,7 @@ class MaintenanceController extends Controller
                 }
             }
 
-            $success['calendar'] = $calendar;
+            $success['calendar'] = $originalCalendar;
             $success['current'] = $current;
 
             return $this->sendResponse($success, 'Calendar retrieved successfully.');
@@ -928,7 +932,7 @@ class MaintenanceController extends Controller
         }
 
         $maintenanceInCourse = Maintenance::whereIn('car_id', $carIds)
-            ->where('status_id', [StatusCar::STATUS_STARTED, StatusCar::STATUS_PROGRESS])
+            ->where('status_id', [StatusCar::STATUS_STARTED, StatusCar::STATUS_PROGRESS, StatusCar::STATUS_FINISHED])
             ->first();
 
         if (!$maintenanceInCourse) {

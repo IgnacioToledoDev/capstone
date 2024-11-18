@@ -32,5 +32,10 @@ class StatusCarSeeder extends Seeder
             'status' => 'Finalizado',
             'description' => 'When the car work has been completed.',
         ]);
+
+        DB::table('status_cars')->insert([
+            'status' => 'Listo para entregar',
+            'description' => 'When the car work has been completed.',
+        ]);
     }
 }
