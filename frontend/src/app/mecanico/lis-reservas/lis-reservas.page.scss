@@ -41,3 +41,16 @@
 .client-details span {
   color: #b3b3b3;
 }
+.pagination-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+}
+
+.pagination-buttons ion-button {
+  flex: 1;
+}
+ion-button {
+  --border-radius: 8px;
+  --color: #ffffff;
+}

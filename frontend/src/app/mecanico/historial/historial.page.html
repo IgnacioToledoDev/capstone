@@ -11,11 +11,14 @@
     placeholder="Buscar Servicios..."
     (ionInput)="onSearchChange($event)">
   </ion-searchbar>
+
   
+
+  <!-- Lista paginada de eventos -->
   <ion-card class="client-card">
     <ion-card-content>
       <ion-list>
-        <ion-item *ngFor="let evento of filteredEventos" routerLink="/mecanico/home-mecanico">
+        <ion-item *ngFor="let evento of getPaginatedEventos()" routerLink="/mecanico/home-mecanico">
           <ion-label class="client-details">
             <h2>Servicio: {{ evento.name }}</h2>
             <p>Nombre cliente: {{ evento.owner.name }} {{ evento.owner.lastname }}</p>
@@ -26,4 +29,20 @@
       </ion-list>
     </ion-card-content>
   </ion-card>
+
+  <ion-card *ngIf="filteredEventos.length === 0" class="no-data-card">
+    <ion-card-content>
+      <ion-label>No hay datos disponibles</ion-label>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Controles de paginación -->
+  <div class="pagination-container">
+    <ion-button fill="clear" (click)="previousPage()" [disabled]="currentPage === 1">
+      Anterior
+    </ion-button>
+    <ion-button fill="clear" (click)="nextPage()" [disabled]="!hasNextPage()">
+      Siguiente
+    </ion-button>
+  </div>
 </ion-content>

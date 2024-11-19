@@ -43,3 +43,20 @@ ion-title {
 .client-details p {
   color: #b3b3b3;
 }
+.no-data-card {
+  text-align: center;
+  padding: 1rem;
+  color: #ffffff;
+  background-color: #333333;
+}
+
+.pagination-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+}
+
+ion-button {
+  --border-radius: 8px;
+  --color: #ffffff;
+}

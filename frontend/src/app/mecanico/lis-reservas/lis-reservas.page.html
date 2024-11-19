@@ -13,14 +13,14 @@
   <!-- Barra de búsqueda -->
   <ion-searchbar
     class="input-item"
-    placeholder="Buscar Reserva..."
+    placeholder="Buscar por nombre o patente..."
     (ionInput)="filterReservations($event)">
   </ion-searchbar>
 
   <!-- Listado de Reservas -->
   <ion-card 
     class="client-card" 
-    *ngFor="let reservation of filteredReservations" 
+    *ngFor="let reservation of paginatedReservations" 
     (click)="saveQuotationId(reservation)">
     <ion-card-header>
       <ion-card-title>{{ reservation.client.name }} {{ reservation.client.lastname }}</ion-card-title>
@@ -33,7 +33,6 @@
             <h3>Detalles de la Reserva</h3>
             <p>RUT Cliente: {{ reservation.client.rut }}</p>
             <p>Auto: {{ reservation.car.brand }} {{ reservation.car.model }} {{ reservation.car.year }} {{ reservation.car.patent }}</p>
-
             <!-- Fecha de Reserva -->
             <p>Fecha de Reserva: {{ reservation.reservation.date_reservation | date }}</p>
 
@@ -49,8 +48,8 @@
 
               <ion-icon *ngIf="reservation.reservation.is_approved_by_mechanic === 0" name="close-outline" color="danger"></ion-icon>
               <span *ngIf="reservation.reservation.is_approved_by_mechanic === 0">Rechazado</span>
-              
             </p>
+
             <!-- Recordatorio -->
             <p *ngIf="reservation.reservation.has_reminder === 1">Recordatorio activado</p>
           </ion-label>
@@ -58,6 +57,18 @@
       </ion-list>
     </ion-card-content>
   </ion-card>
+
+  <!-- Paginación -->
+  <div class="pagination-container">
+    <ion-button fill="clear" [disabled]="currentPage === 1" (click)="previousPage()">
+      Anterior
+    </ion-button>
+    <ion-button fill="clear" [disabled]="currentPage >= filteredReservations.length / itemsPerPage" (click)="nextPage()">
+      Siguiente
+    </ion-button>
+  </div>
+
+
 </ion-content>
 
 <ion-footer>
