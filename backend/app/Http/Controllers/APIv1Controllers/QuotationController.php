@@ -260,8 +260,8 @@ class QuotationController extends Controller
                 'car' => [
                     'id' => $car->id,
                     'patent' => $car->patent,
-                    'brand' => $this->carHelper->getCarBrandName($car->brand_id),
-                    'model' => $this->carHelper->getCarModelName($car->model_id),
+                    'brand' => $this->carHelper->getCarBrandName($car->id),
+                    'model' => $this->carHelper->getCarModelName($car->id),
                     'year' => $car->year,
                 ],
                 'quotation' => $quotation,
