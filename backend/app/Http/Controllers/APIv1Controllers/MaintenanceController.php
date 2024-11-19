@@ -839,8 +839,8 @@ class MaintenanceController extends Controller
                 }
             }
             $status = StatusCar::where(['id' => $maintenance->status_car_id])->first();
-            $carModel = $this->carHelper->getCarModelName($car->model_id);
-            $brand = $this->carHelper->getCarBrandName($car->brand_id);
+            $carModel = $this->carHelper->getCarModelName($car->id);
+            $brand = $this->carHelper->getCarBrandName($car->id);
             $owner = User::where(['id' => $car->owner_id ])->first();
 
             $success['maintenance'] = $maintenance;
