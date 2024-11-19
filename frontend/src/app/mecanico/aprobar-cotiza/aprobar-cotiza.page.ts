@@ -77,6 +77,7 @@ export class AprobarCotizaPage implements OnInit {
         {
           text: 'Aceptar',
           handler: async () => {
+            /// await this.cotizaService.approveMecanicQuotation(this.quotation.quotation.id);
             await this.cotizaService.approveQuotation(this.quotation.quotation.id);
             console.log('Cotización aceptada');
              // Crear el registro de mantenimiento

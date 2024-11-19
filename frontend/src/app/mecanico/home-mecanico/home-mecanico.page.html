@@ -58,7 +58,7 @@
     </ion-card-header>
     <ion-card-content>
       <ion-list *ngIf="calendar.length > 0; else noMaintenance">
-        <ion-item *ngFor="let entry of calendar">
+        <ion-item *ngFor="let entry of calendar" (click)="saveMaintenanceIdAndNavigate(entry.id)">
           <ion-label class="client-details">
             <h2>{{ entry.description }}</h2>
             <p>Hora: {{ entry.start_maintenance | date: 'shortTime' }}</p>
