@@ -25,6 +25,7 @@ export class AgendarPage implements OnInit {
     const utcDay = date.getUTCDay();
     return utcDay !== 0;
   };
+  actualYear: any;
   scheduleObject = {
     mechanicId: null,
     carId: null,
@@ -76,6 +77,8 @@ export class AgendarPage implements OnInit {
     } catch (error) {
       console.error('Error al cargar los datos:', error);
     }
+
+    this.actualYear = new Date().toISOString();
   }
 
   selectMechanic(mechanic: any) {

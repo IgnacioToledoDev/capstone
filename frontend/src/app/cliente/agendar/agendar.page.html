@@ -59,7 +59,7 @@
           <ion-select label="Tipos de servicios" label-placement="stacked" formControlName="typeOfServiceId">
             <ion-select-option *ngFor="let item of typesServices" value="{{item.id}}">{{item.name}}</ion-select-option>
           </ion-select>
-        </ion-item>  
+        </ion-item>
 
     </ion-card>
     <h3 class="title">Horario recomendado:</h3>
@@ -69,8 +69,9 @@
       <ion-datetime class="ion-justify-content-center ion-align-items-center ion-padding"
         formControlName="schedule"
         [isDateEnabled]="isWeekday"
-        locale="es-CL" 
-        min="2018" max="2099-10-31"
+        locale="es-CL"
+        min="2024" max="2099-10-31"
+        [(ngModel)]="actualYear"
         minuteValues="0,15,30,45"
         hourValues="8,9,10,11,12,13,14,15,16,17,18"
         hourCycle="h24"
