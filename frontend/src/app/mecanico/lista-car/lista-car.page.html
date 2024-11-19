@@ -12,7 +12,7 @@
     <ion-card-content>
       <ion-list>
         <ion-item *ngFor="let evento of filteredEventos">
-          <ion-label>
+          <ion-label class="client-details">
             <h2>{{ evento.patente }}</h2>
             <p>{{ evento.marca }}</p>
             <p>{{ evento.modelo }} - Año: {{ evento.year }}</p>
@@ -25,7 +25,7 @@
 
 <ion-footer>
   <div class=" button-container">
-    <ion-button class="custom-button" expand="block" routerLink="/mecanico/home-mecanico">
+    <ion-button class="custom-button" expand="block" (click)="onHomeButtonClick()">
       <ion-icon slot="start" name="home"></ion-icon>
       Inicio
     </ion-button>

@@ -14,7 +14,7 @@
     <ion-card-content class="info-card">
       <ion-list>
         <ion-item *ngFor="let maintenance of filteredMaintenances" (click)="saveMaintenanceToStorage(maintenance)">
-          <ion-label>
+          <ion-label class="client-details">
             <h2>{{ maintenance.car.brand }} {{ maintenance.car.model }} ({{ maintenance.car.year }})</h2>
             <ion-card-subtitle>{{ maintenance.car.patent }}</ion-card-subtitle>
             <p>Precio: {{ maintenance.maintenance?.pricing | currency }}</p>

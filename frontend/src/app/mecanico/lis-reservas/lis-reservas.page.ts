@@ -11,6 +11,9 @@ import { AlertController, NavController } from '@ionic/angular';
 export class LisReservasPage implements OnInit {
   reservations: any[] = []; // Lista completa de reservas
   filteredReservations: any[] = []; // Lista filtrada
+  paginatedReservations: any[] = []; // Reservas mostradas en la página actual
+  currentPage: number = 1; // Página actual
+  itemsPerPage: number = 5; // Número de reservas por página
 
   constructor(
     private reservationService: ReservationService,
@@ -43,6 +46,7 @@ export class LisReservasPage implements OnInit {
       if (mechanicId) {
         this.reservations = await this.reservationService.getReservationsByMechanicId(mechanicId);
         this.filteredReservations = [...this.reservations];
+        this.updatePaginatedReservations(); // Actualiza las reservas paginadas
         console.log('Reservas obtenidas:', this.reservations);
       } else {
         console.error('No se pudo cargar las reservas, ID de mecánico no válido.');
@@ -52,13 +56,39 @@ export class LisReservasPage implements OnInit {
     }
   }
 
-  // Filtrar las reservas por nombre del cliente o patente del vehículo
+  updatePaginatedReservations() {
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    const endIndex = startIndex + this.itemsPerPage;
+    this.paginatedReservations = this.filteredReservations.slice(startIndex, endIndex);
+  }
+
   filterReservations(event: any) {
-    const searchTerm = event.target.value.toLowerCase();
-    this.filteredReservations = this.reservations.filter((reservation) =>
-      reservation.client.name.toLowerCase().includes(searchTerm) ||
-      reservation.car.licensePlate.toLowerCase().includes(searchTerm)
-    );
+    const searchTerm = event.target.value?.toLowerCase().trim();
+    if (!searchTerm) {
+      this.filteredReservations = [...this.reservations];
+    } else {
+      this.filteredReservations = this.reservations.filter(reservation =>
+        reservation.client.name.toLowerCase().includes(searchTerm) ||
+        reservation.car.patent.toLowerCase().includes(searchTerm)
+      );
+    }
+    this.currentPage = 1; // Reinicia a la primera página
+    this.updatePaginatedReservations(); // Actualiza la paginación
+  }
+
+  nextPage() {
+    const totalPages = Math.ceil(this.filteredReservations.length / this.itemsPerPage);
+    if (this.currentPage < totalPages) {
+      this.currentPage++;
+      this.updatePaginatedReservations();
+    }
+  }
+
+  previousPage() {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.updatePaginatedReservations();
+    }
   }
 
   // Guardar el ID de la cotización (si es necesario)
@@ -68,7 +98,6 @@ export class LisReservasPage implements OnInit {
     console.log('Reserva guardada en Storage:', reservation);
     this.navCtrl.navigateForward('/mecanico/approreserva');
   }
-  
 
   goBack() {
     this.navCtrl.back();

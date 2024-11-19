@@ -13,7 +13,7 @@
     <ion-card-content>
       <ion-list>
         <ion-item *ngFor="let car of filteredCars" (click)="selectCar(car)">
-          <ion-label>
+          <ion-label class="client-details">
             <h2>Patente: {{ car.patent }}</h2>
             <p>Marca: {{ car.brand }}</p>
             <p>Modelo: {{ car.model }} 
