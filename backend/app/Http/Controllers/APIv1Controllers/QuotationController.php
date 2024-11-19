@@ -645,6 +645,7 @@ class QuotationController extends Controller
      *     description="Activates a quotation by setting `is_active` to true.",
      *     operationId="activateQuotation",
      *     tags={"Quotations"},
+     *     security={{"bearerAuth": {}}},
      *     @OA\Parameter(
      *         name="quotationId",
      *         in="path",
