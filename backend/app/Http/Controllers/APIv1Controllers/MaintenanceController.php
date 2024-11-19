@@ -623,7 +623,7 @@ class MaintenanceController extends Controller
         }
 
         $brandName = $this->carHelper->getCarBrandName($car->brand_id);
-        $modelName = $this->carHelper->getCarModelName($car->brand_id);
+        $modelName = $this->carHelper->getCarModelName($car->model_id);
         unset($client->password);
         unset($client->mechanic_score);
         $car->brand_id = $brandName;
