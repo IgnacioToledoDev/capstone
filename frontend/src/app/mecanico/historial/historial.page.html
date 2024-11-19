@@ -16,7 +16,7 @@
     <ion-card-content>
       <ion-list>
         <ion-item *ngFor="let evento of filteredEventos" routerLink="/mecanico/home-mecanico">
-          <ion-label>
+          <ion-label class="client-details">
             <h2>Servicio: {{ evento.name }}</h2>
             <p>Nombre cliente: {{ evento.owner.name }} {{ evento.owner.lastname }}</p>
             <p>Email cliente: {{ evento.owner.email }}</p>
