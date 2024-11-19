@@ -61,7 +61,6 @@
         <ion-item *ngFor="let entry of calendar" (click)="saveMaintenanceIdAndNavigate(entry.id)">
           <ion-label class="client-details">
             <h2>{{ entry.description }}</h2>
-            <p>Hora: {{ entry.start_maintenance | date: 'shortTime' }}</p>
             <p>Precio: {{ entry.pricing | currency:'$':'symbol':'1.0-0' }}</p>
           </ion-label>
         </ion-item>
