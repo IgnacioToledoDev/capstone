@@ -17,7 +17,7 @@ class CarHelper
 
     public function getCarModelName($carModelId): string
     {
-        $modelName = CarModel::where(['id'=> $carModelId])->value('name');
+        $modelName = CarModel::where(['id'=> $carModelId])->first()->name;
         return $modelName ?? 'not found name';
     }
 

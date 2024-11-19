@@ -732,7 +732,7 @@ class MaintenanceController extends Controller
 
         $actualStatus = $maintenance->status_id;
 
-        if ($actualStatus < StatusCar::STATUS_FINISHED) {
+        if ($actualStatus < StatusCar::STATUS_READY) {
             if(!isset($maintenance->start_maintenance)) {
                 $maintenance->start_maintenance = now();
             }
@@ -936,7 +936,7 @@ class MaintenanceController extends Controller
             ->first();
 
         if (!$maintenanceInCourse) {
-            return $this->sendError('No maintenance in course found.', 404); // Retornar un error si no se encuentra
+            return $this->sendError('No maintenance in course found.', 404);
         }
 
         $car = Car::whereId($maintenanceInCourse->car_id)->first();
