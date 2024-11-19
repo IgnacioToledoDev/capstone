@@ -5,6 +5,8 @@ namespace App\Http\Controllers\APIv1Controllers;
 use App\Helper\CarHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Car;
+use App\Models\CarBrand;
+use App\Models\CarModel;
 use App\Models\Maintenance;
 use App\Models\Quotation;
 use App\Models\QuotationDetails;
@@ -258,8 +260,8 @@ class QuotationController extends Controller
                 'car' => [
                     'id' => $car->id,
                     'patent' => $car->patent,
-                    'brand' => $this->carHelper->getCarBrandName($car->id),
-                    'model' => $this->carHelper->getCarModelName($car->id),
+                    'brand' => $this->carHelper->getCarBrandName($car->brand_id),
+                    'model' => $this->carHelper->getCarModelName($car->model_id),
                     'year' => $car->year,
                 ],
                 'quotation' => $quotation,
