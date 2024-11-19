@@ -11,13 +11,15 @@ class CarHelper
 
     public function getCarBrandName($carBrandId): string
     {
-        $brandName = CarBrand::whereId($carBrandId)->value('name');
-        return $brandName ?? 'not found name';
+        $car = Car::whereId($carBrandId)->first();
+        $brandName = CarBrand::whereId($car->brand_id)->first();
+        return $brandName->name ?? 'not found name';
     }
 
     public function getCarModelName($carModelId): string
     {
-        $modelName = CarModel::where(['id'=> $carModelId])->first()->name;
+        $car = Car::whereId($carModelId)->first();
+        $modelName = CarModel::where(['id'=> $car->model_id])->first()->name;
         return $modelName ?? 'not found name';
     }
 
