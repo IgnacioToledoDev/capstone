@@ -19,6 +19,17 @@
             <ion-card-subtitle>{{ maintenance.car.patent }}</ion-card-subtitle>
             <p>Precio: {{ maintenance.maintenance?.pricing | currency }}</p>
             <p>Mecánico: {{ maintenance.mechanic?.name }}</p>
+            <p>Estado Mantesion:
+              <!-- Mostrar "En espera" si la fecha es null y el estado es 0 -->
+              <span *ngIf="maintenance.maintenance?.status_id === 1" name="time-outline" color="medium">Inactivo</span>
+              <span *ngIf="maintenance.maintenance?.status_id === 2" name="time-outline" color="medium">Comenzando</span>
+
+              <span *ngIf="maintenance.maintenance?.status_id === 1" name="time-outline" color="medium">...En espera</span>
+
+              <span *ngIf="maintenance.maintenance?.status_id === 1" name="time-outline" color="medium">Finalizado</span>
+
+
+            </p>
             <p>Estado: {{ maintenance.maintenance?.status_id === 3 ? 'Finalizado' : 'En Proceso' }}</p>
             <p>Fecha de Inicio: {{ maintenance.maintenance?.start_maintenance | date: 'short' }}</p>
           </ion-label>

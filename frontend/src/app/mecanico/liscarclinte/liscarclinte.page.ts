@@ -61,7 +61,7 @@ export class LiscarclintePage implements OnInit {
       if (userQR) {
         // Guardar el coche y los datos del usuario en el almacenamiento
         await this.storage.set('newcar', car);
-        await this.storage.set('newuser', userQR);
+        await this.storage.set('newuser', userQR.user);
 
         console.log('Coche seleccionado:', car);
         console.log('Datos del usuario:', userQR);
