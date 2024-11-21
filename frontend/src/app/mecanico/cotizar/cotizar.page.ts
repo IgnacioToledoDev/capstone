@@ -81,6 +81,7 @@ export class CotizarPage implements OnInit {
         {
           text: 'Aceptar',
           handler: async () => {
+            await this.storageService.set('newuser', this.user);
             await this.createQuotationNega();
           },
         },
