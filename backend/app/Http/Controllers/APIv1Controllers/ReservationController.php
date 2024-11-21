@@ -247,7 +247,7 @@ class ReservationController extends Controller
                         'model' => $this->carHelper->getCarModelName($car->id),
                         'year' => $car->year,
                     ],
-                    'client' => $client
+                    'user' => $client
                 ];
             }
 
