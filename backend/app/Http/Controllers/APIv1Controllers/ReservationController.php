@@ -253,10 +253,8 @@ class ReservationController extends Controller
 
             $success['reservations'] = $responseReservations;
             return $this->sendResponse($success, 'reservations retrieved successfully');
-        } catch (ModelNotFoundException $exception) {
-            return $this->sendError('An error has occurred', 404);
         } catch (\Exception $exception) {
-            return $this->sendError('An error has occurred', 500);
+            return $this->sendError('An error has occurred', 400);
         }
     }
 
