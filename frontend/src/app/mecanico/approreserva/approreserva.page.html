@@ -3,25 +3,25 @@
   <ion-title>Información Reserva</ion-title>
 </ion-header>
 
-<ion-content *ngIf="reservation && reservation.client && reservation.car">
+<ion-content *ngIf="reservation && reservation.user && reservation.car">
   <br>
   <br>
   <br>
   <br>
-  <ion-card *ngIf="reservation.client">
+  <ion-card *ngIf="reservation.user">
     <ion-card-header>
       <ion-card-title class="title">Datos Cliente</ion-card-title>
     </ion-card-header>
     <ion-card-content class="info-card">
       <ion-list>
         <ion-item>
-          <ion-label>Nombre: {{ reservation.client.name }} {{ reservation.client.lastname }}</ion-label>
+          <ion-label>Nombre: {{ reservation.user.name }} {{ reservation.user.lastname }}</ion-label>
         </ion-item>
         <ion-item>
-          <ion-label>Correo: {{ reservation.client.email }}</ion-label>
+          <ion-label>Correo: {{ reservation.user.email }}</ion-label>
         </ion-item>
         <ion-item>
-          <ion-label>RUT: {{ reservation.client.rut }}</ion-label>
+          <ion-label>RUT: {{ reservation.user.rut }}</ion-label>
         </ion-item>
       </ion-list>
     </ion-card-content>
@@ -64,11 +64,14 @@
         
         <ion-item>
           <ion-label>Estado :
-            <ion-icon *ngIf="reservation.reservation.is_approved_by_mechanic === 0" name="time-outline" color="medium"></ion-icon>
+            <ion-icon *ngIf="reservation.reservation.is_approved_by_mechanic === null" name="time-outline" color="medium"></ion-icon>
             <span *ngIf="reservation.reservation.is_approved_by_mechanic === null">En espera</span>
   
             <ion-icon *ngIf="reservation.reservation.is_approved_by_mechanic === 1" name="checkmark-outline" color="success"></ion-icon>
             <span *ngIf="reservation.reservation.is_approved_by_mechanic === 1">Aprobado</span>
+
+            <ion-icon *ngIf="reservation.reservation.is_approved_by_mechanic === 0" name="close-outline" color="danger"></ion-icon>
+            <span *ngIf="reservation.reservation.is_approved_by_mechanic === 0">Rechazar</span>
           </ion-label>
 
         </ion-item>

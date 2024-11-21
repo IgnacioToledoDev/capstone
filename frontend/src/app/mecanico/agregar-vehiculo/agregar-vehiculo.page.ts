@@ -101,7 +101,7 @@ export class AgregarVehiculoPage implements OnInit {
       const { brand, model, patente, year } = this.vehicleForm.value;
       try {
         const storedUser = await this.storageService.get('newuser');
-        const owner_id = storedUser?.user?.id;
+        const owner_id = storedUser?.id;
   
         if (!owner_id) {
           throw new Error('No se encontró el owner_id en el Storage.');

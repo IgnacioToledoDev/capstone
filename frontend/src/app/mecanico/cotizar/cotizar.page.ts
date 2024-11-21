@@ -26,8 +26,8 @@ export class CotizarPage implements OnInit {
     await this.storageService.create();
 
     const userData = await this.storageService.get('newuser');
-    if (userData && userData.user) {
-      this.user = userData.user;
+    if (userData ) {
+      this.user = userData;
     }
 
     const carData = await this.storageService.get('newcar');

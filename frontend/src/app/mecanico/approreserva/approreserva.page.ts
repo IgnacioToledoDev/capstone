@@ -33,7 +33,10 @@ export class ApproreservaPage implements OnInit {
     const storedReservation = await this.storage.get('selectedReservation');
     if (storedReservation) {
       this.reservation = storedReservation; // Assign the data to the reservation property
-      console.log('Reserva cargada desde Storage:', this.reservation);
+      console.log('Reserva cargada desde Storage:', this.reservation.car);
+
+      await this.storage.set('newuser', this.reservation.user);
+      await this.storage.set('newcar', this.reservation.car);
     } else {
       console.log('No se encontró ninguna reserva en Storage');
     }
@@ -51,7 +54,7 @@ export class ApproreservaPage implements OnInit {
       const success = await this.approvalService.approveReservation(reservationId); // Call the approve method from the service
       if (success) {
         this.showAlert('Reserva aprobada', 'La reserva ha sido aprobada exitosamente.');
-        this.navCtrl.back(); // Navigate back after approval
+        this.navCtrl.navigateForward('/mecanico/generar-servicio');
       } else {
         this.showAlert('Error', 'Hubo un problema al aprobar la reserva.');
       }

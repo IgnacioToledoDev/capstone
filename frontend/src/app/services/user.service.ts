@@ -45,9 +45,9 @@ export class UserService {
             roles: clientData.roles,
           },
         };
-        await this.storageService.set('newuser', sessionData);
+        await this.storageService.set('newuser', sessionData.user);
 
-        console.log('Registro exitoso. Datos guardados en el Storage bajo "newuser":', sessionData);
+        console.log('Registro exitoso. Datos guardados en el Storage bajo "newuser":', sessionData.user);
       }
 
       return response;
