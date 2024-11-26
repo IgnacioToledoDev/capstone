@@ -35,7 +35,7 @@ export  interface Quotation {
       approve_date_client: string;
       amount_services: number;
       total_price: number;
-      approved_by_client: number;
+      approved_by_client: string | null;
     };
     content: Array<{
       details: {

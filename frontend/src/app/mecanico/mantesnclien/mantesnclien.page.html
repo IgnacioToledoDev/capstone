@@ -24,7 +24,7 @@
 
             <!-- Botón para navegar solo si el estado no es finalizado -->
             <ion-button 
-              [disabled]="maintenance.status_id === 4" 
+              [disabled]="maintenance.status_id === 4 || maintenance.status_id === 5" 
               (click)="saveMaintenanceIdAndNavigate(maintenance.id, maintenance.status_id)"
               class="color">
               Ir a detalles

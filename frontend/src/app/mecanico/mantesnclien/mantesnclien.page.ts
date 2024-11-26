@@ -55,7 +55,7 @@ export class MantesnclienPage implements OnInit {
   // Modificación en el método para verificar el estado antes de navegar
   async saveMaintenanceIdAndNavigate(maintenanceId: number, statusId: number) {
     // Verificar que el estado no sea "Finalizado" (statusId === 4)
-    if (statusId !== 4) {
+    if (statusId !== 4 ) {
       await this.storageService.set('idmantesion', maintenanceId); // Guardar el ID de mantenimiento
       this.router.navigate(['/mecanico/info-ser-cli']); // Navegar a la página deseada
     }
@@ -78,6 +78,8 @@ export class MantesnclienPage implements OnInit {
       case 3:
         return { label: 'En Progreso', icon: 'hourglass-outline', color: 'warning' };
       case 4:
+        return { label: 'Finalizado', icon: 'checkmark-circle-outline', color: 'success' };
+      case 5:
         return { label: 'Finalizado', icon: 'checkmark-circle-outline', color: 'success' };
       default:
         return { label: 'Estado desconocido', icon: 'help-circle-outline', color: 'light' };

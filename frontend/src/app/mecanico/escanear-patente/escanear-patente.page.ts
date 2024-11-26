@@ -73,7 +73,7 @@ export class EscanearPatentePage implements OnInit, OnDestroy {
 
         const alert = await this.alertController.create({
           header: 'Carro encontrado',
-          message: `Marca: ${carData.brand_id}, Año: ${carData.year}`,
+          message: `Cliente actual`,
           buttons: ['OK']
         });
         await alert.present();
