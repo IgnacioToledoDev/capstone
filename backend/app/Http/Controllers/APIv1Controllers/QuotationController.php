@@ -91,11 +91,14 @@ class QuotationController extends Controller
             if (empty($mechanic)) {
                 throw new BadHeaderException('mechanic not found');
             }
-
+            $status = null;
+            if ($approvedByClient === true) {
+                $status = true;
+            }
 
             $quotation = new Quotation();
             $quotation->amount_services = count($userServices);
-            $quotation->approved_by_client = $approvedByClient;
+            $quotation->approved_by_client = $status;
             $quotation->approve_date_client = null;
             $quotation->total_price = 0;
             $quotation->car_id = $carId;
