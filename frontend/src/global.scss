@@ -35,8 +35,26 @@
 
 // @import "@ionic/angular/css/palettes/dark.class.css"; 
 // @import "@ionic/angular/css/palettes/dark.system.css";
-@import '@ionic/angular/css/palettes/dark.always.css';
+// @import '@ionic/angular/css/palettes/dark.always.css';
 
 :root {
-    --ion-background-color: #0B1121 !important;
+    --ion-text-color: #fff7f7; /* Gris oscuro */
+    --ion-background-color: #623ce9; /* Fondo blanco */
+    --ion-color-primary: #6366F1; /* Azul púrpura para botones */
+    --ion-color-secondary: #7B5BF2; /* Púrpura claro */
+    --ion-color-tertiary: #BCBCBC; /* Gris claro */
+    ion-alert {
+        --color: #623ce9; /* Color azul */
+        --ion-text-color: #623ce9; /* Asegura que el texto principal también sea azul */
+      
+        .alert-message {
+          color: #623ce9; /* Mensaje de alerta en azul */
+        }
+      }
+      
+}
+.dark-theme {
+    --ion-text-color: #FFFFFF; /* Texto blanco */
+    --ion-background-color: #1E1E1E; /* Fondo oscuro */
+    --ion-color-primary: #6366F1; /* Azul púrpura */
 }

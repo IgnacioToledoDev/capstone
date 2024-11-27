@@ -1,48 +1,49 @@
 // Estilos generales para el contenido
 ion-content {
-  background-color: #0B1121; // Fondo oscuro
+  background-color: #6366F1; /* Fondo blanco */
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  position: relative; // Para posicionar la flecha de regreso
+  position: relative; /* Para posicionar la flecha de regreso */
 }
 
 // Estilo del botón con la flecha
 .back-button {
   position: absolute;
-  top: 20px;  // Ajustar la posición verticalmente
-  left: 1px; // Ajustar la posición horizontalmente
-  color: #ffffff; // Flecha blanca
-  padding: 0; // Sin relleno adicional
-  border: none; // Sin borde
-  }
-  
-  ion-icon {
-    font-size: 2rem; // Tamaño ajustable del icono de la flecha
-  }
+  top: 20px; /* Ajustar la posición verticalmente */
+  left: 1px; /* Ajustar la posición horizontalmente */
+  color: #ffffff; /* Flecha gris oscuro */
+  padding: 0; /* Sin relleno adicional */
+  border: none; /* Sin borde */
+}
+
+ion-icon {
+  font-size: 2rem; /* Tamaño ajustable del icono de la flecha */
+}
 
 // Estilo del título
 .title {
-  color: #ffffff;
+  color: #ffffff; /* Texto gris oscuro */
   font-size: 2.5rem;
   text-align: center;
   margin-top: 2rem;
   margin-bottom: 4rem;
 }
 
-ion-label{
-  font-size: 1.5rem;
+ion-label {
+  font-size: 1.7rem;
+  color: #fff5f5; /* Texto gris oscuro */
 }
 
 .line1 {
   text-align: center;
-  color: #6772DA;
+  color: #ffffff; /* Azul */
 }
 
-// Estilo del título
+// Estilo del título final
 .final {
-  color: #ffffff;
+  color: #ffffff; /* Texto gris oscuro */
   font-size: 1.5rem;
   text-align: center;
   margin-bottom: 1.5rem;
@@ -51,27 +52,27 @@ ion-label{
 // Estilos para el formulario
 .login-form {
   width: 100%;
-  max-width: 400px; // Limitar el ancho del formulario
+  max-width: 400px; /* Limitar el ancho del formulario */
   margin-top: 1px;
-  color: white;
+  color: #2F2E2E;
 
   .input-item {
-    --background: #FFFFFF; // Fondo gris claro para el input
-      border-radius: 8px; // Bordes redondeados
-      margin-bottom: 1.5rem; // Espacio entre campos de entrada
-      --color: black; // Texto negro para los inputs
-}
+    --background: #d0d0e0; /* Fondo gris claro */
+    border-radius: 8px; /* Bordes redondeados */
+    margin-bottom: 1.5rem; /* Espacio entre campos de entrada */
+    --color: #2F2E2E; /* Texto gris oscuro */
+  }
 
-  // Centrar solo el botón
+  // Estilo del botón
   ion-button {
-    --background: #6366F1;
-    color: #ffffff; // Texto blanco
+    --background: #6366F1; /* Azul púrpura */
+    color: #ebebeb; /* Texto blanco */
     font-size: 1rem;
     border-radius: 5px;
     padding: 10px;
-    margin: 1rem auto; // Centrar el botón horizontalmente
+    margin: 1rem auto; /* Centrar el botón horizontalmente */
     display: block;
-    width: 70%; // Ancho completo del contenedor (formulario)
+    width: 70%; /* Ancho completo del contenedor (formulario) */
   }
 
   ion-text {
@@ -80,7 +81,7 @@ ion-label{
     margin-top: 10px;
 
     a {
-      color: lighten(#3246F2, 10%); // Color del enlace ligeramente más claro
+      color: #3246F2; /* Azul ligeramente más oscuro */
       text-decoration: none;
       font-size: 0.9rem;
     }

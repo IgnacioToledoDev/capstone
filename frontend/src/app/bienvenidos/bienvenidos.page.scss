@@ -1,88 +1,87 @@
 .welcome-container {
-    color: #ffffff;
-    text-align: center;
-  
-    h1 {
-      font-size: 2.5rem;
-      margin-top: 2rem;
-    }
-  
-    p {
-      font-size: 1.2rem;
-      margin: 1rem 0;
-    }
-  
-    ion-button {
-      --background: #6366F1;
-      color: #ffffff; // Texto blanco
-      font-size: 1rem;
-      border-radius: 5px;
-      padding: 10px;
-      margin: 1rem auto; // Centrar el botón horizontalmente
-      justify-content: center;
-      align-items: center;
-      display: block;
-      width: 70%; // Ancho completo del contenedor (formulario)
-    }
-  
-    .terms {
-      margin-top: 2rem;
-      text-decoration: underline;
-      cursor: pointer;
-    }
-  
-    .logo {
-      margin-top: 3rem;
-      font-size: 1.5rem;
-      font-weight: bold;
-    }
+  color: #f2f2f2; /* Texto principal en púrpura */
+  text-align: center;
 
-    .a-1{
-        color: #BCBCBC;
-    }
-    
+  h1 {
+    font-size: 2.5rem;
+    margin-top: 2rem;
+    color: #ffffff; /* Título en azul profundo */
+  }
+  h6 {
+    color: #ffffff; /* Título en azul profundo */
+  }
+  p {
+    font-size: 1.2rem;
+    margin: 1rem 0;
+    color: #ffffff; /* Texto descriptivo en gris oscuro */
   }
 
-  .a-2{
-    color: #BCBCBC;
-    text-align: start;
-    text-align: justify;
-    margin-top: 150px;
+  ion-button {
+    --background: #6366F1; /* Fondo del botón púrpura */
+    color: #FFFFFF; /* Texto del botón blanco */
+    font-size: 1rem;
+    border-radius: 8px; /* Bordes redondeados */
+    padding: 10px;
+    margin: 1rem auto;
+    display: block;
+    width: 70%;
+    height: 50px; /* Altura consistente */
+    justify-content: center;
+    align-items: center;
+  }
+
+  .terms {
+    margin-top: 2rem;
+    text-decoration: underline;
+    cursor: pointer;
+    color: #ffffff; /* Gris medio */
+    font-size: 0.9rem;
+  }
+
+  .a-1 {
+    color: #ffffff; /* Texto en gris oscuro */
+    font-weight: bold;
+  }
+}
+
+.a-2 {
+  color: #BCBCBC; /* Texto explicativo en gris medio */
+  text-align: justify;
+  margin-top: 150px;
+  font-size: 0.9rem;
 }
 
 ion-text {
   margin-top: 20px;
 
   a {
-    color: lighten(#6366F1, 10%); // Color del enlace ligeramente más claro
+    color: #B3A0F5; /* Enlaces en púrpura claro */
     text-decoration: none;
     font-size: 0.9rem;
+
+    &:hover {
+      color: #7B5BF2; /* Más oscuro al pasar el cursor */
+    }
   }
 }
 
-.button{
-  border-radius: 8px; // Bordes redondeados
-  font-weight: 120px;
+.line1,
+.line2 {
+  text-align: center;
+  color: #6366F1; /* Azul profundo */
+}
+
+.final {
+  color: #ffffff; /* Texto en gris oscuro */
+  font-size: 1.5rem;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.button {
+  border-radius: 8px; /* Bordes redondeados */
+  font-size: 1rem;
+  font-weight: bold;
   height: 80px;
+  --background: #6366F1; /* Púrpura */
 }
-
-
-  .line1 {
-    text-align: center;
-    color: #3032A3;
-  }
-
-  .line2 {
-    text-align: center;
-  }
-
-  .line3 {
-    text-align: center;
-  }
-
-  .final {
-    color: #ffffff;
-    font-size: 1.5rem;
-    text-align: center;
-    margin-bottom: 1.5rem;
-  }
