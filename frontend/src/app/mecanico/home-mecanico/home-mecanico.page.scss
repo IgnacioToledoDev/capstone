@@ -1,8 +1,8 @@
 .client-card {
-    background-color: #ffffff; // Color de fondo claro
+    background-color: #c5c5c5; // Color de fondo claro
     ion-card-header {
       ion-card-title {
-        color: #6366F1; // Color del título
+        color: #020205; // Color del título
         font-size: 1.2rem; // Tamaño de fuente del título
         text-align: center;
       }
@@ -17,11 +17,11 @@
         margin-left: 2rem;
         flex: 1;
         h2 {
-          color: #6366F1; // Color del nombre
+          color: #000000; // Color del nombre
           font-size: 1rem; // Tamaño de fuente del nombre
         }
         p {
-          color: #6366F1; // Color del texto secundario
+          color: #000000; // Color del texto secundario
           font-size: 1rem; // Tamaño de fuente del texto secundario
           margin: 0.5rem 0;
         }
@@ -34,13 +34,16 @@
       }
     }
 
+    .ion-item-color {
+      --background-color: #000000 !important;
+    }   
     ion-footer {
       --background-color: #1E293B; // Mantén el pie de página consistente con el diseño
     }
     
   }
   ion-item {
-    --background: #6366F1; /* Color de fondo de los elementos de la lista */
+    --background: #c5c5c5; /* Color de fondo de los elementos de la lista */
     color: #FFFFFF;
   }
 
@@ -69,19 +72,19 @@ ion-title {
 }
 
 .client-details h2 {
-  color: #ffffff;
+  color: #000000;
 }
 
 .client-details p {
-  color: #ffffff;
+  color: #000000;
 }
 
 .no-current-maintenance-msg {
-  color: #ffffff; /* Color de texto para mantener un tono neutro */
+  color: #000000; /* Color de texto para mantener un tono neutro */
 
 }
 
 ion-card {
-  background-color: #6366F1; /* Color de fondo del card */
+  background-color: #c5c5c5; /* Color de fondo del card */
 }
 

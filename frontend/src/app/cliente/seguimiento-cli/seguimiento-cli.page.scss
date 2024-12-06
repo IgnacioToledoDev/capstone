@@ -1,5 +1,5 @@
 .client-card {
-  background-color: #1E293B;
+  background-color: #ffffff;
   
   ion-card-header {
     ion-card-title {
@@ -68,13 +68,14 @@ ion-title {
 }
 
 ion-item {
-  --background: #1E293B;
+  --background: #6366F1;
 }
 
 .pad{
-  margin-top: 0.4rem;
+  margin: 2 auto; 
   text-align: center;
-  font-size: 1.1rem;
+  font-size: 1rem;
+  --color: #6366F1;
 }
 
 .input-button{
@@ -96,4 +97,14 @@ ion-icon[name="checkmark-circle"] {
 font-size: 20px;
 color: green;
 margin-left: 8px;
+}
+.button-container {
+display: flex;
+}
+
+.custom-button {
+--border-radius: 0px; /* Esquinas cuadradas */
+width: 100%;
+height: 1%;
+--color: #ffffff; 
 }

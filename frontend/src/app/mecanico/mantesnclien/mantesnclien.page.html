@@ -8,13 +8,13 @@
   <ion-searchbar (ionInput)="filterMaintenances($event)" class="input-item" placeholder="Buscar mantenimiento..." showClearButton="focus"></ion-searchbar>
 
   <ion-card 
-    class="maintenance-card" 
+  class="client-card"
     *ngFor="let maintenance of filteredMaintenances">
 
     <ion-card-content>
       <ion-list>
         <ion-item>
-          <ion-label class="client-card">
+          <ion-label >
             <h3>{{ maintenance.name || 'Mantenimiento sin título' }}</h3>
 
             <p>Estado: 

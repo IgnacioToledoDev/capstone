@@ -23,14 +23,14 @@
   </ion-card>
 
   <div class="action-buttons">
-    <ion-button expand="block" color="tertiary" routerLink="/cliente/generar-qr">Generar QR</ion-button>
-    <ion-button expand="block" color="tertiary" routerLink="/cliente/agenda-car-lis">Agendar hora</ion-button>
+    <ion-button expand="block" routerLink="/cliente/generar-qr">Generar QR</ion-button>
+    <ion-button expand="block"  routerLink="/cliente/agenda-car-lis">Agendar hora</ion-button>
   </div>
 
   <h3 class="title">Mantenciones en Curso:</h3>
 
   <!-- Show maintenance data if it exists, otherwise show no maintenance message -->
-  <ion-card *ngIf="maintenanceData && maintenanceData.car" routerLink="/cliente/info-mante">
+  <ion-card *ngIf="maintenanceData && maintenanceData.car" routerLink="/cliente/info-mante" class="client-card">
     <ion-card-content class="maintenance-in_course">
       <div class="maintenance-info">
         <ion-img src="assets/image/mecanica.jpg" alt="Maintenance Image"></ion-img>

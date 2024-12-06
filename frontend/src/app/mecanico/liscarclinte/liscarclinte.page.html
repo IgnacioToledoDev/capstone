@@ -9,7 +9,7 @@
   <br>
   <br>
   <ion-searchbar placeholder="Buscar vehículos por patente..." class="input-item" (ionInput)="filterByPatente($event)"></ion-searchbar>
-  <ion-card>
+  <ion-card class="client-card">
     <ion-card-content>
       <ion-list>
         <ion-item *ngFor="let car of filteredCars" (click)="selectCar(car)">

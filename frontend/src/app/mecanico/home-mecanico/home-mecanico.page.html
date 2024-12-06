@@ -31,7 +31,8 @@
     </ion-card-header>
     <ion-card-content>
       <ion-list *ngIf="currentList.length > 0; else noCurrentMaintenance">
-        <ion-item *ngFor="let record of currentList" (click)="saveMaintenanceIdAndNavigate(record.maintenance.id)">
+        <ion-item *ngFor="let record of currentList" (click)="saveMaintenanceIdAndNavigate(record.maintenance.id)" lines="full">
+
           <ion-label class="client-details">
             <h2>Cliente: {{ record.client.name }} {{ record.client.lastname }}</h2>
             <p>Vehículo: {{ record.car.patent }}</p>
@@ -58,7 +59,7 @@
     </ion-card-header>
     <ion-card-content>
       <ion-list *ngIf="calendar.length > 0; else noMaintenance">
-        <ion-item *ngFor="let entry of calendar" (click)="saveMaintenanceIdAndNavigate(entry.id)">
+        <ion-item class="ion-item-color" *ngFor="let entry of calendar" (click)="saveMaintenanceIdAndNavigate(entry.id)">
           <ion-label class="client-details">
             <h2>{{ entry.description }}</h2>
             <p>Precio: {{ entry.pricing | currency:'$':'symbol':'1.0-0' }}</p>

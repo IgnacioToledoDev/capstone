@@ -38,19 +38,19 @@
 // @import '@ionic/angular/css/palettes/dark.always.css';
 
 :root {
-    --ion-text-color: #fff7f7; /* Gris oscuro */
-    --ion-background-color: #623ce9; /* Fondo blanco */
-    --ion-color-primary: #6366F1; /* Azul púrpura para botones */
-    --ion-color-secondary: #7B5BF2; /* Púrpura claro */
+    --ion-text-color: #000000; /* Gris oscuro */
+    --ion-background-color: #fff; /* Fondo blanco */
+    --ion-color-primary: #4e5f6e; /* Azul púrpura para botones */
+    --ion-color-secondary: #4e5f6e; /* Púrpura claro */
     --ion-color-tertiary: #BCBCBC; /* Gris claro */
-    --ion-card-background-color: #ffffff; /* Fondo blanco global para las tarjetas */
-    --ion-text-color: #ffffff; /* Texto en azul púrpura */
+    --ion-card-background-color: #4e5f6e; /* Fondo blanco global para las tarjetas */
+    --ion-text-color: #000000; /* Texto en azul púrpura */
     ion-alert {
-        --color: #623ce9; /* Color azul */
-        --ion-text-color: #623ce9; /* Asegura que el texto principal también sea azul */
+        --color: #4e5f6e; /* Color azul */
+        --ion-text-color: #4e5f6e; /* Asegura que el texto principal también sea azul */
       
         .alert-message {
-          color: #623ce9; /* Mensaje de alerta en azul */
+          color: #4e5f6e; /* Mensaje de alerta en azul */
         }
       }
       
@@ -60,3 +60,5 @@
     --ion-background-color: #1E1E1E; /* Fondo oscuro */
     --ion-color-primary: #6366F1; /* Azul púrpura */
 }
+
+
