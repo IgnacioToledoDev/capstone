@@ -31,3 +31,30 @@ ion-title {
   width: 49%; 
   --color: #ffffff;
 }
+.client-card {
+  background-color: #ffffff; // Fondo blanco para las tarjetas
+  border-radius: 10px; // Bordes redondeados
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); // Sombra ligera
+  margin: 1rem; // Separación entre tarjetas
+  color: #6366F1; // Texto oscuro para contraste
+}
+
+.client-card ion-card-header {
+  background-color: #f9f9f9; // Fondo ligeramente gris para el encabezado
+  border-bottom: 1px solid #e0e0e0; // Línea divisoria
+  border-radius: 10px 10px 0 0; // Bordes superiores redondeados
+}
+
+.client-card ion-card-title {
+  color: #6366F1; // Color para el título
+  font-weight: bold;
+}
+
+.client-card ion-list {
+  color: #6366F1; // Color para el título
+  font-weight: bold;
+}
+.client-card ion-card-content{
+
+    background-color: #f9f9f9;
+}

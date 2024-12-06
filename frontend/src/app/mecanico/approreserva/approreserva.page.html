@@ -8,7 +8,7 @@
   <br>
   <br>
   <br>
-  <ion-card *ngIf="reservation.user">
+  <ion-card *ngIf="reservation.user" class="client-card">
     <ion-card-header>
       <ion-card-title class="title">Datos Cliente</ion-card-title>
     </ion-card-header>
@@ -27,7 +27,7 @@
     </ion-card-content>
   </ion-card>
 
-  <ion-card *ngIf="reservation.car">
+  <ion-card *ngIf="reservation.car" class="client-card">
     <ion-card-header>
       <ion-card-title class="title">Datos Vehículo</ion-card-title>
     </ion-card-header>
@@ -49,7 +49,7 @@
     </ion-card-content>
   </ion-card>
 
-  <ion-card *ngIf="reservation.car">
+  <ion-card *ngIf="reservation.car" class="client-card">
     <ion-card-header>
       <ion-card-title class="title">Datos Reserva</ion-card-title>
     </ion-card-header>

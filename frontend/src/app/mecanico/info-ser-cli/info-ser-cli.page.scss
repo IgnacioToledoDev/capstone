@@ -7,7 +7,7 @@
 
 .item{
     --color: #ffffff;
-    --background: #1E293B;
+    --background: #6366F1;
 }
 
 .color{
@@ -19,7 +19,7 @@ ion-icon {
     position: absolute;
     top: 30px;  // Ajustar la posición
     left: 10px; // Ajustar la posición
-    color: #ffffff; // Flecha blanca
+    color: #6366F1; // Flecha blanca
     padding: 0; // Sin relleno adicional
     border: none; // Sin borde
     font-size: 2rem; // Tamaño de la flecha
@@ -34,11 +34,29 @@ ion-title {
 }
 
 .info-card{
-    background-color: #1E293B; // Color de fondo claro
+    background-color: #ffffff; // Color de fondo claro
 }
 .maintenance-note {
-    --background: #FFFFFF; // Fondo gris claro para el input
-    color: #0B1121; // Texto negro para los inputs
+    --background: #6366F1; // Fondo gris claro para el input
+    color: #ffffff; // Texto negro para los inputs
     max-width: 460px; 
     width: 100%;
 }
+.client-card {
+    background-color: #ffffff; // Fondo blanco para las tarjetas
+    border-radius: 10px; // Bordes redondeados
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); // Sombra ligera
+    margin: 1rem; // Separación entre tarjetas
+    color: #6366F1; // Texto oscuro para contraste
+  }
+  
+  .client-card ion-card-header {
+    background-color: #f9f9f9; // Fondo ligeramente gris para el encabezado
+    border-bottom: 1px solid #e0e0e0; // Línea divisoria
+    border-radius: 10px 10px 0 0; // Bordes superiores redondeados
+  }
+  
+  .client-card ion-card-title {
+    color: #6366F1; // Color para el título
+    font-weight: bold;
+  }

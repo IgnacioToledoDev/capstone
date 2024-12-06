@@ -41,13 +41,13 @@ ion-title {
 }
 
 .client-details p {
-  color: #b3b3b3;
+  color: #ffffff;
 }
 .no-data-card {
   text-align: center;
   padding: 1rem;
   color: #ffffff;
-  background-color: #333333;
+  background-color: #ffffff;
 }
 
 .pagination-container {
@@ -66,4 +66,24 @@ ion-button {
   width: 100%;
   height: 1%;
   --color: #FFFFFF;
+}
+
+.client-card {
+  background-color: #ffffff; // Fondo blanco para las tarjetas
+  border-radius: 10px; // Bordes redondeados
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); // Sombra ligera
+  margin: 1rem; // Separación entre tarjetas
+  color: #6366F1; // Texto oscuro para contraste
+}
+
+.client-card ion-card-header {
+  background-color: #f9f9f9; // Fondo ligeramente gris para el encabezado
+  border-bottom: 1px solid #e0e0e0; // Línea divisoria
+  border-radius: 10px 10px 0 0; // Bordes superiores redondeados
+}
+
+.client-card ion-card-title {
+  font-size: 1.2rem;
+  color: #6366F1; // Color para el título
+  font-weight: bold;
 }

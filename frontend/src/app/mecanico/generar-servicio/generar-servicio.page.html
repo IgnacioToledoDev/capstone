@@ -6,11 +6,11 @@
 <ion-content>
   <br><br><br>
 
-  <ion-card>
-    <ion-card-header class="dark-card">
+  <ion-card class="client-card" >
+    <ion-card-header >
       <ion-card-title>Datos vehículo</ion-card-title>
     </ion-card-header>
-    <ion-card-content class="dark-card">
+    <ion-card-content >
       <ion-list>
         <ion-item>
           <ion-label>Patente: {{ car.patent }}</ion-label>
@@ -36,16 +36,18 @@
     <ion-button class="xd" (click)="filterByType(3)">Mejoras</ion-button>
   </ion-buttons>
 
-  <ion-card>
+  <ion-card class="client-card">
     <ion-list>
-      <ion-card-content class="dark-card">
-        <ng-container *ngFor="let service of pagedServices[currentPage]">
-          <ion-item>
-            <ion-label>{{ service.name }}</ion-label>
-            <ion-label>{{ service.price }}</ion-label>
-            <ion-button slot="end" (click)="addService(service)">Agregar</ion-button>
-          </ion-item>
-        </ng-container>
+      <ion-card-content>
+          <ng-container *ngFor="let service of pagedServices[currentPage]">
+            <ion-list>
+              <ion-item>
+                <ion-label>{{ service.name }}</ion-label>
+                <ion-label>{{ service.price }}</ion-label>
+                <ion-button slot="end" (click)="addService(service)">Agregar</ion-button>
+              </ion-item>
+            </ion-list>
+          </ng-container>
       </ion-card-content>
     </ion-list>
   </ion-card>
@@ -73,11 +75,11 @@
   </ion-buttons>
   
 
-  <ion-card>
+  <ion-card class="client-card">
     <ion-card-header class="dark-card">
       <ion-card-title>Lista de Servicios</ion-card-title>
     </ion-card-header>
-    <ion-card-content class="dark-card">
+    <ion-card-content >
       <ng-container *ngFor="let service of selectedServices">
         <ion-item>
           <ion-label>{{ service.name }}</ion-label>
