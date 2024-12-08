@@ -29,7 +29,14 @@
 
   <ion-button expand="block" color="primary" class="action-button" routerLink="/mecanico/mantesnclien">Mantenciones del cliente</ion-button>
   <ion-button expand="block" color="primary" class="action-button" routerLink="/mecanico/lisquoticli" >Cotizaciones</ion-button>
-  <ion-button expand="block" color="primary" class="action-button" routerLink="/mecanico/liscarclinte" >Crear mantención</ion-button>
+<ion-button
+  expand="block"
+  color="primary"
+  class="action-button"
+  (click)="navigateToMaintenance()"
+>
+  Crear mantención
+</ion-button>
 </ion-content>
 
 <ion-footer>

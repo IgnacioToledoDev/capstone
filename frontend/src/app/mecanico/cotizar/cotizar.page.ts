@@ -107,6 +107,8 @@ export class CotizarPage implements OnInit {
     if (response && response.success) {
       // Guardar la ID de la cotización en el storage
       await this.storageService.set('id-cotiza', response.data?.quotation.id);
+      await this.storageService.remove('newuser');
+      await this.storageService.remove('newcar');
 
       await this.presentConfirmationAlert();
       this.navCtrl.navigateForward('/mecanico/home-mecanico');

@@ -8,12 +8,13 @@ import { Storage } from '@ionic/storage-angular';
   styleUrls: ['./qrinfo.page.scss'],
 })
 export class QrinfoPage implements OnInit {
-
   userData: any; // Variable para almacenar los datos del usuario desde el Storage
+  hasNewCar: any; // Bandera para determinar si hay datos de 'newcar'
 
   constructor(
     private navCtrl: NavController,
-    private storageService: Storage  // Servicio de Storage para acceder a los datos
+    private storageService: Storage, // Servicio de Storage para acceder a los datos
+    private alertCtrl: AlertController
   ) {}
 
   async ngOnInit() {
@@ -23,7 +24,10 @@ export class QrinfoPage implements OnInit {
     // Cargar los datos del usuario desde el Storage
     this.userData = await this.storageService.get('userDataQR');
 
-    // Guardar el id del usuario en el Storage si está disponible
+    // Verificar si existen datos en 'newcar'
+    const newCar = await this.storageService.get('newcar');
+    this.hasNewCar = newCar
+
     if (this.userData && this.userData.user && this.userData.user.id) {
       const userId = this.userData.user.id;
       await this.storageService.set('userIdQR', userId); // Guardar solo el id en el Storage
@@ -36,4 +40,13 @@ export class QrinfoPage implements OnInit {
   goBack() {
     this.navCtrl.back();
   }
+
+  navigateToMaintenance() {
+    if (this.hasNewCar) {
+      this.navCtrl.navigateForward('/mecanico/generar-servicio'); // Cambiar la ruta según sea necesario
+    } else {
+      this.navCtrl.navigateForward('/mecanico/liscarclinte');
+    }
+  }
+
 }
